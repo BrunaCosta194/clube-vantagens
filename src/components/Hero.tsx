@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { parceiros } from "@/data/parceiros";
 import yruena from "@/assets/marca/yruena.png";
 
@@ -55,15 +56,15 @@ export default function Hero() {
             animate="show"
             className="mt-9 flex flex-wrap items-center gap-x-7 gap-y-4"
           >
-            <a href="#cadastro" className="btn-primary group">
+            <Link to="/cadastro" className="btn-primary group">
               Quero fazer parte
               <span className="btn-primary-icon">
                 <ArrowUpRight className="h-4 w-4" strokeWidth={1.5} />
               </span>
-            </a>
-            <a href="#cadastro" className="btn-quiet">
+            </Link>
+            <Link to="/login" className="btn-quiet">
               Já sou membro
-            </a>
+            </Link>
           </motion.div>
 
           <motion.dl

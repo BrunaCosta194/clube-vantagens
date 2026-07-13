@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const links = [
   { href: "#parceiros", label: "Parceiros" },
@@ -47,15 +48,15 @@ export default function Navbar() {
           ))}
         </div>
 
-        <a
-          href="#cadastro"
+        <Link
+          to="/cadastro"
           className="group inline-flex items-center gap-2 rounded-full bg-grafite py-2 pl-4 pr-2 text-sm font-medium text-creme transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-terracota active:scale-[0.98]"
         >
           Fazer parte
           <span className="grid h-7 w-7 place-items-center rounded-full bg-white/10 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
             <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={1.5} />
           </span>
-        </a>
+        </Link>
       </nav>
     </header>
   );

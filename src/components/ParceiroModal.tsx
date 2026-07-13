@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { X, ExternalLink, MessageCircle, BadgePercent, ArrowRight } from "lucide-react";
 import type { Parceiro } from "@/data/parceiros";
 
@@ -133,14 +134,14 @@ export default function ParceiroModal({ parceiro, onClose }: Props) {
                   {parceiro.whatsapp ? "WhatsApp" : "WhatsApp em breve"}
                 </a>
               </div>
-              <a
-                href="#cadastro"
+              <Link
+                to="/cadastro"
                 onClick={onClose}
                 className="mt-3 flex items-center justify-center gap-2 rounded-full bg-terracota px-5 py-3 text-sm font-semibold text-white shadow-card transition hover:bg-terracota-600"
               >
                 Quero este benefício
                 <ArrowRight className="h-4 w-4" strokeWidth={1.5} />
-              </a>
+              </Link>
             </div>
           </motion.div>
         </motion.div>

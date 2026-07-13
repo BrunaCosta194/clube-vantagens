@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight, Check } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -51,23 +52,21 @@ export default function CtaCadastro() {
             </div>
 
             <div className="mt-11 flex flex-wrap items-center gap-x-7 gap-y-3">
-              {/* TODO fase 2: rota /cadastro (Supabase Auth) */}
-              <a
-                href="#cadastro"
+              <Link
+                to="/cadastro"
                 className="group inline-flex items-center gap-3 rounded-full bg-white py-2.5 pl-6 pr-2.5 text-sm font-semibold text-terracota-700 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-creme active:scale-[0.985]"
               >
                 Criar minha conta
                 <span className="grid h-9 w-9 place-items-center rounded-full bg-terracota/10 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
                   <ArrowUpRight className="h-4 w-4" strokeWidth={1.5} />
                 </span>
-              </a>
-              {/* TODO fase 2: rota /login */}
-              <a
-                href="#cadastro"
+              </Link>
+              <Link
+                to="/login"
                 className="text-sm font-medium text-white/90 underline-offset-4 transition hover:underline"
               >
                 Já sou membro
-              </a>
+              </Link>
             </div>
           </div>
         </motion.div>

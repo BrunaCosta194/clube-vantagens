@@ -1,27 +1,16 @@
-import Navbar from "./components/Navbar";
-import BannerCarousel from "./components/BannerCarousel";
-import Hero from "./components/Hero";
-import VitrineParceiros from "./components/VitrineParceiros";
-import SobreSanchez from "./components/SobreSanchez";
-import ComoFunciona from "./components/ComoFunciona";
-import IndiqueGanhe from "./components/IndiqueGanhe";
-import CtaCadastro from "./components/CtaCadastro";
-import Footer from "./components/Footer";
+import { Route, Routes } from "react-router-dom";
+import Landing from "./pages/Landing";
+import Cadastro from "./pages/Cadastro";
+import Login from "./pages/Login";
+import AreaMembro from "./pages/AreaMembro";
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-creme">
-      <Navbar />
-      <main>
-        <BannerCarousel />
-        <Hero />
-        <VitrineParceiros />
-        <SobreSanchez />
-        <ComoFunciona />
-        <IndiqueGanhe />
-        <CtaCadastro />
-      </main>
-      <Footer />
-    </div>
+    <Routes>
+      <Route path="/" element={<Landing />} />
+      <Route path="/cadastro" element={<Cadastro />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/area" element={<AreaMembro />} />
+    </Routes>
   );
 }

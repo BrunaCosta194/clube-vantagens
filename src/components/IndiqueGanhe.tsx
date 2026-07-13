@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import {
   PONTOS_CADASTRO,
   PONTOS_INDICACAO,
@@ -58,15 +59,15 @@ export default function IndiqueGanhe() {
             vocês dois são recompensados — e a recompensa cresce quando o
             indicado vira cliente Sanchez.
           </p>
-          <a
-            href="#cadastro"
+          <Link
+            to="/cadastro"
             className="group mt-9 inline-flex items-center gap-3 rounded-full bg-grafite py-2.5 pl-6 pr-2.5 text-sm font-medium text-creme transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-grafite-soft active:scale-[0.985]"
           >
             Pegar meu código
             <span className="grid h-9 w-9 place-items-center rounded-full bg-white/15 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
               <ArrowUpRight className="h-4 w-4" strokeWidth={1.5} />
             </span>
-          </a>
+          </Link>
         </motion.div>
 
         {/* painel de recompensas — vidro fosco sobre o laranja */}
