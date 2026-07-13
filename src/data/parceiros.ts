@@ -41,6 +41,7 @@ export const parceiros: Parceiro[] = [
     imagem: bioreluz,
     cor: "hsl(196, 70%, 42%)",
     whatsapp: "https://wa.me/5511930937483?text=Te%20encontrei%20no%20site%20da%20Sanchez!",
+    site: "https://www.instagram.com/bioreluz/",
     tags: ["Limpeza", "Impermeabilização", "Descartáveis"],
   },
   {
@@ -55,6 +56,7 @@ export const parceiros: Parceiro[] = [
     imagem: insuranceSante,
     cor: "hsl(184, 55%, 34%)",
     whatsapp: "https://api.whatsapp.com/message/AEEL7PQ7XR67E1?autoload=1&app_absent=0",
+    site: "https://www.instagram.com/insurancesante/",
     tags: ["Seguro de Vida", "Seguro Auto", "Consórcio", "Planos de Saúde"],
   },
   {
@@ -69,6 +71,7 @@ export const parceiros: Parceiro[] = [
     imagem: mrt,
     cor: "hsl(38, 60%, 45%)",
     whatsapp: "https://wa.me/message/GPGU4NZ5T3SQJ1",
+    site: "https://www.mrtarquitetura.com.br/",
     tags: ["Regularização", "Projetos", "Reforma", "Decoração"],
   },
   {
@@ -83,6 +86,7 @@ export const parceiros: Parceiro[] = [
     imagem: oticasDiniz,
     cor: "hsl(0, 68%, 44%)",
     whatsapp: "https://wa.me/qr/5SPQMUESAQ2ZL1",
+    site: "https://www.oticasdiniz.com.br/",
     tags: ["Óculos de grau", "Óculos de sol", "Voucher R$ 200"],
   },
   {
@@ -96,6 +100,7 @@ export const parceiros: Parceiro[] = [
     voucher: "Condição exclusiva Sanchez", // TODO: confirmar benefício
     imagem: remalar,
     cor: "hsl(222, 60%, 38%)",
+    site: "https://www.instagram.com/remalar_assistencia/",
     tags: ["Lorenzetti", "Deca", "Hydra", "Assistência técnica"],
   },
   {
@@ -109,6 +114,7 @@ export const parceiros: Parceiro[] = [
     voucher: "Projeto 3D sem custo", // TODO: confirmar benefício
     imagem: renovaLar,
     cor: "hsl(43, 74%, 49%)",
+    site: "https://renovalardesigner.com.br/",
     tags: ["Móveis planejados", "Projetos sob medida", "Design de interiores"],
   },
 ];
