@@ -116,11 +116,7 @@ export default function ParceiroModal({ parceiro, onClose }: Props) {
                   {parceiro.site ? "Visitar site" : "Site em breve"}
                 </a>
                 <a
-                  href={
-                    parceiro.whatsapp
-                      ? `https://wa.me/${parceiro.whatsapp}`
-                      : "#"
-                  }
+                  href={parceiro.whatsapp ?? "#"}
                   target={parceiro.whatsapp ? "_blank" : undefined}
                   rel="noreferrer"
                   aria-disabled={!parceiro.whatsapp}

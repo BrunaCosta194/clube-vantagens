@@ -24,7 +24,7 @@ export type Parceiro = {
   /** Cor de destaque (usada em detalhes do card). Formato HSL. */
   cor: string;
   site?: string; // TODO: preencher com o link real de cada parceiro
-  whatsapp?: string; // TODO: preencher com o número real (formato: 5511999999999)
+  whatsapp?: string; // link completo (wa.me/..., wa.me/qr/..., api.whatsapp.com/message/...)
   tags: string[];
 };
 
@@ -40,6 +40,7 @@ export const parceiros: Parceiro[] = [
     voucher: "Condição exclusiva Sanchez", // TODO: confirmar % / valor
     imagem: bioreluz,
     cor: "hsl(196, 70%, 42%)",
+    whatsapp: "https://wa.me/5511930937483?text=Te%20encontrei%20no%20site%20da%20Sanchez!",
     tags: ["Limpeza", "Impermeabilização", "Descartáveis"],
   },
   {
@@ -53,6 +54,7 @@ export const parceiros: Parceiro[] = [
     voucher: "Cotação sem custo + condição de clube", // TODO: confirmar benefício
     imagem: insuranceSante,
     cor: "hsl(184, 55%, 34%)",
+    whatsapp: "https://api.whatsapp.com/message/AEEL7PQ7XR67E1?autoload=1&app_absent=0",
     tags: ["Seguro de Vida", "Seguro Auto", "Consórcio", "Planos de Saúde"],
   },
   {
@@ -66,6 +68,7 @@ export const parceiros: Parceiro[] = [
     voucher: "Avaliação de projeto sem custo", // TODO: confirmar benefício
     imagem: mrt,
     cor: "hsl(38, 60%, 45%)",
+    whatsapp: "https://wa.me/message/GPGU4NZ5T3SQJ1",
     tags: ["Regularização", "Projetos", "Reforma", "Decoração"],
   },
   {
@@ -79,6 +82,7 @@ export const parceiros: Parceiro[] = [
     voucher: "R$ 200 de desconto",
     imagem: oticasDiniz,
     cor: "hsl(0, 68%, 44%)",
+    whatsapp: "https://wa.me/qr/5SPQMUESAQ2ZL1",
     tags: ["Óculos de grau", "Óculos de sol", "Voucher R$ 200"],
   },
   {
