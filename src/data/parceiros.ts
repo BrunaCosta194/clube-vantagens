@@ -5,7 +5,7 @@
 // Troque por logos/artes definitivas quando a Yruena aprovar o layout.
 // ─────────────────────────────────────────────────────────────
 
-import bioreluz from "@/assets/parceiros/bioreluz.png";
+import bioreluz from "@/assets/parceiros/bioreluz-logo.png";
 import insuranceSante from "@/assets/parceiros/insurance-sante.png";
 import mrt from "@/assets/parceiros/mrt.png";
 import oticasDiniz from "@/assets/parceiros/oticas-diniz.png";
