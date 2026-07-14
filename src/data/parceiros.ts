@@ -8,7 +8,7 @@
 import bioreluz from "@/assets/parceiros/bioreluz-logo.png";
 import insuranceSante from "@/assets/parceiros/insurance-sante-logo.jpg";
 import mrt from "@/assets/parceiros/mrt-logo.jpg";
-import oticasDiniz from "@/assets/parceiros/oticas-diniz.png";
+import oticasDiniz from "@/assets/parceiros/oticas-diniz-logo.jpg";
 import remalar from "@/assets/parceiros/remalar-logo.jpg";
 import renovaLar from "@/assets/parceiros/renova-lar-logo.jpg";
 
