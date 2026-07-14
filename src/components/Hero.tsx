@@ -57,8 +57,10 @@ export default function Hero() {
             animate="show"
             className="mt-7 max-w-md text-lg leading-relaxed text-grafite-soft"
           >
-            Descontos e serviços com parceiros selecionados pela Sanchez Imóveis
-            — há mais de 50 anos em Mogi das Cruzes e no Alto Tietê.
+            Descontos e serviços com parceiros selecionados pela Sanchez
+            Imóveis, que há 53 anos faz negócios imobiliários com excelência
+            em Mogi das Cruzes e no Alto Tietê. O clube é a nossa forma de
+            retribuir essa confiança.
           </motion.p>
 
           <motion.div
@@ -88,7 +90,7 @@ export default function Hero() {
           >
             {[
               { n: parceiros.length.toString().padStart(2, "0"), l: "Parceiros ativos" },
-              { n: "50+", l: "Anos de Sanchez" },
+              { n: "53", l: "Anos de Sanchez" },
               { n: "R$200", l: "Já na 1ª vantagem" },
             ].map((s) => (
               <div key={s.l}>

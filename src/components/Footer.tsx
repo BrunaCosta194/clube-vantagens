@@ -14,7 +14,7 @@ export default function Footer() {
             </span>
           </div>
           <p className="mt-4 max-w-xs text-sm leading-relaxed">
-            Clube de Vantagens da Sanchez Imóveis. Há mais de 50 anos realizando
+            Clube de Vantagens da Sanchez Imóveis. Há 53 anos realizando
             negócios imobiliários em Mogi das Cruzes e no Alto Tietê.
           </p>
         </div>

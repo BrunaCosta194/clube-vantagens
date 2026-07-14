@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import heroClube from "@/assets/banners/hero-clube.jpg";
+import sanchezPremium from "@/assets/banners/sanchez-premium-banner.jpg";
 import bioreluz from "@/assets/banners/bioreluz-banner.jpg";
 import insuranceSante from "@/assets/banners/insurance-sante-banner.jpg";
 import mrt from "@/assets/banners/mrt-banner.jpg";
@@ -12,6 +13,7 @@ import renovaLar from "@/assets/banners/renova-lar-banner.jpg";
 // Banners oficiais enviados pelo marketing da Sanchez.
 const slides = [
   { src: heroClube, alt: "Comunidade Sanchez — Clube de Vantagens" },
+  { src: sanchezPremium, alt: "Sanchez Premium — Curadoria, segurança jurídica e investimentos" },
   { src: oticasDiniz, alt: "Óticas Diniz — R$200 de desconto" },
   { src: bioreluz, alt: "Bioreluz — Limpeza e Impermeabilização" },
   { src: insuranceSante, alt: "Insurance & Santé — Seguros e Planos de Saúde" },
@@ -48,7 +50,7 @@ export default function BannerCarousel() {
   }, [index]);
 
   return (
-    <section id="top" className="relative w-full overflow-hidden bg-grafite pb-8 pt-20 sm:pt-24">
+    <section id="top" className="relative w-full overflow-hidden bg-club-splash pb-8 pt-20 sm:pt-24">
       {/* palco do banner — de ponta a ponta */}
       <motion.div
         initial={{ opacity: 0, scale: 0.98 }}

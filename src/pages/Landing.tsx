@@ -2,7 +2,6 @@ import Navbar from "../components/Navbar";
 import BannerCarousel from "../components/BannerCarousel";
 import Hero from "../components/Hero";
 import VitrineParceiros from "../components/VitrineParceiros";
-import SobreSanchez from "../components/SobreSanchez";
 import ComoFunciona from "../components/ComoFunciona";
 import IndiqueGanhe from "../components/IndiqueGanhe";
 import CtaCadastro from "../components/CtaCadastro";
@@ -16,7 +15,6 @@ export default function Landing() {
         <BannerCarousel />
         <Hero />
         <VitrineParceiros />
-        <SobreSanchez />
         <ComoFunciona />
         <IndiqueGanhe />
         <CtaCadastro />
