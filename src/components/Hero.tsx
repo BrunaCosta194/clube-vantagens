@@ -22,24 +22,19 @@ export default function Hero() {
       <div className="container-club relative grid items-center gap-12 py-16 sm:py-24 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16">
         {/* ── Coluna editorial ── */}
         <div className="max-w-xl">
-          <motion.span custom={0} variants={up} initial="hidden" animate="show" className="eyebrow">
-            <span className="h-1.5 w-1.5 rounded-full bg-terracota" />
-            Comunidade Sanchez
-          </motion.span>
-
           <motion.h1
-            custom={1}
+            custom={0}
             variants={up}
             initial="hidden"
             animate="show"
-            className="h-display mt-7 text-[clamp(2.8rem,7vw,5rem)]"
+            className="h-display text-[clamp(2.8rem,7vw,5rem)]"
           >
             Clube de{" "}
             <span className="italic text-terracota">Vantagens.</span>
           </motion.h1>
 
           <motion.p
-            custom={2}
+            custom={1}
             variants={up}
             initial="hidden"
             animate="show"
@@ -50,7 +45,7 @@ export default function Hero() {
           </motion.p>
 
           <motion.div
-            custom={3}
+            custom={2}
             variants={up}
             initial="hidden"
             animate="show"
@@ -68,7 +63,7 @@ export default function Hero() {
           </motion.div>
 
           <motion.dl
-            custom={4}
+            custom={3}
             variants={up}
             initial="hidden"
             animate="show"

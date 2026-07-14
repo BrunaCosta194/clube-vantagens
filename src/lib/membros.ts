@@ -8,7 +8,7 @@ export interface Membro {
   documento: string;
   codigo_indicacao: string;
   indicado_por: string | null;
-  pontos: number;
+  voucher_cadastro: number;
   status: "lead" | "membro" | "cliente";
   origem: string;
   created_at: string;
@@ -19,7 +19,6 @@ export interface Indicacao {
   indicador_id: string;
   indicado_id: string;
   status: "cadastrado" | "convertido";
-  pontos_gerados: number;
   created_at: string;
 }
 

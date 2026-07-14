@@ -70,7 +70,6 @@ export default function Cadastro() {
   if (aguardandoConfirmacao) {
     return (
       <AuthLayout
-        eyebrow="Quase lá"
         title="Confirme seu e-mail"
         subtitle={`Enviamos um link de confirmação para ${email}. Depois de confirmar, é só fazer login.`}
         footer={
@@ -86,7 +85,6 @@ export default function Cadastro() {
 
   return (
     <AuthLayout
-      eyebrow="Cadastro grátis"
       title="Crie sua conta"
       subtitle={
         codigoRef

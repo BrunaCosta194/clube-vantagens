@@ -7,7 +7,7 @@ const passos = [
     num: "01",
     titulo: "Cadastre-se grátis",
     texto:
-      "Crie sua conta em minutos. É o cadastro que libera todas as vantagens do clube.",
+      "Crie sua conta em minutos e já garanta R$100 em voucher de boas-vindas.",
   },
   {
     num: "02",
@@ -17,9 +17,9 @@ const passos = [
   },
   {
     num: "03",
-    titulo: "Indique e ganhem juntos",
+    titulo: "Indique seus amigos",
     texto:
-      "Convide amigos: quem indica e quem é indicado ganham pontos e recompensas.",
+      "Cada membro tem um link só dele. Compartilhe e convide quem quiser pro clube.",
   },
 ];
 

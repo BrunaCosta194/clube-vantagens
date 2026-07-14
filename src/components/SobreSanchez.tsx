@@ -15,23 +15,12 @@ export default function SobreSanchez() {
       <div className="pointer-events-none absolute right-0 top-0 h-96 w-96 rounded-full bg-terracota/10 blur-[120px]" />
 
       <div className="container-club relative">
-        <motion.span
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, ease }}
-          className="inline-flex items-center gap-2 rounded-full border border-creme/15 px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.24em] text-creme/70"
-        >
-          <span className="h-1.5 w-1.5 rounded-full bg-dourado" />
-          Quem é a Sanchez
-        </motion.span>
-
         <motion.blockquote
           initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.9, ease }}
-          className="mt-8 max-w-4xl font-display text-[clamp(1.7rem,3.6vw,3rem)] font-medium leading-[1.15] tracking-[-0.01em]"
+          className="max-w-4xl font-display text-[clamp(1.7rem,3.6vw,3rem)] font-medium leading-[1.15] tracking-[-0.01em]"
         >
           Há <span className="text-dourado-soft">50 anos</span> fazemos negócios
           imobiliários com excelência em Mogi das Cruzes e no Alto Tietê. O clube

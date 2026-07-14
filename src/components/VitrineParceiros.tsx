@@ -21,8 +21,7 @@ export default function VitrineParceiros() {
             transition={{ duration: 0.8, ease }}
             className="max-w-xl"
           >
-            <span className="eyebrow">Vitrine de parceiros</span>
-            <h2 className="h-display mt-5 text-[clamp(2rem,4.5vw,3.25rem)]">
+            <h2 className="h-display text-[clamp(2rem,4.5vw,3.25rem)]">
               Vantagens de quem a Sanchez confia
             </h2>
           </motion.div>

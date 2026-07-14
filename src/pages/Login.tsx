@@ -28,9 +28,8 @@ export default function Login() {
 
   return (
     <AuthLayout
-      eyebrow="Área do membro"
       title="Bem-vindo de volta"
-      subtitle="Entre com seu e-mail e senha para ver seus pontos e indicações."
+      subtitle="Entre com seu e-mail e senha para ver seu voucher e indicações."
       footer={
         <>
           Ainda não é membro?{" "}

@@ -83,8 +83,7 @@ export default function AreaMembro() {
       </header>
 
       <div className="container-club pt-12">
-        <span className="eyebrow">Área do membro</span>
-        <h1 className="h-display mt-4 text-[clamp(1.8rem,4vw,2.6rem)]">
+        <h1 className="h-display text-[clamp(1.8rem,4vw,2.6rem)]">
           Olá, {perfil.nome.split(" ")[0]}.
         </h1>
 
@@ -92,10 +91,13 @@ export default function AreaMembro() {
           <div className="bezel">
             <div className="bezel-core bg-club-panel px-7 py-8">
               <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/80">
-                Seus pontos
+                Seu voucher de boas-vindas
               </span>
               <p className="mt-3 font-display text-[clamp(2.4rem,6vw,3.4rem)] font-semibold text-white">
-                {perfil.pontos}
+                {perfil.voucher_cadastro.toLocaleString("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                })}
               </p>
             </div>
           </div>
@@ -121,7 +123,7 @@ export default function AreaMembro() {
 
           {indicacoes.length === 0 ? (
             <p className="mt-4 text-sm text-grafite-muted">
-              Você ainda não indicou ninguém. Compartilhe seu link para começar a ganhar pontos.
+              Você ainda não indicou ninguém. Compartilhe seu link para convidar amigos.
             </p>
           ) : (
             <div className="mt-4 space-y-2">
@@ -130,15 +132,10 @@ export default function AreaMembro() {
                   key={ind.id}
                   className="flex items-center justify-between rounded-2xl border border-grafite/10 bg-white/60 px-5 py-4"
                 >
-                  <div>
-                    <p className="text-sm font-medium text-grafite">{statusLabel[ind.status]}</p>
-                    <p className="text-xs text-grafite-muted">
-                      {new Date(ind.created_at).toLocaleDateString("pt-BR")}
-                    </p>
-                  </div>
-                  <span className="font-mono text-sm text-terracota-700">
-                    +{ind.pontos_gerados} pts
-                  </span>
+                  <p className="text-sm font-medium text-grafite">{statusLabel[ind.status]}</p>
+                  <p className="text-xs text-grafite-muted">
+                    {new Date(ind.created_at).toLocaleDateString("pt-BR")}
+                  </p>
                 </div>
               ))}
             </div>

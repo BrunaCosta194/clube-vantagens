@@ -47,11 +47,6 @@ body::after {
     @apply mx-auto w-full max-w-[76rem] px-6 sm:px-8;
   }
 
-  /* eyebrow em pill, microtipografia mono */
-  .eyebrow {
-    @apply inline-flex items-center gap-2 rounded-full border border-grafite/10 bg-white/50 px-3.5 py-1.5 font-mono text-[10px] font-medium uppercase tracking-[0.24em] text-grafite-soft backdrop-blur-sm;
-  }
-
   /* título de seção serifado, alto contraste */
   .h-display {
     @apply font-display font-semibold leading-[0.98] tracking-[-0.01em] text-grafite;

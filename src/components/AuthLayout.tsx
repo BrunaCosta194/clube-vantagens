@@ -2,14 +2,13 @@ import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 
 interface AuthLayoutProps {
-  eyebrow: string;
   title: string;
   subtitle: string;
   children: ReactNode;
   footer: ReactNode;
 }
 
-export default function AuthLayout({ eyebrow, title, subtitle, children, footer }: AuthLayoutProps) {
+export default function AuthLayout({ title, subtitle, children, footer }: AuthLayoutProps) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-warm-wash px-4 py-16">
       <div className="w-full max-w-md">
@@ -24,8 +23,7 @@ export default function AuthLayout({ eyebrow, title, subtitle, children, footer 
 
         <div className="bezel">
           <div className="bezel-core bg-white/70 px-7 py-9 backdrop-blur-sm sm:px-10 sm:py-11">
-            <span className="eyebrow">{eyebrow}</span>
-            <h1 className="h-display mt-4 text-[clamp(1.6rem,4vw,2.1rem)]">{title}</h1>
+            <h1 className="h-display text-[clamp(1.6rem,4vw,2.1rem)]">{title}</h1>
             <p className="mt-2 text-sm leading-relaxed text-grafite-muted">{subtitle}</p>
             <div className="mt-8">{children}</div>
           </div>
