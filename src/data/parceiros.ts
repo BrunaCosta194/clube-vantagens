@@ -10,7 +10,7 @@ import insuranceSante from "@/assets/parceiros/insurance-sante.png";
 import mrt from "@/assets/parceiros/mrt.png";
 import oticasDiniz from "@/assets/parceiros/oticas-diniz.png";
 import remalar from "@/assets/parceiros/remalar.png";
-import renovaLar from "@/assets/parceiros/renova-lar.png";
+import renovaLar from "@/assets/parceiros/renova-lar-logo.jpg";
 
 export type Parceiro = {
   slug: string;
