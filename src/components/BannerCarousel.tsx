@@ -1,18 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, ChevronDown } from "lucide-react";
-import bannerClube from "@/assets/marca/banner-clube.png";
-import bioreluz from "@/assets/parceiros/bioreluz.png";
-import insuranceSante from "@/assets/parceiros/insurance-sante.png";
-import mrt from "@/assets/parceiros/mrt.png";
-import oticasDiniz from "@/assets/parceiros/oticas-diniz.png";
-import remalar from "@/assets/parceiros/remalar.png";
-import renovaLar from "@/assets/parceiros/renova-lar.png";
+import heroClube from "@/assets/banners/hero-clube.jpg";
+import bioreluz from "@/assets/banners/bioreluz-banner.jpg";
+import insuranceSante from "@/assets/banners/insurance-sante-banner.jpg";
+import mrt from "@/assets/banners/mrt-banner.jpg";
+import oticasDiniz from "@/assets/banners/oticas-diniz-banner.jpg";
+import remalar from "@/assets/banners/remalar-banner.jpg";
+import renovaLar from "@/assets/banners/renova-lar-banner.jpg";
 
-// Banners que "passam" no topo — as artes que a Bruna enviou.
-// Trocar/reordenar aqui quando chegarem as versões finais.
+// Banners oficiais enviados pelo marketing da Sanchez.
 const slides = [
-  { src: bannerClube, alt: "Comunidade Sanchez — Clube de Vantagens" },
+  { src: heroClube, alt: "Comunidade Sanchez — Clube de Vantagens" },
   { src: oticasDiniz, alt: "Óticas Diniz — R$200 de desconto" },
   { src: bioreluz, alt: "Bioreluz — Limpeza e Impermeabilização" },
   { src: insuranceSante, alt: "Insurance & Santé — Seguros e Planos de Saúde" },
