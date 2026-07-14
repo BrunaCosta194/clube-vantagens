@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { parceiros } from "@/data/parceiros";
@@ -17,6 +18,22 @@ const up = {
 };
 
 export default function Hero() {
+  const fotoRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: fotoRef,
+    offset: ["start end", "end start"],
+  });
+
+  // revelação: entra suave conforme a foto surge na tela
+  const revealY = useTransform(scrollYProgress, [0, 0.35], [70, 0]);
+  const revealOpacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
+  const revealScale = useTransform(scrollYProgress, [0, 0.35], [0.94, 1]);
+  const revealBlurPx = useTransform(scrollYProgress, [0, 0.3], [10, 0]);
+  const revealFilter = useTransform(revealBlurPx, (v) => `blur(${v}px)`);
+
+  // parallax: a foto "flutua" dentro da moldura enquanto a seção passa pela tela
+  const imgParallaxY = useTransform(scrollYProgress, [0, 1], [-26, 26]);
+
   return (
     <section className="relative overflow-hidden bg-club-hero">
       <div className="container-club relative grid items-center gap-12 py-16 sm:py-24 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16">
@@ -86,9 +103,8 @@ export default function Hero() {
 
         {/* ── Foto da Yruena (protagonista) ── */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.96, filter: "blur(10px)" }}
-          animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-          transition={{ duration: 1.1, delay: 0.15, ease }}
+          ref={fotoRef}
+          style={{ y: revealY, opacity: revealOpacity, scale: revealScale, filter: revealFilter }}
           className="relative mx-auto w-full max-w-md lg:mr-0"
         >
           {/* etiqueta vertical */}
@@ -98,9 +114,10 @@ export default function Hero() {
 
           <div className="bezel">
             <div className="bezel-core">
-              <img
+              <motion.img
                 src={yruena}
                 alt="Yruena — à frente da Comunidade Sanchez"
+                style={{ y: imgParallaxY, scale: 1.15 }}
                 className="aspect-[4/5] w-full object-cover object-top"
               />
             </div>
