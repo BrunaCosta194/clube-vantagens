@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { X, ExternalLink, MessageCircle, BadgePercent, ArrowRight } from "lucide-react";
+import { X, ExternalLink, Instagram, MessageCircle, BadgePercent, ArrowRight } from "lucide-react";
 import type { Parceiro } from "@/data/parceiros";
 
 type Props = {
@@ -10,6 +10,8 @@ type Props = {
 };
 
 export default function ParceiroModal({ parceiro, onClose }: Props) {
+  const isInstagram = parceiro?.site?.includes("instagram.com") ?? false;
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     window.addEventListener("keydown", onKey);
@@ -112,8 +114,12 @@ export default function ParceiroModal({ parceiro, onClose }: Props) {
                       : "cursor-not-allowed border border-grafite/10 bg-grafite/5 text-grafite-muted"
                   }`}
                 >
-                  <ExternalLink className="h-4 w-4" strokeWidth={1.5} />
-                  {parceiro.site ? "Visitar site" : "Site em breve"}
+                  {isInstagram ? (
+                    <Instagram className="h-4 w-4" strokeWidth={1.5} />
+                  ) : (
+                    <ExternalLink className="h-4 w-4" strokeWidth={1.5} />
+                  )}
+                  {parceiro.site ? (isInstagram ? "Instagram" : "Visitar site") : "Site em breve"}
                 </a>
                 <a
                   href={parceiro.whatsapp ?? "#"}
