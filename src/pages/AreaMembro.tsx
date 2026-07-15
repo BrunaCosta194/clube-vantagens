@@ -69,9 +69,9 @@ export default function AreaMembro() {
       <header className="border-b border-grafite/10 bg-white/50 backdrop-blur-sm">
         <div className="container-club flex items-center justify-between py-5">
           <Link to="/" className="flex items-center gap-2.5">
-            <img src={logo} alt="Comunidade Sanchez" className="h-8 w-8 rounded-full object-cover" />
+            <img src={logo} alt="Sanchez Clube" className="h-8 w-8 object-contain" />
             <span className="font-display text-[15px] font-semibold text-grafite">
-              Comunidade Sanchez
+              Sanchez Clube
             </span>
           </Link>
           <button onClick={handleSair} className="btn-quiet">

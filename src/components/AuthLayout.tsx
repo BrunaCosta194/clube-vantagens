@@ -14,9 +14,9 @@ export default function AuthLayout({ title, subtitle, children, footer }: AuthLa
     <div className="flex min-h-screen items-center justify-center bg-warm-wash px-4 py-16">
       <div className="w-full max-w-md">
         <Link to="/" className="mb-8 flex items-center justify-center gap-2.5">
-          <img src={logo} alt="Comunidade Sanchez" className="h-9 w-9 rounded-full object-cover" />
+          <img src={logo} alt="Sanchez Clube" className="h-9 w-9 object-contain" />
           <span className="font-display text-[15px] font-semibold text-grafite">
-            Comunidade Sanchez
+            Sanchez Clube
           </span>
         </Link>
 

@@ -1,4 +1,5 @@
 import { MessageCircle, MapPin, Instagram } from "lucide-react";
+import logo from "@/assets/marca/logo-cs.png";
 
 export default function Footer() {
   return (
@@ -6,11 +7,9 @@ export default function Footer() {
       <div className="container-club grid gap-10 py-16 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr]">
         <div>
           <div className="flex items-center gap-2.5">
-            <span className="grid h-9 w-9 place-items-center rounded-xl bg-terracota font-display text-lg font-semibold text-white">
-              S
-            </span>
+            <img src={logo} alt="Sanchez Clube" className="h-9 w-9 object-contain" />
             <span className="font-display text-lg font-semibold text-white">
-              Comunidade Sanchez
+              Sanchez Clube
             </span>
           </div>
           <p className="mt-4 max-w-xs text-sm leading-relaxed">
@@ -59,7 +58,7 @@ export default function Footer() {
 
       <div className="border-t border-white/10">
         <div className="container-club flex flex-col items-center justify-between gap-2 py-6 text-xs text-white/40 sm:flex-row">
-          <p>© {new Date().getFullYear()} Sanchez Imóveis · Comunidade Sanchez</p>
+          <p>© {new Date().getFullYear()} Sanchez Imóveis · Sanchez Clube</p>
           <p>Clube de Vantagens · Protótipo para aprovação</p>
         </div>
       </div>

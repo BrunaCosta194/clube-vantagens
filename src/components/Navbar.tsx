@@ -29,9 +29,9 @@ export default function Navbar() {
         }`}
       >
         <a href="#top" className="flex items-center gap-2.5 pr-2">
-          <img src={logo} alt="Comunidade Sanchez" className="h-9 w-9 rounded-full object-cover" />
+          <img src={logo} alt="Sanchez Clube" className="h-9 w-9 object-contain" />
           <span className="hidden font-display text-[15px] font-semibold leading-none text-grafite sm:block">
-            Comunidade Sanchez
+            Sanchez Clube
           </span>
         </a>
 

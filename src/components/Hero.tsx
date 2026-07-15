@@ -118,7 +118,7 @@ export default function Hero() {
             <div className="bezel-core">
               <motion.img
                 src={yruena}
-                alt="Yruena — à frente da Comunidade Sanchez"
+                alt="Yruena — à frente do Sanchez Clube"
                 style={{ y: imgParallaxY, scale: 1.15 }}
                 className="aspect-[4/5] w-full object-cover object-top"
               />
@@ -133,7 +133,7 @@ export default function Hero() {
             <div>
               <p className="text-sm font-semibold leading-tight text-grafite">Yruena</p>
               <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-grafite-muted">
-                Comunidade Sanchez
+                Sanchez Clube
               </p>
             </div>
           </div>

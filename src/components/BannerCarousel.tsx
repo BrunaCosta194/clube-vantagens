@@ -12,7 +12,7 @@ import renovaLar from "@/assets/banners/renova-lar-banner.jpg";
 
 // Banners oficiais enviados pelo marketing da Sanchez.
 const slides = [
-  { src: heroClube, alt: "Comunidade Sanchez — Clube de Vantagens" },
+  { src: heroClube, alt: "Sanchez Clube — descontos e vantagens" },
   { src: sanchezPremium, alt: "Sanchez Premium — Curadoria, segurança jurídica e investimentos" },
   { src: oticasDiniz, alt: "Óticas Diniz — R$200 de desconto" },
   { src: bioreluz, alt: "Bioreluz — Limpeza e Impermeabilização" },

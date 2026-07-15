@@ -36,7 +36,7 @@ export const parceiros: Parceiro[] = [
     descricaoCurta:
       "Limpeza, impermeabilização e descartáveis com padrão profissional.",
     descricao:
-      "A Bioreluz cuida do seu lar e do seu negócio com serviços de limpeza técnica, impermeabilização e uma linha completa de descartáveis. Condições exclusivas para a Comunidade Sanchez.",
+      "A Bioreluz cuida do seu lar e do seu negócio com serviços de limpeza técnica, impermeabilização e uma linha completa de descartáveis. Condições exclusivas para o Sanchez Clube.",
     voucher: "Condição exclusiva Sanchez", // TODO: confirmar % / valor
     imagem: bioreluz,
     cor: "hsl(196, 70%, 42%)",

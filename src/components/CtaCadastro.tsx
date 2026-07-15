@@ -30,7 +30,7 @@ export default function CtaCadastro() {
               O cadastro é a chave
             </span>
             <h2 className="mt-5 font-display text-[clamp(2.2rem,5vw,3.6rem)] font-semibold leading-[1.02] tracking-[-0.01em] text-white">
-              Faça parte da Comunidade Sanchez.
+              Faça parte do Sanchez Clube.
             </h2>
             <p className="mt-6 max-w-lg text-lg leading-relaxed text-white/85">
               Crie sua conta gratuita e comece a aproveitar as vantagens hoje
