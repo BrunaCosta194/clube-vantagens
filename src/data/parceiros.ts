@@ -8,7 +8,7 @@
 import bioreluz from "@/assets/parceiros/bioreluz-logo.png";
 import insuranceSante from "@/assets/parceiros/insurance-sante-logo.jpg";
 import mrt from "@/assets/parceiros/mrt-logo.jpg";
-import oticasDiniz from "@/assets/parceiros/oticas-diniz-logo.jpg";
+import oticasDiniz from "@/assets/banners/oticas-diniz-banner.jpg";
 import remalar from "@/assets/parceiros/remalar-logo.jpg";
 import renovaLar from "@/assets/parceiros/renova-lar-logo.jpg";
 
@@ -114,6 +114,7 @@ export const parceiros: Parceiro[] = [
     voucher: "Projeto 3D sem custo", // TODO: confirmar benefício
     imagem: renovaLar,
     cor: "hsl(43, 74%, 49%)",
+    whatsapp: "https://wa.me/message/XPQ6ZH2QLD3MB1",
     site: "https://renovalardesigner.com.br/",
     tags: ["Móveis planejados", "Projetos sob medida", "Design de interiores"],
   },

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import logo from "@/assets/marca/logo-cs.png";
 
 const links = [
   { href: "#parceiros", label: "Parceiros" },
@@ -28,9 +29,7 @@ export default function Navbar() {
         }`}
       >
         <a href="#top" className="flex items-center gap-2.5 pr-2">
-          <span className="grid h-8 w-8 place-items-center rounded-full bg-grafite font-display text-base font-semibold text-creme">
-            S
-          </span>
+          <img src={logo} alt="Comunidade Sanchez" className="h-9 w-9 rounded-full object-cover" />
           <span className="hidden font-display text-[15px] font-semibold leading-none text-grafite sm:block">
             Comunidade Sanchez
           </span>

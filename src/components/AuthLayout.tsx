@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
+import logo from "@/assets/marca/logo-cs.png";
 
 interface AuthLayoutProps {
   title: string;
@@ -13,9 +14,7 @@ export default function AuthLayout({ title, subtitle, children, footer }: AuthLa
     <div className="flex min-h-screen items-center justify-center bg-warm-wash px-4 py-16">
       <div className="w-full max-w-md">
         <Link to="/" className="mb-8 flex items-center justify-center gap-2.5">
-          <span className="grid h-9 w-9 place-items-center rounded-full bg-grafite font-display text-base font-semibold text-creme">
-            S
-          </span>
+          <img src={logo} alt="Comunidade Sanchez" className="h-9 w-9 rounded-full object-cover" />
           <span className="font-display text-[15px] font-semibold text-grafite">
             Comunidade Sanchez
           </span>
