@@ -5,10 +5,10 @@
 // Troque por logos/artes definitivas quando a Yruena aprovar o layout.
 // ─────────────────────────────────────────────────────────────
 
-import bioreluz from "@/assets/parceiros/bioreluz-logo.png";
+import bioreluz from "@/assets/parceiros/bioreluz-logo-v2.jpg";
 import insuranceSante from "@/assets/parceiros/insurance-sante-logo.jpg";
-import mrt from "@/assets/parceiros/mrt-logo.jpg";
-import oticasDiniz from "@/assets/banners/oticas-diniz-banner.jpg";
+import mrt from "@/assets/parceiros/mrt-logo-v2.jpg";
+import oticasDiniz from "@/assets/parceiros/oticas-diniz-logo.jpg";
 import remalar from "@/assets/parceiros/remalar-logo.jpg";
 import renovaLar from "@/assets/parceiros/renova-lar-logo.jpg";
 
