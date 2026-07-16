@@ -11,6 +11,7 @@ import mrt from "@/assets/parceiros/mrt-logo-v2.jpg";
 import oticasDiniz from "@/assets/parceiros/oticas-diniz-logo.jpg";
 import remalar from "@/assets/parceiros/remalar-logo.jpg";
 import renovaLar from "@/assets/parceiros/renova-lar-logo.jpg";
+import lumineStudio from "@/assets/parceiros/lumine-studio-logo.jpg";
 
 export type Parceiro = {
   slug: string;
@@ -117,5 +118,19 @@ export const parceiros: Parceiro[] = [
     whatsapp: "https://wa.me/message/XPQ6ZH2QLD3MB1",
     site: "https://renovalardesigner.com.br/",
     tags: ["Móveis planejados", "Projetos sob medida", "Design de interiores"],
+  },
+  {
+    slug: "lumine-studio",
+    nome: "Luminê Studio",
+    categoria: "Fotografia",
+    descricaoCurta:
+      "Ensaio corporativo com 20% de desconto para o Sanchez Clube.",
+    descricao:
+      "A Luminê Studio realiza ensaios corporativos profissionais: 12 fotos editadas, entregues via link. Condição exclusiva para o Sanchez Clube.",
+    voucher: "20% de desconto no ensaio corporativo",
+    imagem: lumineStudio,
+    cor: "hsl(24, 60%, 40%)",
+    whatsapp: "https://wa.me/message/SHAAGXRPV2UVF1",
+    tags: ["Ensaio corporativo", "Fotografia", "Voucher 20%"],
   },
 ];
