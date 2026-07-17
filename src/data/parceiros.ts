@@ -140,10 +140,10 @@ export const parceiros: Parceiro[] = [
     nome: "Vidraçaria AV",
     categoria: "Vidraçaria",
     descricaoCurta:
-      "Vidros, espelhos e esquadrias com condição exclusiva Sanchez.",
+      "R$ 100 de desconto em vidros, espelhos e esquadrias.",
     descricao:
-      "A Vidraçaria AV atende com vidros, espelhos e esquadrias sob medida. Condição exclusiva para o Sanchez Clube.",
-    voucher: "Condição exclusiva Sanchez", // TODO: confirmar benefício
+      "A Vidraçaria AV atende com vidros, espelhos e esquadrias sob medida. R$ 100 de desconto exclusivo para o Sanchez Clube.",
+    voucher: "R$ 100 de desconto",
     imagem: vidracariaAv,
     cor: "hsl(206, 70%, 45%)",
     whatsapp: "https://wa.me/qr/TWZH5ZZBWOIVO1",
