@@ -48,6 +48,13 @@ export default function Navbar() {
         </div>
 
         <Link
+          to="/login"
+          className="rounded-full px-3.5 py-2 text-sm font-medium text-grafite-soft transition-colors duration-300 hover:bg-grafite/5 hover:text-grafite"
+        >
+          Entrar
+        </Link>
+
+        <Link
           to="/cadastro"
           className="group inline-flex items-center gap-2 rounded-full bg-grafite py-2 pl-4 pr-2 text-sm font-medium text-creme transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-terracota active:scale-[0.98]"
         >
