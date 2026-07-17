@@ -12,6 +12,7 @@ import oticasDiniz from "@/assets/parceiros/oticas-diniz-logo.jpg";
 import remalar from "@/assets/parceiros/remalar-logo.jpg";
 import renovaLar from "@/assets/parceiros/renova-lar-logo.jpg";
 import lumineStudio from "@/assets/parceiros/lumine-studio-logo.jpg";
+import vidracariaAv from "@/assets/parceiros/vidracaria-av-logo.jpg";
 
 export type Parceiro = {
   slug: string;
@@ -131,6 +132,22 @@ export const parceiros: Parceiro[] = [
     imagem: lumineStudio,
     cor: "hsl(24, 60%, 40%)",
     whatsapp: "https://wa.me/message/SHAAGXRPV2UVF1",
+    site: "https://www.instagram.com/studiio.lumine/",
     tags: ["Ensaio corporativo", "Fotografia", "Voucher 20%"],
+  },
+  {
+    slug: "vidracaria-av",
+    nome: "Vidraçaria AV",
+    categoria: "Vidraçaria",
+    descricaoCurta:
+      "Vidros, espelhos e esquadrias com condição exclusiva Sanchez.",
+    descricao:
+      "A Vidraçaria AV atende com vidros, espelhos e esquadrias sob medida. Condição exclusiva para o Sanchez Clube.",
+    voucher: "Condição exclusiva Sanchez", // TODO: confirmar benefício
+    imagem: vidracariaAv,
+    cor: "hsl(206, 70%, 45%)",
+    whatsapp: "https://wa.me/qr/TWZH5ZZBWOIVO1",
+    site: "https://www.instagram.com/av.vidracaria_/",
+    tags: ["Vidros", "Espelhos", "Esquadrias"],
   },
 ];
