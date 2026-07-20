@@ -9,12 +9,12 @@ export default function IndiqueGanhe() {
   return (
     <section
       id="indique"
-      className="grain relative overflow-hidden bg-club-panel py-24 text-creme sm:py-32"
+      className="grain relative overflow-hidden bg-club-panel py-16 text-creme sm:py-24 lg:py-32"
     >
       <div className="pointer-events-none absolute -right-24 -top-16 h-96 w-96 rounded-full bg-dourado/25 blur-[120px]" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_80%_at_0%_120%,hsl(15_80%_28%/0.45),transparent_55%)]" />
 
-      <div className="container-club relative grid items-center gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
+      <div className="container-club relative grid items-center gap-10 sm:gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
         <motion.div
           initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -47,7 +47,7 @@ export default function IndiqueGanhe() {
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.9, delay: 0.1, ease }}
-          className="overflow-hidden rounded-[2rem] bg-white/10 p-8 text-center ring-1 ring-white/25 backdrop-blur-md sm:p-12"
+          className="overflow-hidden rounded-[2rem] bg-white/10 p-7 text-center ring-1 ring-white/25 backdrop-blur-md sm:p-12"
         >
           <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-creme/70">
             Voucher de boas-vindas

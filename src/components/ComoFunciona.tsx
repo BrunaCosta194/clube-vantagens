@@ -25,7 +25,7 @@ const passos = [
 
 export default function ComoFunciona() {
   return (
-    <section id="como-funciona" className="bg-warm-wash py-24 sm:py-32">
+    <section id="como-funciona" className="bg-warm-wash py-16 sm:py-24 lg:py-32">
       <div className="container-club">
         <motion.div
           initial={{ opacity: 0, y: 20, filter: "blur(6px)" }}
@@ -39,7 +39,7 @@ export default function ComoFunciona() {
           </h2>
         </motion.div>
 
-        <div className="mt-16 grid gap-x-10 gap-y-12 sm:grid-cols-3">
+        <div className="mt-10 grid gap-x-10 gap-y-10 sm:mt-16 sm:grid-cols-3 sm:gap-y-12">
           {passos.map((p, i) => (
             <motion.div
               key={p.num}

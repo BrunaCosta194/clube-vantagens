@@ -74,6 +74,19 @@ Parceiros ativos (8):
 7. **Luminê Studio** — ensaio corporativo (12 fotos editadas), 20% de desconto, Instagram @studiio.lumine
 8. **Vidraçaria AV** — vidros/espelhos/esquadrias, voucher R$100, Instagram @av.vidracaria_
 
+### Banners do carrossel (topo)
+
+Os banners oficiais são **1920×465 (4,13:1)**, formato de faixa de site. Em tela de celular isso vira uma tira de ~86px de altura, com o texto ilegível. Por isso o carrossel usa duas artes:
+
+- `src/assets/banners/*.jpg` — original largo, servido só a partir de `lg` (≥1024px)
+- `src/assets/banners/mobile/*.jpg` — recorte **4:3 (1080×810)** gerado por `scripts/banners-mobile.py`, servido abaixo de 1024px
+
+A troca é feita com `<picture>` + `<source media="(min-width: 1024px)">` no `BannerCarousel.tsx`. As proporções do palco acompanham: `aspect-[4/3]` no celular, `sm:aspect-[16/9]` no tablet, `lg:aspect-[64/15]` no desktop.
+
+O script monta cada versão mobile assim: fundo = o próprio banner em "cover" + blur (mantém a cor/textura da marca), frente = recorte da região da mensagem principal escalado a 94% da largura, centralizado. As caixas de recorte de cada banner ficam no dicionário `BOXES` do script — ao trocar um banner, ajuste a caixa dele e rode `python scripts/banners-mobile.py`.
+
+Isso é **paliativo**: o ideal é a agência mandar os banners já em versão mobile (vertical ou quadrada). Quando chegarem, é só substituir os arquivos em `banners/mobile/` e o script deixa de ser necessário.
+
 ### Convenção de imagem dos cards
 
 Card da vitrine usa container `aspect-[16/10]` com `object-cover`. Pra logo não ficar cortado/descentralizado (especialmente logos com elementos assimétricos tipo ícone + texto rotacionado), **sempre recortar a imagem-fonte pra aspecto 1.6:1 (16:10) antes de importar**, centralizando o elemento principal (ícone/marca) no recorte — assim o `object-cover` não precisa cortar nada. Processo usado (Python/Pillow): calcular bounding box do conteúdo (contra o fundo), centralizar, ajustar padding até bater aspecto 1.6, salvar como `.jpg` otimizado em `src/assets/parceiros/`.

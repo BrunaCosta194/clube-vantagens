@@ -10,7 +10,7 @@ export default function VitrineParceiros() {
   const [aberto, setAberto] = useState<Parceiro | null>(null);
 
   return (
-    <section id="parceiros" className="bg-warm-wash py-24 sm:py-32">
+    <section id="parceiros" className="bg-warm-wash py-16 sm:py-24 lg:py-32">
       <div className="container-club">
         {/* cabeçalho editorial */}
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
@@ -30,7 +30,7 @@ export default function VitrineParceiros() {
           </p>
         </div>
 
-        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-5 sm:mt-14 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
           {parceiros.map((p, i) => (
             <motion.button
               key={p.slug}

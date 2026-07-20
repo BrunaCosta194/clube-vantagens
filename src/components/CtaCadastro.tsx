@@ -12,14 +12,14 @@ const beneficios = [
 
 export default function CtaCadastro() {
   return (
-    <section id="cadastro" className="bg-warm-wash pb-24 pt-8 sm:pb-32">
+    <section id="cadastro" className="bg-warm-wash pb-16 pt-6 sm:pb-24 sm:pt-8 lg:pb-32">
       <div className="container-club">
         <motion.div
           initial={{ opacity: 0, y: 28, filter: "blur(8px)" }}
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.9, ease }}
-          className="relative overflow-hidden rounded-[2.5rem] bg-terracota px-8 py-16 sm:px-16 sm:py-20"
+          className="relative overflow-hidden rounded-[2rem] bg-terracota px-6 py-12 sm:rounded-[2.5rem] sm:px-16 sm:py-20"
         >
           {/* profundidade sutil, sem blob genérico */}
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_120%_at_100%_0%,hsl(24_90%_58%/0.6),transparent_55%)]" />

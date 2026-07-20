@@ -36,7 +36,7 @@ export default function Hero() {
 
   return (
     <section className="relative overflow-hidden bg-club-hero">
-      <div className="container-club relative grid items-center gap-12 py-16 sm:py-24 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16">
+      <div className="container-club relative grid items-center gap-14 py-14 sm:gap-12 sm:py-24 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16">
         {/* ── Coluna editorial ── */}
         <div className="max-w-xl">
           <motion.h1
@@ -44,7 +44,7 @@ export default function Hero() {
             variants={up}
             initial="hidden"
             animate="show"
-            className="h-display text-[clamp(2.8rem,7vw,5rem)]"
+            className="h-display text-[clamp(2.5rem,7vw,5rem)]"
           >
             Clube de{" "}
             <span className="italic text-terracota">Vantagens.</span>
@@ -55,7 +55,7 @@ export default function Hero() {
             variants={up}
             initial="hidden"
             animate="show"
-            className="mt-7 max-w-md text-lg leading-relaxed text-grafite-soft"
+            className="mt-6 max-w-md text-base leading-relaxed text-grafite-soft sm:mt-7 sm:text-lg"
           >
             Descontos e serviços com parceiros selecionados pela Sanchez
             Imóveis, que há 53 anos faz negócios imobiliários com excelência
@@ -68,7 +68,7 @@ export default function Hero() {
             variants={up}
             initial="hidden"
             animate="show"
-            className="mt-9 flex flex-wrap items-center gap-x-7 gap-y-4"
+            className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-4 sm:mt-9"
           >
             <Link to="/cadastro" className="btn-primary group">
               Quero fazer parte
@@ -86,7 +86,7 @@ export default function Hero() {
             variants={up}
             initial="hidden"
             animate="show"
-            className="mt-12 flex flex-wrap gap-x-10 gap-y-4 border-t border-grafite/10 pt-7"
+            className="mt-10 flex flex-wrap gap-x-8 gap-y-4 border-t border-grafite/10 pt-6 sm:mt-12 sm:gap-x-10 sm:pt-7"
           >
             {[
               { n: parceiros.length.toString().padStart(2, "0"), l: "Parceiros ativos" },
@@ -107,7 +107,7 @@ export default function Hero() {
         <motion.div
           ref={fotoRef}
           style={{ y: revealY, opacity: revealOpacity, scale: revealScale, filter: revealFilter }}
-          className="relative mx-auto w-full max-w-md lg:mr-0"
+          className="relative mx-auto w-full max-w-[19rem] sm:max-w-md lg:mr-0"
         >
           {/* etiqueta vertical */}
           <span className="absolute -left-4 top-8 hidden font-mono text-[10px] uppercase tracking-[0.32em] text-grafite-muted [writing-mode:vertical-rl] lg:block">
@@ -126,7 +126,7 @@ export default function Hero() {
           </div>
 
           {/* caption flutuante */}
-          <div className="animate-float-slow absolute -bottom-5 -left-5 flex items-center gap-3 rounded-2xl border border-grafite/10 bg-creme/90 px-4 py-3 shadow-lux backdrop-blur-sm">
+          <div className="animate-float-slow absolute -bottom-5 -left-3 flex items-center gap-3 rounded-2xl border border-grafite/10 bg-creme/90 px-4 py-3 shadow-lux backdrop-blur-sm sm:-left-5">
             <span className="grid h-9 w-9 place-items-center rounded-full bg-terracota/10 font-display text-sm font-semibold text-terracota-700">
               Y
             </span>
@@ -139,7 +139,7 @@ export default function Hero() {
           </div>
 
           {/* selo dourado */}
-          <div className="absolute -right-3 top-6 rounded-full border border-dourado/30 bg-creme/90 px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-dourado-deep shadow-lux-sm backdrop-blur-sm">
+          <div className="absolute -right-2 top-5 rounded-full border border-dourado/30 bg-creme/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-dourado-deep shadow-lux-sm backdrop-blur-sm sm:-right-3 sm:top-6 sm:px-3.5 sm:text-[10px]">
             Sanchez Premium
           </div>
         </motion.div>
