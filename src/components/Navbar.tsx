@@ -3,11 +3,13 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import logo from "@/assets/marca/logo-cs.png";
+import QuemSomos from "./QuemSomos";
 
-type NavLink = { label: string; href?: string; to?: string };
+type NavLink = { label: string; href?: string; to?: string; modal?: boolean };
 
 const links: NavLink[] = [
   { label: "Loja", to: "/loja" },
+  { label: "Quem somos", modal: true },
   { href: "#parceiros", label: "Parceiros" },
   { href: "#como-funciona", label: "Como funciona" },
   { href: "#indique", label: "Indique & ganhe" },
@@ -16,6 +18,7 @@ const links: NavLink[] = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [aberto, setAberto] = useState(false);
+  const [quemSomos, setQuemSomos] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 32);
@@ -50,7 +53,15 @@ export default function Navbar() {
 
         <div className="mx-1 hidden items-center gap-1 md:flex">
           {links.map((l) =>
-            l.to ? (
+            l.modal ? (
+              <button
+                key={l.label}
+                onClick={() => setQuemSomos(true)}
+                className="rounded-full px-3.5 py-2 text-sm font-medium text-grafite-soft transition-colors duration-300 hover:bg-grafite/5 hover:text-grafite"
+              >
+                {l.label}
+              </button>
+            ) : l.to ? (
               <Link
                 key={l.to}
                 to={l.to}
@@ -120,7 +131,18 @@ export default function Navbar() {
               className="absolute inset-x-4 top-[calc(100%+0.5rem)] rounded-[1.75rem] border border-grafite/10 bg-creme p-3 shadow-lux md:hidden"
             >
               {links.map((l) =>
-                l.to ? (
+                l.modal ? (
+                  <button
+                    key={l.label}
+                    onClick={() => {
+                      setAberto(false);
+                      setQuemSomos(true);
+                    }}
+                    className="block w-full rounded-2xl px-4 py-3.5 text-left text-[15px] font-medium text-grafite transition-colors hover:bg-grafite/5"
+                  >
+                    {l.label}
+                  </button>
+                ) : l.to ? (
                   <Link
                     key={l.to}
                     to={l.to}
@@ -144,6 +166,8 @@ export default function Navbar() {
           </>
         )}
       </AnimatePresence>
+
+      <QuemSomos aberto={quemSomos} onClose={() => setQuemSomos(false)} />
     </header>
   );
 }
