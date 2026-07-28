@@ -47,7 +47,7 @@ export default function Hero() {
             className="h-display text-[clamp(2.5rem,7vw,5rem)]"
           >
             Clube de{" "}
-            <span className="italic text-terracota">Vantagens.</span>
+            <span className="italic text-cobre">Vantagens.</span>
           </motion.h1>
 
           <motion.p
@@ -127,7 +127,7 @@ export default function Hero() {
 
           {/* caption flutuante */}
           <div className="animate-float-slow absolute -bottom-5 -left-3 flex items-center gap-3 rounded-2xl border border-grafite/10 bg-creme/90 px-4 py-3 shadow-lux backdrop-blur-sm sm:-left-5">
-            <span className="grid h-9 w-9 place-items-center rounded-full bg-terracota/10 font-display text-sm font-semibold text-terracota-700">
+            <span className="grid h-9 w-9 place-items-center rounded-full bg-cobre/10 font-display text-sm font-semibold text-cobre-deep">
               Y
             </span>
             <div>
@@ -138,8 +138,8 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* selo dourado */}
-          <div className="absolute -right-2 top-5 rounded-full border border-dourado/30 bg-creme/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-dourado-deep shadow-lux-sm backdrop-blur-sm sm:-right-3 sm:top-6 sm:px-3.5 sm:text-[10px]">
+          {/* selo cobre */}
+          <div className="absolute -right-2 top-5 rounded-full border border-cobre-line/40 bg-creme/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-cobre-deep shadow-lux-sm backdrop-blur-sm sm:-right-3 sm:top-6 sm:px-3.5 sm:text-[10px]">
             Sanchez Premium
           </div>
         </motion.div>

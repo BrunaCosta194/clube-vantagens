@@ -52,16 +52,16 @@ body::after {
     @apply font-display font-semibold leading-[0.98] tracking-[-0.01em] text-grafite;
   }
 
-  /* CTA primário — pill com ícone aninhado (button-in-button) */
+  /* CTA primário — pill cobre (guia de identidade) com ícone aninhado */
   .btn-primary {
-    @apply inline-flex items-center gap-3 rounded-full bg-grafite py-2.5 pl-6 pr-2.5 text-sm font-medium text-creme transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-terracota active:scale-[0.985];
+    @apply inline-flex items-center gap-3 rounded-full bg-cobre py-2.5 pl-6 pr-2.5 text-sm font-medium text-perola transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-cobre-deep active:scale-[0.985];
   }
   .btn-primary-icon {
-    @apply grid h-9 w-9 place-items-center rounded-full bg-white/10 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0.5 group-hover:bg-white/20;
+    @apply grid h-9 w-9 place-items-center rounded-full bg-white/15 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0.5 group-hover:bg-white/25;
   }
 
   .btn-quiet {
-    @apply inline-flex items-center gap-2 text-sm font-medium text-grafite-soft underline-offset-4 transition-colors duration-300 hover:text-terracota hover:underline;
+    @apply inline-flex items-center gap-2 text-sm font-medium text-grafite-soft underline-offset-4 transition-colors duration-300 hover:text-cobre-deep hover:underline;
   }
 
   /* Double-bezel: moldura externa + núcleo interno (curvas concêntricas) */

@@ -3,6 +3,9 @@ import Landing from "./pages/Landing";
 import Cadastro from "./pages/Cadastro";
 import Login from "./pages/Login";
 import AreaMembro from "./pages/AreaMembro";
+import Loja from "./pages/Loja";
+import PapoDeAluguel from "./pages/PapoDeAluguel";
+import Premium from "./pages/Premium";
 
 export default function App() {
   return (
@@ -11,6 +14,9 @@ export default function App() {
       <Route path="/cadastro" element={<Cadastro />} />
       <Route path="/login" element={<Login />} />
       <Route path="/area" element={<AreaMembro />} />
+      <Route path="/loja" element={<Loja />} />
+      <Route path="/papodealuguel" element={<PapoDeAluguel />} />
+      <Route path="/premium" element={<Premium />} />
     </Routes>
   );
 }

@@ -4,7 +4,10 @@ import { ArrowUpRight, Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import logo from "@/assets/marca/logo-cs.png";
 
-const links = [
+type NavLink = { label: string; href?: string; to?: string };
+
+const links: NavLink[] = [
+  { label: "Loja", to: "/loja" },
   { href: "#parceiros", label: "Parceiros" },
   { href: "#como-funciona", label: "Como funciona" },
   { href: "#indique", label: "Indique & ganhe" },
@@ -46,15 +49,25 @@ export default function Navbar() {
         </a>
 
         <div className="mx-1 hidden items-center gap-1 md:flex">
-          {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="rounded-full px-3.5 py-2 text-sm font-medium text-grafite-soft transition-colors duration-300 hover:bg-grafite/5 hover:text-grafite"
-            >
-              {l.label}
-            </a>
-          ))}
+          {links.map((l) =>
+            l.to ? (
+              <Link
+                key={l.to}
+                to={l.to}
+                className="rounded-full px-3.5 py-2 text-sm font-medium text-grafite-soft transition-colors duration-300 hover:bg-grafite/5 hover:text-grafite"
+              >
+                {l.label}
+              </Link>
+            ) : (
+              <a
+                key={l.href}
+                href={l.href}
+                className="rounded-full px-3.5 py-2 text-sm font-medium text-grafite-soft transition-colors duration-300 hover:bg-grafite/5 hover:text-grafite"
+              >
+                {l.label}
+              </a>
+            ),
+          )}
         </div>
 
         <Link
@@ -66,7 +79,7 @@ export default function Navbar() {
 
         <Link
           to="/cadastro"
-          className="group inline-flex items-center gap-2 rounded-full bg-grafite py-2 pl-4 pr-2 text-sm font-medium text-creme transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-terracota active:scale-[0.98]"
+          className="group inline-flex items-center gap-2 rounded-full bg-cobre py-2 pl-4 pr-2 text-sm font-medium text-perola transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-cobre-deep active:scale-[0.98]"
         >
           Fazer parte
           <span className="grid h-7 w-7 place-items-center rounded-full bg-white/10 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
@@ -106,16 +119,27 @@ export default function Navbar() {
               transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
               className="absolute inset-x-4 top-[calc(100%+0.5rem)] rounded-[1.75rem] border border-grafite/10 bg-creme p-3 shadow-lux md:hidden"
             >
-              {links.map((l) => (
-                <a
-                  key={l.href}
-                  href={l.href}
-                  onClick={() => setAberto(false)}
-                  className="block rounded-2xl px-4 py-3.5 text-[15px] font-medium text-grafite transition-colors hover:bg-grafite/5"
-                >
-                  {l.label}
-                </a>
-              ))}
+              {links.map((l) =>
+                l.to ? (
+                  <Link
+                    key={l.to}
+                    to={l.to}
+                    onClick={() => setAberto(false)}
+                    className="block rounded-2xl px-4 py-3.5 text-[15px] font-medium text-grafite transition-colors hover:bg-grafite/5"
+                  >
+                    {l.label}
+                  </Link>
+                ) : (
+                  <a
+                    key={l.href}
+                    href={l.href}
+                    onClick={() => setAberto(false)}
+                    className="block rounded-2xl px-4 py-3.5 text-[15px] font-medium text-grafite transition-colors hover:bg-grafite/5"
+                  >
+                    {l.label}
+                  </a>
+                ),
+              )}
             </motion.div>
           </>
         )}
