@@ -55,7 +55,7 @@ export default function LojaSecao() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.9, delay: 0.1, ease }}
-          className="mt-10 grid grid-cols-1 gap-5 sm:mt-12 sm:grid-cols-2 lg:grid-cols-4"
+          className="mt-10 grid grid-cols-2 gap-3 sm:mt-12 sm:gap-5 lg:grid-cols-4"
         >
           {vitrine.map((p) => (
             <ProdutoCard key={p.slug} produto={p} />

@@ -40,26 +40,26 @@ export default function ProdutoCard({ produto }: { produto: Produto }) {
         )}
       </div>
 
-      <div className="flex flex-1 flex-col p-5">
-        <h3 className="font-display text-lg font-semibold leading-tight text-grafite">
+      <div className="flex flex-1 flex-col p-3.5 sm:p-5">
+        <h3 className="font-display text-sm font-semibold leading-tight text-grafite sm:text-lg">
           {produto.nome}
         </h3>
-        <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-grafite-soft">
+        <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-grafite-soft sm:mt-1.5 sm:text-sm">
           {produto.descricao}
         </p>
 
-        <div className="mt-4 flex items-end justify-between gap-3 border-t border-cobre-line/15 pt-4">
+        <div className="mt-3 flex items-end justify-between gap-3 border-t border-cobre-line/15 pt-3 sm:mt-4 sm:pt-4">
           <div>
             {produto.precoDe && temPreco && (
-              <p className="font-mono text-xs text-grafite-muted line-through">
+              <p className="font-mono text-[11px] text-grafite-muted line-through sm:text-xs">
                 {formatarPreco(produto.precoDe)}
               </p>
             )}
-            <p className="font-display text-xl font-semibold text-cobre-deep">
+            <p className="font-display text-base font-semibold text-cobre-deep sm:text-xl">
               {temPreco ? formatarPreco(produto.preco) : "A definir"}
             </p>
             {produto.canal === "mercadolivre" && temPreco && (
-              <p className="mt-0.5 text-[11px] text-grafite-muted">
+              <p className="mt-0.5 text-[10px] text-grafite-muted sm:text-[11px]">
                 em até 2x
               </p>
             )}
@@ -67,7 +67,7 @@ export default function ProdutoCard({ produto }: { produto: Produto }) {
         </div>
 
         {emBreve ? (
-          <span className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-creme-200 px-5 py-2.5 text-sm font-medium text-grafite-muted">
+          <span className="mt-3 inline-flex items-center justify-center gap-2 rounded-full bg-creme-200 px-4 py-2 text-xs font-medium text-grafite-muted sm:mt-4 sm:px-5 sm:py-2.5 sm:text-sm">
             Em breve
           </span>
         ) : (
@@ -75,9 +75,8 @@ export default function ProdutoCard({ produto }: { produto: Produto }) {
             href={produto.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-cobre px-5 py-2.5 text-sm font-medium text-perola transition-all duration-500 ease-lux hover:bg-cobre-deep active:scale-[0.98]"
-          >
-            <ShoppingBag className="h-4 w-4" strokeWidth={1.5} />
+            className="mt-3 inline-flex items-center justify-center gap-1.5 rounded-full bg-cobre px-4 py-2 text-xs font-medium text-perola transition-all duration-500 ease-lux hover:bg-cobre-deep active:scale-[0.98] sm:mt-4 sm:gap-2 sm:px-5 sm:py-2.5 sm:text-sm">
+            <ShoppingBag className="h-3.5 w-3.5 sm:h-4 sm:w-4" strokeWidth={1.5} />
             {produto.canal === "mercadolivre" ? "Comprar" : "Ver na Shopee"}
           </a>
         )}

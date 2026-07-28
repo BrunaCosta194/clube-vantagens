@@ -51,7 +51,7 @@ export default function ParceiroModal({ parceiro, onClose }: Props) {
               <img
                 src={parceiro.imagem}
                 alt={parceiro.nome}
-                className="h-44 w-full object-cover sm:h-52"
+                className="h-36 w-full object-cover sm:h-52"
               />
               <button
                 onClick={onClose}
@@ -68,8 +68,8 @@ export default function ParceiroModal({ parceiro, onClose }: Props) {
               </span>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-6 sm:p-7">
-              <h3 className="font-display text-2xl font-semibold text-grafite">
+            <div className="flex-1 overflow-y-auto p-5 sm:p-7">
+              <h3 className="font-display text-xl font-semibold text-grafite sm:text-2xl">
                 {parceiro.nome}
               </h3>
 
@@ -84,7 +84,7 @@ export default function ParceiroModal({ parceiro, onClose }: Props) {
                 </div>
               </div>
 
-              <p className="mt-5 leading-relaxed text-grafite-soft">
+              <p className="mt-4 text-sm leading-relaxed text-grafite-soft sm:mt-5 sm:text-base">
                 {parceiro.descricao}
               </p>
 
@@ -101,16 +101,16 @@ export default function ParceiroModal({ parceiro, onClose }: Props) {
             </div>
 
             {/* ações */}
-            <div className="border-t border-grafite/10 bg-white p-5">
-              <div className="flex flex-wrap gap-3">
+            <div className="border-t border-grafite/10 bg-white p-4 sm:p-5">
+              <div className="flex flex-col gap-2.5 sm:flex-row sm:gap-3">
                 <a
                   href={parceiro.site ?? "#"}
                   target={parceiro.site ? "_blank" : undefined}
                   rel="noreferrer"
                   aria-disabled={!parceiro.site}
-                  className={`inline-flex flex-1 items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition ${
+                  className={`inline-flex flex-1 items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition sm:py-3 ${
                     parceiro.site
-                      ? "border border-grafite/15 bg-white text-grafite hover:border-terracota/40 hover:text-terracota-700"
+                      ? "border border-grafite/15 bg-white text-grafite hover:border-cobre/40 hover:text-cobre-deep"
                       : "cursor-not-allowed border border-grafite/10 bg-grafite/5 text-grafite-muted"
                   }`}
                 >
@@ -126,7 +126,7 @@ export default function ParceiroModal({ parceiro, onClose }: Props) {
                   target={parceiro.whatsapp ? "_blank" : undefined}
                   rel="noreferrer"
                   aria-disabled={!parceiro.whatsapp}
-                  className={`inline-flex flex-1 items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition ${
+                  className={`inline-flex flex-1 items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition sm:py-3 ${
                     parceiro.whatsapp
                       ? "bg-[hsl(145,63%,42%)] text-white hover:brightness-105"
                       : "cursor-not-allowed bg-grafite/5 text-grafite-muted"
@@ -139,7 +139,7 @@ export default function ParceiroModal({ parceiro, onClose }: Props) {
               <Link
                 to="/cadastro"
                 onClick={onClose}
-                className="mt-3 flex items-center justify-center gap-2 rounded-full bg-terracota px-5 py-3 text-sm font-semibold text-white shadow-card transition hover:bg-terracota-600"
+                className="mt-2.5 flex items-center justify-center gap-2 rounded-full bg-cobre px-5 py-2.5 text-sm font-semibold text-perola shadow-lux-sm transition hover:bg-cobre-deep sm:mt-3 sm:py-3"
               >
                 Quero este benefício
                 <ArrowRight className="h-4 w-4" strokeWidth={1.5} />

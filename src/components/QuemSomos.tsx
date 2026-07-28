@@ -59,7 +59,7 @@ export default function QuemSomos({ aberto, onClose }: Props) {
             className="relative flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-t-[2rem] border border-cobre-line/20 bg-creme shadow-lux sm:rounded-[2rem]"
           >
             {/* cabeçalho cobre */}
-            <div className="relative bg-banner-clube px-6 py-8 sm:px-8">
+            <div className="relative bg-banner-clube px-5 py-6 sm:px-8 sm:py-8">
               <button
                 onClick={onClose}
                 aria-label="Fechar"
@@ -70,15 +70,15 @@ export default function QuemSomos({ aberto, onClose }: Props) {
               <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-perola">
                 Sanchez Imóveis
               </p>
-              <h2 className="mt-2 font-display text-3xl font-semibold text-[#2D1A0F]">
+              <h2 className="mt-2 font-display text-2xl font-semibold text-[#2D1A0F] sm:text-3xl">
                 Quem somos
               </h2>
             </div>
 
             {/* corpo rolável */}
-            <div className="flex-1 overflow-y-auto px-6 py-7 sm:px-8">
+            <div className="flex-1 overflow-y-auto px-5 py-6 sm:px-8 sm:py-7">
               {/* História */}
-              <p className="leading-relaxed text-grafite-soft">
+              <p className="text-sm leading-relaxed text-grafite-soft sm:text-base">
                 Há <span className="font-semibold text-cobre-deep">53 anos</span>,
                 a Sanchez Imóveis é referência em locação, administração e venda
                 de imóveis em Mogi das Cruzes e no Alto Tietê. Uma das primeiras
