@@ -38,18 +38,18 @@ export default function Footer() {
             {/* TODO: preencher com os contatos reais da Sanchez */}
             <li>
               <a href="#" className="inline-flex items-center gap-2 hover:text-white">
-                <MessageCircle className="h-4 w-4 text-dourado-soft" strokeWidth={1.5} />
+                <MessageCircle className="h-4 w-4 text-cobre-light" strokeWidth={1.5} />
                 WhatsApp da Sanchez
               </a>
             </li>
             <li>
               <a href="#" className="inline-flex items-center gap-2 hover:text-white">
-                <Instagram className="h-4 w-4 text-dourado-soft" strokeWidth={1.5} />
+                <Instagram className="h-4 w-4 text-cobre-light" strokeWidth={1.5} />
                 @sanchezimoveis
               </a>
             </li>
             <li className="inline-flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-dourado-soft" strokeWidth={1.5} />
+              <MapPin className="h-4 w-4 text-cobre-light" strokeWidth={1.5} />
               Mogi das Cruzes · SP
             </li>
           </ul>

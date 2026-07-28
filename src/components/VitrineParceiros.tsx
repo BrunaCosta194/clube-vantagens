@@ -61,7 +61,7 @@ export default function VitrineParceiros() {
                     <h3 className="font-display text-xl font-semibold leading-tight text-grafite">
                       {p.nome}
                     </h3>
-                    <span className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full border border-grafite/10 text-grafite-soft transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:border-terracota group-hover:bg-terracota group-hover:text-white">
+                    <span className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full border border-grafite/10 text-grafite-soft transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:border-cobre group-hover:bg-cobre group-hover:text-perola">
                       <ArrowUpRight className="h-4 w-4" strokeWidth={1.5} />
                     </span>
                   </div>
@@ -69,8 +69,8 @@ export default function VitrineParceiros() {
                     {p.descricaoCurta}
                   </p>
                   <div className="mt-4 flex items-center gap-2 border-t border-grafite/10 pt-4">
-                    <span className="h-1.5 w-1.5 rounded-full bg-dourado" />
-                    <span className="font-mono text-xs font-medium tracking-wide text-dourado-deep">
+                    <span className="h-1.5 w-1.5 rounded-full bg-cobre" />
+                    <span className="font-mono text-xs font-medium tracking-wide text-cobre-deep">
                       {p.voucher}
                     </span>
                   </div>
