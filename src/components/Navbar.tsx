@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight, Menu, X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import logo from "@/assets/marca/logo-cs.png";
 import QuemSomos from "./QuemSomos";
 
@@ -19,6 +19,8 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [aberto, setAberto] = useState(false);
   const [quemSomos, setQuemSomos] = useState(false);
+  const location = useLocation();
+  const naHome = location.pathname === "/";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 32);
@@ -44,12 +46,19 @@ export default function Navbar() {
             : "border-white/10 bg-grafite/5 py-2.5 pl-4 pr-2.5 backdrop-blur-md"
         }`}
       >
-        <a href="#top" className="flex items-center gap-2.5 pr-1 sm:pr-2">
+        <Link
+          to="/"
+          onClick={() => {
+            // já na home: rola pro topo em vez de só trocar a rota
+            if (naHome) window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+          className="flex items-center gap-2.5 pr-1 sm:pr-2"
+        >
           <img src={logo} alt="Sanchez Clube" className="h-9 w-9 object-contain" />
           <span className="hidden font-display text-[15px] font-semibold leading-none text-grafite sm:block">
             Sanchez Clube
           </span>
-        </a>
+        </Link>
 
         <div className="mx-1 hidden items-center gap-1 md:flex">
           {links.map((l) =>
@@ -72,7 +81,7 @@ export default function Navbar() {
             ) : (
               <a
                 key={l.href}
-                href={l.href}
+                href={naHome ? l.href : `/${l.href}`}
                 className="rounded-full px-3.5 py-2 text-sm font-medium text-grafite-soft transition-colors duration-300 hover:bg-grafite/5 hover:text-grafite"
               >
                 {l.label}
@@ -154,7 +163,7 @@ export default function Navbar() {
                 ) : (
                   <a
                     key={l.href}
-                    href={l.href}
+                    href={naHome ? l.href : `/${l.href}`}
                     onClick={() => setAberto(false)}
                     className="block rounded-2xl px-4 py-3.5 text-[15px] font-medium text-grafite transition-colors hover:bg-grafite/5"
                   >
