@@ -76,3 +76,14 @@ body::after {
     @apply h-px w-full bg-grafite/10;
   }
 }
+
+@layer utilities {
+  /* esconde a barra de rolagem dos carrosséis horizontais (mobile) */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}

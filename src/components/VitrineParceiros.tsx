@@ -30,7 +30,8 @@ export default function VitrineParceiros() {
           </p>
         </div>
 
-        <div className="mt-10 grid gap-5 sm:mt-14 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
+        {/* mobile: carrossel horizontal com swipe + peek; sm+: grid */}
+        <div className="-mx-6 mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-6 px-6 pb-2 no-scrollbar sm:mx-0 sm:mt-14 sm:grid sm:snap-none sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3">
           {parceiros.map((p, i) => (
             <motion.button
               key={p.slug}
@@ -39,7 +40,7 @@ export default function VitrineParceiros() {
               whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.7, delay: (i % 3) * 0.1, ease }}
-              className="group text-left"
+              className="group min-w-[80%] shrink-0 snap-start text-left sm:min-w-0 sm:shrink"
             >
               <div className="bezel h-full transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-1.5 group-hover:shadow-[0_50px_90px_-45px_hsl(19_40%_14%/0.4)]">
                 <div className="bezel-core relative aspect-[16/10]">

@@ -55,10 +55,15 @@ export default function LojaSecao() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.9, delay: 0.1, ease }}
-          className="mt-10 grid grid-cols-1 gap-5 sm:mt-12 sm:grid-cols-2 lg:grid-cols-4"
+          className="-mx-6 mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-6 px-6 pb-2 no-scrollbar sm:mx-0 sm:mt-12 sm:grid sm:snap-none sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4"
         >
           {vitrine.map((p) => (
-            <ProdutoCard key={p.slug} produto={p} />
+            <div
+              key={p.slug}
+              className="min-w-[80%] shrink-0 snap-start sm:min-w-0 sm:shrink"
+            >
+              <ProdutoCard produto={p} />
+            </div>
           ))}
         </motion.div>
       </div>
