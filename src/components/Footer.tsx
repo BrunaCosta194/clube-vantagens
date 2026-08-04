@@ -59,7 +59,6 @@ export default function Footer() {
       <div className="border-t border-white/10">
         <div className="container-club flex flex-col items-center justify-between gap-2 py-6 text-xs text-white/40 sm:flex-row">
           <p>© {new Date().getFullYear()} Sanchez Imóveis · Sanchez Clube</p>
-          <p>Clube de Vantagens · Protótipo para aprovação</p>
         </div>
       </div>
     </footer>
