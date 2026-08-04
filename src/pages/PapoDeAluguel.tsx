@@ -16,6 +16,7 @@ import {
 } from "@/lib/ebook";
 import yruena from "@/assets/papo/yruena-papo.jpg";
 import logoPapo from "@/assets/papo/logo-papo.png";
+import ebookCapa from "@/assets/papo/ebook-capa.png";
 import grid1 from "@/assets/papo/grid1.jpg";
 import grid2 from "@/assets/papo/grid2.jpg";
 import grid3 from "@/assets/papo/grid3.jpg";
@@ -167,19 +168,36 @@ export default function PapoDeAluguel() {
             </div>
           </div>
 
-          {/* CTA do e-book — download com gate de cadastro */}
-          <div>
-            <button
-              onClick={baixarComGate}
-              disabled={baixando}
-              className="inline-flex items-center gap-2 rounded-full bg-papo-laranja px-6 py-3 text-sm font-semibold text-papo-azul shadow-lux-sm transition-all duration-500 ease-lux hover:brightness-105 active:scale-[0.98] disabled:opacity-60"
-            >
-              <Download className="h-4 w-4" strokeWidth={2} />
-              {baixando ? "Preparando..." : "Baixe o e-book grátis"}
-            </button>
-            <p className="mt-2 text-xs text-papo-texto/50">
-              Cadastro rápido no clube pra liberar o download.
-            </p>
+          {/* card do e-book — capa + download com gate de cadastro */}
+          <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.06] p-3 backdrop-blur-sm sm:gap-5 sm:p-4">
+            <img
+              src={ebookCapa}
+              alt="E-book Da Porta ao Topo — Papo de Aluguel"
+              className="h-32 w-auto shrink-0 rounded-lg shadow-lux-sm sm:h-40"
+            />
+            <div className="min-w-0">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-papo-laranja">
+                E-book grátis
+              </p>
+              <h3 className="mt-1 font-display text-lg font-semibold leading-tight text-papo-texto sm:text-xl">
+                Da Porta ao Topo
+              </h3>
+              <p className="mt-1.5 text-xs leading-relaxed text-papo-texto/60 sm:text-sm">
+                Autoconfiança e habilidades pra se destacar no mercado
+                imobiliário.
+              </p>
+              <button
+                onClick={baixarComGate}
+                disabled={baixando}
+                className="mt-3.5 inline-flex items-center gap-2 rounded-full bg-papo-laranja px-5 py-2.5 text-sm font-semibold text-papo-azul shadow-lux-sm transition-all duration-500 ease-lux hover:brightness-105 active:scale-[0.98] disabled:opacity-60"
+              >
+                <Download className="h-4 w-4" strokeWidth={2} />
+                {baixando ? "Preparando..." : "Baixe grátis"}
+              </button>
+              <p className="mt-2 text-[11px] text-papo-texto/45">
+                Cadastro rápido no clube pra liberar o download.
+              </p>
+            </div>
           </div>
 
           <div className="flex items-start gap-3.5">
