@@ -1,10 +1,13 @@
 import { type FormEvent, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import AuthLayout, { inputClass, labelClass } from "../components/AuthLayout";
 import { entrar } from "../lib/membros";
 
 export default function Login() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const next = searchParams.get("next");
+  const cadastroHref = next ? `/cadastro?next=${encodeURIComponent(next)}` : "/cadastro";
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [carregando, setCarregando] = useState(false);
@@ -23,7 +26,7 @@ export default function Login() {
       return;
     }
 
-    navigate("/area");
+    navigate(next || "/area");
   }
 
   return (
@@ -33,7 +36,7 @@ export default function Login() {
       footer={
         <>
           Ainda não é membro?{" "}
-          <Link to="/cadastro" className="font-medium text-terracota hover:underline">
+          <Link to={cadastroHref} className="font-medium text-terracota hover:underline">
             Criar conta
           </Link>
         </>

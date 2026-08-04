@@ -1,5 +1,19 @@
-import { ArrowLeft, Headphones, Instagram, Mic, Sparkles, Youtube } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import {
+  ArrowLeft,
+  Download,
+  Headphones,
+  Instagram,
+  Mic,
+  Sparkles,
+  Youtube,
+} from "lucide-react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import {
+  baixarEbook,
+  registrarDownloadEbook,
+  temSessao,
+} from "@/lib/ebook";
 import yruena from "@/assets/papo/yruena-papo.jpg";
 import logoPapo from "@/assets/papo/logo-papo.png";
 import grid1 from "@/assets/papo/grid1.jpg";
@@ -44,6 +58,40 @@ const fundo =
   "linear-gradient(135deg, #1c2b45 0%, #131e33 55%, #0b1322 100%)";
 
 export default function PapoDeAluguel() {
+  const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const [baixando, setBaixando] = useState(false);
+  const jaAutoBaixou = useRef(false);
+
+  // Gate do e-book: só membro logado baixa (pra saber quem baixou).
+  async function baixarComGate() {
+    setBaixando(true);
+    try {
+      if (await temSessao()) {
+        await registrarDownloadEbook();
+        baixarEbook();
+      } else {
+        // manda cadastrar e volta pra cá já baixando
+        const volta = encodeURIComponent("/papodealuguel?ebook=1");
+        navigate(`/cadastro?next=${volta}`);
+      }
+    } finally {
+      setBaixando(false);
+    }
+  }
+
+  // Voltou do cadastro/login com ?ebook=1 e está logado → baixa automático.
+  useEffect(() => {
+    if (params.get("ebook") !== "1" || jaAutoBaixou.current) return;
+    (async () => {
+      if (await temSessao()) {
+        jaAutoBaixou.current = true;
+        await registrarDownloadEbook();
+        baixarEbook();
+      }
+    })();
+  }, [params]);
+
   return (
     <section
       className="relative flex min-h-screen flex-col overflow-hidden font-sans text-papo-texto"
@@ -117,6 +165,21 @@ export default function PapoDeAluguel() {
                 EXPERIÊNCIA EM CONHECIMENTO.
               </span>
             </div>
+          </div>
+
+          {/* CTA do e-book — download com gate de cadastro */}
+          <div>
+            <button
+              onClick={baixarComGate}
+              disabled={baixando}
+              className="inline-flex items-center gap-2 rounded-full bg-papo-laranja px-6 py-3 text-sm font-semibold text-papo-azul shadow-lux-sm transition-all duration-500 ease-lux hover:brightness-105 active:scale-[0.98] disabled:opacity-60"
+            >
+              <Download className="h-4 w-4" strokeWidth={2} />
+              {baixando ? "Preparando..." : "Baixe o e-book grátis"}
+            </button>
+            <p className="mt-2 text-xs text-papo-texto/50">
+              Cadastro rápido no clube pra liberar o download.
+            </p>
           </div>
 
           <div className="flex items-start gap-3.5">

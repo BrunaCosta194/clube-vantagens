@@ -20,6 +20,9 @@ export default function Cadastro() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const codigoRef = searchParams.get("ref");
+  // pra onde voltar depois do cadastro (ex.: baixar o e-book)
+  const next = searchParams.get("next");
+  const loginHref = next ? `/login?next=${encodeURIComponent(next)}` : "/login";
 
   const [nome, setNome] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
@@ -61,7 +64,7 @@ export default function Cadastro() {
     }
 
     if (data.session) {
-      navigate("/area");
+      navigate(next || "/area");
     } else {
       setAguardandoConfirmacao(true);
     }
@@ -73,7 +76,7 @@ export default function Cadastro() {
         title="Confirme seu e-mail"
         subtitle={`Enviamos um link de confirmação para ${email}. Depois de confirmar, é só fazer login.`}
         footer={
-          <Link to="/login" className="btn-quiet">
+          <Link to={loginHref} className="btn-quiet">
             Ir para o login
           </Link>
         }
@@ -94,7 +97,7 @@ export default function Cadastro() {
       footer={
         <>
           Já é membro?{" "}
-          <Link to="/login" className="font-medium text-terracota hover:underline">
+          <Link to={loginHref} className="font-medium text-terracota hover:underline">
             Fazer login
           </Link>
         </>
