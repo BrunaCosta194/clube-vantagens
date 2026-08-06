@@ -11,6 +11,7 @@ export interface Membro {
   voucher_cadastro: number;
   status: "lead" | "membro" | "cliente";
   origem: string;
+  consentimento_lgpd_em: string | null;
   created_at: string;
 }
 
@@ -29,6 +30,14 @@ export interface DadosCadastro {
   documento: string;
   senha: string;
   codigoRef: string | null;
+  aceiteLgpd: boolean;
+}
+
+/** Remove tudo que não é dígito. CPF/CNPJ é a chave de cruzamento com o
+ * Sanchez Connect; precisa ser gravado só com dígitos (sem . - /) dos dois
+ * lados, senão o match por documento quebra. */
+export function normalizarDocumento(documento: string): string {
+  return documento.replace(/\D/g, "");
 }
 
 /** Cria a conta no Supabase Auth. O registro em `membros` (e a indicação, se
@@ -41,8 +50,12 @@ export async function criarMembro(dados: DadosCadastro) {
       data: {
         nome: dados.nome,
         whatsapp: dados.whatsapp,
-        documento: dados.documento,
+        documento: normalizarDocumento(dados.documento),
         codigo_ref: dados.codigoRef,
+        // Prova de consentimento LGPD: fica no raw_user_meta_data do auth.users
+        // (trilha imutável) e é copiado pra membros.consentimento_lgpd_em pelo
+        // trigger. null nunca deve acontecer — form exige o aceite.
+        consentimento_lgpd_em: dados.aceiteLgpd ? new Date().toISOString() : null,
       },
     },
   });

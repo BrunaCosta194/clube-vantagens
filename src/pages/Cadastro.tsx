@@ -1,7 +1,7 @@
 import { type FormEvent, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import AuthLayout, { inputClass, labelClass } from "../components/AuthLayout";
-import { criarMembro } from "../lib/membros";
+import { criarMembro, normalizarDocumento } from "../lib/membros";
 
 function mensagemDeErro(erro: string): string {
   if (erro.includes("already registered") || erro.includes("already been registered")) {
@@ -30,6 +30,7 @@ export default function Cadastro() {
   const [documento, setDocumento] = useState("");
   const [senha, setSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
+  const [aceite, setAceite] = useState(false);
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
   const [aguardandoConfirmacao, setAguardandoConfirmacao] = useState(false);
@@ -46,6 +47,15 @@ export default function Cadastro() {
       setErro("A senha precisa ter pelo menos 6 caracteres.");
       return;
     }
+    const doc = normalizarDocumento(documento);
+    if (doc.length !== 11 && doc.length !== 14) {
+      setErro("CPF ou CNPJ inválido. Digite 11 dígitos (CPF) ou 14 (CNPJ).");
+      return;
+    }
+    if (!aceite) {
+      setErro("É preciso aceitar o uso dos seus dados para concluir o cadastro.");
+      return;
+    }
 
     setCarregando(true);
     const { data, error } = await criarMembro({
@@ -55,6 +65,7 @@ export default function Cadastro() {
       documento,
       senha,
       codigoRef,
+      aceiteLgpd: aceite,
     });
     setCarregando(false);
 
@@ -185,6 +196,21 @@ export default function Cadastro() {
             required
           />
         </div>
+
+        <label className="flex items-start gap-2 text-xs text-neutral-600">
+          <input
+            type="checkbox"
+            className="mt-0.5 h-4 w-4 shrink-0 accent-terracota"
+            checked={aceite}
+            onChange={(e) => setAceite(e.target.checked)}
+          />
+          <span>
+            Autorizo o Sanchez Clube a usar meus dados (nome, WhatsApp, e-mail e
+            CPF/CNPJ) para minha participação no clube e para contato comercial
+            da Sanchez Imóveis, conforme a LGPD. Posso pedir a exclusão a
+            qualquer momento.
+          </span>
+        </label>
 
         {erro && <p className="text-sm text-terracota-700">{erro}</p>}
 
