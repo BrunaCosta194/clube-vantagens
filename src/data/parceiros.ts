@@ -63,6 +63,7 @@ export const parceiros: Parceiro[] = [
     whatsapp: "https://api.whatsapp.com/message/AEEL7PQ7XR67E1?autoload=1&app_absent=0",
     site: "https://www.instagram.com/insurancesante/",
     tags: ["Seguro de Vida", "Seguro Auto", "Consórcio", "Planos de Saúde"],
+    pagina: "/parceiro/insurance-sante",
   },
   {
     slug: "mrt-arquitetura",
