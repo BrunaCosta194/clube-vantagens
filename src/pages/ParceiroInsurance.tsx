@@ -18,6 +18,7 @@ import {
   type ProdutoInsurance,
 } from "@/data/insuranceProdutos";
 import CotacaoForm from "@/components/CotacaoForm";
+import { enviarCotacao } from "@/lib/cotacoes";
 import banner from "@/assets/banners/insurance-sante-banner.jpg";
 import logo from "@/assets/parceiros/insurance-sante-logo.jpg";
 
@@ -223,6 +224,7 @@ export default function ParceiroInsurance() {
         produto={cotacao?.produto ?? null}
         categoria={cotacao?.categoria}
         onClose={() => setCotacao(null)}
+        onEnviar={enviarCotacao}
       />
     </main>
   );

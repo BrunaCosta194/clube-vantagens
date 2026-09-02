@@ -128,15 +128,19 @@ export default function CotacaoForm({
         arquivos,
       };
 
+      // Persiste (Fase B2: grava no Supabase — tabela cotacoes + Storage).
+      // Sem onEnviar (Fase B1), só registra no console.
       if (onEnviar) {
-        // Fase B2: grava no Supabase (tabela cotacoes + Storage) e notifica.
         await onEnviar(payload);
       } else {
-        // Fase B1 (MVP): registra e abre o WhatsApp da Yruena com o resumo.
         console.log("[cotacao] payload:", payload);
-        const texto = encodeURIComponent(montarResumo(produto));
-        window.open(`https://wa.me/${YRUENA_WPP}?text=${texto}`, "_blank");
       }
+
+      // Notifica a Yruena no WhatsApp com o resumo. Os documentos, quando há
+      // persistência, já ficaram salvos no bucket privado.
+      const texto = encodeURIComponent(montarResumo(produto));
+      window.open(`https://wa.me/${YRUENA_WPP}?text=${texto}`, "_blank");
+
       setEnviado(true);
     } catch (err) {
       console.error(err);
