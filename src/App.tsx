@@ -6,6 +6,7 @@ import AreaMembro from "./pages/AreaMembro";
 import Loja from "./pages/Loja";
 import PapoDeAluguel from "./pages/PapoDeAluguel";
 import Premium from "./pages/Premium";
+import ParceiroBioreluz from "./pages/ParceiroBioreluz";
 import BotaoWhatsApp from "./components/BotaoWhatsApp";
 
 export default function App() {
@@ -19,6 +20,7 @@ export default function App() {
         <Route path="/loja" element={<Loja />} />
         <Route path="/papodealuguel" element={<PapoDeAluguel />} />
         <Route path="/premium" element={<Premium />} />
+        <Route path="/parceiro/bioreluz" element={<ParceiroBioreluz />} />
       </Routes>
       <BotaoWhatsApp />
     </>
