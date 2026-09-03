@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Check, Copy, LogOut } from "lucide-react";
 import { buscarMeuPerfil, buscarMinhasIndicacoes, linkIndicacao, sair, type Indicacao, type Membro } from "../lib/membros";
+import { VOUCHER_CADASTRO_LABEL } from "../lib/recompensas";
 import logo from "../assets/marca/logo-cs.png";
 
 const statusLabel: Record<Indicacao["status"], string> = {
@@ -93,10 +94,7 @@ export default function AreaMembro() {
                 Seu voucher de boas-vindas
               </span>
               <p className="mt-3 font-display text-[clamp(2.4rem,6vw,3.4rem)] font-semibold text-white">
-                {perfil.voucher_cadastro.toLocaleString("pt-BR", {
-                  style: "currency",
-                  currency: "BRL",
-                })}
+                {VOUCHER_CADASTRO_LABEL} de desconto
               </p>
             </div>
           </div>

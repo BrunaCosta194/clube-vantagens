@@ -7,7 +7,7 @@ const passos = [
     num: "01",
     titulo: "Cadastre-se grátis",
     texto:
-      "Crie sua conta em minutos e já garanta R$100 em voucher de boas-vindas.",
+      "Crie sua conta em minutos e já garanta 5% de desconto de boas-vindas.",
   },
   {
     num: "02",

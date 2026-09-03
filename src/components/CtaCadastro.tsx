@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight, Check } from "lucide-react";
 import { Link } from "react-router-dom";
+import logoCta from "@/assets/marca/logo-cta.png";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -24,6 +25,13 @@ export default function CtaCadastro() {
           {/* profundidade sutil, sem blob genérico */}
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_120%_at_100%_0%,hsl(24_90%_58%/0.6),transparent_55%)]" />
           <div className="pointer-events-none absolute inset-0 opacity-[0.08] [background-image:linear-gradient(hsl(0_0%_100%/0.4)_1px,transparent_1px)] [background-size:100%_2.2rem]" />
+
+          {/* logo à direita — só em telas maiores (no mobile empilharia feio) */}
+          <img
+            src={logoCta}
+            alt="Sanchez Clube"
+            className="pointer-events-none absolute right-8 top-1/2 hidden w-[clamp(11rem,20vw,20rem)] -translate-y-1/2 select-none drop-shadow-[0_20px_45px_hsl(19_50%_12%/0.35)] lg:block"
+          />
 
           <div className="relative max-w-2xl">
             <span className="font-mono text-[10px] uppercase tracking-[0.26em] text-white/80">

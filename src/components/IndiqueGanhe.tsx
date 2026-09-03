@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import { VALOR_VOUCHER_CADASTRO } from "@/lib/recompensas";
+import { VOUCHER_CADASTRO_LABEL } from "@/lib/recompensas";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -53,10 +53,11 @@ export default function IndiqueGanhe() {
             Voucher de boas-vindas
           </span>
           <p className="mt-3 font-display text-[clamp(3rem,7vw,4.5rem)] font-semibold text-perola">
-            R${VALOR_VOUCHER_CADASTRO}
+            {VOUCHER_CADASTRO_LABEL}
           </p>
           <p className="mt-2 text-sm leading-relaxed text-creme/75">
-            Para todo mundo que se cadastra no clube — direto ou por indicação.
+            {VOUCHER_CADASTRO_LABEL} de desconto para todo mundo que se cadastra
+            no clube — direto ou por indicação.
           </p>
         </motion.div>
       </div>
