@@ -2,15 +2,21 @@ import { useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ProdutoCard from "../components/ProdutoCard";
-import { produtos, type CanalVenda } from "@/data/produtos";
+import { produtos, seloDoCanal, type CanalVenda } from "@/data/produtos";
 
 type Filtro = "todos" | CanalVenda;
 
+// canais que realmente têm produto agora (deriva os filtros/subtítulo).
+// Ao voltar a vender por outro canal, o filtro e o texto se ajustam sozinhos.
+const canaisAtivos = [...new Set(produtos.map((p) => p.canal))];
+
 const filtros: { valor: Filtro; label: string }[] = [
   { valor: "todos", label: "Todos" },
-  { valor: "mercadolivre", label: "Entrega Sanchez" },
-  { valor: "shopee", label: "Via Shopee" },
+  ...canaisAtivos.map((c) => ({ valor: c, label: seloDoCanal(c) })),
 ];
+
+const soShopee =
+  canaisAtivos.length === 1 && canaisAtivos[0] === "shopee";
 
 export default function Loja() {
   const [filtro, setFiltro] = useState<Filtro>("todos");
@@ -32,12 +38,16 @@ export default function Loja() {
             A loja do <span className="italic text-cobre">clube.</span>
           </h1>
           <p className="mt-4 max-w-xl text-base leading-relaxed text-grafite-soft">
-            Produtos com curadoria Sanchez. Compra segura pelo Mercado Livre
-            (em até 2x) ou pela Shopee — o selo em cada produto mostra o canal.
+            {soShopee
+              ? "Produtos com curadoria Sanchez. Compra segura pela Shopee, com a confiança de quem já é do clube."
+              : "Produtos com curadoria Sanchez. Compra segura pelo Mercado Livre (em até 2x) ou pela Shopee — o selo em cada produto mostra o canal."}
           </p>
 
-          {/* filtro por canal */}
-          <div className="mt-8 flex flex-wrap gap-2">
+          {/* filtro por canal — some quando só há um canal ativo */}
+          <div
+            className="mt-8 flex-wrap gap-2"
+            style={{ display: filtros.length > 2 ? "flex" : "none" }}
+          >
             {filtros.map((f) => (
               <button
                 key={f.valor}

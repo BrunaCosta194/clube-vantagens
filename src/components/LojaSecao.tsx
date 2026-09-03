@@ -32,9 +32,8 @@ export default function LojaSecao() {
               <span className="italic text-cobre">curadoria.</span>
             </h2>
             <p className="mt-4 max-w-md text-base leading-relaxed text-grafite-soft">
-              A curadoria que você vê no nosso Instagram, agora pra comprar.
-              Entrega Sanchez em estoque próprio ou via Shopee — sempre com a
-              confiança de quem já é do clube.
+              A curadoria que você vê no nosso Instagram, agora pra comprar —
+              pela Shopee, com a confiança de quem já é do clube.
             </p>
           </div>
 

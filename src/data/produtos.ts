@@ -11,6 +11,12 @@
 // importar aqui (padrão de src/data/parceiros.ts), recortando para 1:1.
 // ─────────────────────────────────────────────────────────────
 
+import imgXicaras from "@/assets/produtos/xicaras-vidro-canelado.jpg";
+import imgMesaCabeceira from "@/assets/produtos/mesa-cabeceira-escandinava.jpg";
+import imgBancoSapateira from "@/assets/produtos/banco-sapateira-veludo.jpg";
+import imgQuadros from "@/assets/produtos/quadros-3d-folhas.jpg";
+import imgPetisqueira from "@/assets/produtos/petisqueira-divisorias.jpg";
+
 export type CanalVenda = "mercadolivre" | "shopee";
 
 export type Produto = {
@@ -45,45 +51,65 @@ export function formatarPreco(valor: number): string {
   });
 }
 
-// TODO(Bruna/Yruena): substituir por produtos reais — nome, preço, foto,
-// canal e link de cada anúncio. Os itens abaixo são placeholders.
+// Produtos reais da curadoria (todos via Shopee, link de afiliado).
+// FOTO: pendente — salvar em src/assets/produtos/<slug>.jpg (recorte 1:1)
+// e importar aqui no topo, depois setar `imagem:` em cada item.
 export const produtos: Produto[] = [
   {
-    slug: "xicaras-sanchez",
-    nome: "Jogo de xícaras Sanchez", // TODO: nome real
+    slug: "xicaras-vidro-canelado",
+    nome: "Jogo de Xícaras de Vidro Canelado",
     descricao:
-      "As xícaras que apareceram no nosso Instagram. Curadoria Sanchez.", // TODO
-    preco: 0, // TODO: preço real
-    canal: "mercadolivre",
-    link: "#", // TODO: link do anúncio no Mercado Livre
+      "Vidro canelado que brilha na luz — jogo de xícaras com pires pra servir café e chá com ar de bistrô. Delicado, atemporal, o charme que valoriza qualquer mesa posta.",
+    preco: 175.9,
+    canal: "shopee",
+    link: "https://s.shopee.com.br/2VrRW0oYeS",
     destaque: true,
-    tags: ["Casa", "Curadoria"],
+    tags: ["Casa", "Mesa posta"],
+    imagem: imgXicaras,
   },
   {
-    slug: "produto-2",
-    nome: "Produto 2", // TODO
-    descricao: "Descrição do produto.", // TODO
-    preco: 0, // TODO
-    canal: "mercadolivre",
-    link: "#", // TODO
-    tags: ["TODO"],
-  },
-  {
-    slug: "produto-3",
-    nome: "Produto 3", // TODO
-    descricao: "Descrição do produto.", // TODO
-    preco: 0, // TODO
+    slug: "mesa-cabeceira-escandinava",
+    nome: "Mesa de Cabeceira Retrô Escandinava",
+    descricao:
+      "Criado-mudo de linha escandinava, madeira e off-white com pés palito. Três nichos abertos pra deixar livros, plantas e o essencial da noite sempre à mão — organização quentinha ao lado da cama.",
+    preco: 65.47,
     canal: "shopee",
-    link: "#", // TODO: link do anúncio na Shopee
-    tags: ["TODO"],
+    link: "https://s.shopee.com.br/7VG7TH7Ib4",
+    tags: ["Móveis", "Quarto"],
+    imagem: imgMesaCabeceira,
   },
   {
-    slug: "produto-4",
-    nome: "Produto 4", // TODO
-    descricao: "Descrição do produto.", // TODO
-    preco: 0, // TODO
+    slug: "banco-sapateira-veludo",
+    nome: "Banco Sapateira com Veludo Rosê",
+    descricao:
+      "Assento estofado em veludo rosê sobre estrutura dourada — banco e sapateira no mesmo móvel. Na entrada ou no closet: você senta pra calçar e ainda organiza os pares nas duas prateleiras. Luxo funcional.",
+    preco: 259.89,
     canal: "shopee",
-    link: "#", // TODO
-    tags: ["TODO"],
+    link: "https://s.shopee.com.br/4LJ5hUEHhp",
+    destaque: true,
+    tags: ["Móveis", "Organização"],
+    imagem: imgBancoSapateira,
+  },
+  {
+    slug: "quadros-3d-folhas",
+    nome: "Dupla de Quadros Decorativos 3D",
+    descricao:
+      "Par de quadros com efeito 3D em relevo — folhagens em tons rosê e dourado que dão profundidade e sofisticação à parede. Vêm em dupla pra compor uma galeria certeira na sala ou no quarto.",
+    preco: 49.99,
+    canal: "shopee",
+    link: "https://s.shopee.com.br/50YmUkO03B",
+    tags: ["Decoração", "Parede"],
+    imagem: imgQuadros,
+  },
+  {
+    slug: "petisqueira-divisorias",
+    nome: "Petisqueira Organizadora com Divisórias",
+    descricao:
+      "Caixa organizadora com divisórias removíveis, tampa e alça pra carregar — petisqueira que vai da geladeira à mesa sem bagunça. Ideal pra frutas, castanhas e petiscos numa recepção caprichada.",
+    preco: 39.99,
+    canal: "shopee",
+    link: "https://s.shopee.com.br/9AOLSR38Wq",
+    tags: ["Casa", "Cozinha"],
+    imagem: imgPetisqueira,
   },
 ];
