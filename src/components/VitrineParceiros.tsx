@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { parceiros, type Parceiro } from "@/data/parceiros";
 import ParceiroModal from "./ParceiroModal";
 
@@ -33,16 +34,17 @@ export default function VitrineParceiros() {
         {/* mobile: carrossel horizontal com swipe + peek; sm+: grid */}
         <div className="-mx-6 mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-6 px-6 pb-2 no-scrollbar sm:mx-0 sm:mt-14 sm:grid sm:snap-none sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3">
           {parceiros.map((p, i) => (
-            <motion.button
+            <motion.div
               key={p.slug}
-              onClick={() => setAberto(p)}
               initial={{ opacity: 0, y: 28, filter: "blur(6px)" }}
               whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.7, delay: (i % 3) * 0.1, ease }}
-              className="group min-w-[80%] shrink-0 snap-start text-left sm:min-w-0 sm:shrink"
+              className="group min-w-[80%] shrink-0 snap-start sm:min-w-0 sm:shrink"
             >
-              <div className="bezel h-full transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-1.5 group-hover:shadow-[0_50px_90px_-45px_hsl(19_40%_14%/0.4)]">
+              {(() => {
+                const inner = (
+                  <div className="bezel h-full transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-1.5 group-hover:shadow-[0_50px_90px_-45px_hsl(19_40%_14%/0.4)]">
                 <div className="bezel-core relative aspect-[16/10]">
                   <img
                     src={p.imagem}
@@ -76,8 +78,25 @@ export default function VitrineParceiros() {
                     </span>
                   </div>
                 </div>
-              </div>
-            </motion.button>
+                  </div>
+                );
+                return p.pagina ? (
+                  <Link
+                    to={p.pagina}
+                    className="block h-full w-full text-left"
+                  >
+                    {inner}
+                  </Link>
+                ) : (
+                  <button
+                    onClick={() => setAberto(p)}
+                    className="block h-full w-full text-left"
+                  >
+                    {inner}
+                  </button>
+                );
+              })()}
+            </motion.div>
           ))}
         </div>
       </div>

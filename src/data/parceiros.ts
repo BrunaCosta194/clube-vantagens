@@ -28,6 +28,8 @@ export type Parceiro = {
   site?: string; // TODO: preencher com o link real de cada parceiro
   whatsapp?: string; // link completo (wa.me/..., wa.me/qr/..., api.whatsapp.com/message/...)
   tags: string[];
+  /** Se preenchido, o card abre esta página interna em vez do modal raso. */
+  pagina?: string;
 };
 
 export const parceiros: Parceiro[] = [
@@ -45,6 +47,7 @@ export const parceiros: Parceiro[] = [
     whatsapp: "https://wa.me/5511930937483?text=Te%20encontrei%20no%20site%20da%20Sanchez!",
     site: "https://www.instagram.com/bioreluz/",
     tags: ["Limpeza", "Impermeabilização", "Descartáveis"],
+    pagina: "/parceiro/bioreluz",
   },
   {
     slug: "insurance-sante",
@@ -60,6 +63,7 @@ export const parceiros: Parceiro[] = [
     whatsapp: "https://api.whatsapp.com/message/AEEL7PQ7XR67E1?autoload=1&app_absent=0",
     site: "https://www.instagram.com/insurancesante/",
     tags: ["Seguro de Vida", "Seguro Auto", "Consórcio", "Planos de Saúde"],
+    pagina: "/parceiro/insurance-sante",
   },
   {
     slug: "mrt-arquitetura",
