@@ -60,7 +60,7 @@ export default function LojaSecao() {
           {vitrine.map((p) => (
             <div
               key={p.slug}
-              className="min-w-[80%] shrink-0 snap-start sm:min-w-0 sm:shrink"
+              className="w-[72%] min-w-0 shrink-0 snap-start sm:w-auto sm:shrink"
             >
               <ProdutoCard produto={p} />
             </div>
