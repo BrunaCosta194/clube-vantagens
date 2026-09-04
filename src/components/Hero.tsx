@@ -32,7 +32,9 @@ export default function Hero() {
   const revealFilter = useTransform(revealBlurPx, (v) => `blur(${v}px)`);
 
   // parallax: a foto "flutua" dentro da moldura enquanto a seção passa pela tela
-  const imgParallaxY = useTransform(scrollYProgress, [0, 1], [-26, 26]);
+  // foto (2:3) é mais alta que a moldura (4:5) → há folga só embaixo;
+  // parallax move dentro dessa folga (sem scale, pra não cortar o rosto)
+  const imgParallaxY = useTransform(scrollYProgress, [0, 1], [0, -18]);
 
   return (
     <section className="relative overflow-hidden bg-club-hero">
@@ -119,7 +121,7 @@ export default function Hero() {
               <motion.img
                 src={yruena}
                 alt="Yruena — à frente do Sanchez Clube"
-                style={{ y: imgParallaxY, scale: 1.15 }}
+                style={{ y: imgParallaxY }}
                 className="aspect-[4/5] w-full object-cover object-top"
               />
             </div>
