@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight, Check } from "lucide-react";
 import { Link } from "react-router-dom";
-import logoCta from "@/assets/marca/logo-cta.png";
+import logoCta from "@/assets/marca/logo-sanchez.png";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -30,7 +30,7 @@ export default function CtaCadastro() {
           <img
             src={logoCta}
             alt="Sanchez Clube"
-            className="pointer-events-none absolute right-8 top-1/2 hidden w-[clamp(11rem,20vw,20rem)] -translate-y-1/2 select-none drop-shadow-[0_20px_45px_hsl(19_50%_12%/0.35)] lg:block"
+            className="pointer-events-none absolute right-6 top-1/2 hidden w-[clamp(13rem,24vw,24rem)] -translate-y-1/2 select-none drop-shadow-[0_20px_45px_hsl(19_50%_12%/0.35)] lg:block"
           />
 
           <div className="relative max-w-2xl">

@@ -51,8 +51,9 @@ export default function BannerCarousel() {
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         className="relative mx-auto w-full max-w-[92rem] px-4 sm:px-6"
       >
-        {/* banners coded são responsivos: mais altos no celular, faixa no desktop */}
-        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[1.75rem] shadow-lux sm:aspect-[16/9] lg:aspect-[64/17]">
+        {/* banners são imagens (1920x465); container casa a proporção para
+            mostrar o banner inteiro sem corte, em qualquer tela */}
+        <div className="relative aspect-[1920/465] w-full overflow-hidden rounded-[1.75rem] shadow-lux">
           <AnimatePresence initial={false} custom={dir} mode="popLayout">
             <motion.div
               key={slides[index].key}

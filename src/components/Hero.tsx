@@ -3,7 +3,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { parceiros } from "@/data/parceiros";
-import yruena from "@/assets/marca/yruena.png";
+import yruena from "@/assets/marca/yruena-hero.jpg";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
