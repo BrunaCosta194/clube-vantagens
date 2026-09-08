@@ -111,11 +111,6 @@ export default function Hero() {
           style={{ y: revealY, opacity: revealOpacity, scale: revealScale, filter: revealFilter }}
           className="relative mx-auto w-full max-w-[19rem] sm:max-w-md lg:mr-0"
         >
-          {/* etiqueta vertical */}
-          <span className="absolute -left-4 top-8 hidden font-mono text-[10px] uppercase tracking-[0.32em] text-grafite-muted [writing-mode:vertical-rl] lg:block">
-            Est. Mogi das Cruzes
-          </span>
-
           <div className="bezel">
             <div className="bezel-core">
               <motion.img
@@ -138,11 +133,6 @@ export default function Hero() {
                 Sanchez Clube
               </p>
             </div>
-          </div>
-
-          {/* selo cobre */}
-          <div className="absolute -right-2 top-5 rounded-full border border-cobre-line/40 bg-creme/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-cobre-deep shadow-lux-sm backdrop-blur-sm sm:-right-3 sm:top-6 sm:px-3.5 sm:text-[10px]">
-            Sanchez Premium
           </div>
         </motion.div>
       </div>
