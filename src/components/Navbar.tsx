@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowUpRight, Menu, X } from "lucide-react";
+import { ArrowUpRight, Menu, UserRound, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "@/assets/marca/logo-cs.png";
 import QuemSomos from "./QuemSomos";
+import { primeiroNome, useSessao } from "@/lib/sessao";
 
 type NavLink = { label: string; href?: string; to?: string; modal?: boolean };
 
@@ -21,6 +22,10 @@ export default function Navbar() {
   const [quemSomos, setQuemSomos] = useState(false);
   const location = useLocation();
   const naHome = location.pathname === "/";
+  const { usuario, nome, carregando } = useSessao();
+  // Enquanto lê a sessão do localStorage, segura o estado de visitante: piscar
+  // "Entrar" e trocar por "Minha área" logo depois fica pior que esperar.
+  const logada = !carregando && usuario !== null;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 32);
@@ -90,22 +95,42 @@ export default function Navbar() {
           )}
         </div>
 
-        <Link
-          to="/login"
-          className="rounded-full px-3 py-2 text-sm font-medium text-grafite-soft transition-colors duration-300 hover:bg-grafite/5 hover:text-grafite sm:px-3.5"
-        >
-          Entrar
-        </Link>
+        {logada ? (
+          <>
+            <span className="hidden px-3 py-2 text-sm font-medium text-grafite-soft sm:block sm:px-3.5">
+              Olá, {primeiroNome(nome)}
+            </span>
 
-        <Link
-          to="/cadastro"
-          className="group inline-flex items-center gap-2 rounded-full bg-cobre py-2 pl-4 pr-2 text-sm font-medium text-perola transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-cobre-deep active:scale-[0.98]"
-        >
-          Fazer parte
-          <span className="grid h-7 w-7 place-items-center rounded-full bg-white/10 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-            <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={1.5} />
-          </span>
-        </Link>
+            <Link
+              to="/area"
+              className="group inline-flex items-center gap-2 rounded-full bg-cobre py-2 pl-4 pr-2 text-sm font-medium text-perola transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-cobre-deep active:scale-[0.98]"
+            >
+              Minha área
+              <span className="grid h-7 w-7 place-items-center rounded-full bg-white/10 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                <UserRound className="h-3.5 w-3.5" strokeWidth={1.5} />
+              </span>
+            </Link>
+          </>
+        ) : (
+          <>
+            <Link
+              to="/login"
+              className="rounded-full px-3 py-2 text-sm font-medium text-grafite-soft transition-colors duration-300 hover:bg-grafite/5 hover:text-grafite sm:px-3.5"
+            >
+              Entrar
+            </Link>
+
+            <Link
+              to="/cadastro"
+              className="group inline-flex items-center gap-2 rounded-full bg-cobre py-2 pl-4 pr-2 text-sm font-medium text-perola transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-cobre-deep active:scale-[0.98]"
+            >
+              Fazer parte
+              <span className="grid h-7 w-7 place-items-center rounded-full bg-white/10 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={1.5} />
+              </span>
+            </Link>
+          </>
+        )}
 
         {/* menu do celular — no desktop os links já aparecem inteiros */}
         <button
@@ -139,6 +164,13 @@ export default function Navbar() {
               transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
               className="absolute inset-x-4 top-[calc(100%+0.5rem)] rounded-[1.75rem] border border-grafite/10 bg-creme p-3 shadow-lux md:hidden"
             >
+              {/* No celular a saudação não cabe na barra; aparece aqui. */}
+              {logada && (
+                <p className="border-b border-grafite/10 px-4 pb-3 pt-1 font-mono text-[11px] uppercase tracking-[0.18em] text-grafite-muted">
+                  Olá, {primeiroNome(nome)}
+                </p>
+              )}
+
               {links.map((l) =>
                 l.modal ? (
                   <button

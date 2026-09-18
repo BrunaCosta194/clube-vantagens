@@ -8,10 +8,11 @@ import PapoDeAluguel from "./pages/PapoDeAluguel";
 import ParceiroBioreluz from "./pages/ParceiroBioreluz";
 import ParceiroInsurance from "./pages/ParceiroInsurance";
 import BotaoWhatsApp from "./components/BotaoWhatsApp";
+import { SessaoProvider } from "./lib/sessao";
 
 export default function App() {
   return (
-    <>
+    <SessaoProvider>
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/cadastro" element={<Cadastro />} />
@@ -26,6 +27,6 @@ export default function App() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <BotaoWhatsApp />
-    </>
+    </SessaoProvider>
   );
 }

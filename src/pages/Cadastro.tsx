@@ -1,7 +1,8 @@
 import { type FormEvent, useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import AuthLayout, { inputClass, labelClass } from "../components/AuthLayout";
 import { criarMembro, normalizarDocumento } from "../lib/membros";
+import { useSessao } from "../lib/sessao";
 
 function mensagemDeErro(erro: string): string {
   if (erro.includes("already registered") || erro.includes("already been registered")) {
@@ -34,6 +35,10 @@ export default function Cadastro() {
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
   const [aguardandoConfirmacao, setAguardandoConfirmacao] = useState(false);
+  const { usuario, carregando: lendoSessao } = useSessao();
+  // O signUp cria sessão na hora. Sem esta marca, o guarda de "já logada"
+  // dispararia no meio do cadastro e roubaria o destino do ?next=.
+  const [enviou, setEnviou] = useState(false);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -57,6 +62,7 @@ export default function Cadastro() {
       return;
     }
 
+    setEnviou(true);
     setCarregando(true);
     const { data, error } = await criarMembro({
       nome,
@@ -80,6 +86,9 @@ export default function Cadastro() {
       setAguardandoConfirmacao(true);
     }
   }
+
+  // Já logada: cadastro de novo criaria uma segunda conta sem querer.
+  if (!lendoSessao && usuario && !enviou) return <Navigate to="/area" replace />;
 
   if (aguardandoConfirmacao) {
     return (

@@ -1,12 +1,17 @@
 import { type FormEvent, useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import AuthLayout, { inputClass, labelClass } from "../components/AuthLayout";
 import { entrar } from "../lib/membros";
+import { useSessao } from "../lib/sessao";
 
 export default function Login() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const next = searchParams.get("next");
+  const { usuario, carregando: lendoSessao } = useSessao();
+  // Login leva pra home: quem já é membro conhece o voucher e quer navegar.
+  // O ?next= (gate do e-book) continua tendo prioridade.
+  const destino = next || "/";
   const cadastroHref = next ? `/cadastro?next=${encodeURIComponent(next)}` : "/cadastro";
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
@@ -26,8 +31,12 @@ export default function Login() {
       return;
     }
 
-    navigate(next || "/area");
+    navigate(destino);
   }
+
+  // Já logada: não faz sentido mostrar o formulário — entrar de novo só
+  // arrisca desfazer a sessão que já está valendo.
+  if (!lendoSessao && usuario) return <Navigate to={destino} replace />;
 
   return (
     <AuthLayout

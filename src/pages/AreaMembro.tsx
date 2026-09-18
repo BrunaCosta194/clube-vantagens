@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Check, Copy, LogOut } from "lucide-react";
 import { buscarMeuPerfil, buscarMinhasIndicacoes, linkIndicacao, sair, type Indicacao, type Membro } from "../lib/membros";
+import { useSessao } from "../lib/sessao";
 import { VOUCHER_CADASTRO_LABEL } from "../lib/recompensas";
 import logo from "../assets/marca/logo-cs.png";
 
@@ -12,12 +13,22 @@ const statusLabel: Record<Indicacao["status"], string> = {
 
 export default function AreaMembro() {
   const navigate = useNavigate();
+  const { usuario, carregando: lendoSessao } = useSessao();
   const [perfil, setPerfil] = useState<Membro | null>(null);
   const [indicacoes, setIndicacoes] = useState<Indicacao[]>([]);
   const [carregando, setCarregando] = useState(true);
   const [copiado, setCopiado] = useState(false);
 
   useEffect(() => {
+    // Espera a sessão ser lida antes de decidir qualquer coisa — sem isso,
+    // recarregar a página mandaria a pessoa logada pro login.
+    if (lendoSessao) return;
+
+    if (!usuario) {
+      navigate("/login");
+      return;
+    }
+
     let ativo = true;
 
     async function carregar() {
@@ -41,11 +52,13 @@ export default function AreaMembro() {
     return () => {
       ativo = false;
     };
-  }, [navigate]);
+  }, [lendoSessao, usuario, navigate]);
 
   async function handleSair() {
     await sair();
-    navigate("/login");
+    // Volta pra home: o provider derruba a sessão e a navbar volta ao estado
+    // de visitante na hora, sem reload.
+    navigate("/");
   }
 
   async function copiarLink() {
@@ -55,7 +68,7 @@ export default function AreaMembro() {
     setTimeout(() => setCopiado(false), 2000);
   }
 
-  if (carregando) {
+  if (lendoSessao || carregando) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-warm-wash">
         <p className="text-sm text-grafite-muted">Carregando...</p>
