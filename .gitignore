@@ -9,3 +9,4 @@ dist-ssr
 
 .vercel
 .claude/settings.local.json
+supabase/.temp
