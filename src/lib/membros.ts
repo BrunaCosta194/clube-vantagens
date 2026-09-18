@@ -8,7 +8,7 @@ export interface Membro {
   documento: string;
   codigo_indicacao: string;
   indicado_por: string | null;
-  voucher_cadastro: number;
+  voucher_cadastro: string;
   status: "lead" | "membro" | "cliente";
   origem: string;
   consentimento_lgpd_em: string | null;

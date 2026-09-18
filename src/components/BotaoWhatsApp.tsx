@@ -1,6 +1,6 @@
 // Botão flutuante do WhatsApp — canto inferior direito, mobile + desktop.
-// TODO: trocar NUMERO pelo WhatsApp real do clube (só dígitos, com DDI 55).
-const NUMERO = "5511999999999"; // PLACEHOLDER — número provisório
+// WhatsApp do clube (Yruena). Só dígitos, com DDI 55.
+const NUMERO = "5511971796030";
 const MENSAGEM = "Olá! Tenho uma dúvida sobre o Sanchez Clube.";
 
 export default function BotaoWhatsApp() {
