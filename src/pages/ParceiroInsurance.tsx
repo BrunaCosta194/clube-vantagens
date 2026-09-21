@@ -20,7 +20,7 @@ import {
 import CotacaoForm from "@/components/CotacaoForm";
 import { enviarCotacao } from "@/lib/cotacoes";
 import banner from "@/assets/banners/insurance-sante-banner.jpg";
-import logo from "@/assets/parceiros/insurance-sante-logo.jpg";
+import logo from "@/assets/parceiros/insurance-sante-logo.png";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 

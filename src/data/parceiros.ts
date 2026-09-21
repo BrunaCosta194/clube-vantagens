@@ -5,14 +5,14 @@
 // Troque por logos/artes definitivas quando a Yruena aprovar o layout.
 // ─────────────────────────────────────────────────────────────
 
-import bioreluz from "@/assets/parceiros/bioreluz-logo-v2.jpg";
-import insuranceSante from "@/assets/parceiros/insurance-sante-logo.jpg";
-import mrt from "@/assets/parceiros/mrt-logo-v2.jpg";
-import oticasDiniz from "@/assets/parceiros/oticas-diniz-logo.jpg";
+import bioreluz from "@/assets/parceiros/bioreluz-logo-v2.png";
+import insuranceSante from "@/assets/parceiros/insurance-sante-logo.png";
+import mrt from "@/assets/parceiros/mrt-logo-v2.png";
+import oticasDiniz from "@/assets/parceiros/oticas-diniz-logo.png";
 import remalar from "@/assets/parceiros/remalar-logo.jpg";
 import renovaLar from "@/assets/parceiros/renova-lar-logo.jpg";
 import lumineStudio from "@/assets/parceiros/lumine-studio-logo.jpg";
-import vidracariaAv from "@/assets/parceiros/vidracaria-av-logo.jpg";
+import vidracariaAv from "@/assets/parceiros/vidracaria-av-logo.png";
 
 export type Parceiro = {
   slug: string;

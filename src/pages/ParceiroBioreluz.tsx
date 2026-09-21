@@ -16,7 +16,7 @@ import {
   type ServicoBioreluz,
 } from "@/data/bioreluzServicos";
 import banner from "@/assets/banners/bioreluz-banner.jpg";
-import logo from "@/assets/parceiros/bioreluz-logo-v2.jpg";
+import logo from "@/assets/parceiros/bioreluz-logo-v2.png";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 const WHATS =
