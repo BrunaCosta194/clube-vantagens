@@ -45,7 +45,7 @@ export default function VitrineParceiros() {
               {(() => {
                 const inner = (
                   <div className="bezel h-full transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-1.5 group-hover:shadow-[0_50px_90px_-45px_hsl(19_40%_14%/0.4)]">
-                <div className="bezel-core relative aspect-[16/9] bg-white sm:aspect-[16/10]">
+                <div className="bezel-core relative aspect-[16/9] overflow-hidden bg-white sm:aspect-[16/10]">
                   <img
                     src={p.imagem}
                     alt={p.nome}
