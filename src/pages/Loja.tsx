@@ -54,7 +54,7 @@ export default function Loja() {
                 onClick={() => setFiltro(f.valor)}
                 className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors duration-300 ${
                   filtro === f.valor
-                    ? "border-cobre bg-cobre text-perola"
+                    ? "border-cobre-deep bg-cobre-deep text-perola"
                     : "border-cobre-line/30 text-grafite-soft hover:border-cobre hover:text-cobre-deep"
                 }`}
               >

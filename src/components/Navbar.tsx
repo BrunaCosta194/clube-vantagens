@@ -103,7 +103,7 @@ export default function Navbar() {
 
             <Link
               to="/area"
-              className="group inline-flex items-center gap-2 rounded-full bg-cobre py-2 pl-4 pr-2 text-sm font-medium text-perola transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-cobre-deep active:scale-[0.98]"
+              className="group inline-flex items-center gap-2 rounded-full bg-cobre-deep py-2 pl-4 pr-2 text-sm font-medium text-perola transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-grafite active:scale-[0.98]"
             >
               Minha área
               <span className="grid h-7 w-7 place-items-center rounded-full bg-white/10 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
@@ -122,7 +122,7 @@ export default function Navbar() {
 
             <Link
               to="/cadastro"
-              className="group inline-flex items-center gap-2 rounded-full bg-cobre py-2 pl-4 pr-2 text-sm font-medium text-perola transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-cobre-deep active:scale-[0.98]"
+              className="group inline-flex items-center gap-2 rounded-full bg-cobre-deep py-2 pl-4 pr-2 text-sm font-medium text-perola transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-grafite active:scale-[0.98]"
             >
               Fazer parte
               <span className="grid h-7 w-7 place-items-center rounded-full bg-white/10 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
