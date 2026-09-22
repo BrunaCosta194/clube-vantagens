@@ -90,7 +90,12 @@ export async function track(
 
   try {
     const atribuicao = getAtribuicao();
-    const sessao = opcoes.sessao !== undefined ? opcoes.sessao : getSessaoAtualCache();
+    const sessaoLida = opcoes.sessao !== undefined ? opcoes.sessao : getSessaoAtualCache();
+    // Token vencido (aba parada horas, refresh ainda não rodou) → a REST
+    // responde 401 e o evento se perde. Nesse caso grava como visitante.
+    const vencida =
+      !!sessaoLida?.expires_at && sessaoLida.expires_at * 1000 <= Date.now();
+    const sessao = vencida ? null : sessaoLida;
     const token = sessao?.access_token || SUPABASE_ANON_KEY;
 
     const corpo = {
