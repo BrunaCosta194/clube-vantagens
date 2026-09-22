@@ -3,7 +3,11 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { parceiros } from "@/data/parceiros";
+import { anosDeSanchez } from "@/lib/marca";
+import { VOUCHER_CADASTRO_LABEL } from "@/lib/recompensas";
 import yruena from "@/assets/marca/yruena-hero.jpg";
+
+const parceirosAtivos = parceiros.filter((p) => p.ativo !== false).length;
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -59,10 +63,10 @@ export default function Hero() {
             animate="show"
             className="mt-6 max-w-md text-base leading-relaxed text-grafite-soft sm:mt-7 sm:text-lg"
           >
-            Descontos e serviços com parceiros selecionados pela Sanchez
-            Imóveis, que há 53 anos faz negócios imobiliários com excelência
-            em Mogi das Cruzes e no Alto Tietê. O clube é a nossa forma de
-            retribuir essa confiança.
+            Há {anosDeSanchez()} anos, a Sanchez Imóveis realiza negócios
+            imobiliários em Mogi das Cruzes e no Alto Tietê. O Clube Sanchez
+            amplia essa relação, reunindo benefícios, serviços, produtos e
+            oportunidades selecionados para a nossa comunidade.
           </motion.p>
 
           <motion.div
@@ -91,13 +95,13 @@ export default function Hero() {
             className="mt-10 flex flex-wrap gap-x-8 gap-y-4 border-t border-grafite/10 pt-6 sm:mt-12 sm:gap-x-10 sm:pt-7"
           >
             {[
-              { n: parceiros.length.toString().padStart(2, "0"), l: "Parceiros ativos" },
-              { n: "53", l: "Anos de Sanchez" },
-              { n: "R$200", l: "Já na 1ª vantagem" },
+              { n: parceirosAtivos.toString().padStart(2, "0"), l: "Parceiros ativos" },
+              { n: anosDeSanchez().toString(), l: "Anos de Sanchez" },
+              { n: VOUCHER_CADASTRO_LABEL, l: "De boas-vindas" },
             ].map((s) => (
               <div key={s.l}>
                 <dt className="font-mono text-2xl font-semibold text-grafite">{s.n}</dt>
-                <dd className="mt-0.5 text-xs uppercase tracking-[0.14em] text-grafite-muted">
+                <dd className="mt-0.5 text-xs uppercase tracking-[0.14em] text-grafite-soft">
                   {s.l}
                 </dd>
               </div>
@@ -115,7 +119,7 @@ export default function Hero() {
             <div className="bezel-core">
               <motion.img
                 src={yruena}
-                alt="Yruena — à frente do Sanchez Clube"
+                alt="Yruena — à frente do Clube Sanchez"
                 style={{ y: imgParallaxY }}
                 className="aspect-[4/5] w-full object-cover object-top"
               />
@@ -129,8 +133,8 @@ export default function Hero() {
             </span>
             <div>
               <p className="text-sm font-semibold leading-tight text-grafite">Yruena</p>
-              <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-grafite-muted">
-                Sanchez Clube
+              <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-grafite-soft">
+                Clube Sanchez
               </p>
             </div>
           </div>

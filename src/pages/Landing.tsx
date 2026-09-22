@@ -4,8 +4,6 @@ import Hero from "../components/Hero";
 import VitrineParceiros from "../components/VitrineParceiros";
 import LojaSecao from "../components/LojaSecao";
 import ComoFunciona from "../components/ComoFunciona";
-import IndiqueGanhe from "../components/IndiqueGanhe";
-import CtaCadastro from "../components/CtaCadastro";
 import Footer from "../components/Footer";
 
 export default function Landing() {
@@ -18,8 +16,6 @@ export default function Landing() {
         <VitrineParceiros />
         <LojaSecao />
         <ComoFunciona />
-        <IndiqueGanhe />
-        <CtaCadastro />
       </main>
       <Footer />
     </div>

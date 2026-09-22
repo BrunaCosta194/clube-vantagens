@@ -11,7 +11,7 @@ export default function VitrineParceiros() {
   const [aberto, setAberto] = useState<Parceiro | null>(null);
 
   return (
-    <section id="parceiros" className="bg-warm-wash py-16 sm:py-24 lg:py-32">
+    <section id="parceiros" className="section-y bg-warm-wash">
       <div className="container-club">
         {/* cabeçalho editorial */}
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
@@ -26,8 +26,9 @@ export default function VitrineParceiros() {
               Vantagens de quem a Sanchez confia
             </h2>
           </motion.div>
-          <p className="max-w-xs text-sm leading-relaxed text-grafite-muted md:text-right">
-            Toque em um parceiro para ver o benefício, o contato e o site.
+          <p className="max-w-xs text-sm leading-relaxed text-grafite-soft md:text-right">
+            Escolha um parceiro para conhecer o benefício, as condições e os
+            canais de atendimento.
           </p>
         </div>
 
@@ -71,12 +72,14 @@ export default function VitrineParceiros() {
                   <p className="mt-1.5 line-clamp-2 text-[13px] leading-relaxed text-grafite-soft sm:mt-2 sm:line-clamp-none sm:text-sm">
                     {p.descricaoCurta}
                   </p>
-                  <div className="mt-3 flex items-center gap-2 border-t border-grafite/10 pt-3 sm:mt-4 sm:pt-4">
-                    <span className="h-1.5 w-1.5 rounded-full bg-cobre" />
-                    <span className="font-mono text-[11px] font-medium tracking-wide text-cobre-deep sm:text-xs">
-                      {p.voucher}
-                    </span>
-                  </div>
+                  {p.voucher && (
+                    <div className="mt-3 flex items-center gap-2 border-t border-grafite/10 pt-3 sm:mt-4 sm:pt-4">
+                      <span className="h-1.5 w-1.5 rounded-full bg-cobre" />
+                      <span className="font-mono text-[11px] font-medium tracking-wide text-cobre-deep sm:text-xs">
+                        {p.voucher}
+                      </span>
+                    </div>
+                  )}
                 </div>
                   </div>
                 );

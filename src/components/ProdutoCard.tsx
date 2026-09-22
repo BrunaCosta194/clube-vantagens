@@ -75,7 +75,7 @@ export default function ProdutoCard({ produto }: { produto: Produto }) {
             href={produto.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-cobre px-5 py-2.5 text-sm font-medium text-perola transition-all duration-500 ease-lux hover:bg-cobre-deep active:scale-[0.98]"
+            className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-cobre-deep px-5 py-2.5 text-sm font-medium text-perola transition-all duration-500 ease-lux hover:bg-grafite active:scale-[0.98]"
           >
             <ShoppingBag className="h-4 w-4" strokeWidth={1.5} />
             {produto.canal === "mercadolivre" ? "Comprar" : "Ver na Shopee"}

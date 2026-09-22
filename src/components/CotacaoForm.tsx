@@ -408,7 +408,7 @@ export default function CotacaoForm({
                 <button
                   type="submit"
                   disabled={enviando}
-                  className="flex w-full items-center justify-center gap-2 rounded-full bg-cobre px-5 py-3.5 text-sm font-semibold text-perola shadow-card transition hover:bg-cobre-deep disabled:opacity-60"
+                  className="flex w-full items-center justify-center gap-2 rounded-full bg-cobre-deep px-5 py-3.5 text-sm font-semibold text-perola shadow-card transition hover:bg-grafite disabled:opacity-60"
                 >
                   {enviando ? (
                     <Loader2 className="h-4 w-4 animate-spin" strokeWidth={2} />

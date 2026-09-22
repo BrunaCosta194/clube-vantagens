@@ -10,6 +10,16 @@
 
   html {
     scroll-behavior: smooth;
+    /* Navbar é fixed (header pt-4 + nav ~65.6px = ~81.6px no mobile;
+       pt-6 + nav = ~89.6px a partir do breakpoint sm). Folga extra pra o
+       título da seção não ficar colado no menu ao navegar por /#âncora. */
+    scroll-padding-top: 108px;
+  }
+
+  @media (min-width: 640px) {
+    html {
+      scroll-padding-top: 120px;
+    }
   }
 
   body {
@@ -74,6 +84,12 @@ body::after {
 
   .rule {
     @apply h-px w-full bg-grafite/10;
+  }
+
+  /* Padding vertical padrão das seções da home — reduzido em relação ao
+     antigo py-16 sm:py-24 lg:py-32, pra cortar espaço vazio entre blocos. */
+  .section-y {
+    @apply py-12 sm:py-16 lg:py-20;
   }
 }
 

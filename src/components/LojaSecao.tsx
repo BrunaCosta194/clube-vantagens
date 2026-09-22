@@ -14,7 +14,7 @@ export default function LojaSecao() {
     .slice(0, 4);
 
   return (
-    <section id="loja" className="bg-warm-wash py-16 sm:py-24 lg:py-32">
+    <section id="loja" className="section-y bg-warm-wash">
       <div className="container-club">
         <motion.div
           initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
@@ -24,16 +24,15 @@ export default function LojaSecao() {
           className="flex flex-wrap items-end justify-between gap-6"
         >
           <div className="max-w-xl">
-            <p className="font-mono text-xs uppercase tracking-[0.18em] text-cobre-deep">
+            <h2 className="h-display text-[clamp(2rem,4.5vw,3.25rem)]">
               Loja Sanchez
-            </p>
-            <h2 className="mt-3 h-display text-[clamp(2rem,4.5vw,3.25rem)]">
-              Produtos com{" "}
-              <span className="italic text-cobre">curadoria.</span>
             </h2>
+            <p className="mt-2 font-mono text-sm font-medium uppercase tracking-[0.14em] text-cobre-deep">
+              Produtos com curadoria
+            </p>
             <p className="mt-4 max-w-md text-base leading-relaxed text-grafite-soft">
-              A curadoria que você vê no nosso Instagram, agora pra comprar —
-              pela Shopee, com a confiança de quem já é do clube.
+              A curadoria presente nos serviços da Sanchez agora também está
+              disponível para compra pela Loja Sanchez e pela Shopee.
             </p>
           </div>
 
