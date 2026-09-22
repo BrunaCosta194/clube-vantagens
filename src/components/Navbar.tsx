@@ -1,25 +1,25 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowUpRight, Menu, UserRound, X } from "lucide-react";
+import { Menu, UserRound, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "@/assets/marca/logo-cs.png";
-import QuemSomos from "./QuemSomos";
 import { primeiroNome, useSessao } from "@/lib/sessao";
 
-type NavLink = { label: string; href?: string; to?: string; modal?: boolean };
+type NavLink = { label: string; href?: string; to?: string };
 
+// Menu recomendado no briefing (Clube Sanchez é a marca/logo à esquerda,
+// Minha área é o botão à direita — não entram nessa lista).
 const links: NavLink[] = [
   { label: "Loja", to: "/loja" },
-  { label: "Quem somos", modal: true },
+  { label: "Comunidade Sanchez", to: "/cadastro" },
   { href: "#parceiros", label: "Parceiros" },
   { href: "#como-funciona", label: "Como funciona" },
-  { href: "#indique", label: "Indique & ganhe" },
+  { href: "#indique", label: "Indique e ganhe" },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [aberto, setAberto] = useState(false);
-  const [quemSomos, setQuemSomos] = useState(false);
   const location = useLocation();
   const naHome = location.pathname === "/";
   const { usuario, nome, carregando } = useSessao();
@@ -65,17 +65,9 @@ export default function Navbar() {
           </span>
         </Link>
 
-        <div className="mx-1 hidden items-center gap-1 md:flex">
+        <div className="mx-1 hidden items-center gap-1 lg:flex">
           {links.map((l) =>
-            l.modal ? (
-              <button
-                key={l.label}
-                onClick={() => setQuemSomos(true)}
-                className="rounded-full px-3.5 py-2 text-sm font-medium text-grafite-soft transition-colors duration-300 hover:bg-grafite/5 hover:text-grafite"
-              >
-                {l.label}
-              </button>
-            ) : l.to ? (
+            l.to ? (
               <Link
                 key={l.to}
                 to={l.to}
@@ -95,49 +87,30 @@ export default function Navbar() {
           )}
         </div>
 
-        {logada ? (
-          <>
-            <span className="hidden px-3 py-2 text-sm font-medium text-grafite-soft sm:block sm:px-3.5">
-              Olá, {primeiroNome(nome)}
-            </span>
-
-            <Link
-              to="/area"
-              className="group inline-flex items-center gap-2 rounded-full bg-cobre-deep py-2 pl-4 pr-2 text-sm font-medium text-perola transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-grafite active:scale-[0.98]"
-            >
-              Minha área
-              <span className="grid h-7 w-7 place-items-center rounded-full bg-white/10 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                <UserRound className="h-3.5 w-3.5" strokeWidth={1.5} />
-              </span>
-            </Link>
-          </>
-        ) : (
-          <>
-            <Link
-              to="/login"
-              className="rounded-full px-3 py-2 text-sm font-medium text-grafite-soft transition-colors duration-300 hover:bg-grafite/5 hover:text-grafite sm:px-3.5"
-            >
-              Entrar
-            </Link>
-
-            <Link
-              to="/cadastro"
-              className="group inline-flex items-center gap-2 rounded-full bg-cobre-deep py-2 pl-4 pr-2 text-sm font-medium text-perola transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-grafite active:scale-[0.98]"
-            >
-              Fazer parte
-              <span className="grid h-7 w-7 place-items-center rounded-full bg-white/10 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={1.5} />
-              </span>
-            </Link>
-          </>
+        {/* Minha área — único botão de acesso: leva pro login quando
+            deslogado, pra área do membro quando logado. Cobre a antiga
+            dupla Entrar/Fazer parte (o menu já leva pro cadastro). */}
+        {logada && (
+          <span className="hidden px-3 py-2 text-sm font-medium text-grafite-soft sm:block sm:px-3.5">
+            Olá, {primeiroNome(nome)}
+          </span>
         )}
+        <Link
+          to={logada ? "/area" : "/login"}
+          className="group inline-flex items-center gap-2 rounded-full bg-cobre-deep py-2 pl-4 pr-2 text-sm font-medium text-perola transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-grafite active:scale-[0.98]"
+        >
+          Minha área
+          <span className="grid h-7 w-7 place-items-center rounded-full bg-white/10 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+            <UserRound className="h-3.5 w-3.5" strokeWidth={1.5} />
+          </span>
+        </Link>
 
-        {/* menu do celular — no desktop os links já aparecem inteiros */}
+        {/* menu do celular/tablet — a partir de lg os links já aparecem inteiros */}
         <button
           onClick={() => setAberto((v) => !v)}
           aria-label={aberto ? "Fechar menu" : "Abrir menu"}
           aria-expanded={aberto}
-          className="ml-0.5 grid h-10 w-10 place-items-center rounded-full text-grafite transition-colors hover:bg-grafite/5 md:hidden"
+          className="ml-0.5 grid h-10 w-10 place-items-center rounded-full text-grafite transition-colors hover:bg-grafite/5 lg:hidden"
         >
           {aberto ? (
             <X className="h-5 w-5" strokeWidth={1.5} />
@@ -155,16 +128,16 @@ export default function Navbar() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setAberto(false)}
-              className="fixed inset-0 -z-10 bg-grafite/50 backdrop-blur-sm md:hidden"
+              className="fixed inset-0 -z-10 bg-grafite/50 backdrop-blur-sm lg:hidden"
             />
             <motion.div
               initial={{ opacity: 0, y: -12 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-x-4 top-[calc(100%+0.5rem)] rounded-[1.75rem] border border-grafite/10 bg-creme p-3 shadow-lux md:hidden"
+              className="absolute inset-x-4 top-[calc(100%+0.5rem)] rounded-[1.75rem] border border-grafite/10 bg-creme p-3 shadow-lux lg:hidden"
             >
-              {/* No celular a saudação não cabe na barra; aparece aqui. */}
+              {/* No celular/tablet a saudação não cabe na barra; aparece aqui. */}
               {logada && (
                 <p className="border-b border-grafite/10 px-4 pb-3 pt-1 font-mono text-[11px] uppercase tracking-[0.18em] text-grafite-soft">
                   Olá, {primeiroNome(nome)}
@@ -172,18 +145,7 @@ export default function Navbar() {
               )}
 
               {links.map((l) =>
-                l.modal ? (
-                  <button
-                    key={l.label}
-                    onClick={() => {
-                      setAberto(false);
-                      setQuemSomos(true);
-                    }}
-                    className="block w-full rounded-2xl px-4 py-3.5 text-left text-[15px] font-medium text-grafite transition-colors hover:bg-grafite/5"
-                  >
-                    {l.label}
-                  </button>
-                ) : l.to ? (
+                l.to ? (
                   <Link
                     key={l.to}
                     to={l.to}
@@ -207,8 +169,6 @@ export default function Navbar() {
           </>
         )}
       </AnimatePresence>
-
-      <QuemSomos aberto={quemSomos} onClose={() => setQuemSomos(false)} />
     </header>
   );
 }

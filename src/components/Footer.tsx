@@ -16,6 +16,13 @@ const navegacao = [
   { href: "#cadastro", label: "Fazer parte" },
 ];
 
+// Empresas do grupo — destaque institucional, separado dos parceiros.
+const empresasDoGrupo = [
+  { label: "Sanchez Imóveis", href: "https://sanchezimoveis.com.br", externo: true },
+  { label: "BioReluz", href: "/parceiro/bioreluz", externo: false },
+  { label: "Insurance & Santé", href: "/parceiro/insurance-sante", externo: false },
+];
+
 export default function Footer() {
   const { pathname } = useLocation();
   const naHome = pathname === "/";
@@ -23,7 +30,7 @@ export default function Footer() {
 
   return (
     <footer className="bg-grafite text-white/70">
-      <div className="container-club grid gap-10 py-16 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr]">
+      <div className="container-club grid gap-10 py-16 sm:grid-cols-2 lg:grid-cols-[1.2fr_0.85fr_0.85fr_0.85fr]">
         <div>
           <Link to="/" className="inline-flex items-center gap-2.5">
             <img src={logo} alt="Clube Sanchez" className="h-9 w-9 object-contain" />
@@ -54,6 +61,34 @@ export default function Footer() {
                 </a>
               </li>
             ))}
+          </ul>
+        </div>
+
+        <div>
+          <p className="font-mono text-xs uppercase tracking-[0.18em] text-white/60">
+            Empresas do grupo
+          </p>
+          <ul className="mt-4 space-y-2.5 text-sm">
+            {empresasDoGrupo.map((e) =>
+              e.externo ? (
+                <li key={e.href}>
+                  <a
+                    href={e.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-white"
+                  >
+                    {e.label}
+                  </a>
+                </li>
+              ) : (
+                <li key={e.href}>
+                  <Link to={e.href} className="hover:text-white">
+                    {e.label}
+                  </Link>
+                </li>
+              ),
+            )}
           </ul>
         </div>
 
