@@ -72,12 +72,14 @@ export default function VitrineParceiros() {
                   <p className="mt-1.5 line-clamp-2 text-[13px] leading-relaxed text-grafite-soft sm:mt-2 sm:line-clamp-none sm:text-sm">
                     {p.descricaoCurta}
                   </p>
-                  <div className="mt-3 flex items-center gap-2 border-t border-grafite/10 pt-3 sm:mt-4 sm:pt-4">
-                    <span className="h-1.5 w-1.5 rounded-full bg-cobre" />
-                    <span className="font-mono text-[11px] font-medium tracking-wide text-cobre-deep sm:text-xs">
-                      {p.voucher}
-                    </span>
-                  </div>
+                  {p.voucher && (
+                    <div className="mt-3 flex items-center gap-2 border-t border-grafite/10 pt-3 sm:mt-4 sm:pt-4">
+                      <span className="h-1.5 w-1.5 rounded-full bg-cobre" />
+                      <span className="font-mono text-[11px] font-medium tracking-wide text-cobre-deep sm:text-xs">
+                        {p.voucher}
+                      </span>
+                    </div>
+                  )}
                 </div>
                   </div>
                 );

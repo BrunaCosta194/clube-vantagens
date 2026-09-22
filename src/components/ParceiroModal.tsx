@@ -73,16 +73,18 @@ export default function ParceiroModal({ parceiro, onClose }: Props) {
                 {parceiro.nome}
               </h3>
 
-              {/* voucher destaque */}
-              <div className="mt-4 flex items-center gap-3 rounded-2xl border border-cobre-line/40 bg-cobre/10 px-4 py-3">
-                <BadgePercent className="h-5 w-5 shrink-0 text-cobre-deep" strokeWidth={1.5} />
-                <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-cobre-deep">
-                    Sua vantagem
-                  </p>
-                  <p className="font-semibold text-grafite">{parceiro.voucher}</p>
+              {/* voucher destaque (só quando o parceiro tem vantagem anunciada) */}
+              {parceiro.voucher && (
+                <div className="mt-4 flex items-center gap-3 rounded-2xl border border-cobre-line/40 bg-cobre/10 px-4 py-3">
+                  <BadgePercent className="h-5 w-5 shrink-0 text-cobre-deep" strokeWidth={1.5} />
+                  <div>
+                    <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-cobre-deep">
+                      Sua vantagem
+                    </p>
+                    <p className="font-semibold text-grafite">{parceiro.voucher}</p>
+                  </div>
                 </div>
-              </div>
+              )}
 
               <p className="mt-5 leading-relaxed text-grafite-soft">
                 {parceiro.descricao}

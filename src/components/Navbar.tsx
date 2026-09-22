@@ -2,14 +2,17 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, UserRound, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import QuemSomos from "./QuemSomos";
 import logo from "@/assets/marca/logo-cs.png";
 import { primeiroNome, useSessao } from "@/lib/sessao";
 
-type NavLink = { label: string; href?: string; to?: string };
+type NavLink = { label: string; href?: string; to?: string; modal?: true };
 
 // Menu recomendado no briefing (Clube Sanchez é a marca/logo à esquerda,
-// Minha área é o botão à direita — não entram nessa lista).
+// Minha área é o botão à direita — não entram nessa lista). "Quem somos"
+// (modal institucional) mantido a pedido da Bruna.
 const links: NavLink[] = [
+  { label: "Quem somos", modal: true },
   { label: "Loja", to: "/loja" },
   { label: "Comunidade Sanchez", to: "/cadastro" },
   { href: "#parceiros", label: "Parceiros" },
@@ -20,6 +23,7 @@ const links: NavLink[] = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [aberto, setAberto] = useState(false);
+  const [quemSomos, setQuemSomos] = useState(false);
   const location = useLocation();
   const naHome = location.pathname === "/";
   const { usuario, nome, carregando } = useSessao();
@@ -65,9 +69,17 @@ export default function Navbar() {
           </span>
         </Link>
 
-        <div className="mx-1 hidden items-center gap-1 lg:flex">
+        <div className="mx-1 hidden items-center gap-1 xl:flex">
           {links.map((l) =>
-            l.to ? (
+            l.modal ? (
+              <button
+                key={l.label}
+                onClick={() => setQuemSomos(true)}
+                className="rounded-full px-3.5 py-2 text-sm font-medium text-grafite-soft transition-colors duration-300 hover:bg-grafite/5 hover:text-grafite"
+              >
+                {l.label}
+              </button>
+            ) : l.to ? (
               <Link
                 key={l.to}
                 to={l.to}
@@ -105,12 +117,12 @@ export default function Navbar() {
           </span>
         </Link>
 
-        {/* menu do celular/tablet — a partir de lg os links já aparecem inteiros */}
+        {/* menu do celular/tablet — a partir de xl os links já aparecem inteiros */}
         <button
           onClick={() => setAberto((v) => !v)}
           aria-label={aberto ? "Fechar menu" : "Abrir menu"}
           aria-expanded={aberto}
-          className="ml-0.5 grid h-10 w-10 place-items-center rounded-full text-grafite transition-colors hover:bg-grafite/5 lg:hidden"
+          className="ml-0.5 grid h-10 w-10 place-items-center rounded-full text-grafite transition-colors hover:bg-grafite/5 xl:hidden"
         >
           {aberto ? (
             <X className="h-5 w-5" strokeWidth={1.5} />
@@ -128,14 +140,14 @@ export default function Navbar() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setAberto(false)}
-              className="fixed inset-0 -z-10 bg-grafite/50 backdrop-blur-sm lg:hidden"
+              className="fixed inset-0 -z-10 bg-grafite/50 backdrop-blur-sm xl:hidden"
             />
             <motion.div
               initial={{ opacity: 0, y: -12 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-x-4 top-[calc(100%+0.5rem)] rounded-[1.75rem] border border-grafite/10 bg-creme p-3 shadow-lux lg:hidden"
+              className="absolute inset-x-4 top-[calc(100%+0.5rem)] rounded-[1.75rem] border border-grafite/10 bg-creme p-3 shadow-lux xl:hidden"
             >
               {/* No celular/tablet a saudação não cabe na barra; aparece aqui. */}
               {logada && (
@@ -145,7 +157,18 @@ export default function Navbar() {
               )}
 
               {links.map((l) =>
-                l.to ? (
+                l.modal ? (
+                  <button
+                    key={l.label}
+                    onClick={() => {
+                      setAberto(false);
+                      setQuemSomos(true);
+                    }}
+                    className="block w-full rounded-2xl px-4 py-3.5 text-left text-[15px] font-medium text-grafite transition-colors hover:bg-grafite/5"
+                  >
+                    {l.label}
+                  </button>
+                ) : l.to ? (
                   <Link
                     key={l.to}
                     to={l.to}
@@ -169,6 +192,8 @@ export default function Navbar() {
           </>
         )}
       </AnimatePresence>
+
+      <QuemSomos aberto={quemSomos} onClose={() => setQuemSomos(false)} />
     </header>
   );
 }

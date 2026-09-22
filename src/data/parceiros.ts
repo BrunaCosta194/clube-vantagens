@@ -20,8 +20,8 @@ export type Parceiro = {
   categoria: string;
   descricaoCurta: string;
   descricao: string;
-  /** Destaque do benefício mostrado no card e no modal. */
-  voucher: string;
+  /** Destaque do benefício mostrado no card e no modal. Ausente = não exibe. */
+  voucher?: string;
   imagem: string;
   /** Cor de destaque (usada em detalhes do card). Formato HSL. */
   cor: string;
@@ -86,16 +86,16 @@ export const parceiros: Parceiro[] = [
     slug: "oticas-diniz",
     nome: "Óticas Diniz · Diniz Prime",
     categoria: "Óticas e Saúde Visual",
-    descricaoCurta:
-      "R$ 200 de desconto na compra de óculos de grau ou sol.",
+    // Voucher de R$ 200 era campanha de agosto — retirado (Yruena, 21/09).
+    // Novo benefício a definir; até lá, sem vantagem anunciada.
+    descricaoCurta: "Óculos de grau e de sol na Diniz Prime.",
     descricao:
-      "Você que é cliente Sanchez, leve sua receita e garanta R$ 200 de desconto na compra de um óculos de grau ou sol na Diniz Prime. Basta apresentar seu voucher do clube.",
-    voucher: "R$ 200 de desconto",
+      "Óculos de grau e de sol na Diniz Prime, parceira do Clube Sanchez.",
     imagem: oticasDiniz,
     cor: "hsl(0, 68%, 44%)",
     whatsapp: "https://wa.me/qr/5SPQMUESAQ2ZL1",
     site: "https://www.oticasdiniz.com.br/",
-    tags: ["Óculos de grau", "Óculos de sol", "Voucher R$ 200"],
+    tags: ["Óculos de grau", "Óculos de sol"],
   },
   {
     slug: "remalar",
