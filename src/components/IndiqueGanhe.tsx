@@ -9,10 +9,11 @@ export default function IndiqueGanhe() {
   return (
     <section
       id="indique"
-      className="grain relative overflow-hidden bg-club-panel py-16 text-creme sm:py-24 lg:py-32"
+      className="section-y grain relative overflow-hidden bg-grafite text-creme"
     >
-      <div className="pointer-events-none absolute -right-24 -top-16 h-96 w-96 rounded-full bg-cobre-light/25 blur-[120px]" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_80%_at_0%_120%,hsl(15_80%_28%/0.45),transparent_55%)]" />
+      {/* cobre só como detalhe — nunca dominante */}
+      <div className="pointer-events-none absolute -right-24 -top-16 h-96 w-96 rounded-full bg-cobre/20 blur-[120px]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_80%_at_0%_120%,hsl(19_45%_22%/0.5),transparent_55%)]" />
 
       <div className="container-club relative grid items-center gap-10 sm:gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
         <motion.div
@@ -23,7 +24,7 @@ export default function IndiqueGanhe() {
         >
           <h2 className="font-display text-[clamp(2rem,4.5vw,3.25rem)] font-semibold leading-[1.02] tracking-[-0.01em]">
             Convide, quem entra{" "}
-            <span className="italic text-grafite">já ganha.</span>
+            <span className="italic text-cobre-light">já ganha.</span>
           </h2>
           <p className="mt-6 max-w-md text-lg leading-relaxed text-creme/85">
             Cada membro tem um link de indicação só dele. Compartilhe com quem
@@ -32,7 +33,7 @@ export default function IndiqueGanhe() {
           </p>
           <Link
             to="/cadastro"
-            className="group mt-9 inline-flex items-center gap-3 rounded-full bg-grafite py-2.5 pl-6 pr-2.5 text-sm font-medium text-creme transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-grafite-soft active:scale-[0.985]"
+            className="group mt-9 inline-flex items-center gap-3 rounded-full bg-cobre-deep py-2.5 pl-6 pr-2.5 text-sm font-medium text-perola transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-cobre active:scale-[0.985]"
           >
             Pegar meu link
             <span className="grid h-9 w-9 place-items-center rounded-full bg-white/15 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
@@ -41,7 +42,7 @@ export default function IndiqueGanhe() {
           </Link>
         </motion.div>
 
-        {/* painel do voucher — vidro fosco sobre o laranja */}
+        {/* painel do voucher — vidro fosco sobre o grafite */}
         <motion.div
           initial={{ opacity: 0, y: 28, filter: "blur(8px)" }}
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -59,7 +60,7 @@ export default function IndiqueGanhe() {
             {VOUCHER_CADASTRO_LABEL} de desconto para todo mundo que se cadastra
             no clube — direto ou por indicação.
           </p>
-          <p className="mx-auto mt-4 max-w-xs text-[11px] leading-snug text-creme/50">
+          <p className="mx-auto mt-4 max-w-xs text-[11px] leading-snug text-creme/70">
             {VOUCHER_CADASTRO_NOTA}
           </p>
         </motion.div>

@@ -59,9 +59,9 @@ export default function Navbar() {
           }}
           className="flex items-center gap-2.5 pr-1 sm:pr-2"
         >
-          <img src={logo} alt="Sanchez Clube" className="h-9 w-9 object-contain" />
+          <img src={logo} alt="Clube Sanchez" className="h-9 w-9 object-contain" />
           <span className="hidden font-display text-[15px] font-semibold leading-none text-grafite sm:block">
-            Sanchez Clube
+            Clube Sanchez
           </span>
         </Link>
 
@@ -166,7 +166,7 @@ export default function Navbar() {
             >
               {/* No celular a saudação não cabe na barra; aparece aqui. */}
               {logada && (
-                <p className="border-b border-grafite/10 px-4 pb-3 pt-1 font-mono text-[11px] uppercase tracking-[0.18em] text-grafite-muted">
+                <p className="border-b border-grafite/10 px-4 pb-3 pt-1 font-mono text-[11px] uppercase tracking-[0.18em] text-grafite-soft">
                   Olá, {primeiroNome(nome)}
                 </p>
               )}

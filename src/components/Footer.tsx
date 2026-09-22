@@ -1,10 +1,11 @@
 import { MessageCircle, MapPin, Instagram } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "@/assets/marca/logo-cs.png";
+import { ASSINATURA, anosDeSanchez } from "@/lib/marca";
 
 // Contatos reais do clube.
 const WHATSAPP = "5511971796030";
-const MENSAGEM_WPP = "Olá! Tenho uma dúvida sobre o Sanchez Clube.";
+const MENSAGEM_WPP = "Olá! Tenho uma dúvida sobre o Clube Sanchez.";
 const INSTAGRAM = "https://www.instagram.com/sanchezimoveisenegocios/";
 
 // Mesmas âncoras da navbar: viram /#seção quando o usuário não está na home.
@@ -25,19 +26,21 @@ export default function Footer() {
       <div className="container-club grid gap-10 py-16 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr]">
         <div>
           <Link to="/" className="inline-flex items-center gap-2.5">
-            <img src={logo} alt="Sanchez Clube" className="h-9 w-9 object-contain" />
+            <img src={logo} alt="Clube Sanchez" className="h-9 w-9 object-contain" />
             <span className="font-display text-lg font-semibold text-white">
-              Sanchez Clube
+              Clube Sanchez
             </span>
           </Link>
           <p className="mt-4 max-w-xs text-sm leading-relaxed">
-            Clube de Vantagens da Sanchez Imóveis. Há 53 anos realizando
-            negócios imobiliários em Mogi das Cruzes e no Alto Tietê.
+            Há {anosDeSanchez()} anos, a Sanchez Imóveis realiza negócios
+            imobiliários em Mogi das Cruzes e no Alto Tietê. O Clube Sanchez
+            amplia essa história e conecta nossa comunidade a parceiros,
+            soluções, vantagens e novas oportunidades.
           </p>
         </div>
 
         <div>
-          <p className="font-mono text-xs uppercase tracking-[0.18em] text-white/40">
+          <p className="font-mono text-xs uppercase tracking-[0.18em] text-white/60">
             Navegação
           </p>
           <ul className="mt-4 space-y-2.5 text-sm">
@@ -55,7 +58,7 @@ export default function Footer() {
         </div>
 
         <div>
-          <p className="font-mono text-xs uppercase tracking-[0.18em] text-white/40">
+          <p className="font-mono text-xs uppercase tracking-[0.18em] text-white/60">
             Contato
           </p>
           <ul className="mt-4 space-y-3 text-sm">
@@ -90,8 +93,9 @@ export default function Footer() {
       </div>
 
       <div className="border-t border-white/10">
-        <div className="container-club flex flex-col items-center justify-between gap-2 py-6 text-xs text-white/40 sm:flex-row">
-          <p>© {new Date().getFullYear()} Sanchez Imóveis · Sanchez Clube</p>
+        <div className="container-club flex flex-col items-center justify-between gap-2 pb-24 pt-6 text-xs text-white/60 sm:flex-row sm:pb-6">
+          <p>© {new Date().getFullYear()} Sanchez Imóveis · Clube Sanchez</p>
+          <p className="font-medium text-white/75">{ASSINATURA}</p>
         </div>
       </div>
     </footer>

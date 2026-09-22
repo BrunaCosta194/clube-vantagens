@@ -6,26 +6,28 @@ const passos = [
   {
     num: "01",
     titulo: "Cadastre-se grátis",
-    texto:
-      "Crie sua conta em minutos e já garanta 5% de desconto de boas-vindas.",
+    texto: "Crie sua conta em poucos minutos e receba 5% de boas-vindas.",
   },
   {
     num: "02",
-    titulo: "Aproveite as vantagens",
-    texto:
-      "Descontos e serviços exclusivos com os parceiros selecionados pela Sanchez.",
+    titulo: "Confira os parceiros",
+    texto: "Conheça os benefícios, as condições e os serviços disponíveis.",
   },
   {
     num: "03",
-    titulo: "Indique seus amigos",
-    texto:
-      "Cada membro tem um link só dele. Compartilhe e convide quem quiser pro clube.",
+    titulo: "Aproveite",
+    texto: "Escolha a vantagem e acesse o canal indicado para utilizá-la.",
+  },
+  {
+    num: "04",
+    titulo: "Indique",
+    texto: "Compartilhe seu link. Convide; quem entra já ganha.",
   },
 ];
 
 export default function ComoFunciona() {
   return (
-    <section id="como-funciona" className="bg-warm-wash py-16 sm:py-24 lg:py-32">
+    <section id="como-funciona" className="section-y bg-warm-wash">
       <div className="container-club">
         <motion.div
           initial={{ opacity: 0, y: 20, filter: "blur(6px)" }}
@@ -39,7 +41,7 @@ export default function ComoFunciona() {
           </h2>
         </motion.div>
 
-        <div className="mt-10 grid gap-x-10 gap-y-10 sm:mt-16 sm:grid-cols-3 sm:gap-y-12">
+        <div className="mt-10 grid gap-x-8 gap-y-10 sm:mt-16 sm:grid-cols-2 sm:gap-y-12 lg:grid-cols-4 lg:gap-x-10">
           {passos.map((p, i) => (
             <motion.div
               key={p.num}
