@@ -86,7 +86,7 @@ export const bioreluzServicos: ServicoBioreluz[] = [
     destaque: "Reposição prática para casa e negócio",
     descricao:
       "Linha completa de descartáveis para o dia a dia de lares e empresas, " +
-      "com condição exclusiva para o Sanchez Clube.",
+      "com condição exclusiva para o Clube Sanchez.",
     foto: null,
     videoUrl: null,
   },

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
+import { anosDeSanchez } from "@/lib/marca";
 
 // Modal "Quem somos" — história, missão, visão, valores e pilares da Sanchez.
 // TODO: conteúdo genérico a partir do site oficial (sanchezimoveis.com.br).
@@ -79,7 +80,7 @@ export default function QuemSomos({ aberto, onClose }: Props) {
             <div className="flex-1 overflow-y-auto px-6 py-7 sm:px-8">
               {/* História */}
               <p className="leading-relaxed text-grafite-soft">
-                Há <span className="font-semibold text-cobre-deep">53 anos</span>,
+                Há <span className="font-semibold text-cobre-deep">{anosDeSanchez()} anos</span>,
                 a Sanchez Imóveis é referência em locação, administração e venda
                 de imóveis em Mogi das Cruzes e no Alto Tietê. Uma das primeiras
                 imobiliárias da cidade, hoje é reconhecida pelo profundo

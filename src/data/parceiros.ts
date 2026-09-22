@@ -30,6 +30,8 @@ export type Parceiro = {
   tags: string[];
   /** Se preenchido, o card abre esta página interna em vez do modal raso. */
   pagina?: string;
+  /** Parceiro ativo na vitrine? Ausente/undefined conta como ativo. */
+  ativo?: boolean;
 };
 
 export const parceiros: Parceiro[] = [
@@ -40,7 +42,7 @@ export const parceiros: Parceiro[] = [
     descricaoCurta:
       "Limpeza, impermeabilização e descartáveis com padrão profissional.",
     descricao:
-      "A Bioreluz cuida do seu lar e do seu negócio com serviços de limpeza técnica, impermeabilização e uma linha completa de descartáveis. Condições exclusivas para o Sanchez Clube.",
+      "A Bioreluz cuida do seu lar e do seu negócio com serviços de limpeza técnica, impermeabilização e uma linha completa de descartáveis. Condições exclusivas para o Clube Sanchez.",
     voucher: "Condição exclusiva Sanchez", // TODO: confirmar % / valor
     imagem: bioreluz,
     cor: "hsl(196, 70%, 42%)",
@@ -129,9 +131,9 @@ export const parceiros: Parceiro[] = [
     nome: "Luminê Studio",
     categoria: "Fotografia",
     descricaoCurta:
-      "Ensaio corporativo com 20% de desconto para o Sanchez Clube.",
+      "Ensaio corporativo com 20% de desconto para o Clube Sanchez.",
     descricao:
-      "A Luminê Studio realiza ensaios corporativos profissionais: 12 fotos editadas, entregues via link. Condição exclusiva para o Sanchez Clube.",
+      "A Luminê Studio realiza ensaios corporativos profissionais: 12 fotos editadas, entregues via link. Condição exclusiva para o Clube Sanchez.",
     voucher: "20% de desconto no ensaio corporativo",
     imagem: lumineStudio,
     cor: "hsl(24, 60%, 40%)",
@@ -146,7 +148,7 @@ export const parceiros: Parceiro[] = [
     descricaoCurta:
       "R$ 100 de desconto em vidros, espelhos e esquadrias.",
     descricao:
-      "A Vidraçaria AV atende com vidros, espelhos e esquadrias sob medida. R$ 100 de desconto exclusivo para o Sanchez Clube.",
+      "A Vidraçaria AV atende com vidros, espelhos e esquadrias sob medida. R$ 100 de desconto exclusivo para o Clube Sanchez.",
     voucher: "R$ 100 de desconto",
     imagem: vidracariaAv,
     cor: "hsl(206, 70%, 45%)",

@@ -214,7 +214,7 @@ export default function Cadastro() {
             onChange={(e) => setAceite(e.target.checked)}
           />
           <span>
-            Autorizo o Sanchez Clube a usar meus dados (nome, WhatsApp, e-mail e
+            Autorizo o Clube Sanchez a usar meus dados (nome, WhatsApp, e-mail e
             CPF/CNPJ) para minha participação no clube e para contato comercial
             da Sanchez Imóveis, conforme a LGPD. Posso pedir a exclusão a
             qualquer momento.

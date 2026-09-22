@@ -43,7 +43,7 @@ export const insuranceHistoria =
   "A Insurance & Santé cuida de quem você ama e do que você construiu. " +
   "Atendimento consultivo para escolher a proteção certa — seguros, " +
   "consórcios e planos de saúde — com clareza, segurança e as melhores " +
-  "condições para o Sanchez Clube.";
+  "condições para o Clube Sanchez.";
 
 export const insuranceCategorias: CategoriaInsurance[] = [
   {
