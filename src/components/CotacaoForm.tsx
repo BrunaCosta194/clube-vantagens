@@ -12,6 +12,7 @@ import {
   X,
 } from "lucide-react";
 import type { ProdutoInsurance } from "@/data/insuranceProdutos";
+import { track } from "@/lib/track";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -140,6 +141,12 @@ export default function CotacaoForm({
       // persistência, já ficaram salvos no bucket privado.
       const texto = encodeURIComponent(montarResumo(produto));
       window.open(`https://wa.me/${YRUENA_WPP}?text=${texto}`, "_blank");
+
+      void track("partner_contact", {
+        slug: "insurance-sante",
+        canal: "atendimento",
+        produto: produto.slug,
+      });
 
       setEnviado(true);
     } catch (err) {

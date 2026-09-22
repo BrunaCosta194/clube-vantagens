@@ -1,8 +1,11 @@
-import { type FormEvent, useState } from "react";
+import { type FormEvent, useRef, useState } from "react";
 import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import AuthLayout, { inputClass, labelClass } from "../components/AuthLayout";
 import { criarMembro, normalizarDocumento } from "../lib/membros";
 import { useSessao } from "../lib/sessao";
+import { supabase } from "../lib/supabase";
+import { getAtribuicao } from "../lib/atribuicao";
+import { track } from "../lib/track";
 
 function mensagemDeErro(erro: string): string {
   if (erro.includes("already registered") || erro.includes("already been registered")) {
@@ -20,10 +23,20 @@ function mensagemDeErro(erro: string): string {
 export default function Cadastro() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const codigoRef = searchParams.get("ref");
+  // Se a URL do /cadastro não trouxer ?ref= (ex.: a pessoa entrou pela home
+  // com ?ref=X&utm_... e navegou até aqui), cai no ref salvo pela atribuição
+  // da sessão — ver src/lib/atribuicao.ts.
+  const codigoRef = searchParams.get("ref") ?? getAtribuicao().ref;
   // pra onde voltar depois do cadastro (ex.: baixar o e-book)
   const next = searchParams.get("next");
   const loginHref = next ? `/login?next=${encodeURIComponent(next)}` : "/login";
+  const jaIniciouCadastro = useRef(false);
+
+  function marcarInicioCadastro() {
+    if (jaIniciouCadastro.current) return;
+    jaIniciouCadastro.current = true;
+    void track("club_signup_start", { tem_indicacao: !!codigoRef });
+  }
 
   const [nome, setNome] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
@@ -80,6 +93,18 @@ export default function Cadastro() {
       return;
     }
 
+    // Sessão recém-criada pode não ter chegado ainda no listener do
+    // SessaoProvider (cache de src/lib/sessao.tsx) — lê direto do storage
+    // local (sem rede) pra mandar membro_id + access_token corretos juntos,
+    // senão o RLS de public.eventos rejeita o insert (policy exige que
+    // membro_id bata com o auth.uid() do token usado).
+    const { data: sessaoAgora } = await supabase.auth.getSession();
+    void track(
+      "club_signup_complete",
+      { tem_indicacao: !!codigoRef },
+      { sessao: sessaoAgora.session },
+    );
+
     if (data.session) {
       navigate(next || "/area");
     } else {
@@ -123,7 +148,7 @@ export default function Cadastro() {
         </>
       }
     >
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} onFocusCapture={marcarInicioCadastro} className="space-y-4">
         <div>
           <label className={labelClass} htmlFor="nome">
             Nome completo

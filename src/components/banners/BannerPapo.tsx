@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import imgPapo from "@/assets/banners/topo-papo.jpg";
+import { track } from "@/lib/track";
 
 // Banner 3 — Papo de Aluguel. Imagem da campanha + CTA de e-book.
 // Clique (banner inteiro ou botão) leva à página do Papo de Aluguel.
@@ -9,6 +10,7 @@ export default function BannerPapo() {
       to="/papodealuguel"
       aria-label="Papo de Aluguel — baixar e-book grátis"
       className="relative block h-full w-full"
+      onClick={() => track("banner_click", { banner: "papo", posicao: 3, destino: "/papodealuguel" })}
     >
       <img
         src={imgPapo}

@@ -1,4 +1,5 @@
 import imgPremium from "@/assets/banners/topo-premium.jpg";
+import LinkRastreado from "@/components/LinkRastreado";
 
 // Banner 4 — Sanchez Premium. Imagem da campanha; clique abre o WhatsApp
 // da Yruena (atendimento Premium).
@@ -9,18 +10,20 @@ export default function BannerPremium() {
   const href = `https://wa.me/${NUMERO_YRUENA}?text=${encodeURIComponent(MENSAGEM)}`;
 
   return (
-    <a
+    <LinkRastreado
       href={href}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Falar com a Yruena sobre o Sanchez Premium no WhatsApp"
       className="block h-full w-full"
+      evento="banner_click"
+      props={{ banner: "premium", posicao: 4, destino: href }}
     >
       <img
         src={imgPremium}
         alt="Sanchez Premium — curadoria, segurança jurídica e investimentos"
         className="h-full w-full select-none object-contain"
       />
-    </a>
+    </LinkRastreado>
   );
 }

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import imgLoja from "@/assets/banners/topo-loja.jpg";
+import { track } from "@/lib/track";
 
 // Banner 2 — Loja Sanchez. Imagem da campanha; clique leva direto à Loja.
 export default function BannerLoja() {
@@ -8,6 +9,7 @@ export default function BannerLoja() {
       to="/loja"
       aria-label="Confira nossos produtos na Loja Sanchez"
       className="block h-full w-full"
+      onClick={() => track("banner_click", { banner: "loja", posicao: 2, destino: "/loja" })}
     >
       <img
         src={imgLoja}

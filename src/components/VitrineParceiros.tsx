@@ -4,6 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { parceiros, type Parceiro } from "@/data/parceiros";
 import ParceiroModal from "./ParceiroModal";
+import { track } from "@/lib/track";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -86,13 +87,17 @@ export default function VitrineParceiros() {
                 return p.pagina ? (
                   <Link
                     to={p.pagina}
+                    onClick={() => track("partner_open", { slug: p.slug })}
                     className="block h-full w-full text-left"
                   >
                     {inner}
                   </Link>
                 ) : (
                   <button
-                    onClick={() => setAberto(p)}
+                    onClick={() => {
+                      track("partner_open", { slug: p.slug });
+                      setAberto(p);
+                    }}
                     className="block h-full w-full text-left"
                   >
                     {inner}

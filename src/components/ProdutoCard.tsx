@@ -4,6 +4,7 @@ import {
   seloDoCanal,
   type Produto,
 } from "@/data/produtos";
+import LinkRastreado from "./LinkRastreado";
 
 // Card de produto da Loja. Vitrine — o botão abre o link externo
 // (Mercado Livre / Shopee) em outra aba. Selo derivado do canal.
@@ -71,15 +72,17 @@ export default function ProdutoCard({ produto }: { produto: Produto }) {
             Em breve
           </span>
         ) : (
-          <a
+          <LinkRastreado
             href={produto.link}
             target="_blank"
             rel="noopener noreferrer"
+            evento="product_click"
+            props={{ produto: produto.slug, canal: produto.canal, destino: produto.link }}
             className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-cobre-deep px-5 py-2.5 text-sm font-medium text-perola transition-all duration-500 ease-lux hover:bg-grafite active:scale-[0.98]"
           >
             <ShoppingBag className="h-4 w-4" strokeWidth={1.5} />
             {produto.canal === "mercadolivre" ? "Comprar" : "Ver na Shopee"}
-          </a>
+          </LinkRastreado>
         )}
       </div>
     </div>
