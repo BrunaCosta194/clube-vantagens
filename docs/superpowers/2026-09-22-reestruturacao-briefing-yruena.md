@@ -74,7 +74,7 @@ Nova hierarquia (seção 3 do briefing):
 - **Menu recomendado:** Clube Sanchez · Loja · Comunidade Sanchez · Parceiros · Como funciona · Indique e ganhe · Minha área. No mobile, hamburguer com os mesmos itens.
 - **Ecossistema no rodapé/seção:** apresentar Sanchez Imóveis (link site principal), BioReluz e Insurance & Santé como **empresas do grupo** (destaque institucional, separadas dos parceiros), Loja, Papo de Aluguel, Premium.
 
-⏳ Definir o destino de "Comunidade Sanchez" no menu (âncora do banner? página? seção do ecossistema?) e de "Indique e ganhe" agora que o bloco foi fundido (âncora da etapa 4 ou `/area`).
+✅ Decidido (Bruna, 22/09): **"Comunidade Sanchez" no menu leva para `/cadastro`** — sem seção nova de ecossistema. "Indique e ganhe" = âncora `#indique` na etapa 4 do bloco fundido. Empresas do grupo (BioReluz, Insurance & Santé) aparecem só como links no rodapé.
 
 ---
 
