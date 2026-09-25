@@ -14,14 +14,17 @@ import Footer from "../components/Footer";
 
 const ATUALIZADO_EM = "25 de setembro de 2026";
 
-/** PENDENTE — confirmar com a Yruena: razão social, CNPJ, endereço completo
- * e o e-mail que responde pedidos de LGPD. Enquanto não vierem, a página
- * mostra o aviso de pendência no lugar do dado. */
+/** Dados da empresa confirmados pela Bruna em 25/09/2026.
+ * DUAS COISAS A CONFERIR antes de publicar:
+ *   • a razão social veio escrita "PRATIMONIAIS"; grafado aqui como
+ *     "PATRIMONIAIS", que é o termo do ramo. Bater com o cartão CNPJ.
+ *   • falta o tipo do logradouro (Rua/Avenida) do Dr. Ricardo Vilela. */
 const CONTROLADOR = {
-  razaoSocial: "Sanchez Imóveis",
-  cnpj: null as string | null,
-  endereco: null as string | null,
-  emailEncarregado: null as string | null,
+  razaoSocial: "Sanchez Imóveis e Negócios Patrimoniais Ltda.",
+  cnpj: "37.735.167/0001-00" as string | null,
+  endereco:
+    "Dr. Ricardo Vilela, 965 — Centro, Mogi das Cruzes/SP, CEP 08780-060" as string | null,
+  emailEncarregado: "financeiro@sanchezimoveis.com.br" as string | null,
 };
 
 function Pendente({ o_que }: { o_que: string }) {
