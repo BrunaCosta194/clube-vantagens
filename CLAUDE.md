@@ -78,14 +78,19 @@ Parceiros ativos (8):
 
 Os banners oficiais são **1920×465 (4,13:1)**, formato de faixa de site. Em tela de celular isso vira uma tira de ~86px de altura, com o texto ilegível. Por isso o carrossel usa duas artes:
 
-- `src/assets/banners/*.jpg` — original largo, servido só a partir de `lg` (≥1024px)
-- `src/assets/banners/mobile/*.jpg` — recorte **4:3 (1080×810)** gerado por `scripts/banners-mobile.py`, servido abaixo de 1024px
+- `src/assets/banners/*.jpg` — original largo, servido a partir de `md` (≥768px)
+- `src/assets/banners/mobile/*.jpg` — recorte **4:3 (1080×810)**, servido abaixo de 768px
 
-A troca é feita com `<picture>` + `<source media="(min-width: 1024px)">` no `BannerCarousel.tsx`. As proporções do palco acompanham: `aspect-[4/3]` no celular, `sm:aspect-[16/9]` no tablet, `lg:aspect-[64/15]` no desktop.
+A troca é feita com `<picture>` + `<source media="(max-width: 767px)">` dentro de cada `banners/Banner*.tsx`. O palco do carrossel acompanha, em `BannerCarousel.tsx`: `aspect-[4/3]` no celular e `md:aspect-[1920/465]` daí pra cima. Como a proporção da arte bate com a do palco nos dois casos, o banner aparece inteiro — sem corte e sem ponto focal.
 
-O script monta cada versão mobile assim: fundo = o próprio banner em "cover" + blur (mantém a cor/textura da marca), frente = recorte da região da mensagem principal escalado a 94% da largura, centralizado. As caixas de recorte de cada banner ficam no dicionário `BOXES` do script — ao trocar um banner, ajuste a caixa dele e rode `python scripts/banners-mobile.py`.
+Dois scripts geram as versões mobile:
 
-Isso é **paliativo**: o ideal é a agência mandar os banners já em versão mobile (vertical ou quadrada). Quando chegarem, é só substituir os arquivos em `banners/mobile/` e o script deixa de ser necessário.
+- `scripts/banners-mobile-remontagem.py` — usado pelos 6 banners do carrossel. **Remonta** a arte no 4:3: fundo tirado de uma região limpa da própria arte (sem letra, pra não virar fantasma borrado), e os elementos (logo, chamada, produto, pessoa) reposicionados em tamanho útil, com emenda suavizada por máscara. Cada banner tem seu bloco no script, com as coordenadas de recorte sobre a arte 1920×465.
+- `scripts/banners-mobile.py` — script antigo, mais simples: encolhe a faixa larga dentro de um fundo borrado. Ainda gera as versões de `oticas-diniz`, `mrt`, `remalar` e `renova-lar`, que não estão no carrossel. **Não rode ele nos banners do carrossel**: sobrescreve os recortes remontados com a versão de marca pequena.
+
+Ao trocar um banner do carrossel: substitua a arte larga, ajuste as coordenadas do bloco dele em `banners-mobile-remontagem.py`, rode `python scripts/banners-mobile-remontagem.py` e **olhe o resultado** — as coordenadas são específicas de cada arte.
+
+Tudo isso é **paliativo**: o ideal é a agência mandar os banners já em versão mobile (vertical ou quadrada). Quando chegarem, é só substituir os arquivos em `banners/mobile/` e os scripts deixam de ser necessários.
 
 ### Convenção de imagem dos cards
 
