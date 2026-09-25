@@ -1,0 +1,58 @@
+-- 0009 — Usuário da equipe Sanchez não vira membro do Clube.
+--
+-- PROBLEMA: o Clube tem trigger `on_auth_user_created` -> public.handle_new_membro(),
+-- que insere em public.membros com nome/whatsapp/documento NOT NULL vindos do
+-- user_metadata. Usuário de equipe (painel Inteligência) não tem esses dados ->
+-- "Database error creating new user".
+--
+-- SOLUÇÃO: se `app_metadata.equipe_inteligencia = true`, o trigger não cria membro.
+-- app_metadata só é gravável via service_role (admin API) — o signUp público
+-- do Clube NÃO consegue setar, então ninguém se passa por equipe.
+-- Criar usuário de equipe: jobs/criar-equipe.ts do repo sanchez-inteligencia (NÃO pelo formulário do dashboard).
+--
+-- Cópia da 0006 do repo sanchez-inteligencia. Corpo = 0004_consentimento_lgpd.sql,
+-- só com o guard no início. Se o Clube mudar essa função, manter o guard.
+
+create or replace function public.handle_new_membro()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_indicado_por uuid;
+  v_codigo text;
+begin
+  -- equipe Sanchez (painel Inteligência) não é membro do Clube
+  if coalesce((new.raw_app_meta_data ->> 'equipe_inteligencia')::boolean, false) then
+    return new;
+  end if;
+
+  if (new.raw_user_meta_data ->> 'codigo_ref') is not null then
+    select id into v_indicado_por
+    from public.membros
+    where codigo_indicacao = new.raw_user_meta_data ->> 'codigo_ref';
+  end if;
+
+  v_codigo := upper(substr(replace(new.id::text, '-', ''), 1, 8));
+
+  insert into public.membros (id, nome, whatsapp, email, documento, codigo_indicacao, indicado_por, consentimento_lgpd_em)
+  values (
+    new.id,
+    new.raw_user_meta_data ->> 'nome',
+    new.raw_user_meta_data ->> 'whatsapp',
+    new.email,
+    new.raw_user_meta_data ->> 'documento',
+    v_codigo,
+    v_indicado_por,
+    (new.raw_user_meta_data ->> 'consentimento_lgpd_em')::timestamptz
+  );
+
+  if v_indicado_por is not null then
+    insert into public.indicacoes (indicador_id, indicado_id)
+    values (v_indicado_por, new.id);
+  end if;
+
+  return new;
+end;
+$$;
