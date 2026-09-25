@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
+import Admin from "./pages/Admin";
 import Landing from "./pages/Landing";
 import Cadastro from "./pages/Cadastro";
 import Login from "./pages/Login";
@@ -24,6 +25,7 @@ export default function App() {
         <Route path="/privacidade" element={<Privacidade />} />
         <Route path="/parceiro/bioreluz" element={<ParceiroBioreluz />} />
         <Route path="/parceiro/insurance-sante" element={<ParceiroInsurance />} />
+        <Route path="/admin" element={<Admin />} />
         {/* Rota desconhecida (ex: /premium, que foi removida) volta pra home
             em vez de renderizar tela branca. */}
         <Route path="*" element={<Navigate to="/" replace />} />
