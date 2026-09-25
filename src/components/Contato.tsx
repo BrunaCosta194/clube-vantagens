@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
-import { Globe, Instagram, Mail, MapPin, MessageCircle, Navigation } from "lucide-react";
+import { Clock, Globe, Instagram, Mail, MapPin, MessageCircle, Navigation } from "lucide-react";
 import LinkRastreado from "@/components/LinkRastreado";
 import { track } from "@/lib/track";
 
@@ -13,6 +13,11 @@ const WHATSAPP = "5511971796030";
 const INSTAGRAM = "https://www.instagram.com/sanchezimoveisenegocios/";
 const SITE = "https://www.sanchezimoveis.com.br/";
 const EMAIL = "financeiro@sanchezimoveis.com.br";
+const HORARIOS = [
+  { dias: "Segunda a sexta", horas: "09h às 18h" },
+  { dias: "Sábado", horas: "09h às 13h" },
+  { dias: "Domingos e feriados", horas: "Fechado" },
+];
 
 const destinoUrl = encodeURIComponent(DESTINO);
 const hrefVerNoMapa = `https://www.google.com/maps/search/?api=1&query=${destinoUrl}`;
@@ -225,6 +230,25 @@ export default function Contato() {
                 </li>
               ))}
             </ul>
+
+            <div className="mt-6 border-t border-cobre-line/20 pt-6">
+              <div className="flex gap-4">
+                <Clock className="mt-0.5 h-5 w-5 shrink-0 text-cobre" strokeWidth={1.5} />
+                <div className="min-w-0">
+                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-grafite-muted">
+                    Horário de funcionamento
+                  </p>
+                  <dl className="mt-1 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm">
+                    {HORARIOS.map(({ dias, horas }) => (
+                      <div key={dias} className="contents">
+                        <dt className="text-grafite-muted">{dias}</dt>
+                        <dd className="text-grafite">{horas}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div className="min-h-[320px] overflow-hidden rounded-[1.5rem] border border-cobre-line/20 lg:min-h-full">
