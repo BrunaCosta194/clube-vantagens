@@ -93,6 +93,10 @@ export default function Privacidade() {
               <strong className="text-grafite">Materiais gratuitos, como o e-book do Papo de
               Aluguel:</strong> nome, e-mail e WhatsApp. Não é preciso virar membro para baixar.
             </p>
+            <p className="rounded-2xl bg-perola px-5 py-4 text-grafite">
+              No cadastro do Clube pedimos CPF ou CNPJ. Para baixar materiais gratuitos, não — ali
+              são só nome, e-mail e WhatsApp.
+            </p>
             <p>
               <strong className="text-grafite">Pedidos de cotação e contatos:</strong> os dados que
               você escrever no formulário ou mandar pelo WhatsApp.
