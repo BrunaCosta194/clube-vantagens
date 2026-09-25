@@ -9,14 +9,9 @@ import { track } from "@/lib/track";
 // sobrepõe texto nenhum.
 //
 // Enquadramento: a arte mobile (4:3) empilha logo do coração, nome, lista de
-// cinco produtos e a foto da família. O palco do carrossel continua sendo a
-// faixa 1920×465, então o `object-cover` mostra só uma tira dessa arte —
-// cortar pelo centro (`object-center`) partiria a palavra "INSURANCE" no
-// meio. Com o ponto focal em 32% da altura a tira pega o nome e a assinatura
-// inteiros, com a ponta do coração por cima; a lista de produtos e a foto
-// ficam fora (continuam aparecendo na página do parceiro).
-// Acima de 768px a arte larga entra em `object-contain`, sem corte nenhum, e
-// o ponto focal deixa de importar (proporção da imagem = proporção do palco).
+// cinco produtos e a foto da família, e o palco é 4:3 abaixo de 768px — a
+// arte cabe inteira, sem corte. De md pra cima entram a faixa larga e o palco
+// 1920×465, também sem corte.
 export default function BannerInsurance({ posicao, campanha, destino, primeiro }: BannerProps) {
   return (
     <Link
@@ -30,7 +25,7 @@ export default function BannerInsurance({ posicao, campanha, destino, primeiro }
         <img
           src={imgDesktop}
           alt="Insurance & Santé — seguros e planos de saúde"
-          className="h-full w-full select-none object-cover object-[50%_32%] md:object-contain md:object-center"
+          className="h-full w-full select-none object-cover md:object-contain"
           loading={primeiro ? "eager" : "lazy"}
           decoding="async"
           fetchPriority={primeiro ? "high" : "auto"}

@@ -189,14 +189,17 @@ export default function BannerCarousel() {
         }
         className="relative mx-auto w-full max-w-[92rem] px-4 sm:px-6"
       >
-        {/* banners são imagens (1920x465); container casa a proporção para
-            mostrar o banner inteiro sem corte, em qualquer tela.
+        {/* Duas proporções, uma por arte (ver CLAUDE.md): no celular o palco
+            é 4:3, casando com os recortes de `banners/mobile`; de md pra cima
+            vira a faixa 1920x465 das artes originais. A faixa larga no
+            celular deixava cada banner com 83px de altura — marca e chamada
+            ilegíveis.
             aria-live SÓ com o autoplay parado: anunciar cada troca com o
             carrossel girando sozinho é ruído contínuo no leitor de tela. */}
         <div
           ref={palcoRef}
           aria-live={pausado ? "polite" : "off"}
-          className="relative aspect-[1920/465] w-full overflow-hidden rounded-[1.75rem] shadow-lux"
+          className="relative aspect-[4/3] w-full overflow-hidden rounded-[1.75rem] shadow-lux md:aspect-[1920/465]"
         >
           <AnimatePresence initial={false} custom={dir} mode="popLayout">
             <motion.div

@@ -10,13 +10,10 @@ import { track } from "@/lib/track";
 //
 // Duas artes, como manda o CLAUDE.md: a oficial é 1920×465 (faixa larga) e
 // vira uma tira ilegível no celular. Abaixo de 768px o <picture> troca pela
-// arte mobile 4:3, que tem a mesma composição remontada em tamanho útil
-// (onda no topo, logo grande no terço superior, máquina de filtragem e cesto
-// de produtos embaixo). Como o palco continua sendo a faixa 1920×465 de
-// todos os slides, o `object-cover` mostra só um recorte dessa arte: o ponto
-// focal fica em 32% da altura, que é onde o logo e a assinatura estão
-// (conferido recortando a imagem na mão, na proporção exata do palco).
-// Acima de 768px volta a arte larga em `object-contain`, inteira e sem corte.
+// arte mobile 4:3, com a mesma composição remontada em tamanho útil (onda no
+// topo, logo grande no terço superior, máquina de filtragem e cesto de
+// produtos embaixo). O palco acompanha a troca — 4:3 no celular, faixa larga
+// de md pra cima —, então cada arte aparece inteira nos dois formatos.
 export default function BannerBioreluz({ posicao, campanha, destino, primeiro }: BannerProps) {
   return (
     <Link
@@ -30,7 +27,7 @@ export default function BannerBioreluz({ posicao, campanha, destino, primeiro }:
         <img
           src={imgDesktop}
           alt="BioReluz — limpeza e impermeabilização"
-          className="h-full w-full select-none object-cover object-[50%_32%] md:object-contain md:object-center"
+          className="h-full w-full select-none object-cover md:object-contain"
           loading={primeiro ? "eager" : "lazy"}
           decoding="async"
           fetchPriority={primeiro ? "high" : "auto"}

@@ -36,6 +36,10 @@ def colar_suave(canvas, img, pos, feather=26):
     canvas.paste(img, pos, m.filter(ImageFilter.GaussianBlur(feather / 2)))
 
 
+def salvar(im, nome):
+    im.save(OUT / nome, "JPEG", quality=88, optimize=True, progressive=True)
+
+
 # ─── BioReluz ───
 b = Image.open(SRC / "bioreluz-banner.jpg").convert("RGB")
 # fundo: faixa de agua logo abaixo do logo — mesma luz e textura da area onde
@@ -75,4 +79,48 @@ familia = largura(i.crop((1430, 10, 1920, 465)), 400)
 colar_suave(fundo2, familia, (CANVAS[0] - familia.width - 5, CANVAS[1] - 372), feather=16)
 
 fundo2.save(OUT / "insurance-sante.jpg", "JPEG", quality=88, optimize=True, progressive=True)
+
+# ─── Comunidade Sanchez ───
+c = Image.open(SRC / "topo-clube.jpg").convert("RGB")
+cv = cover(c.crop((300, 360, 1250, 462)), CANVAS, blur=10)
+txt = largura(c.crop((85, 95, 1305, 368)), 1010)
+colar_suave(cv, txt, ((CANVAS[0] - txt.width) // 2, 130), feather=30)
+cel = largura(c.crop((1330, 5, 1720, 465)), 300)
+colar_suave(cv, cel, (CANVAS[0] - cel.width - 60, CANVAS[1] - cel.height - 10), feather=20)
+salvar(cv, "topo-clube.jpg")
+
+# ─── Loja Sanchez ───
+l = Image.open(SRC / "topo-loja.jpg").convert("RGB")
+lv = cover(l.crop((980, 330, 1520, 458)), CANVAS, blur=12)
+txt = largura(l.crop((690, 148, 1520, 322)), 960)
+colar_suave(lv, txt, ((CANVAS[0] - txt.width) // 2, 150), feather=28)
+caneca = largura(l.crop((0, 15, 700, 465)), 540)
+colar_suave(lv, caneca, (10, CANVAS[1] - 360), feather=22)
+brinco = largura(l.crop((1630, 0, 1860, 420)), 210)
+colar_suave(lv, brinco, (CANVAS[0] - 225, CANVAS[1] - 400), feather=18)
+salvar(lv, "topo-loja.jpg")
+
+# ─── Papo de Aluguel ───
+p = Image.open(SRC / "topo-papo.jpg").convert("RGB")
+pv = cover(p.crop((700, 320, 1500, 462)), CANVAS, blur=10)
+txt = largura(p.crop((765, 48, 1700, 312)), 1000)
+colar_suave(pv, txt, ((CANVAS[0] - txt.width) // 2, 120), feather=28)
+yru = largura(p.crop((20, 5, 680, 465)), 580)
+colar_suave(pv, yru, (0, CANVAS[1] - 405), feather=22)
+mic = largura(p.crop((1760, 5, 1920, 465)), 150)
+colar_suave(pv, mic, (CANVAS[0] - 150, CANVAS[1] - 430), feather=16)
+salvar(pv, "topo-papo.jpg")
+
+# ─── Sanchez Premium ───
+s = Image.open(SRC / "topo-premium.jpg").convert("RGB")
+# area escura entre o texto e a moca: sem letra pra virar fantasma
+sv = cover(s.crop((1150, 30, 1390, 430)), CANVAS, blur=12)
+txt = largura(s.crop((230, 55, 1240, 355)), 960)
+colar_suave(sv, txt, ((CANVAS[0] - txt.width) // 2, 130), feather=28)
+# a linha "Ha mais de 53 anos..." fica de fora no celular: no 4:3 ela so
+# cabe em corpo minusculo e a moca cobria o fim da frase.
+mulher = largura(s.crop((1400, 5, 1800, 465)), 400)
+colar_suave(sv, mulher, (CANVAS[0] - 400, CANVAS[1] - 455), feather=20)
+salvar(sv, "topo-premium.jpg")
+
 print("ok")
