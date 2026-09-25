@@ -31,6 +31,14 @@ export interface EbookLead {
   nome: string;
   email: string;
   whatsapp: string;
+  /** False quando o insert do lead falhou (banco fora, rede caída). O id fica
+   * guardado mesmo assim pra não pedir o formulário de novo, mas aí ele NÃO
+   * existe em `ebook_leads` — usar como `lead_id` violaria a chave estrangeira
+   * e faria o download sumir da contagem. Enquanto for false, o próximo
+   * download tenta gravar o lead outra vez. */
+  sincronizado?: boolean;
+  /** Guardado só pra poder repetir o insert do lead com o mesmo consentimento. */
+  aceitaComunicacao?: boolean;
 }
 
 /** Dispara o download do PDF no navegador. */
@@ -66,6 +74,10 @@ export function getLeadSalvo(): EbookLead | null {
       nome: lead.nome ?? "",
       email: lead.email,
       whatsapp: lead.whatsapp ?? "",
+      // lead gravado antes desta versão não tinha a flag; tratar como
+      // sincronizado (o insert dele passou pelo caminho antigo).
+      sincronizado: lead.sincronizado ?? true,
+      aceitaComunicacao: lead.aceitaComunicacao ?? false,
     };
   } catch {
     return null;
@@ -121,7 +133,7 @@ export function erroDoWhatsapp(whatsapp: string): string | null {
 async function gravarBestEffort(
   onde: string,
   promessa: PromiseLike<{ error: { message: string } | null }>,
-): Promise<void> {
+): Promise<boolean> {
   const resultado = await Promise.race([
     Promise.resolve(promessa).catch((erro: unknown) => ({
       error: { message: String(erro) },
@@ -133,12 +145,16 @@ async function gravarBestEffort(
 
   if (resultado === null) {
     console.warn(`[ebook] ${onde}: banco demorou demais (o download segue).`);
-  } else if (resultado.error) {
+    return false;
+  }
+  if (resultado.error) {
     console.warn(
       `[ebook] ${onde}: falhou (o download segue) —`,
       resultado.error.message,
     );
+    return false;
   }
+  return true;
 }
 
 interface RegistroDownload {
@@ -150,7 +166,7 @@ interface RegistroDownload {
  * Download repetido gera linha nova de propósito: o painel precisa separar
  * total de únicos. */
 async function registrarDownload({ membroId, leadId }: RegistroDownload) {
-  await gravarBestEffort(
+  return gravarBestEffort(
     "ebook_downloads",
     supabase.from("ebook_downloads").insert({
       membro_id: membroId ?? null,
@@ -174,7 +190,37 @@ export async function baixarEbookComoMembro(): Promise<void> {
   }
 }
 
-/** Visitante que já é lead nesta máquina: baixa direto e conta o repetido. */
+/** Insert do lead com id gerado aqui. Devolve se o banco aceitou — quem
+ * chama precisa saber, porque só um lead gravado pode virar `lead_id` no
+ * download (chave estrangeira). */
+async function gravarLead(lead: EbookLead, quando: string): Promise<boolean> {
+  const atribuicao = getAtribuicao();
+  return gravarBestEffort(
+    "ebook_leads",
+    supabase.from("ebook_leads").insert({
+      id: lead.id,
+      nome: lead.nome,
+      email: lead.email,
+      whatsapp: lead.whatsapp,
+      material: EBOOK_SLUG,
+      aceita_comunicacao: !!lead.aceitaComunicacao,
+      // carimbo só quando houve consentimento — prova do QUANDO (LGPD).
+      aceita_comunicacao_em: lead.aceitaComunicacao ? quando : null,
+      origem: atribuicao.origem,
+      campanha: atribuicao.campanha,
+      utm: atribuicao.utm,
+      ref: atribuicao.ref,
+      sessao_id: getSessaoId(),
+    }),
+  );
+}
+
+/** Visitante que já é lead nesta máquina: baixa direto e conta o repetido.
+ * Se o lead nunca chegou a ser gravado (banco fora no primeiro download),
+ * tenta de novo agora: sem a linha em `ebook_leads`, o `lead_id` derrubaria o
+ * insert do download pela chave estrangeira e o download sumiria da contagem
+ * pra sempre. Não deu pra gravar? Registra o download sem o lead — visitante
+ * anônimo no painel é melhor que download nenhum. */
 export async function baixarEbookComoLead(lead: EbookLead): Promise<void> {
   baixarEbook();
   void track("ebook_download", {
@@ -182,7 +228,14 @@ export async function baixarEbookComoLead(lead: EbookLead): Promise<void> {
     membro: false,
     repetido: true,
   });
-  await registrarDownload({ leadId: lead.id });
+
+  let sincronizado = lead.sincronizado !== false;
+  if (!sincronizado) {
+    sincronizado = await gravarLead(lead, new Date().toISOString());
+    if (sincronizado) salvarLead({ ...lead, sincronizado: true });
+  }
+
+  await registrarDownload({ leadId: sincronizado ? lead.id : null });
 }
 
 export interface DadosFormularioEbook {
@@ -201,37 +254,20 @@ export interface DadosFormularioEbook {
 export async function enviarLeadEBaixar(
   dados: DadosFormularioEbook,
 ): Promise<EbookLead> {
-  const atribuicao = getAtribuicao();
-  const agora = new Date().toISOString();
   const lead: EbookLead = {
     id: crypto.randomUUID(),
     nome: dados.nome.trim(),
     email: dados.email.trim().toLowerCase(),
     whatsapp: dados.whatsapp.trim(),
+    aceitaComunicacao: dados.aceitaComunicacao,
   };
 
-  await gravarBestEffort(
-    "ebook_leads",
-    supabase.from("ebook_leads").insert({
-      id: lead.id,
-      nome: lead.nome,
-      email: lead.email,
-      whatsapp: lead.whatsapp,
-      material: EBOOK_SLUG,
-      aceita_comunicacao: dados.aceitaComunicacao,
-      // carimbo só quando houve consentimento — prova do QUANDO (LGPD).
-      aceita_comunicacao_em: dados.aceitaComunicacao ? agora : null,
-      origem: atribuicao.origem,
-      campanha: atribuicao.campanha,
-      utm: atribuicao.utm,
-      ref: atribuicao.ref,
-      sessao_id: getSessaoId(),
-    }),
-  );
+  const sincronizado = await gravarLead(lead, new Date().toISOString());
 
   // Guarda mesmo se o insert falhou: a pessoa preencheu, não merece preencher
-  // de novo. Um lead_id órfão no download é melhor que repetir o formulário.
-  salvarLead(lead);
+  // de novo. A flag registra que o lead ainda não existe no banco, pro próximo
+  // download tentar gravá-lo antes de usar o id.
+  salvarLead({ ...lead, sincronizado });
 
   baixarEbook();
   void track("ebook_download", {
@@ -239,7 +275,7 @@ export async function enviarLeadEBaixar(
     membro: false,
     repetido: false,
   });
-  await registrarDownload({ leadId: lead.id });
+  await registrarDownload({ leadId: sincronizado ? lead.id : null });
 
   return lead;
 }
