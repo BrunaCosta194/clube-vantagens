@@ -15,15 +15,13 @@ import Footer from "../components/Footer";
 const ATUALIZADO_EM = "25 de setembro de 2026";
 
 /** Dados da empresa confirmados pela Bruna em 25/09/2026.
- * DUAS COISAS A CONFERIR antes de publicar:
- *   • a razão social veio escrita "PRATIMONIAIS"; grafado aqui como
- *     "PATRIMONIAIS", que é o termo do ramo. Bater com o cartão CNPJ.
- *   • falta o tipo do logradouro (Rua/Avenida) do Dr. Ricardo Vilela. */
+ * "Pratimoniais" NÃO é erro de digitação: é a grafia registrada da razão
+ * social, conferida por ela. Não "corrigir" para "Patrimoniais". */
 const CONTROLADOR = {
-  razaoSocial: "Sanchez Imóveis e Negócios Patrimoniais Ltda.",
+  razaoSocial: "Sanchez Imóveis e Negócios Pratimoniais Ltda.",
   cnpj: "37.735.167/0001-00" as string | null,
   endereco:
-    "Dr. Ricardo Vilela, 965 — Centro, Mogi das Cruzes/SP, CEP 08780-060" as string | null,
+    "Rua Doutor Ricardo Vilela, 965 — Centro, Mogi das Cruzes/SP, CEP 08780-060" as string | null,
   emailEncarregado: "financeiro@sanchezimoveis.com.br" as string | null,
 };
 
