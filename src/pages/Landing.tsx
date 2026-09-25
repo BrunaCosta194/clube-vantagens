@@ -4,6 +4,7 @@ import Hero from "../components/Hero";
 import VitrineParceiros from "../components/VitrineParceiros";
 import LojaSecao from "../components/LojaSecao";
 import ComoFunciona from "../components/ComoFunciona";
+import Contato from "../components/Contato";
 import Footer from "../components/Footer";
 
 export default function Landing() {
@@ -16,6 +17,7 @@ export default function Landing() {
         <VitrineParceiros />
         <LojaSecao />
         <ComoFunciona />
+        <Contato />
       </main>
       <Footer />
     </div>
