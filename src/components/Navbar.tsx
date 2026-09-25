@@ -18,6 +18,7 @@ const links: NavLink[] = [
   { href: "#parceiros", label: "Parceiros" },
   { href: "#como-funciona", label: "Como funciona" },
   { href: "#indique", label: "Indique e ganhe" },
+  { href: "#contato", label: "Contato" },
 ];
 
 export default function Navbar() {
