@@ -5,9 +5,11 @@
 -- user_metadata. Usuário de equipe (painel Inteligência) não tem esses dados ->
 -- "Database error creating new user".
 --
--- SOLUÇÃO: se `app_metadata.equipe_inteligencia = true`, o trigger não cria membro.
--- app_metadata só é gravável via service_role (admin API) — o signUp público
--- do Clube NÃO consegue setar, então ninguém se passa por equipe.
+-- SOLUÇÃO: se `equipe_inteligencia = true` no user_metadata (ou app_metadata),
+-- o trigger não cria membro. Precisa olhar user_metadata porque o GoTrue grava
+-- app_metadata customizado DEPOIS do insert — no trigger ele ainda não existe.
+-- Segurança: pular a criação de membro não dá acesso a nada. Acesso ao painel
+-- depende de linha em inteligencia.equipe, que só service_role grava.
 -- Criar usuário de equipe: jobs/criar-equipe.ts do repo sanchez-inteligencia (NÃO pelo formulário do dashboard).
 --
 -- Cópia da 0006 do repo sanchez-inteligencia. Corpo = 0004_consentimento_lgpd.sql,
@@ -24,7 +26,8 @@ declare
   v_codigo text;
 begin
   -- equipe Sanchez (painel Inteligência) não é membro do Clube
-  if coalesce((new.raw_app_meta_data ->> 'equipe_inteligencia')::boolean, false) then
+  if coalesce((new.raw_user_meta_data ->> 'equipe_inteligencia')::boolean, false)
+     or coalesce((new.raw_app_meta_data ->> 'equipe_inteligencia')::boolean, false) then
     return new;
   end if;
 
