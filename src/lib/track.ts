@@ -49,7 +49,11 @@ const SESSAO_ID_STORAGE_KEY = "clube_sessao_id";
  * um reload. */
 let sessaoIdMemoria: string | null = null;
 
-function getSessaoId(): string {
+/** Id da visita atual (sessionStorage). Exportado porque o lead do e-book
+ * (Bloco 6) grava o MESMO id em `ebook_leads.sessao_id` — é o que costura
+ * `ebook_form_open` → `ebook_form_submit` → `ebook_download` com a linha do
+ * lead no painel. Gerar um id próprio lá quebraria esse join. */
+export function getSessaoId(): string {
   try {
     const existente = sessionStorage.getItem(SESSAO_ID_STORAGE_KEY);
     if (existente) return existente;

@@ -8,12 +8,16 @@ import {
   Sparkles,
   Youtube,
 } from "lucide-react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import {
-  baixarEbook,
-  registrarDownloadEbook,
+  baixarEbookComoLead,
+  baixarEbookComoMembro,
+  EBOOK_SLUG,
+  getLeadSalvo,
   temSessao,
 } from "@/lib/ebook";
+import { track } from "@/lib/track";
+import EbookFormModal from "@/components/EbookFormModal";
 import yruena from "@/assets/papo/yruena-papo.jpg";
 import logoPapo from "@/assets/papo/logo-papo.png";
 import ebookCapa from "@/assets/papo/ebook-capa.png";
@@ -59,38 +63,52 @@ const fundo =
   "linear-gradient(135deg, #1c2b45 0%, #131e33 55%, #0b1322 100%)";
 
 export default function PapoDeAluguel() {
-  const navigate = useNavigate();
   const [params] = useSearchParams();
   const [baixando, setBaixando] = useState(false);
+  const [formAberto, setFormAberto] = useState(false);
   const jaAutoBaixou = useRef(false);
 
-  // Gate do e-book: só membro logado baixa (pra saber quem baixou).
-  async function baixarComGate() {
+  /** Resolve quem pode baixar sem pedir nada: membro logado ou visitante que
+   * já virou lead nesta máquina. Retorna false quando o formulário é
+   * necessário. O gate de cadastro (decisão de 04/08) saiu daqui no Bloco 6. */
+  async function tentarBaixarDireto(): Promise<boolean> {
+    if (await temSessao()) {
+      await baixarEbookComoMembro();
+      return true;
+    }
+    const lead = getLeadSalvo();
+    if (lead) {
+      await baixarEbookComoLead(lead);
+      return true;
+    }
+    return false;
+  }
+
+  function abrirFormulario() {
+    setFormAberto(true);
+    void track("ebook_form_open", { material: EBOOK_SLUG });
+  }
+
+  async function baixarEbookDaPagina() {
     setBaixando(true);
     try {
-      if (await temSessao()) {
-        await registrarDownloadEbook();
-        baixarEbook();
-      } else {
-        // manda cadastrar e volta pra cá já baixando
-        const volta = encodeURIComponent("/papodealuguel?ebook=1");
-        navigate(`/cadastro?next=${volta}`);
-      }
+      if (!(await tentarBaixarDireto())) abrirFormulario();
     } finally {
       setBaixando(false);
     }
   }
 
-  // Voltou do cadastro/login com ?ebook=1 e está logado → baixa automático.
+  // Link antigo (`/papodealuguel?ebook=1`, do tempo do gate) continua valendo:
+  // quem já pode baixar, baixa sozinho ao cair na página; quem não pode, cai
+  // no formulário curto em vez de ficar sem nada.
   useEffect(() => {
     if (params.get("ebook") !== "1" || jaAutoBaixou.current) return;
-    (async () => {
-      if (await temSessao()) {
-        jaAutoBaixou.current = true;
-        await registrarDownloadEbook();
-        baixarEbook();
-      }
+    jaAutoBaixou.current = true;
+    void (async () => {
+      if (!(await tentarBaixarDireto())) abrirFormulario();
     })();
+    // `params` é a única dependência de propósito: o ref jaAutoBaixou já
+    // garante uma tentativa só por montagem.
   }, [params]);
 
   return (
@@ -187,15 +205,15 @@ export default function PapoDeAluguel() {
                 imobiliário.
               </p>
               <button
-                onClick={baixarComGate}
+                onClick={baixarEbookDaPagina}
                 disabled={baixando}
                 className="mt-3.5 inline-flex items-center gap-2 rounded-full bg-papo-laranja px-5 py-2.5 text-sm font-semibold text-papo-azul shadow-lux-sm transition-all duration-500 ease-lux hover:brightness-105 active:scale-[0.98] disabled:opacity-60"
               >
                 <Download className="h-4 w-4" strokeWidth={2} />
                 {baixando ? "Preparando..." : "Baixe grátis"}
               </button>
-              <p className="mt-2 text-[11px] text-papo-texto/45">
-                Cadastro rápido no clube pra liberar o download.
+              <p className="mt-2 text-[11px] text-papo-texto/60">
+                Sem cadastro: só nome, e-mail e WhatsApp.
               </p>
             </div>
           </div>
@@ -275,6 +293,8 @@ export default function PapoDeAluguel() {
           <div className="pointer-events-none absolute inset-0 bg-papo-azul/25 mix-blend-color" />
         </div>
       </div>
+
+      <EbookFormModal aberto={formAberto} onClose={() => setFormAberto(false)} />
     </section>
   );
 }
