@@ -1,10 +1,11 @@
-import { type FormEvent, useRef, useState } from "react";
+import { type FormEvent, useMemo, useRef, useState } from "react";
 import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import AuthLayout, { inputClass, labelClass } from "../components/AuthLayout";
 import { criarMembro, normalizarDocumento } from "../lib/membros";
 import { useSessao } from "../lib/sessao";
 import { supabase } from "../lib/supabase";
 import { getAtribuicao } from "../lib/atribuicao";
+import { getLeadSalvo } from "../lib/ebook";
 import { track } from "../lib/track";
 
 function mensagemDeErro(erro: string): string {
@@ -38,9 +39,14 @@ export default function Cadastro() {
     void track("club_signup_start", { tem_indicacao: !!codigoRef });
   }
 
-  const [nome, setNome] = useState("");
-  const [whatsapp, setWhatsapp] = useState("");
-  const [email, setEmail] = useState("");
+  // Quem baixou o e-book nesta máquina (Bloco 6) já deu nome, e-mail e
+  // WhatsApp — chegar aqui e digitar tudo de novo é atrito à toa. Entra como
+  // valor INICIAL do useState: pré-preenche na primeira renderização e nunca
+  // sobrescreve o que a pessoa digitar depois.
+  const leadDoEbook = useMemo(() => getLeadSalvo(), []);
+  const [nome, setNome] = useState(leadDoEbook?.nome ?? "");
+  const [whatsapp, setWhatsapp] = useState(leadDoEbook?.whatsapp ?? "");
+  const [email, setEmail] = useState(leadDoEbook?.email ?? "");
   const [documento, setDocumento] = useState("");
   const [senha, setSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
