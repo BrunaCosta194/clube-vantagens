@@ -17,6 +17,7 @@ import {
 } from "@/data/bioreluzServicos";
 import banner from "@/assets/banners/bioreluz-banner.jpg";
 import logo from "@/assets/parceiros/bioreluz-logo-v2.png";
+import LinkRastreado from "@/components/LinkRastreado";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 const WHATS =
@@ -40,15 +41,17 @@ export default function ParceiroBioreluz() {
           <ArrowLeft className="h-4 w-4" strokeWidth={1.5} />
           Voltar ao clube
         </Link>
-        <a
+        <LinkRastreado
           href={WHATS}
           target="_blank"
           rel="noreferrer"
+          evento="partner_contact"
+          props={{ slug: "bioreluz", canal: "whatsapp" }}
           className="inline-flex items-center gap-2 rounded-full bg-[hsl(145,63%,42%)] px-4 py-2 text-xs font-semibold text-white shadow-lux-sm transition hover:brightness-105"
         >
           <MessageCircle className="h-4 w-4" strokeWidth={1.6} />
           Falar no WhatsApp
-        </a>
+        </LinkRastreado>
       </header>
 
       {/* ── BANNER ── */}
@@ -275,15 +278,17 @@ function ServicoModal({
             </div>
 
             <div className="border-t border-grafite/10 bg-white p-5">
-              <a
+              <LinkRastreado
                 href={WHATS}
                 target="_blank"
                 rel="noreferrer"
+                evento="partner_contact"
+                props={{ slug: "bioreluz", canal: "whatsapp", servico: servico.slug }}
                 className="flex items-center justify-center gap-2 rounded-full bg-[hsl(145,63%,42%)] px-5 py-3 text-sm font-semibold text-white transition hover:brightness-105"
               >
                 <MessageCircle className="h-4 w-4" strokeWidth={1.5} />
                 Solicitar este serviço
-              </a>
+              </LinkRastreado>
             </div>
           </motion.div>
         </motion.div>

@@ -1,4 +1,5 @@
 import { supabase } from "./supabase";
+import { track } from "./track";
 
 // E-book "Papo de Aluguel" — download com gate de cadastro (só membros).
 // O arquivo mora em /public; o gate é a checagem de sessão antes de baixar.
@@ -25,8 +26,13 @@ export async function temSessao(): Promise<boolean> {
 
 /** Registra QUEM baixou o e-book. Best-effort: só grava com o banco ativo.
  * Depende da tabela `ebook_downloads` (migration 0003). Nunca bloqueia o
- * download — se o banco estiver fora, engole o erro. */
+ * download — se o banco estiver fora, engole o erro.
+ * Também dispara o evento `ebook_download` (Bloco 5) — hoje o download só
+ * acontece com membro logado (gate atual), o form curto pra visitante é o
+ * Bloco 6. */
 export async function registrarDownloadEbook() {
+  void track("ebook_download", { material: EBOOK_SLUG, membro: true });
+
   try {
     const { data: auth } = await supabase.auth.getUser();
     if (!auth.user) return;

@@ -4,6 +4,7 @@ import { Check, Copy, LogOut } from "lucide-react";
 import { buscarMeuPerfil, buscarMinhasIndicacoes, linkIndicacao, sair, type Indicacao, type Membro } from "../lib/membros";
 import { useSessao } from "../lib/sessao";
 import { VOUCHER_CADASTRO_LABEL } from "../lib/recompensas";
+import { track } from "../lib/track";
 import logo from "../assets/marca/logo-cs.png";
 
 const statusLabel: Record<Indicacao["status"], string> = {
@@ -64,6 +65,7 @@ export default function AreaMembro() {
   async function copiarLink() {
     if (!perfil) return;
     await navigator.clipboard.writeText(linkIndicacao(perfil.codigo_indicacao));
+    void track("referral_share", { canal: "copiar_link" });
     setCopiado(true);
     setTimeout(() => setCopiado(false), 2000);
   }

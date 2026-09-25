@@ -2,6 +2,7 @@ import { MessageCircle, MapPin, Instagram } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "@/assets/marca/logo-cs.png";
 import { ASSINATURA, anosDeSanchez } from "@/lib/marca";
+import LinkRastreado from "./LinkRastreado";
 
 // Contatos reais do clube.
 const WHATSAPP = "5511971796030";
@@ -98,26 +99,30 @@ export default function Footer() {
           </p>
           <ul className="mt-4 space-y-3 text-sm">
             <li>
-              <a
+              <LinkRastreado
                 href={hrefWpp}
                 target="_blank"
                 rel="noopener noreferrer"
+                evento="social_click"
+                props={{ rede: "whatsapp", local: "footer" }}
                 className="inline-flex items-center gap-2 hover:text-white"
               >
                 <MessageCircle className="h-4 w-4 text-cobre-light" strokeWidth={1.5} />
                 WhatsApp da Sanchez
-              </a>
+              </LinkRastreado>
             </li>
             <li>
-              <a
+              <LinkRastreado
                 href={INSTAGRAM}
                 target="_blank"
                 rel="noopener noreferrer"
+                evento="social_click"
+                props={{ rede: "instagram", local: "footer" }}
                 className="inline-flex items-center gap-2 hover:text-white"
               >
                 <Instagram className="h-4 w-4 text-cobre-light" strokeWidth={1.5} />
                 @sanchezimoveisenegocios
-              </a>
+              </LinkRastreado>
             </li>
             <li className="inline-flex items-center gap-2">
               <MapPin className="h-4 w-4 text-cobre-light" strokeWidth={1.5} />

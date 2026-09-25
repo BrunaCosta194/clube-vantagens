@@ -14,6 +14,18 @@ interface Sessao {
 
 const SessaoContext = createContext<Sessao | null>(null);
 
+/** Cache em módulo da sessão atual, atualizado pelo único listener do
+ * SessaoProvider. Existe pra `src/lib/track.ts` ler o membro_id/access_token
+ * sem precisar de outro `onAuthStateChange` nem virar um hook (track() é
+ * chamado fora de componentes React também). */
+let sessaoAtualCache: Session | null = null;
+
+/** Sessão atual, direto do cache (sem ler storage nem chamar a rede). null
+ * até o SessaoProvider montar e resolver a primeira leitura. */
+export function getSessaoAtualCache(): Session | null {
+  return sessaoAtualCache;
+}
+
 /** Nome pra saudação. Vem do metadata do signUp (`criarMembro` grava `nome`
  * lá), sem precisar consultar a tabela `membros` em toda página. Se faltar,
  * usa o trecho antes do @ do e-mail. */
@@ -35,6 +47,7 @@ export function SessaoProvider({ children }: { children: ReactNode }) {
 
     supabase.auth.getSession().then(({ data }) => {
       if (!ativo) return;
+      sessaoAtualCache = data.session;
       setSessao(data.session);
       setCarregando(false);
     });
@@ -42,6 +55,7 @@ export function SessaoProvider({ children }: { children: ReactNode }) {
     // Cobre login, logout e refresh de token — inclusive feitos em outra aba.
     const { data: inscricao } = supabase.auth.onAuthStateChange((_evento, novaSessao) => {
       if (!ativo) return;
+      sessaoAtualCache = novaSessao;
       setSessao(novaSessao);
       setCarregando(false);
     });

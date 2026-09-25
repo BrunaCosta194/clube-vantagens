@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { X, ExternalLink, Instagram, MessageCircle, BadgePercent, ArrowRight } from "lucide-react";
 import type { Parceiro } from "@/data/parceiros";
+import LinkRastreado from "./LinkRastreado";
 
 type Props = {
   parceiro: Parceiro | null;
@@ -105,11 +106,13 @@ export default function ParceiroModal({ parceiro, onClose }: Props) {
             {/* ações */}
             <div className="border-t border-grafite/10 bg-white p-5">
               <div className="flex flex-wrap gap-3">
-                <a
+                <LinkRastreado
                   href={parceiro.site ?? "#"}
                   target={parceiro.site ? "_blank" : undefined}
                   rel="noreferrer"
                   aria-disabled={!parceiro.site}
+                  evento="partner_contact"
+                  props={{ slug: parceiro.slug, canal: "site" }}
                   className={`inline-flex flex-1 items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition ${
                     parceiro.site
                       ? "border border-grafite/15 bg-white text-grafite hover:border-terracota/40 hover:text-terracota-700"
@@ -122,12 +125,14 @@ export default function ParceiroModal({ parceiro, onClose }: Props) {
                     <ExternalLink className="h-4 w-4" strokeWidth={1.5} />
                   )}
                   {parceiro.site ? (isInstagram ? "Instagram" : "Visitar site") : "Site em breve"}
-                </a>
-                <a
+                </LinkRastreado>
+                <LinkRastreado
                   href={parceiro.whatsapp ?? "#"}
                   target={parceiro.whatsapp ? "_blank" : undefined}
                   rel="noreferrer"
                   aria-disabled={!parceiro.whatsapp}
+                  evento="partner_contact"
+                  props={{ slug: parceiro.slug, canal: "whatsapp" }}
                   className={`inline-flex flex-1 items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition ${
                     parceiro.whatsapp
                       ? "bg-[hsl(145,63%,42%)] text-white hover:brightness-105"
@@ -136,7 +141,7 @@ export default function ParceiroModal({ parceiro, onClose }: Props) {
                 >
                   <MessageCircle className="h-4 w-4" strokeWidth={1.5} />
                   {parceiro.whatsapp ? "WhatsApp" : "WhatsApp em breve"}
-                </a>
+                </LinkRastreado>
               </div>
               <Link
                 to="/cadastro"

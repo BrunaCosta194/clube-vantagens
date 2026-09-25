@@ -1,4 +1,5 @@
 import { supabase } from "./supabase";
+import { getAtribuicao } from "./atribuicao";
 
 export interface Membro {
   id: string;
@@ -43,6 +44,7 @@ export function normalizarDocumento(documento: string): string {
 /** Cria a conta no Supabase Auth. O registro em `membros` (e a indicação, se
  * houver `codigoRef`) é criado automaticamente por trigger no banco. */
 export async function criarMembro(dados: DadosCadastro) {
+  const atribuicao = getAtribuicao();
   return supabase.auth.signUp({
     email: dados.email,
     password: dados.senha,
@@ -56,6 +58,12 @@ export async function criarMembro(dados: DadosCadastro) {
         // (trilha imutável) e é copiado pra membros.consentimento_lgpd_em pelo
         // trigger. null nunca deve acontecer — form exige o aceite.
         consentimento_lgpd_em: dados.aceiteLgpd ? new Date().toISOString() : null,
+        // Atribuição da sessão (Bloco 5) — não muda o trigger nem a tabela
+        // membros, só fica registrada no raw_user_meta_data pra consulta
+        // futura (painel/Connect), igual o consentimento_lgpd_em acima.
+        origem: atribuicao.origem,
+        campanha: atribuicao.campanha,
+        utm: atribuicao.utm,
       },
     },
   });

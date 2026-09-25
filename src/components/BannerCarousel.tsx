@@ -1,10 +1,11 @@
-import { useCallback, useEffect, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import BannerClube from "./banners/BannerClube";
 import BannerLoja from "./banners/BannerLoja";
 import BannerPapo from "./banners/BannerPapo";
 import BannerPremium from "./banners/BannerPremium";
+import { trackOnce } from "@/lib/track";
 
 // Carrossel do topo — banners coded (CSS/HTML), sem imagem.
 // Ordem (arquitetura do site): Clube → Loja → Papo de Aluguel → Premium.
@@ -17,9 +18,29 @@ const slides: { key: string; node: ReactNode }[] = [
 
 const AUTO_MS = 6000;
 
+/** banner_view: só conta com o slide ativo pelo menos 50% visível na tela —
+ * ver useEffect abaixo. Dedup por banner via trackOnce (1x por sessão). */
+function proporcaoVisivel(el: HTMLElement): number {
+  const rect = el.getBoundingClientRect();
+  const alturaJanela = window.innerHeight || document.documentElement.clientHeight;
+  const alturaVisivel = Math.min(rect.bottom, alturaJanela) - Math.max(rect.top, 0);
+  if (alturaVisivel <= 0 || rect.height <= 0) return 0;
+  return alturaVisivel / rect.height;
+}
+
 export default function BannerCarousel() {
   const [index, setIndex] = useState(0);
   const [dir, setDir] = useState(1);
+  const palcoRef = useRef<HTMLDivElement>(null);
+  // ref auxiliar: o observer é montado 1x (deps vazias) e precisa sempre ler
+  // o slide ATUAL, não o de quando ele foi criado.
+  const indexRef = useRef(index);
+  indexRef.current = index;
+
+  const registrarView = useCallback((i: number) => {
+    const banner = slides[i].key;
+    trackOnce(`banner_view_${banner}`, "banner_view", { banner, posicao: i + 1 });
+  }, []);
 
   const go = useCallback((next: number) => {
     setDir(next > 0 ? 1 : -1);
@@ -42,10 +63,36 @@ export default function BannerCarousel() {
     return () => clearInterval(t);
   }, [index]);
 
+  // banner_view: o palco entrou na tela (>=50%) — conta o slide ATUAL.
+  // IntersectionObserver montado 1x (o palco não sai do DOM, só o slide
+  // interno troca) + o efeito abaixo cobre o caso de trocar de slide
+  // enquanto o carrossel já está visível.
+  useEffect(() => {
+    const el = palcoRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && entries[0].intersectionRatio >= 0.5) {
+          registrarView(indexRef.current);
+        }
+      },
+      { threshold: [0.5] },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [registrarView]);
+
+  useEffect(() => {
+    const el = palcoRef.current;
+    if (!el || proporcaoVisivel(el) < 0.5) return;
+    registrarView(index);
+  }, [index, registrarView]);
+
   return (
     <section id="top" className="relative w-full overflow-hidden bg-creme pb-6 pt-20 sm:pb-8 sm:pt-24">
       {/* palco do banner — de ponta a ponta */}
       <motion.div
+        ref={palcoRef}
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
