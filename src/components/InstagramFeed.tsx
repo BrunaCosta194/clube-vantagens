@@ -1,15 +1,16 @@
-import { createElement, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Instagram } from "lucide-react";
 import LinkRastreado from "@/components/LinkRastreado";
 import { track } from "@/lib/track";
 
 // Bloco 10 — Instagram no site via widget do Behold (behold.so, plano grátis:
-// 1.200 views/mês, 6 posts, atualiza 1x/dia). A seção só aparece quando
-// VITE_BEHOLD_FEED_ID estiver configurado (Vercel → Environment Variables +
-// redeploy) — sem ele, não renderiza nada. O script do Behold só é baixado
+// 1.200 views/mês, 6 posts, atualiza 1x/dia). Feed ID do @sanchezimoveisenegocios
+// fica aqui (é público, vai no HTML de qualquer jeito); VITE_BEHOLD_FEED_ID na
+// Vercel sobrescreve. ID vazio = seção não renderiza. O script do Behold só é baixado
 // quando a seção chega perto da tela, pra não pesar o carregamento inicial
 // nem gastar view do plano com quem não rola até aqui.
-const FEED_ID = (import.meta.env.VITE_BEHOLD_FEED_ID as string | undefined)?.trim() ?? "";
+const FEED_ID_PADRAO = "B4y3mzvHS2PcREK8vyhu";
+const FEED_ID = (import.meta.env.VITE_BEHOLD_FEED_ID as string | undefined)?.trim() || FEED_ID_PADRAO;
 const SCRIPT_BEHOLD = "https://w.behold.so/widget.js";
 const INSTAGRAM = "https://www.instagram.com/sanchezimoveisenegocios/";
 
@@ -78,7 +79,7 @@ export default function InstagramFeed() {
           className="mt-10 min-h-[240px] lg:mt-14"
           onClick={() => void track("social_click", { rede: "instagram", local: "feed_post" })}
         >
-          {visivel && createElement("behold-widget", { "feed-id": FEED_ID })}
+          {visivel && <div data-behold-id={FEED_ID} />}
         </div>
       </div>
     </section>
