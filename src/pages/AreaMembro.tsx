@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Check, Copy, LogOut } from "lucide-react";
+import { BarChart3, Check, Copy, LogOut } from "lucide-react";
 import { buscarMeuPerfil, buscarMinhasIndicacoes, linkIndicacao, sair, type Indicacao, type Membro } from "../lib/membros";
 import { useSessao } from "../lib/sessao";
+import { ehAdmin } from "../lib/painel";
 import { VOUCHER_CADASTRO_LABEL } from "../lib/recompensas";
 import { track } from "../lib/track";
 import logo from "../assets/marca/logo-cs.png";
@@ -19,6 +20,9 @@ export default function AreaMembro() {
   const [indicacoes, setIndicacoes] = useState<Indicacao[]>([]);
   const [carregando, setCarregando] = useState(true);
   const [copiado, setCopiado] = useState(false);
+  // Admin (tabela public.admins) vê atalho pro painel /admin — nenhum outro
+  // lugar do site leva até lá. Erro na checagem = trata como não-admin.
+  const [admin, setAdmin] = useState(false);
 
   useEffect(() => {
     // Espera a sessão ser lida antes de decidir qualquer coisa — sem isso,
@@ -39,8 +43,12 @@ export default function AreaMembro() {
           navigate("/login");
           return;
         }
-        const minhasIndicacoes = await buscarMinhasIndicacoes();
+        const [minhasIndicacoes, souAdmin] = await Promise.all([
+          buscarMinhasIndicacoes(),
+          ehAdmin().catch(() => false),
+        ]);
         if (ativo) {
+          setAdmin(souAdmin);
           setPerfil(meuPerfil);
           setIndicacoes(minhasIndicacoes);
         }
@@ -90,10 +98,18 @@ export default function AreaMembro() {
               Clube Sanchez
             </span>
           </Link>
-          <button onClick={handleSair} className="btn-quiet">
-            <LogOut className="h-4 w-4" strokeWidth={1.5} />
-            Sair
-          </button>
+          <div className="flex items-center gap-2">
+            {admin && (
+              <Link to="/admin" className="btn-quiet">
+                <BarChart3 className="h-4 w-4" strokeWidth={1.5} />
+                Painel
+              </Link>
+            )}
+            <button onClick={handleSair} className="btn-quiet">
+              <LogOut className="h-4 w-4" strokeWidth={1.5} />
+              Sair
+            </button>
+          </div>
         </div>
       </header>
 
