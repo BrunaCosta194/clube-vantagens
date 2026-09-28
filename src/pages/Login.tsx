@@ -2,6 +2,7 @@ import { type FormEvent, useState } from "react";
 import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import AuthLayout, { inputClass, labelClass } from "../components/AuthLayout";
 import { entrar } from "../lib/membros";
+import { ehAdmin } from "../lib/painel";
 import { useSessao } from "../lib/sessao";
 
 export default function Login() {
@@ -10,7 +11,7 @@ export default function Login() {
   const next = searchParams.get("next");
   const { usuario, carregando: lendoSessao } = useSessao();
   // Login leva pra home: quem já é membro conhece o voucher e quer navegar.
-  // O ?next= (gate do e-book) continua tendo prioridade.
+  // Admin vai direto pro painel. O ?next= (gate do e-book) tem prioridade.
   const destino = next || "/";
   const cadastroHref = next ? `/cadastro?next=${encodeURIComponent(next)}` : "/cadastro";
   const [email, setEmail] = useState("");
@@ -31,6 +32,10 @@ export default function Login() {
       return;
     }
 
+    if (!next && (await ehAdmin().catch(() => false))) {
+      navigate("/admin");
+      return;
+    }
     navigate(destino);
   }
 

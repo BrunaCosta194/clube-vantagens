@@ -17,7 +17,6 @@ const links: NavLink[] = [
   { label: "Comunidade Sanchez", to: "/cadastro" },
   { href: "#parceiros", label: "Parceiros" },
   { href: "#como-funciona", label: "Como funciona" },
-  { href: "#indique", label: "Indique e ganhe" },
   { href: "#contato", label: "Contato" },
 ];
 
@@ -52,7 +51,7 @@ export default function Navbar() {
       <nav
         className={`flex items-center gap-1 rounded-full border transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] sm:gap-2 ${
           scrolled
-            ? "border-grafite/10 bg-creme/80 py-2 pl-3 pr-2 shadow-lux-sm backdrop-blur-xl"
+            ? "border-grafite/10 bg-creme/80 py-2 pl-3 pr-2 shadow-lux-sm backdrop-blur-md"
             : "border-white/10 bg-grafite/5 py-2.5 pl-4 pr-2.5 backdrop-blur-md"
         }`}
       >

@@ -17,8 +17,8 @@ export default function VitrineParceiros() {
         {/* cabeçalho editorial */}
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <motion.div
-            initial={{ opacity: 0, y: 20, filter: "blur(6px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.8, ease }}
             className="max-w-xl"
@@ -38,8 +38,8 @@ export default function VitrineParceiros() {
           {parceiros.map((p, i) => (
             <motion.div
               key={p.slug}
-              initial={{ opacity: 0, y: 28, filter: "blur(6px)" }}
-              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.7, delay: (i % 3) * 0.1, ease }}
               className="group w-[72%] min-w-0 shrink-0 snap-start sm:w-auto sm:shrink"

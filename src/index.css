@@ -39,7 +39,9 @@
   }
 }
 
-/* Grão de filme — overlay fixo, barato, não repinta no scroll */
+/* Grão de filme — overlay fixo em camada própria. Sem mix-blend-mode: com
+   blend o navegador remistura a tela inteira a cada quadro de scroll (era a
+   principal causa do scroll travado). Na opacidade 0.04 a diferença não aparece. */
 body::after {
   content: "";
   position: fixed;
@@ -47,7 +49,7 @@ body::after {
   z-index: 40;
   pointer-events: none;
   opacity: 0.04;
-  mix-blend-mode: multiply;
+  transform: translateZ(0);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 120px 120px;
 }

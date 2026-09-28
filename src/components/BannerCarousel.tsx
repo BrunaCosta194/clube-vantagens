@@ -255,14 +255,10 @@ export default function BannerCarousel() {
         )}
       </motion.div>
 
-      {/* contador + pontinhos. O contador é `aria-hidden`: quem usa leitor de
-          tela já ouve "Banner 2 de 6" no rótulo do slide, e repetir "2 / 6"
-          seria a mesma informação duas vezes. */}
+      {/* pontinhos (contador "2 / 6" removido a pedido da Bruna — o leitor de
+          tela continua ouvindo "Banner 2 de 6" no rótulo do slide). */}
       {total > 1 && (
         <div className="relative mt-2 flex items-center justify-center gap-3 sm:mt-3">
-          <span aria-hidden="true" className="font-mono text-xs tabular-nums text-grafite-muted">
-            {posicao} / {total}
-          </span>
           <div className="flex">
             {slides.map((b, i) => (
               <button
