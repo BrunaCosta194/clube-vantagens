@@ -17,8 +17,8 @@ export default function LojaSecao() {
     <section id="loja" className="section-y bg-warm-wash">
       <div className="container-club">
         <motion.div
-          initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
-          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.8, ease }}
           className="flex flex-wrap items-end justify-between gap-6"

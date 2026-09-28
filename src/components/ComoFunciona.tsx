@@ -41,8 +41,8 @@ export default function ComoFunciona() {
     <section id="como-funciona" className="section-y bg-warm-wash">
       <div className="container-club">
         <motion.div
-          initial={{ opacity: 0, y: 20, filter: "blur(6px)" }}
-          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.8, ease }}
           className="max-w-xl"
@@ -58,8 +58,8 @@ export default function ComoFunciona() {
           {passos.map((p, i) => (
             <motion.div
               key={p.num}
-              initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
-              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.7, delay: i * 0.12, ease }}
               className="group"
@@ -81,8 +81,8 @@ export default function ComoFunciona() {
               indicar: sem repetir um bloco de "indique e ganhe" separado. */}
           <motion.div
             id="indique"
-            initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.7, delay: 3 * 0.12, ease }}
             className="group scroll-mt-28"
@@ -132,8 +132,8 @@ export default function ComoFunciona() {
           institucional (grafite + cobre de detalhe), fundo laranja removido. */}
       <div id="cadastro" className="container-club mt-16 scroll-mt-28 sm:mt-20 lg:mt-24">
         <motion.div
-          initial={{ opacity: 0, y: 28, filter: "blur(8px)" }}
-          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.9, ease }}
           className="relative overflow-hidden rounded-[2rem] bg-grafite px-6 py-12 sm:rounded-[2.5rem] sm:px-16 sm:py-20"

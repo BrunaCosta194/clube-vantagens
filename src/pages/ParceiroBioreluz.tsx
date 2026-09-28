@@ -70,8 +70,8 @@ export default function ParceiroBioreluz() {
       {/* ── INTRO: logo + história + vantagem (painel legível) ── */}
       <section className="mx-auto w-full max-w-[92rem] px-6 sm:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease }}
           className="relative z-10 -mt-10 rounded-[2rem] border border-grafite/10 bg-creme p-6 shadow-lux sm:-mt-14 sm:p-9"
         >
@@ -133,8 +133,8 @@ export default function ParceiroBioreluz() {
             <motion.button
               key={s.slug}
               onClick={() => setAberto(s)}
-              initial={{ opacity: 0, y: 28, filter: "blur(6px)" }}
-              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.7, delay: (i % 3) * 0.1, ease }}
               className="group text-left"

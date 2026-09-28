@@ -72,8 +72,8 @@ export default function ParceiroInsurance() {
       {/* ── INTRO ── */}
       <section className="mx-auto w-full max-w-[92rem] px-6 sm:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease }}
           className="relative z-10 -mt-10 rounded-[2rem] border border-grafite/10 bg-creme p-6 shadow-lux sm:-mt-14 sm:p-9"
         >
@@ -141,8 +141,8 @@ export default function ParceiroInsurance() {
                     onClick={() =>
                       setCotacao({ produto: p, categoria: cat.titulo })
                     }
-                    initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
-                    whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-60px" }}
                     transition={{ duration: 0.6, delay: (i % 3) * 0.08, ease }}
                     className="group flex h-full flex-col rounded-[1.5rem] border border-grafite/10 bg-white p-5 text-left shadow-card transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-cobre/40 hover:shadow-lux"

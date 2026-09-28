@@ -12,11 +12,10 @@ const parceirosAtivos = parceiros.filter((p) => p.ativo !== false).length;
 const ease = [0.22, 1, 0.36, 1] as const;
 
 const up = {
-  hidden: { opacity: 0, y: 24, filter: "blur(6px)" },
+  hidden: { opacity: 0, y: 24 },
   show: (i: number) => ({
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
     transition: { duration: 0.9, delay: 0.1 + i * 0.09, ease },
   }),
 };
@@ -32,8 +31,6 @@ export default function Hero() {
   const revealY = useTransform(scrollYProgress, [0, 0.35], [70, 0]);
   const revealOpacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
   const revealScale = useTransform(scrollYProgress, [0, 0.35], [0.94, 1]);
-  const revealBlurPx = useTransform(scrollYProgress, [0, 0.3], [10, 0]);
-  const revealFilter = useTransform(revealBlurPx, (v) => `blur(${v}px)`);
 
   // parallax: a foto "flutua" dentro da moldura enquanto a seção passa pela tela
   // foto (2:3) é mais alta que a moldura (4:5) → há folga só embaixo;
@@ -112,7 +109,7 @@ export default function Hero() {
         {/* ── Foto da Yruena (protagonista) ── */}
         <motion.div
           ref={fotoRef}
-          style={{ y: revealY, opacity: revealOpacity, scale: revealScale, filter: revealFilter }}
+          style={{ y: revealY, opacity: revealOpacity, scale: revealScale }}
           className="relative mx-auto w-full max-w-[19rem] sm:max-w-md lg:mr-0"
         >
           <div className="bezel">
