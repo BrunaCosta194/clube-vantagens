@@ -39,6 +39,25 @@ const SITUACOES: { valor: PainelSituacao; rotulo: string }[] = [
   { valor: "membro", rotulo: "Membro" },
 ];
 
+// Nomes técnicos dos eventos (src/lib/track) → rótulo legível no painel.
+// Evento novo sem rótulo aparece com o nome técnico mesmo.
+const ROTULOS_EVENTO: Record<string, string> = {
+  banner_view: "Banner visto",
+  banner_click: "Clique no banner",
+  ebook_form_open: "Abriu formulário do e-book",
+  ebook_form_submit: "Enviou formulário do e-book",
+  ebook_download: "Baixou o e-book",
+  club_signup_start: "Começou cadastro no Clube",
+  club_signup_complete: "Concluiu cadastro no Clube",
+  partner_open: "Abriu parceiro",
+  partner_contact: "Contato com parceiro",
+  product_click: "Clique em produto",
+  referral_share: "Compartilhou indicação",
+  referral_conversion: "Indicação convertida",
+  map_open: "Abriu mapa ou rota",
+  social_click: "Clique em rede ou contato",
+};
+
 function numero(n: number): string {
   return n.toLocaleString("pt-BR");
 }
@@ -488,7 +507,7 @@ export default function Admin() {
               <Eyebrow>Eventos por tipo</Eyebrow>
               <Tabela
                 colunas={["Evento", "Total", "%"]}
-                linhas={m.por_evento.map((x) => [x.nome, numero(x.total), percentual(x.total, totalEventosPorEvento)])}
+                linhas={m.por_evento.map((x) => [ROTULOS_EVENTO[x.nome] ?? x.nome, numero(x.total), percentual(x.total, totalEventosPorEvento)])}
               />
             </Card>
 
