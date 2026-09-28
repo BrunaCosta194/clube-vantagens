@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mídia Kit Papo de Aluguel</title>
+  <meta name="description" content="Podcast ao vivo para quem leva a corretagem a sério. Conheça o Papo de Aluguel e associe sua marca a uma comunidade profissional." />
+  <meta property="og:title" content="Papo de Aluguel · Mídia Kit 2026" />
+  <meta property="og:description" content="Corretagem não é bico. É profissão. Sua marca também pode sentar à nossa mesa." />
+  <meta property="og:image" content="https://clube-vantagens.vercel.app/midiakit/img/estudio.jpg" />
+  <meta name="theme-color" content="#1d3150" />
+  <link rel="icon" href="/midiakit/img/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Fallback da Paralucent Text (Outfit) + serifa editorial de acento -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/midiakit/styles.css" />
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- NAV -->
+  <header class="nav" id="nav">
+    <a class="nav__brand" href="#topo" aria-label="Papo de Aluguel — início">
+      <img src="/midiakit/img/logo.png" alt="" width="40" height="60" />
+      <span>Papo de Aluguel</span>
+    </a>
+    <nav class="nav__links" aria-label="Seções">
+      <a href="#o-papo">O Papo</a>
+      <a href="#alcance">Alcance</a>
+      <a href="#cotas">Cotas</a>
+      <a href="#host">Host</a>
+    </nav>
+    <button class="btn btn--sm btn--orange" data-open-flow>Quero fazer parte</button>
+  </header>
+
+  <main>
+    <!-- 1 · HERO -->
+    <section class="hero" id="topo">
+      <div class="hero__media" aria-hidden="true">
+        <img src="/midiakit/img/estudio.jpg" alt="" />
+      </div>
+      <div class="hero__shade" aria-hidden="true"></div>
+
+      <div class="hero__inner">
+        <p class="hero__meta reveal">
+          <span class="live-dot" aria-hidden="true"></span>
+          Podcast ao vivo <i>·</i> conhecimento <i>·</i> profissão <i>·</i> mercado
+        </p>
+
+        <img class="hero__logo reveal" src="/midiakit/img/logo.png" alt="Papo de Aluguel" width="160" height="240" />
+
+        <h1 class="hero__title">
+          <span class="line reveal">Em cada conversa, <em>uma transformação.</em></span>
+          <span class="line reveal">Em cada encontro, <em>uma história.</em></span>
+          <span class="line reveal">Em cada história, <em>uma lição.</em></span>
+        </h1>
+
+        <div class="hero__foot reveal">
+          <p class="stamp">Corretagem não é bico. <strong>É profissão.</strong></p>
+          <a class="scroll-cue" href="#na-mesa">Conheça o Papo <span aria-hidden="true">↓</span></a>
+        </div>
+      </div>
+      <p class="hero__kit" aria-hidden="true">Mídia Kit<br />2026</p>
+    </section>
+
+    <!-- 2 · MOSAICO VIVO -->
+    <section class="mesa" id="na-mesa">
+      <div class="watermark" aria-hidden="true">
+        <div class="watermark__track">
+          <span>Quem aprende não depende</span><span>Quem aprende não depende</span><span>Quem aprende não depende</span>
+        </div>
+      </div>
+
+      <div class="wrap">
+        <header class="section-head section-head--light reveal">
+          <p class="eyebrow"><b>01</b> Na mesa do Papo</p>
+          <h2>Aqui não tem papo furado.<br /><span class="serif">É Papo de Aluguel.</span></h2>
+          <p class="lede">Entrevistas, debates, bastidores e gente que vive o mercado de verdade. Toque em qualquer momento para assistir.</p>
+        </header>
+
+        <div class="mosaic" id="mosaic"><!-- preenchido por app.js (CONFIG.mosaico) --></div>
+
+        <div class="channels reveal">
+          <a class="channel" data-link="youtube" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .6 12 31 31 0 0 0 1 16.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1c.4-1.6.4-4.8.4-4.8s0-3.2-.4-4.8ZM9.7 15V9l5.8 3-5.8 3Z"/></svg>
+            <span><small>Episódios completos</small>YouTube</span>
+          </a>
+          <a class="channel" data-link="instagramPapo" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4ZM17.3 5.5a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4ZM12 2.2c-2.7 0-3 0-4 .1-3.6.2-5.6 2.1-5.8 5.8-.1 1-.1 1.3-.1 3.9s0 3 .1 4c.2 3.6 2.2 5.6 5.8 5.8 1 .1 1.3.1 4 .1s3 0 4-.1c3.6-.2 5.6-2.2 5.8-5.8.1-1 .1-1.3.1-4s0-3-.1-4c-.2-3.6-2.2-5.6-5.8-5.8-1-.1-1.3-.1-4-.1Zm0 1.8c2.6 0 2.9 0 4 .1 2.6.1 3.8 1.4 4 4 0 1 .1 1.3.1 3.9s0 2.9-.1 3.9c-.1 2.6-1.4 3.9-4 4-1 .1-1.4.1-4 .1s-2.9 0-3.9-.1c-2.7-.1-3.9-1.4-4-4-.1-1-.1-1.3-.1-3.9s0-2.9.1-3.9c.1-2.6 1.4-3.9 4-4 1-.1 1.3-.1 3.9-.1Z"/></svg>
+            <span><small>Cortes e bastidores</small>@papodealuguel</span>
+          </a>
+          <a class="channel" data-link="tiktok" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 2h-3.3v13.3a2.9 2.9 0 1 1-2-2.8V9.1a6.2 6.2 0 1 0 5.3 6.2V8.6a7.9 7.9 0 0 0 4.6 1.5V6.8a4.6 4.6 0 0 1-4.6-4.6Z"/></svg>
+            <span><small>Momentos rápidos</small>TikTok</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 · O QUE É -->
+    <section class="sobre" id="o-papo">
+      <div class="wrap">
+        <div class="sobre__grid">
+          <header class="section-head reveal">
+            <p class="eyebrow"><b>02</b> O que é o Papo de Aluguel</p>
+            <h2>Mais do que uma infomarca. <span class="serif">Uma comunidade</span> que levanta a bandeira do corretor de imóveis.</h2>
+          </header>
+
+          <div class="sobre__body reveal">
+            <p>O Papo de Aluguel nasceu para valorizar quem escolheu o mercado imobiliário como <strong>profissão</strong> — e para fomentar um mercado mais preparado, profissional e respeitado.</p>
+            <p>Acreditamos no poder da <strong>instrução</strong>, da capacitação, do comprometimento, da excelência e da inovação.</p>
+            <p>Na mesa, especialistas, empresários e profissionais com histórias capazes de ampliar a visão de quem vive o mercado — com entrevistas exclusivas e debates sobre as tendências que impactam, principalmente, <strong>o profissional</strong>.</p>
+            <ul class="topics" aria-label="Temas do podcast">
+              <li>Mercado</li><li>Negócios</li><li>Comportamento</li><li>Gestão</li><li>Vendas</li><li>Comunicação</li><li>Carreira</li><li>Inovação</li>
+            </ul>
+          </div>
+        </div>
+
+        <blockquote class="pull reveal">
+          <p>Networking, para nós, não é ponto de partida. <em>É consequência.</em></p>
+          <cite>Consequência de estar cercado de profissionais que estudam, executam, compartilham conhecimento e levam a própria profissão a sério.</cite>
+        </blockquote>
+
+        <div class="rule reveal">
+          <figure class="rule__photo"><img src="/midiakit/img/grid6.jpg" alt="Convidados debatendo na mesa do Papo de Aluguel" loading="lazy" /></figure>
+          <div class="rule__text">
+            <p class="eyebrow eyebrow--orange">A regra da mesa</p>
+            <p class="rule__big">Se você é amador, <br />você não senta nessa mesa.</p>
+            <p>Ela é exclusiva para quem escolheu ser profissional — e está disposto a pagar o preço da sua profissão.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 · PROPÓSITO, DIREÇÃO E VALORES -->
+    <section class="proposito">
+      <div class="wrap">
+        <div class="statements">
+          <article class="statement reveal">
+            <p class="eyebrow eyebrow--orange"><b>03</b> Por que existimos</p>
+            <p class="statement__text">Para transformar o mercado imobiliário por meio da <em>instrução</em> — elevando o preparo, a consciência, a entrega e o reconhecimento de seus profissionais.</p>
+          </article>
+          <article class="statement reveal">
+            <p class="eyebrow eyebrow--orange">Para onde estamos indo</p>
+            <p class="statement__text">Ser referência nacional em educação, conteúdo e desenvolvimento do profissional imobiliário — conectando <em>conhecimento, mercado e oportunidades.</em></p>
+          </article>
+        </div>
+
+        <div class="valores">
+          <div class="valores__list reveal">
+            <p class="eyebrow">O que defendemos</p>
+            <ol id="valores"><!-- app.js --></ol>
+          </div>
+          <figure class="valores__photo reveal" aria-live="polite">
+            <img id="valorFoto" src="/midiakit/img/grid4.jpg" alt="" loading="lazy" />
+            <figcaption id="valorLegenda"></figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 · ALCANCE -->
+    <section class="alcance" id="alcance">
+      <div class="wrap">
+        <header class="section-head reveal">
+          <p class="eyebrow"><b>04</b> Não é só conteúdo. É alcance.</p>
+          <h2>Conhecimento que sai da mesa <span class="serif">e ganha o mundo.</span></h2>
+        </header>
+
+        <div class="alcance__grid">
+          <div class="counter reveal">
+            <p class="counter__num"><span>+</span><span id="views" data-target="0">0</span></p>
+            <p class="counter__label">visualizações <small id="viewsData"></small></p>
+          </div>
+
+          <div class="rings reveal" aria-hidden="true">
+            <div class="ring ring--3"><span class="ring__tag">Mundo</span></div>
+            <div class="ring ring--2"><span class="ring__tag">Brasil</span></div>
+            <div class="ring ring--1"><span class="ring__tag">Alto Tietê + Grande SP</span></div>
+            <div class="ring__core"><img src="/midiakit/img/logo.png" alt="" /></div>
+            <i class="pin" style="--a:-35deg;--r:var(--r1)"></i>
+            <i class="pin" style="--a:60deg;--r:var(--r1)"></i>
+            <i class="pin" style="--a:170deg;--r:var(--r1)"></i>
+            <i class="pin" style="--a:250deg;--r:var(--r1)"></i>
+            <i class="pin pin--o" style="--a:-80deg;--r:var(--r2)"></i>
+            <i class="pin pin--o" style="--a:25deg;--r:var(--r3)"></i>
+            <i class="pin pin--o" style="--a:205deg;--r:var(--r3)"></i>
+          </div>
+
+          <div class="regioes reveal" id="regioes"><!-- app.js --></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 · COTAS -->
+    <section class="cotas" id="cotas">
+      <div class="wrap">
+        <header class="section-head section-head--light reveal">
+          <p class="eyebrow"><b>05</b> Patrocínio</p>
+          <h2>Sua marca também pode <span class="serif">sentar à nossa mesa.</span></h2>
+          <p class="lede">O Papo de Aluguel reúne profissionais, empresários, parceiros e consumidores em torno de um princípio simples. Não prometemos conexão vazia — construímos o ambiente em que ela acontece.</p>
+        </header>
+
+        <ol class="chain reveal" aria-label="Princípio">
+          <li>Conhecimento</li><li>gera autoridade</li><li>que gera confiança</li><li>que gera negócios</li>
+        </ol>
+
+        <p class="live-note reveal"><span class="live-dot" aria-hidden="true"></span> O podcast é <strong>ao vivo</strong>: sua marca aparece e é citada no momento em que a audiência está assistindo.</p>
+
+        <div class="planos" id="planos"><!-- app.js --></div>
+
+        <details class="compare reveal">
+          <summary>Comparar todas as entregas</summary>
+          <div class="compare__scroll">
+            <table id="compareTable"><!-- app.js --></table>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- 7 · HOST -->
+    <section class="host" id="host">
+      <div class="wrap host__grid">
+        <figure class="host__photo reveal">
+          <img src="/midiakit/img/yruena-papo.jpg" alt="Yruena Monteiro, host do Papo de Aluguel" loading="lazy" />
+          <span class="host__badge">Host</span>
+        </figure>
+        <div class="host__text reveal">
+          <p class="eyebrow"><b>06</b> Quem conduz essa conversa</p>
+          <h2>Yruena Monteiro</h2>
+          <p class="host__roles">Corretora de imóveis · Gestora imobiliária · Educadora imobiliária · Host do Papo de Aluguel</p>
+          <p class="host__bio">Mais do que entrevistar pessoas, Yruena provoca repertório, experiência e conhecimento — conectando cada conversa à profissão, aos negócios e ao mundo.</p>
+          <p class="host__motto serif">“O corretor que pensa o mundo.”</p>
+          <div class="host__links">
+            <a class="pill" data-link="instagramHost" target="_blank" rel="noopener">Instagram da Yruena</a>
+            <a class="pill" data-link="instagramPapo" target="_blank" rel="noopener">Instagram do Papo</a>
+            <a class="pill" data-link="youtube" target="_blank" rel="noopener">YouTube</a>
+            <a class="pill pill--wa" data-link="whatsapp" target="_blank" rel="noopener">Falar com a produção</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8 · FECHAMENTO -->
+    <section class="final">
+      <div class="final__media" aria-hidden="true"><img src="/midiakit/img/host-mic.jpg" alt="" loading="lazy" /></div>
+      <div class="final__shade" aria-hidden="true"></div>
+      <div class="wrap final__inner">
+        <p class="eyebrow eyebrow--orange reveal">O convite</p>
+        <h2 class="reveal">Essa mesa é para quem leva <br class="br-lg" />a profissão a sério.</h2>
+        <p class="final__text reveal">Se você veste a camisa da sua profissão e está disposto a pagar o preço do seu propósito, da sua construção e da excelência que deseja representar, há um lugar para você — e para a sua marca — nessa conversa.</p>
+        <ul class="slogans reveal">
+          <li>Corretagem não é bico. É profissão.</li>
+          <li>Quem aprende não depende.</li>
+          <li>Aqui não tem papo furado. É Papo de Aluguel.</li>
+        </ul>
+        <div class="final__cta reveal">
+          <p>Vamos construir isso juntos?</p>
+          <button class="btn btn--lg btn--orange" data-open-flow>Quero fazer parte</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__grid">
+      <div class="footer__brand">
+        <img src="/midiakit/img/logo.png" alt="Papo de Aluguel" width="56" height="84" />
+        <p>Aqui não tem papo furado.<br /><strong>É Papo de Aluguel.</strong></p>
+      </div>
+      <div class="footer__col">
+        <p class="eyebrow">Inscreva-se e siga</p>
+        <a data-link="youtube" target="_blank" rel="noopener">YouTube</a>
+        <a data-link="instagramPapo" target="_blank" rel="noopener">Instagram</a>
+        <a data-link="facebook" target="_blank" rel="noopener">Facebook</a>
+        <a data-link="tiktok" target="_blank" rel="noopener">TikTok</a>
+      </div>
+      <div class="footer__col">
+        <p class="eyebrow">Produção</p>
+        <a data-link="whatsapp" target="_blank" rel="noopener">WhatsApp da produção</a>
+        <a data-link="instagramHost" target="_blank" rel="noopener">Instagram da host</a>
+        <a data-link="clube" target="_blank" rel="noopener">Clube de Vantagens Sanchez</a>
+      </div>
+    </div>
+    <p class="footer__legal wrap">© <span id="ano"></span> Papo de Aluguel · Comunidade Sanchez · Mogi das Cruzes/SP</p>
+  </footer>
+
+  <!-- FLUXO DE ADESÃO -->
+  <dialog class="flow" id="flow" aria-labelledby="flowTitle">
+    <form class="flow__card" id="flowForm" novalidate>
+      <header class="flow__head">
+        <div>
+          <p class="eyebrow eyebrow--orange">Patrocínio · Papo de Aluguel</p>
+          <h3 id="flowTitle">Escolha como sua marca quer participar</h3>
+        </div>
+        <button type="button" class="flow__close" data-close-flow aria-label="Fechar">✕</button>
+      </header>
+
+      <ol class="steps" aria-label="Etapas">
+        <li class="is-on">Cota</li><li>Dados</li><li>Contrato</li><li>Pagamento</li>
+      </ol>
+
+      <div class="flow__body">
+        <!-- Etapa 1 -->
+        <fieldset class="step is-on" data-step="1">
+          <legend class="sr">Escolha da cota</legend>
+          <div class="pick" id="pickCota"><!-- app.js --></div>
+          <p class="hint">Todas as cotas têm contrato de <strong>6 meses</strong>, pagos mensalmente.</p>
+        </fieldset>
+
+        <!-- Etapa 2 -->
+        <fieldset class="step" data-step="2">
+          <legend class="sr">Dados do patrocinador</legend>
+          <div class="seg" role="radiogroup" aria-label="Tipo de pessoa">
+            <label><input type="radio" name="tipo" value="PJ" checked /> <span>Empresa (PJ)</span></label>
+            <label><input type="radio" name="tipo" value="PF" /> <span>Pessoa física</span></label>
+          </div>
+
+          <div class="fields" data-only="PJ">
+            <label class="f f--2">Razão social<input name="razao" autocomplete="organization" /></label>
+            <label class="f">Nome fantasia<input name="fantasia" /></label>
+            <label class="f">CNPJ<input name="cnpj" inputmode="numeric" data-mask="cnpj" /></label>
+            <label class="f f--2">Representante legal<input name="representante" autocomplete="name" /></label>
+            <label class="f">CPF do representante<input name="cpfRep" inputmode="numeric" data-mask="cpf" /></label>
+          </div>
+          <div class="fields" data-only="PF" hidden>
+            <label class="f f--2">Nome completo<input name="nomePF" autocomplete="name" /></label>
+            <label class="f">CPF<input name="cpfPF" inputmode="numeric" data-mask="cpf" /></label>
+          </div>
+          <div class="fields">
+            <label class="f f--3">Endereço completo<input name="endereco" autocomplete="street-address" /></label>
+            <label class="f">E-mail<input name="email" type="email" autocomplete="email" /></label>
+            <label class="f">Telefone / WhatsApp<input name="telefone" inputmode="tel" data-mask="tel" autocomplete="tel" /></label>
+          </div>
+
+          <p class="fields-title">Sua marca no Papo</p>
+          <div class="fields">
+            <label class="f">Nome a ser mencionado ao vivo<input name="nomeComercial" /></label>
+            <label class="f">Segmento<input name="segmento" placeholder="Ex.: financiamento, arquitetura…" /></label>
+            <label class="f">Instagram<input name="instagram" placeholder="@suamarca" /></label>
+            <label class="f">Site<input name="site" type="url" placeholder="https://" /></label>
+            <label class="f">WhatsApp comercial<input name="whatsComercial" inputmode="tel" data-mask="tel" /></label>
+            <label class="f file">Logotipo (PNG ou SVG)<input name="logo" type="file" accept=".png,.svg,image/png,image/svg+xml" /></label>
+          </div>
+
+          <div data-only-cota="300" hidden>
+            <p class="fields-title">Clube de Vantagens · Comunidade Sanchez</p>
+            <div class="fields">
+              <label class="f f--3">Sobre a empresa<textarea name="descricao" rows="2"></textarea></label>
+              <label class="f f--2">Oferta / benefício para membros do Clube<input name="oferta" placeholder="Ex.: 10% de desconto no primeiro serviço" /></label>
+              <label class="f file">Banner (opcional)<input name="banner" type="file" accept="image/*" /></label>
+            </div>
+          </div>
+          <p class="err" id="errDados" role="alert"></p>
+        </fieldset>
+
+        <!-- Etapa 3 -->
+        <fieldset class="step" data-step="3">
+          <legend class="sr">Resumo e contrato</legend>
+          <div class="resumo" id="resumo"><!-- app.js --></div>
+          <div class="contrato" id="contrato" tabindex="0" aria-label="Contrato"><!-- app.js --></div>
+          <label class="check"><input type="checkbox" name="aceiteContrato" /> <span>Li o contrato e entendo que a parceria tem <strong>prazo de 6 meses</strong>, paga em parcelas mensais.</span></label>
+          <label class="check"><input type="checkbox" name="aceiteLgpd" /> <span>Autorizo o uso dos meus dados para formalizar, executar e cobrar este contrato, conforme a <a data-link="privacidade" target="_blank" rel="noopener">Política de Privacidade</a>.</span></label>
+          <p class="err" id="errAceite" role="alert"></p>
+        </fieldset>
+
+        <!-- Etapa 4 -->
+        <fieldset class="step" data-step="4">
+          <legend class="sr">Pagamento</legend>
+          <div class="done">
+            <p class="done__kicker">Participação registrada</p>
+            <h4>Bem-vindo à mesa, <span id="doneNome"></span>.</h4>
+            <p>Seu contrato foi gerado com o aceite registrado em <strong id="doneData"></strong>. Agora é só realizar o pagamento da primeira parcela.</p>
+          </div>
+          <div class="pix">
+            <div>
+              <p class="eyebrow">Pix · 1ª parcela de 6</p>
+              <p class="pix__valor" id="pixValor"></p>
+              <p class="pix__chave"><span id="pixChave"></span> <button type="button" class="link" id="copyPix">Copiar chave</button></p>
+            </div>
+            <label class="f file">Comprovante<input name="comprovante" type="file" accept="image/*,.pdf" /></label>
+          </div>
+          <div class="done__actions">
+            <button type="button" class="btn btn--ghost-dark" id="printContrato">Baixar contrato (PDF)</button>
+            <a class="btn btn--orange" id="sendWhats" target="_blank" rel="noopener">Enviar para a produção</a>
+          </div>
+          <p class="hint">A produção confirma o pagamento e inicia o onboarding da sua marca.</p>
+        </fieldset>
+      </div>
+
+      <footer class="flow__foot">
+        <button type="button" class="btn btn--ghost-dark" id="back">Voltar</button>
+        <button type="button" class="btn btn--orange" id="next">Continuar</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <div class="print-area" id="printArea" aria-hidden="true"></div>
+  <script src="/midiakit/app.js"></script>
+</body>
+</html>
