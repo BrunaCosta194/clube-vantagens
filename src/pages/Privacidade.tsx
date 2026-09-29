@@ -12,7 +12,7 @@ import Footer from "../components/Footer";
 // Precisa da revisão da Bruna e da Yruena, e dos dados marcados como
 // PENDENTE, antes de ir pro ar.
 
-const ATUALIZADO_EM = "25 de setembro de 2026";
+const ATUALIZADO_EM = "29 de setembro de 2026";
 
 /** Dados da empresa confirmados pela Bruna em 25/09/2026.
  * "Pratimoniais" NÃO é erro de digitação: é a grafia registrada da razão
@@ -33,9 +33,9 @@ function Pendente({ o_que }: { o_que: string }) {
   );
 }
 
-function Secao({ titulo, children }: { titulo: string; children: React.ReactNode }) {
+function Secao({ titulo, id, children }: { titulo: string; id?: string; children: React.ReactNode }) {
   return (
-    <section className="border-t border-grafite/10 pt-8">
+    <section id={id} className="scroll-mt-28 border-t border-grafite/10 pt-8">
       <h2 className="font-display text-xl font-semibold text-grafite sm:text-2xl">{titulo}</h2>
       <div className="mt-4 space-y-4 text-[15px] leading-relaxed text-grafite-soft">{children}</div>
     </section>
@@ -44,7 +44,10 @@ function Secao({ titulo, children }: { titulo: string; children: React.ReactNode
 
 export default function Privacidade() {
   useEffect(() => {
-    window.scrollTo({ top: 0 });
+    // O Mídia Kit linka direto pra #patrocinio; sem âncora, abre no topo.
+    const alvo = window.location.hash ? document.getElementById(window.location.hash.slice(1)) : null;
+    if (alvo) alvo.scrollIntoView({ behavior: "instant" });
+    else window.scrollTo({ top: 0 });
   }, []);
 
   return (
@@ -143,6 +146,38 @@ export default function Privacidade() {
             <p>
               <strong className="text-grafite">Dentro do grupo Sanchez</strong>, quando você já é
               cliente e o atendimento depende disso.
+            </p>
+          </Secao>
+
+          <Secao titulo="Patrocinadores do Papo de Aluguel" id="patrocinio">
+            <p>
+              Quem contrata uma cota de patrocínio pelo Mídia Kit do Papo de Aluguel informa:
+              razão social ou nome completo, CNPJ ou CPF, nome e CPF do representante legal
+              (empresas), endereço, e-mail e telefone. Também informa os dados da marca que vão ao
+              ar — nome comercial, segmento, Instagram, site, WhatsApp comercial, descrição, oferta
+              para membros, logotipo e banner.
+            </p>
+            <p>
+              Registramos ainda o texto do contrato exatamente como foi exibido, a versão dele, a
+              data e a hora do aceite e o tipo de navegador usado. É isso que comprova o aceite
+              eletrônico.
+            </p>
+            <p>
+              <strong className="text-grafite">Para que:</strong> formalizar, executar e cobrar o
+              contrato de patrocínio, e divulgar a sua marca nas entregas da cota escolhida. A base
+              legal é a execução do contrato e o cumprimento de obrigações legais, como emissão de
+              nota e guarda de registros.
+            </p>
+            <p>
+              <strong className="text-grafite">Com quem:</strong> a produção do Papo de Aluguel,
+              que recebe os dados para executar as entregas e confirmar o pagamento, inclusive pelo
+              WhatsApp. Os dados da marca aparecem publicamente nos episódios e divulgações, porque
+              esse é o objeto do contrato. Os dados pessoais e documentos, não.
+            </p>
+            <p>
+              <strong className="text-grafite">Por quanto tempo:</strong> durante o contrato e por
+              mais cinco anos depois do término, prazo legal para questões contratuais e fiscais.
+              O uso da marca nas divulgações termina com o contrato.
             </p>
           </Secao>
 

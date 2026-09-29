@@ -9,21 +9,19 @@ const CONFIG = {
     instagramPapo: "https://www.instagram.com/papodealuguel/",
     facebook: "https://www.facebook.com/papodealuguel",
     tiktok: "https://www.tiktok.com/@papodealuguel",
-    instagramHost: "https://www.instagram.com/papodealuguel/", // TODO: @ pessoal da Yruena
-    whatsapp: "https://wa.me/5511971796030",                   // TODO: confirmar se é o número da produção
+    whatsapp: "https://wa.me/5511971796030",
     clube: "https://clube-vantagens.vercel.app/",
-    privacidade: "https://clube-vantagens.vercel.app/privacidade",
+    privacidade: "https://clube-vantagens.vercel.app/privacidade#patrocinio",
   },
   whatsappNumero: "5511971796030",
 
-  // TODO: atualizar pelo Analytics antes de publicar (número do kit antigo)
+  // Total de visualizações — atualizar quando a Yruena mandar o número novo
   visualizacoes: 74776,
-  visualizacoesData: "número do kit 2025 — atualizar",
 
   regioes: [
     { nome: "Alto Tietê e Grande SP", lugares: "Mogi das Cruzes, Suzano, Itaquaquecetuba, Arujá, Poá, Santa Isabel, Guararema e Grande São Paulo" },
     { nome: "Brasil", lugares: "Belém do Pará" },
-    { nome: "Mundo", lugares: "Portugal e Paraguai" }, // TODO: 3º país citado no áudio — conferir no Analytics
+    { nome: "Mundo", lugares: "Portugal e Paraguai" },
   ],
 
   // Cada momento do mosaico é clicável. Troque "href" pelo corte/episódio certo.
@@ -94,8 +92,10 @@ const CONFIG = {
   multaRescisao: "[percentual a definir] do saldo remanescente", // TODO: política comercial
   contratoVersao: "v1-2026-09",
 
-  // Opcional: URL que recebe o JSON da adesão (Supabase Edge Function, n8n…). Vazio = só WhatsApp.
-  endpoint: "",
+  // Onde gravar cada adesão (tabela patrocinio_adesoes, migration 0010 do Clube).
+  // Mesmos valores de VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY do .env do Clube.
+  // A anon key é pública (a tabela só aceita INSERT). Vazio = só WhatsApp.
+  supabase: { url: "", anonKey: "" },
 };
 
 /* ---------- helpers ---------- */
@@ -165,7 +165,6 @@ function renderValores() {
 /* ---------- alcance ---------- */
 function renderAlcance() {
   $("#regioes").innerHTML = CONFIG.regioes.map((r) => `<div class="regiao"><h3>${esc(r.nome)}</h3><p>${esc(r.lugares)}</p></div>`).join("");
-  $("#viewsData").textContent = CONFIG.visualizacoesData;
   const el = $("#views"), target = CONFIG.visualizacoes;
   el.textContent = "0";
   new IntersectionObserver(([e], obs) => {
@@ -334,11 +333,29 @@ async function registrar(d) {
     patrocinador: { ...d, cota: undefined }, userAgent: navigator.userAgent,
   };
   flow.registro = reg;
-  if (CONFIG.endpoint) {
-    try { await fetch(CONFIG.endpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(reg) }); }
-    catch (e) { console.warn("Falha ao enviar adesão:", e); }
+  const sb = CONFIG.supabase;
+  if (sb.url && sb.anonKey) {
+    const linha = {
+      cota: reg.cota, valor_mensal: reg.valorMensal, valor_total: reg.valorTotal, prazo_meses: CONFIG.prazoMeses,
+      inicio: reg.inicio, termino: reg.termino,
+      tipo: d.tipo, nome: d.nome, fantasia: d.fantasia || null, documento: d.documento,
+      representante: d.tipo === "PJ" ? d.representante : null, cpf_representante: d.tipo === "PJ" ? d.cpfRep : null,
+      endereco: d.endereco, email: d.email, telefone: d.telefone,
+      nome_comercial: d.nomeComercial || null, segmento: d.segmento || null, instagram: d.instagram || null,
+      site: d.site || null, whats_comercial: d.whatsComercial || null, descricao: d.descricao || null, oferta: d.oferta || null,
+      contrato_versao: CONFIG.contratoVersao, contrato_texto: $("#contrato").innerText.slice(0, 30000),
+      aceite_contrato: true, aceite_lgpd: true, aceite_em: reg.criadoEm, user_agent: navigator.userAgent.slice(0, 500),
+    };
+    try {
+      const r = await fetch(`${sb.url}/rest/v1/patrocinio_adesoes`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", apikey: sb.anonKey, Authorization: `Bearer ${sb.anonKey}`, Prefer: "return=minimal" },
+        body: JSON.stringify(linha),
+      });
+      if (!r.ok) console.warn("Adesão não gravada:", r.status, await r.text());
+    } catch (e) { console.warn("Falha ao enviar adesão:", e); }
   } else {
-    console.info("Adesão (sem endpoint configurado):", reg);
+    console.info("Adesão (Supabase não configurado):", reg);
   }
   return reg;
 }
