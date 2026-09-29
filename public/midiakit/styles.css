@@ -477,3 +477,21 @@ em { font-style: normal; }
   .print-area mark { background: none; font-weight: 600; }
   .grain { display: none; }
 }
+
+/* ---- v3 (2º áudio da Yruena) ---- */
+.hero__quote { margin: 0; max-width: 34ch; font-family: var(--serif); font-style: italic; font-size: clamp(19px, 1.9vw, 26px); line-height: 1.3; color: var(--on-dark-2); }
+.hero__quote strong { color: var(--orange); font-weight: 400; }
+.hero__quote small { display: block; margin-top: 6px; font-family: inherit; font-style: normal; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; opacity: .55; }
+.statement__more { margin: 18px 0 0; max-width: 52ch; font-size: clamp(15px, 1.2vw, 17px); line-height: 1.6; opacity: .78; }
+.participa { margin: 30px 0 clamp(40px, 5vw, 60px); max-width: 62ch; }
+.participa__title { margin: 0 0 14px; font-size: clamp(24px, 2.6vw, 36px); line-height: 1.15; font-weight: 600; color: var(--on-dark); }
+.participa__title .serif { color: var(--orange); font-style: italic; }
+.participa p:not(.participa__title) { margin: 0 0 10px; font-size: 16px; line-height: 1.6; color: var(--on-dark-2); }
+.participa strong { color: var(--on-dark); }
+.participa .live-dot { display: inline-block; vertical-align: middle; margin: -2px 8px 0 0; }
+.host__path { margin: 0 0 18px; font-weight: 600; font-size: clamp(16px, 1.4vw, 19px); color: var(--navy); }
+.final__sign { margin: 0 0 44px; font-family: var(--serif); font-style: italic; font-size: clamp(30px, 3.6vw, 52px); line-height: 1.1; }
+.final__sign span { display: block; color: var(--orange-2); }
+.final__cta p { font-size: clamp(14px, 1.3vw, 17px); color: var(--on-dark); }
+.btn--xl { padding: 24px 52px; font-size: clamp(18px, 1.6vw, 21px); }
+@media (max-width: 560px) { .btn--xl { width: 100%; justify-content: center; } }
