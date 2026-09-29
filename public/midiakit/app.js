@@ -95,7 +95,7 @@ const CONFIG = {
   // Onde gravar cada adesão (tabela patrocinio_adesoes, migration 0010 do Clube).
   // Mesmos valores de VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY do .env do Clube.
   // A anon key é pública (a tabela só aceita INSERT). Vazio = só WhatsApp.
-  supabase: { url: "", anonKey: "" },
+  supabase: { url: "https://yfdlvusoanyyetcgoafz.supabase.co", anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlmZGx2dXNvYW55eWV0Y2dvYWZ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM5NzI4MTMsImV4cCI6MjA5OTU0ODgxM30.AEUOo516VQzr_jkAGOGVhbAkkSz7eQhdBtXVz-6-9w0" },
 };
 
 /* ---------- helpers ---------- */
