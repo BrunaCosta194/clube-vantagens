@@ -314,9 +314,14 @@ export default function Admin() {
             <Eyebrow>Clube Sanchez</Eyebrow>
             <h1 className="h-display mt-1 text-[clamp(1.4rem,3vw,1.9rem)]">Painel de desempenho</h1>
           </div>
-          <Link to="/" className="btn-quiet">
-            Voltar ao site
-          </Link>
+          <div className="flex items-center gap-5">
+            <Link to="/area?membro=1" className="btn-quiet">
+              Minha área de membro
+            </Link>
+            <Link to="/" className="btn-quiet">
+              Voltar ao site
+            </Link>
+          </div>
         </div>
       </header>
 
