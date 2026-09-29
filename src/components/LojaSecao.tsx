@@ -14,8 +14,9 @@ export default function LojaSecao() {
     .slice(0, 4);
 
   return (
-    <section id="loja" className="section-y bg-warm-wash">
-      <div className="container-club">
+    <section id="loja" className="section-y relative isolate bg-warm-wash">
+      <div className="ambiente" />
+      <div className="container-club relative">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -24,12 +25,10 @@ export default function LojaSecao() {
           className="flex flex-wrap items-end justify-between gap-6"
         >
           <div className="max-w-xl">
-            <h2 className="h-display text-[clamp(2rem,4.5vw,3.25rem)]">
-              Loja Sanchez
+            <span className="eyebrow">Produtos com curadoria</span>
+            <h2 className="h-display mt-4 text-[clamp(2rem,4.5vw,3.25rem)]">
+              Loja <span className="italic text-cobre">Sanchez</span>
             </h2>
-            <p className="mt-2 font-mono text-sm font-medium uppercase tracking-[0.14em] text-cobre-deep">
-              Produtos com curadoria
-            </p>
             <p className="mt-4 max-w-md text-base leading-relaxed text-grafite-soft">
               A curadoria presente nos serviços da Sanchez agora também está
               disponível para compra pela Loja Sanchez e pela Shopee.

@@ -14,14 +14,15 @@ export default function ProdutoCard({ produto }: { produto: Produto }) {
   const emBreve = produto.link === "#";
 
   return (
-    <div className="group flex flex-col overflow-hidden rounded-[1.5rem] border border-cobre-line/20 bg-creme-100 shadow-lux-sm transition-shadow duration-500 hover:shadow-lux">
+    <div className="bezel group flex h-full flex-col transition-all duration-700 ease-lux hover:-translate-y-1 hover:shadow-[0_50px_90px_-45px_hsl(19_40%_14%/0.4)]">
       {/* imagem (ou bloco cobre quando ainda não há foto) */}
-      <div className="relative aspect-square w-full overflow-hidden bg-banner-clube">
+      <div className="bezel-core relative aspect-square w-full bg-banner-clube">
         {produto.imagem && (
           <img
             src={produto.imagem}
             alt={produto.nome}
-            className="h-full w-full object-cover transition-transform duration-700 ease-lux group-hover:scale-[1.04]"
+            loading="lazy"
+            className="h-full w-full object-cover transition-transform duration-[1.2s] ease-lux group-hover:scale-[1.05]"
           />
         )}
         {/* selo do canal */}
@@ -41,15 +42,15 @@ export default function ProdutoCard({ produto }: { produto: Produto }) {
         )}
       </div>
 
-      <div className="flex flex-1 flex-col p-5">
+      <div className="flex flex-1 flex-col px-3.5 pb-3.5 pt-5 sm:px-4 sm:pb-4">
         <h3 className="font-display text-lg font-semibold leading-tight text-grafite">
           {produto.nome}
         </h3>
-        <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-grafite-soft">
+        <p className="mb-4 mt-1.5 line-clamp-2 text-sm leading-relaxed text-grafite-soft">
           {produto.descricao}
         </p>
 
-        <div className="mt-4 flex items-end justify-between gap-3 border-t border-cobre-line/15 pt-4">
+        <div className="mt-auto flex items-end justify-between gap-3 border-t border-cobre-line/15 pt-4">
           <div>
             {produto.precoDe && temPreco && (
               <p className="font-mono text-xs text-grafite-muted line-through">
@@ -78,7 +79,7 @@ export default function ProdutoCard({ produto }: { produto: Produto }) {
             rel="noopener noreferrer"
             evento="product_click"
             props={{ produto: produto.slug, canal: produto.canal, destino: produto.link }}
-            className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-cobre-deep px-5 py-2.5 text-sm font-medium text-perola transition-all duration-500 ease-lux hover:bg-grafite active:scale-[0.98]"
+            className="mt-4 inline-flex items-center justify-center gap-2 rounded-full border border-cobre-deep/30 px-5 py-2.5 text-sm font-medium text-cobre-deep transition-all duration-500 ease-lux hover:border-cobre-deep hover:bg-cobre-deep hover:text-perola active:scale-[0.98]"
           >
             <ShoppingBag className="h-4 w-4" strokeWidth={1.5} />
             {produto.canal === "mercadolivre" ? "Comprar" : "Ver na Shopee"}
