@@ -9,21 +9,19 @@ const CONFIG = {
     instagramPapo: "https://www.instagram.com/papodealuguel/",
     facebook: "https://www.facebook.com/papodealuguel",
     tiktok: "https://www.tiktok.com/@papodealuguel",
-    instagramHost: "https://www.instagram.com/papodealuguel/", // TODO: @ pessoal da Yruena
-    whatsapp: "https://wa.me/5511971796030",                   // TODO: confirmar se é o número da produção
+    whatsapp: "https://wa.me/5511971796030",
     clube: "https://clube-vantagens.vercel.app/",
     privacidade: "https://clube-vantagens.vercel.app/privacidade",
   },
   whatsappNumero: "5511971796030",
 
-  // TODO: atualizar pelo Analytics antes de publicar (número do kit antigo)
+  // Total de visualizações — atualizar quando a Yruena mandar o número novo
   visualizacoes: 74776,
-  visualizacoesData: "número do kit 2025 — atualizar",
 
   regioes: [
     { nome: "Alto Tietê e Grande SP", lugares: "Mogi das Cruzes, Suzano, Itaquaquecetuba, Arujá, Poá, Santa Isabel, Guararema e Grande São Paulo" },
     { nome: "Brasil", lugares: "Belém do Pará" },
-    { nome: "Mundo", lugares: "Portugal e Paraguai" }, // TODO: 3º país citado no áudio — conferir no Analytics
+    { nome: "Mundo", lugares: "Portugal e Paraguai" },
   ],
 
   // Cada momento do mosaico é clicável. Troque "href" pelo corte/episódio certo.
@@ -165,7 +163,6 @@ function renderValores() {
 /* ---------- alcance ---------- */
 function renderAlcance() {
   $("#regioes").innerHTML = CONFIG.regioes.map((r) => `<div class="regiao"><h3>${esc(r.nome)}</h3><p>${esc(r.lugares)}</p></div>`).join("");
-  $("#viewsData").textContent = CONFIG.visualizacoesData;
   const el = $("#views"), target = CONFIG.visualizacoes;
   el.textContent = "0";
   new IntersectionObserver(([e], obs) => {
