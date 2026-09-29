@@ -38,8 +38,9 @@ export default function ComoFunciona() {
   const logado = !carregando && usuario !== null;
 
   return (
-    <section id="como-funciona" className="section-y bg-warm-wash">
-      <div className="container-club">
+    <section id="como-funciona" className="section-y relative isolate bg-warm-wash">
+      <div className="ambiente" />
+      <div className="container-club relative">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -64,8 +65,10 @@ export default function ComoFunciona() {
               transition={{ duration: 0.7, delay: i * 0.12, ease }}
               className="group"
             >
-              <div className="rule mb-6 origin-left transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-x-100" />
-              <span className="font-mono text-5xl font-semibold text-terracota/25 transition-colors duration-500 group-hover:text-terracota">
+              <div className="relative mb-6 h-px w-full bg-grafite/10">
+                <div className="absolute inset-y-0 left-0 w-full origin-left scale-x-[0.18] bg-cobre transition-transform duration-700 ease-lux group-hover:scale-x-100" />
+              </div>
+              <span className="font-display text-6xl font-light italic leading-none text-cobre/30 transition-colors duration-500 group-hover:text-cobre">
                 {p.num}
               </span>
               <h3 className="mt-5 font-display text-2xl font-semibold text-grafite">
@@ -87,8 +90,10 @@ export default function ComoFunciona() {
             transition={{ duration: 0.7, delay: 3 * 0.12, ease }}
             className="group scroll-mt-28"
           >
-            <div className="rule mb-6 origin-left transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-x-100" />
-            <span className="font-mono text-5xl font-semibold text-terracota/25 transition-colors duration-500 group-hover:text-terracota">
+            <div className="relative mb-6 h-px w-full bg-grafite/10">
+                <div className="absolute inset-y-0 left-0 w-full origin-left scale-x-[0.18] bg-cobre transition-transform duration-700 ease-lux group-hover:scale-x-100" />
+              </div>
+            <span className="font-display text-6xl font-light italic leading-none text-cobre/30 transition-colors duration-500 group-hover:text-cobre">
               04
             </span>
             <h3 className="mt-5 font-display text-2xl font-semibold text-grafite">
@@ -130,13 +135,13 @@ export default function ComoFunciona() {
 
       {/* Chamada final — mesma sequência, sem seção separada. Paleta
           institucional (grafite + cobre de detalhe), fundo laranja removido. */}
-      <div id="cadastro" className="container-club mt-16 scroll-mt-28 sm:mt-20 lg:mt-24">
+      <div id="cadastro" className="container-club relative mt-16 scroll-mt-28 sm:mt-20 lg:mt-24">
         <motion.div
           initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.9, ease }}
-          className="relative overflow-hidden rounded-[2rem] bg-grafite px-6 py-12 sm:rounded-[2.5rem] sm:px-16 sm:py-20"
+          className="relative overflow-hidden rounded-[2rem] bg-grafite px-6 py-12 shadow-[0_60px_120px_-60px_hsl(19_40%_14%/0.55),inset_0_1px_0_hsl(0_0%_100%/0.08)] ring-1 ring-grafite/10 ring-offset-[6px] ring-offset-creme-100 sm:rounded-[2.5rem] sm:px-16 sm:py-20"
         >
           {/* cobre sofisticado como detalhe — fundo segue a identidade institucional */}
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_120%_at_100%_0%,hsl(19_45%_28%/0.55),transparent_55%)]" />
@@ -152,7 +157,7 @@ export default function ComoFunciona() {
           <div className="relative max-w-2xl">
             {logado ? (
               <>
-                <span className="font-mono text-[10px] uppercase tracking-[0.26em] text-cobre-light">
+                <span className="eyebrow eyebrow-escuro">
                   Você já é do clube
                 </span>
                 <h2 className="mt-5 font-display text-[clamp(2.2rem,5vw,3.6rem)] font-semibold leading-[1.02] tracking-[-0.01em] text-perola">
@@ -177,7 +182,7 @@ export default function ComoFunciona() {
               </>
             ) : (
               <>
-                <span className="font-mono text-[10px] uppercase tracking-[0.26em] text-cobre-light">
+                <span className="eyebrow eyebrow-escuro">
                   O cadastro é a chave
                 </span>
                 <h2 className="mt-5 font-display text-[clamp(2.2rem,5vw,3.6rem)] font-semibold leading-[1.02] tracking-[-0.01em] text-perola">

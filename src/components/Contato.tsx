@@ -120,14 +120,13 @@ export default function Contato() {
   ];
 
   return (
-    <section id="contato" className="section-y scroll-mt-24 bg-creme">
-      <div className="container-club">
+    <section id="contato" className="section-y relative isolate scroll-mt-24 bg-creme">
+      <div className="ambiente" />
+      <div className="container-club relative">
         <div className="flex items-end gap-4 sm:gap-6">
           <div className="max-w-xl">
-            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-cobre-deep">
-              Contato
-            </p>
-            <h2 className="h-display mt-3 text-[clamp(2rem,4.5vw,3.25rem)]">
+            <span className="eyebrow">Contato</span>
+            <h2 className="h-display mt-4 text-[clamp(2rem,4.5vw,3.25rem)]">
               Venha tomar um café <span className="italic text-cobre">com a gente.</span>
             </h2>
           </div>
@@ -135,144 +134,148 @@ export default function Contato() {
         </div>
 
         <div className="mt-10 grid gap-6 lg:mt-14 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-10">
-          <div className="rounded-[1.5rem] border border-cobre-line/20 bg-white/70 p-6 sm:p-8">
-            <div className="flex gap-4">
-              <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-cobre" strokeWidth={1.5} />
-              <div className="min-w-0">
-                <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-grafite-muted">
-                  Endereço
-                </p>
+          <div className="bezel">
+            <div className="bezel-core bg-creme-100/90 p-6 shadow-[inset_0_1px_0_hsl(0_0%_100%/0.7)] sm:p-8">
+              <div className="flex gap-4">
+                <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-cobre" strokeWidth={1.5} />
+                <div className="min-w-0">
+                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-grafite-muted">
+                    Endereço
+                  </p>
+                  <LinkRastreado
+                    href={hrefVerNoMapa}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    evento="map_open"
+                    props={{ tipo: "ver", local: "endereco" }}
+                    className="mt-1 block text-grafite underline-offset-4 hover:text-cobre hover:underline"
+                  >
+                    {ENDERECO}
+                  </LinkRastreado>
+                </div>
+              </div>
+
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                 <LinkRastreado
                   href={hrefVerNoMapa}
                   target="_blank"
                   rel="noopener noreferrer"
                   evento="map_open"
-                  props={{ tipo: "ver", local: "endereco" }}
-                  className="mt-1 block text-grafite underline-offset-4 hover:text-cobre hover:underline"
+                  props={{ tipo: "ver", local: "botao" }}
+                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-cobre px-5 text-sm font-medium text-cobre-deep transition hover:bg-cobre/10"
                 >
-                  {ENDERECO}
+                  <MapPin className="h-4 w-4" strokeWidth={1.5} />
+                  Ver no mapa
                 </LinkRastreado>
-              </div>
-            </div>
-
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-              <LinkRastreado
-                href={hrefVerNoMapa}
-                target="_blank"
-                rel="noopener noreferrer"
-                evento="map_open"
-                props={{ tipo: "ver", local: "botao" }}
-                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-cobre px-5 text-sm font-medium text-cobre-deep transition hover:bg-cobre/10"
-              >
-                <MapPin className="h-4 w-4" strokeWidth={1.5} />
-                Ver no mapa
-              </LinkRastreado>
-              <button
-                type="button"
-                onClick={comoChegar}
-                disabled={estado === "localizando"}
-                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-grafite px-5 text-sm font-medium text-creme transition hover:bg-grafite-soft disabled:opacity-60"
-              >
-                <Navigation className="h-4 w-4" strokeWidth={1.5} />
-                {estado === "localizando" ? "Localizando…" : "Como chegar"}
-              </button>
-            </div>
-
-            <div aria-live="polite">
-              {estado === "pronto" && rotaPronta && (
-                <a
-                  href={rotaPronta}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-4 inline-block text-sm font-medium text-cobre-deep underline underline-offset-4"
+                <button
+                  type="button"
+                  onClick={comoChegar}
+                  disabled={estado === "localizando"}
+                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-grafite px-5 text-sm font-medium text-creme transition hover:bg-grafite-soft disabled:opacity-60"
                 >
-                  Rota pronta — abrir no app de mapas
-                </a>
-              )}
+                  <Navigation className="h-4 w-4" strokeWidth={1.5} />
+                  {estado === "localizando" ? "Localizando…" : "Como chegar"}
+                </button>
+              </div>
 
-              {estado === "negado" && (
-                <form onSubmit={rotaManual} className="mt-4 space-y-3">
-                  <label htmlFor="partida" className="block text-sm text-grafite-muted">
-                    Sem acesso à sua localização. Digite de onde você sai:
-                  </label>
-                  <div className="flex flex-col gap-2 sm:flex-row">
-                    <input
-                      id="partida"
-                      value={partida}
-                      onChange={(e) => setPartida(e.target.value)}
-                      placeholder="Ex.: Rua, bairro ou cidade"
-                      autoComplete="street-address"
-                      className="min-h-11 flex-1 rounded-full border border-cobre-line/40 bg-white px-4 text-sm text-grafite outline-none focus:border-cobre"
-                    />
-                    <button
-                      type="submit"
-                      className="min-h-11 rounded-full bg-cobre px-5 text-sm font-medium text-white transition hover:bg-cobre-deep"
-                    >
-                      Traçar rota
-                    </button>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => abrirRota(hrefRota(), "direto")}
-                    className="text-sm text-cobre-deep underline underline-offset-4"
+              <div aria-live="polite">
+                {estado === "pronto" && rotaPronta && (
+                  <a
+                    href={rotaPronta}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-4 inline-block text-sm font-medium text-cobre-deep underline underline-offset-4"
                   >
-                    Ou abrir direto no app de mapas
-                  </button>
-                </form>
-              )}
-            </div>
+                    Rota pronta — abrir no app de mapas
+                  </a>
+                )}
 
-            <ul className="mt-8 space-y-4 border-t border-cobre-line/20 pt-6">
-              {itens.map(({ icone: Icone, rotulo, valor, href, evento, props }) => (
-                <li key={rotulo} className="flex gap-4">
-                  <Icone className="mt-0.5 h-5 w-5 shrink-0 text-cobre" strokeWidth={1.5} />
+                {estado === "negado" && (
+                  <form onSubmit={rotaManual} className="mt-4 space-y-3">
+                    <label htmlFor="partida" className="block text-sm text-grafite-muted">
+                      Sem acesso à sua localização. Digite de onde você sai:
+                    </label>
+                    <div className="flex flex-col gap-2 sm:flex-row">
+                      <input
+                        id="partida"
+                        value={partida}
+                        onChange={(e) => setPartida(e.target.value)}
+                        placeholder="Ex.: Rua, bairro ou cidade"
+                        autoComplete="street-address"
+                        className="min-h-11 flex-1 rounded-full border border-cobre-line/40 bg-white px-4 text-sm text-grafite outline-none focus:border-cobre"
+                      />
+                      <button
+                        type="submit"
+                        className="min-h-11 rounded-full bg-cobre px-5 text-sm font-medium text-white transition hover:bg-cobre-deep"
+                      >
+                        Traçar rota
+                      </button>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => abrirRota(hrefRota(), "direto")}
+                      className="text-sm text-cobre-deep underline underline-offset-4"
+                    >
+                      Ou abrir direto no app de mapas
+                    </button>
+                  </form>
+                )}
+              </div>
+
+              <ul className="mt-8 space-y-4 border-t border-cobre-line/20 pt-6">
+                {itens.map(({ icone: Icone, rotulo, valor, href, evento, props }) => (
+                  <li key={rotulo} className="flex gap-4">
+                    <Icone className="mt-0.5 h-5 w-5 shrink-0 text-cobre" strokeWidth={1.5} />
+                    <div className="min-w-0">
+                      <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-grafite-muted">
+                        {rotulo}
+                      </p>
+                      <LinkRastreado
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        evento={evento}
+                        props={props}
+                        className="mt-1 block break-words text-grafite hover:text-cobre"
+                      >
+                        {valor}
+                      </LinkRastreado>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-6 border-t border-cobre-line/20 pt-6">
+                <div className="flex gap-4">
+                  <Clock className="mt-0.5 h-5 w-5 shrink-0 text-cobre" strokeWidth={1.5} />
                   <div className="min-w-0">
                     <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-grafite-muted">
-                      {rotulo}
+                      Horário de funcionamento
                     </p>
-                    <LinkRastreado
-                      href={href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      evento={evento}
-                      props={props}
-                      className="mt-1 block break-words text-grafite hover:text-cobre"
-                    >
-                      {valor}
-                    </LinkRastreado>
+                    <dl className="mt-1 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm">
+                      {HORARIOS.map(({ dias, horas }) => (
+                        <div key={dias} className="contents">
+                          <dt className="text-grafite-muted">{dias}</dt>
+                          <dd className="text-grafite">{horas}</dd>
+                        </div>
+                      ))}
+                    </dl>
                   </div>
-                </li>
-              ))}
-            </ul>
-
-            <div className="mt-6 border-t border-cobre-line/20 pt-6">
-              <div className="flex gap-4">
-                <Clock className="mt-0.5 h-5 w-5 shrink-0 text-cobre" strokeWidth={1.5} />
-                <div className="min-w-0">
-                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-grafite-muted">
-                    Horário de funcionamento
-                  </p>
-                  <dl className="mt-1 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm">
-                    {HORARIOS.map(({ dias, horas }) => (
-                      <div key={dias} className="contents">
-                        <dt className="text-grafite-muted">{dias}</dt>
-                        <dd className="text-grafite">{horas}</dd>
-                      </div>
-                    ))}
-                  </dl>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="min-h-[320px] overflow-hidden rounded-[1.5rem] border border-cobre-line/20 lg:min-h-full">
-            <iframe
-              src={hrefEmbed}
-              title="Mapa: Sanchez Imóveis, Centro de Mogi das Cruzes"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              className="h-full min-h-[320px] w-full border-0"
-            />
+          <div className="bezel flex min-h-[320px] lg:min-h-full">
+            <div className="bezel-core flex-1">
+              <iframe
+                src={hrefEmbed}
+                title="Mapa: Sanchez Imóveis, Centro de Mogi das Cruzes"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="h-full min-h-[320px] w-full border-0"
+              />
+            </div>
           </div>
         </div>
       </div>

@@ -49,14 +49,13 @@ export default function InstagramFeed() {
   if (!FEED_ID) return null;
 
   return (
-    <section ref={secaoRef} id="instagram" className="section-y scroll-mt-24 bg-creme">
-      <div className="container-club">
+    <section ref={secaoRef} id="instagram" className="section-y relative isolate scroll-mt-24 bg-creme">
+      <div className="ambiente" />
+      <div className="container-club relative">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-xl">
-            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-cobre-deep">
-              Instagram
-            </p>
-            <h2 className="h-display mt-3 text-[clamp(2rem,4.5vw,3.25rem)]">
+            <span className="eyebrow">Instagram</span>
+            <h2 className="h-display mt-4 text-[clamp(2rem,4.5vw,3.25rem)]">
               O que rola <span className="italic text-cobre">na Sanchez.</span>
             </h2>
           </div>
