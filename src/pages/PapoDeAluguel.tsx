@@ -20,7 +20,7 @@ import { track } from "@/lib/track";
 import EbookFormModal from "@/components/EbookFormModal";
 import yruena from "@/assets/papo/yruena-papo.jpg";
 import logoPapo from "@/assets/papo/logo-papo.png";
-import ebookCapa from "@/assets/papo/ebook-capa.png";
+import ebookCapa from "@/assets/papo/ebook-capa.jpg";
 import grid1 from "@/assets/papo/grid1.jpg";
 import grid2 from "@/assets/papo/grid2.jpg";
 import grid3 from "@/assets/papo/grid3.jpg";
