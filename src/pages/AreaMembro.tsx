@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { BarChart3, Check, Copy, LogOut } from "lucide-react";
 import { buscarMeuPerfil, buscarMinhasIndicacoes, linkIndicacao, sair, type Indicacao, type Membro } from "../lib/membros";
 import { useSessao } from "../lib/sessao";
@@ -15,6 +15,10 @@ const statusLabel: Record<Indicacao["status"], string> = {
 
 export default function AreaMembro() {
   const navigate = useNavigate();
+  // Admin que abre /area cai direto no painel (sessão já salva não passa pelo
+  // login). ?membro=1 = veio do painel pra ver a própria área de membro.
+  const [searchParams] = useSearchParams();
+  const verComoMembro = searchParams.get("membro") === "1";
   const { usuario, carregando: lendoSessao } = useSessao();
   const [perfil, setPerfil] = useState<Membro | null>(null);
   const [indicacoes, setIndicacoes] = useState<Indicacao[]>([]);
@@ -38,6 +42,10 @@ export default function AreaMembro() {
 
     async function carregar() {
       try {
+        if (!verComoMembro && (await ehAdmin().catch(() => false))) {
+          if (ativo) navigate("/admin", { replace: true });
+          return;
+        }
         const meuPerfil = await buscarMeuPerfil();
         if (!meuPerfil) {
           navigate("/login");
@@ -61,7 +69,7 @@ export default function AreaMembro() {
     return () => {
       ativo = false;
     };
-  }, [lendoSessao, usuario, navigate]);
+  }, [lendoSessao, usuario, navigate, verComoMembro]);
 
   async function handleSair() {
     await sair();
