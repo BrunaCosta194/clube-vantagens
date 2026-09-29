@@ -151,6 +151,8 @@ export default function ComoFunciona() {
           <img
             src={logoCta}
             alt="Clube Sanchez"
+            loading="lazy"
+            decoding="async"
             className="pointer-events-none absolute right-6 top-1/2 hidden w-[clamp(13rem,24vw,24rem)] -translate-y-1/2 select-none opacity-90 drop-shadow-[0_20px_45px_hsl(19_50%_6%/0.5)] lg:block"
           />
 
