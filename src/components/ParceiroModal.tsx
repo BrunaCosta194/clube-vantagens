@@ -48,11 +48,11 @@ export default function ParceiroModal({ parceiro, onClose }: Props) {
             className="relative flex max-h-[92vh] w-full max-w-xl flex-col overflow-hidden rounded-t-[2rem] border border-grafite/10 bg-creme shadow-lux sm:rounded-[2rem]"
           >
             {/* imagem */}
-            <div className="relative">
+            <div className="relative bg-[#FBF8F3]">
               <img
                 src={parceiro.imagem}
                 alt={parceiro.nome}
-                className="h-44 w-full object-cover sm:h-52"
+                className="h-44 w-full object-contain px-10 py-8 sm:h-52"
               />
               <button
                 onClick={onClose}
