@@ -3,6 +3,7 @@ import type { FormEvent } from "react";
 import { Clock, Globe, Instagram, MapPin, MessageCircle, Navigation } from "lucide-react";
 import LinkRastreado from "@/components/LinkRastreado";
 import { track } from "@/lib/track";
+import fotoCafe from "@/assets/contato/cafe-sanchez.jpg";
 
 // Bloco 9 — contato, mapa e rota. Padrão do site AV Alumi (Decisão D3): card de
 // contato ao lado do iframe do Google Maps embed (grátis, sem chave). Distância
@@ -29,26 +30,6 @@ const hrefWpp = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(
 function hrefRota(origem?: string) {
   const base = `https://www.google.com/maps/dir/?api=1&destination=${destinoUrl}`;
   return origem ? `${base}&origin=${encodeURIComponent(origem)}` : base;
-}
-
-/** Xícara em traço cobre ao lado do título (pedido da Yruena). Decorativa. */
-function CafeIlustracao({ className = "" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 160 160" aria-hidden="true" className={`cafe-ilustracao ${className}`}>
-      <circle cx="80" cy="84" r="70" className="fill-creme-100" />
-      <circle cx="80" cy="84" r="70" fill="none" className="stroke-cobre-line/40" strokeWidth="1" />
-      <g fill="none" className="stroke-cobre" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round">
-        <path className="cafe-vapor" d="M66 58c-6-8 6-12 0-20" />
-        <path className="cafe-vapor cafe-vapor-2" d="M80 54c-6-8 6-12 0-20" />
-        <path className="cafe-vapor cafe-vapor-3" d="M94 58c-6-8 6-12 0-20" />
-        <path d="M46 72h68v14a30 30 0 0 1-30 30h-8a30 30 0 0 1-30-30z" className="fill-white/80" />
-        <path d="M114 78h6a10 10 0 0 1 0 20h-9" />
-        <path d="M34 122h92" />
-        <path d="M44 128h72" className="stroke-cobre-line/60" />
-      </g>
-      <ellipse cx="80" cy="74" rx="30" ry="3" className="fill-cobre-deep/70" />
-    </svg>
-  );
 }
 
 type EstadoRota = "parado" | "localizando" | "negado" | "pronto";
@@ -123,14 +104,25 @@ export default function Contato() {
     <section id="contato" className="section-y relative isolate scroll-mt-24 bg-creme">
       <div className="ambiente" />
       <div className="container-club relative">
-        <div className="flex items-end gap-4 sm:gap-6">
+        <div className="grid items-end gap-8 sm:grid-cols-[minmax(0,1fr)_auto]">
           <div className="max-w-xl">
             <span className="eyebrow">Contato</span>
             <h2 className="h-display mt-4 text-[clamp(2rem,4.5vw,3.25rem)]">
               Venha tomar um café <span className="italic text-cobre">com a gente.</span>
             </h2>
           </div>
-          <CafeIlustracao className="-mb-6 h-24 w-24 shrink-0 sm:-mb-10 sm:h-36 sm:w-36 lg:h-44 lg:w-44" />
+          {/* Foto de café (pedido da Yruena) — cartão levemente inclinado que
+              invade o topo do mapa no desktop. Foto: Jason W / Unsplash (licença livre). */}
+          <figure className="bezel relative z-10 w-full transition-transform duration-700 ease-lux hover:rotate-0 sm:w-72 sm:rotate-[2.5deg] lg:-mb-28 lg:w-[23rem]">
+            <div className="bezel-core aspect-[16/10] sm:aspect-[4/3]">
+              <img
+                src={fotoCafe}
+                alt="Xícara de cappuccino com desenho de folha sobre mesa de madeira"
+                loading="lazy"
+                className="h-full w-full object-cover"
+              />
+            </div>
+          </figure>
         </div>
 
         <div className="mt-10 grid gap-6 lg:mt-14 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-10">
