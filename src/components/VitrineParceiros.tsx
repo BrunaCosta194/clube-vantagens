@@ -56,7 +56,7 @@ export default function VitrineParceiros() {
                     src={p.imagem}
                     alt={p.nome}
                     loading="lazy"
-                    className="h-full w-full object-contain px-8 pb-5 pt-10 transition-transform duration-[1.2s] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.05]"
+                    className="h-full w-full object-contain px-6 pb-4 pt-10 transition-transform duration-[1.2s] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.05]"
                   />
                   <span
                     className="absolute left-3 top-3 rounded-full bg-creme/90 px-2.5 py-1 font-mono text-[9px] font-medium uppercase tracking-[0.14em] text-grafite-soft backdrop-blur-sm"
