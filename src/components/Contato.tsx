@@ -3,7 +3,7 @@ import type { FormEvent } from "react";
 import { Clock, Globe, Instagram, MapPin, MessageCircle, Navigation } from "lucide-react";
 import LinkRastreado from "@/components/LinkRastreado";
 import { track } from "@/lib/track";
-import fotoCafe from "@/assets/contato/cafe-sanchez.jpg";
+import xicaraCafe from "@/assets/contato/xicara-cafe.webp";
 
 // Bloco 9 — contato, mapa e rota. Padrão do site AV Alumi (Decisão D3): card de
 // contato ao lado do iframe do Google Maps embed (grátis, sem chave). Distância
@@ -101,28 +101,29 @@ export default function Contato() {
   ];
 
   return (
-    <section id="contato" className="section-y relative isolate scroll-mt-24 bg-creme">
+    <section id="contato" className="section-y relative isolate scroll-mt-24 overflow-x-clip bg-creme">
       <div className="ambiente" />
       <div className="container-club relative">
-        <div className="grid items-end gap-8 sm:grid-cols-[minmax(0,1fr)_auto]">
-          <div className="max-w-xl">
-            <span className="eyebrow">Contato</span>
-            <h2 className="h-display mt-4 text-[clamp(2rem,4.5vw,3.25rem)]">
-              Venha tomar um café <span className="italic text-cobre">com a gente.</span>
-            </h2>
-          </div>
-          {/* Foto de café (pedido da Yruena) — cartão levemente inclinado que
-              invade o topo do mapa no desktop. Foto: Jason W / Unsplash (licença livre). */}
-          <figure className="bezel relative z-10 w-full transition-transform duration-700 ease-lux hover:rotate-0 sm:w-72 sm:rotate-[2.5deg] lg:-mb-28 lg:w-[23rem]">
-            <div className="bezel-core aspect-[16/10] sm:aspect-[4/3]">
-              <img
-                src={fotoCafe}
-                alt="Xícara de cappuccino com desenho de folha sobre mesa de madeira"
-                loading="lazy"
-                className="h-full w-full object-cover"
-              />
-            </div>
-          </figure>
+        {/* Xícara vista de cima (pedido da Yruena), recortada com a sombra
+            translúcida — fica "apoiada" sobre o canto do card/mapa, sem moldura.
+            Decorativa: não recebe clique (o mapa embaixo continua usável).
+            Foto: Mockup Graphics / Unsplash (licença livre). */}
+        <img
+          src={xicaraCafe}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          decoding="async"
+          width={600}
+          height={592}
+          className="pointer-events-none absolute -right-10 top-24 z-10 w-40 rotate-[-14deg] select-none sm:-right-2 sm:top-8 sm:w-56 lg:right-6 lg:top-20 lg:w-[19rem]"
+        />
+
+        <div className="relative max-w-xl pr-24 sm:pr-40 lg:pr-0">
+          <span className="eyebrow">Contato</span>
+          <h2 className="h-display mt-4 text-[clamp(2rem,4.5vw,3.25rem)]">
+            Venha tomar um café <span className="italic text-cobre">com a gente.</span>
+          </h2>
         </div>
 
         <div className="mt-10 grid gap-6 lg:mt-14 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-10">
