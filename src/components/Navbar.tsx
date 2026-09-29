@@ -10,11 +10,11 @@ type NavLink = { label: string; href?: string; to?: string; modal?: true };
 
 // Menu recomendado no briefing (Clube Sanchez é a marca/logo à esquerda,
 // Minha área é o botão à direita — não entram nessa lista). "Quem somos"
-// (modal institucional) mantido a pedido da Bruna.
+// (modal institucional) mantido a pedido da Bruna. "Comunidade Sanchez"
+// saiu do menu a pedido dela (29/09) — o cadastro fica no 1º banner.
 const links: NavLink[] = [
   { label: "Quem somos", modal: true },
   { label: "Loja", to: "/loja" },
-  { label: "Comunidade Sanchez", to: "/cadastro" },
   { href: "#parceiros", label: "Parceiros" },
   { href: "#como-funciona", label: "Como funciona" },
   { href: "#contato", label: "Contato" },
