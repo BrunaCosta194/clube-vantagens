@@ -12,7 +12,7 @@ const CONFIG = {
     instagramHost: "https://www.instagram.com/papodealuguel/", // TODO: @ pessoal da Yruena
     whatsapp: "https://wa.me/5511971796030",                   // TODO: confirmar se é o número da produção
     clube: "https://clube-vantagens.vercel.app/",
-    privacidade: "https://clube-vantagens.vercel.app/privacidade#patrocinio",
+    privacidade: "https://clube-vantagens.vercel.app/privacidade",
   },
   whatsappNumero: "5511971796030",
 
@@ -94,10 +94,8 @@ const CONFIG = {
   multaRescisao: "[percentual a definir] do saldo remanescente", // TODO: política comercial
   contratoVersao: "v1-2026-09",
 
-  // Onde gravar cada adesão (tabela patrocinio_adesoes, migration 0010 do Clube).
-  // Mesmos valores de VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY do .env do Clube.
-  // A anon key é pública (a tabela só aceita INSERT). Vazio = só WhatsApp.
-  supabase: { url: "", anonKey: "" },
+  // Opcional: URL que recebe o JSON da adesão (Supabase Edge Function, n8n…). Vazio = só WhatsApp.
+  endpoint: "",
 };
 
 /* ---------- helpers ---------- */
@@ -336,29 +334,11 @@ async function registrar(d) {
     patrocinador: { ...d, cota: undefined }, userAgent: navigator.userAgent,
   };
   flow.registro = reg;
-  const sb = CONFIG.supabase;
-  if (sb.url && sb.anonKey) {
-    const linha = {
-      cota: reg.cota, valor_mensal: reg.valorMensal, valor_total: reg.valorTotal, prazo_meses: CONFIG.prazoMeses,
-      inicio: reg.inicio, termino: reg.termino,
-      tipo: d.tipo, nome: d.nome, fantasia: d.fantasia || null, documento: d.documento,
-      representante: d.tipo === "PJ" ? d.representante : null, cpf_representante: d.tipo === "PJ" ? d.cpfRep : null,
-      endereco: d.endereco, email: d.email, telefone: d.telefone,
-      nome_comercial: d.nomeComercial || null, segmento: d.segmento || null, instagram: d.instagram || null,
-      site: d.site || null, whats_comercial: d.whatsComercial || null, descricao: d.descricao || null, oferta: d.oferta || null,
-      contrato_versao: CONFIG.contratoVersao, contrato_texto: $("#contrato").innerText.slice(0, 30000),
-      aceite_contrato: true, aceite_lgpd: true, aceite_em: reg.criadoEm, user_agent: navigator.userAgent.slice(0, 500),
-    };
-    try {
-      const r = await fetch(`${sb.url}/rest/v1/patrocinio_adesoes`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", apikey: sb.anonKey, Authorization: `Bearer ${sb.anonKey}`, Prefer: "return=minimal" },
-        body: JSON.stringify(linha),
-      });
-      if (!r.ok) console.warn("Adesão não gravada:", r.status, await r.text());
-    } catch (e) { console.warn("Falha ao enviar adesão:", e); }
+  if (CONFIG.endpoint) {
+    try { await fetch(CONFIG.endpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(reg) }); }
+    catch (e) { console.warn("Falha ao enviar adesão:", e); }
   } else {
-    console.info("Adesão (Supabase não configurado):", reg);
+    console.info("Adesão (sem endpoint configurado):", reg);
   }
   return reg;
 }
