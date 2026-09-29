@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
-import { Clock, Globe, Instagram, Mail, MapPin, MessageCircle, Navigation } from "lucide-react";
+import { Clock, Globe, Instagram, MapPin, MessageCircle, Navigation } from "lucide-react";
 import LinkRastreado from "@/components/LinkRastreado";
 import { track } from "@/lib/track";
 
@@ -12,7 +12,6 @@ const DESTINO = "Rua Doutor Ricardo Vilela, 965, Centro, Mogi das Cruzes - SP, 0
 const WHATSAPP = "5511971796030";
 const INSTAGRAM = "https://www.instagram.com/sanchezimoveisenegocios/";
 const SITE = "https://www.sanchezimoveis.com.br/";
-const EMAIL = "financeiro@sanchezimoveis.com.br";
 const HORARIOS = [
   { dias: "Segunda a sexta", horas: "09h às 18h" },
   { dias: "Sábado", horas: "09h às 13h" },
@@ -30,6 +29,26 @@ const hrefWpp = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(
 function hrefRota(origem?: string) {
   const base = `https://www.google.com/maps/dir/?api=1&destination=${destinoUrl}`;
   return origem ? `${base}&origin=${encodeURIComponent(origem)}` : base;
+}
+
+/** Xícara em traço cobre ao lado do título (pedido da Yruena). Decorativa. */
+function CafeIlustracao({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 160 160" aria-hidden="true" className={`cafe-ilustracao ${className}`}>
+      <circle cx="80" cy="84" r="70" className="fill-creme-100" />
+      <circle cx="80" cy="84" r="70" fill="none" className="stroke-cobre-line/40" strokeWidth="1" />
+      <g fill="none" className="stroke-cobre" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round">
+        <path className="cafe-vapor" d="M66 58c-6-8 6-12 0-20" />
+        <path className="cafe-vapor cafe-vapor-2" d="M80 54c-6-8 6-12 0-20" />
+        <path className="cafe-vapor cafe-vapor-3" d="M94 58c-6-8 6-12 0-20" />
+        <path d="M46 72h68v14a30 30 0 0 1-30 30h-8a30 30 0 0 1-30-30z" className="fill-white/80" />
+        <path d="M114 78h6a10 10 0 0 1 0 20h-9" />
+        <path d="M34 122h92" />
+        <path d="M44 128h72" className="stroke-cobre-line/60" />
+      </g>
+      <ellipse cx="80" cy="74" rx="30" ry="3" className="fill-cobre-deep/70" />
+    </svg>
+  );
 }
 
 type EstadoRota = "parado" | "localizando" | "negado" | "pronto";
@@ -98,26 +117,21 @@ export default function Contato() {
       evento: "social_click" as const,
       props: { rede: "site", local: "contato" },
     },
-    {
-      icone: Mail,
-      rotulo: "E-mail",
-      valor: EMAIL,
-      href: `mailto:${EMAIL}`,
-      evento: "social_click" as const,
-      props: { rede: "email", local: "contato" },
-    },
   ];
 
   return (
     <section id="contato" className="section-y scroll-mt-24 bg-creme">
       <div className="container-club">
-        <div className="max-w-xl">
-          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-cobre-deep">
-            Contato
-          </p>
-          <h2 className="h-display mt-3 text-[clamp(2rem,4.5vw,3.25rem)]">
-            Venha tomar um café <span className="italic text-cobre">com a gente.</span>
-          </h2>
+        <div className="flex items-end gap-4 sm:gap-6">
+          <div className="max-w-xl">
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-cobre-deep">
+              Contato
+            </p>
+            <h2 className="h-display mt-3 text-[clamp(2rem,4.5vw,3.25rem)]">
+              Venha tomar um café <span className="italic text-cobre">com a gente.</span>
+            </h2>
+          </div>
+          <CafeIlustracao className="-mb-6 h-24 w-24 shrink-0 sm:-mb-10 sm:h-36 sm:w-36 lg:h-44 lg:w-44" />
         </div>
 
         <div className="mt-10 grid gap-6 lg:mt-14 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-10">
@@ -218,7 +232,7 @@ export default function Contato() {
                     </p>
                     <LinkRastreado
                       href={href}
-                      target={href.startsWith("mailto:") ? undefined : "_blank"}
+                      target="_blank"
                       rel="noopener noreferrer"
                       evento={evento}
                       props={props}

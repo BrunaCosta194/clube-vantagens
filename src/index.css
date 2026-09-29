@@ -105,3 +105,20 @@ body::after {
     display: none;
   }
 }
+
+/* Vapor da xícara do Contato — sobe e some, em loop leve (só transform/opacity). */
+.cafe-vapor {
+  animation: cafe-vapor 3.2s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: bottom;
+}
+.cafe-vapor-2 { animation-delay: 0.6s; }
+.cafe-vapor-3 { animation-delay: 1.2s; }
+@keyframes cafe-vapor {
+  0% { opacity: 0; transform: translateY(6px); }
+  40% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-8px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cafe-vapor { animation: none; opacity: 0.8; }
+}
