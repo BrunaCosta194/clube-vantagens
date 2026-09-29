@@ -3,7 +3,6 @@ import type { FormEvent } from "react";
 import { Clock, Globe, Instagram, MapPin, MessageCircle, Navigation } from "lucide-react";
 import LinkRastreado from "@/components/LinkRastreado";
 import { track } from "@/lib/track";
-import xicaraCafe from "@/assets/contato/xicara-cafe.webp";
 
 // Bloco 9 — contato, mapa e rota. Padrão do site AV Alumi (Decisão D3): card de
 // contato ao lado do iframe do Google Maps embed (grátis, sem chave). Distância
@@ -101,25 +100,10 @@ export default function Contato() {
   ];
 
   return (
-    <section id="contato" className="section-y relative isolate scroll-mt-24 overflow-x-clip bg-creme">
+    <section id="contato" className="section-y relative isolate scroll-mt-24 bg-creme">
       <div className="ambiente" />
       <div className="container-club relative">
-        {/* Xícara vista de cima (pedido da Yruena), recortada com a sombra
-            translúcida — fica "apoiada" sobre o canto do card/mapa, sem moldura.
-            Decorativa: não recebe clique (o mapa embaixo continua usável).
-            Foto: Mockup Graphics / Unsplash (licença livre). */}
-        <img
-          src={xicaraCafe}
-          alt=""
-          aria-hidden="true"
-          loading="lazy"
-          decoding="async"
-          width={600}
-          height={592}
-          className="pointer-events-none absolute -right-10 top-24 z-10 w-40 rotate-[-14deg] select-none sm:-right-2 sm:top-8 sm:w-56 lg:right-6 lg:top-20 lg:w-[19rem]"
-        />
-
-        <div className="relative max-w-xl pr-24 sm:pr-40 lg:pr-0">
+        <div className="max-w-xl">
           <span className="eyebrow">Contato</span>
           <h2 className="h-display mt-4 text-[clamp(2rem,4.5vw,3.25rem)]">
             Venha tomar um café <span className="italic text-cobre">com a gente.</span>
