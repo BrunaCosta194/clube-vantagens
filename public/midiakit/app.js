@@ -84,13 +84,12 @@ const CONFIG = {
     ["Prazo contratual", "6 meses", "6 meses", "6 meses"],
   ],
 
-  pix: { chave: "[CHAVE PIX A DEFINIR]", vencimentoDia: "[●]" }, // TODO
-  contratada: { // TODO: dados de quem responde pelo Papo de Aluguel
-    razao: "[RAZÃO SOCIAL RESPONSÁVEL PELO PAPO DE ALUGUEL]",
-    cnpj: "[●]", sede: "[●]",
-  },
-  multaRescisao: "[percentual a definir] do saldo remanescente", // TODO: política comercial
-  contratoVersao: "v1-2026-09",
+  // Chave Pix = celular. `chave` é o que o botão copia; `exibir` é o que aparece na tela.
+  pix: { chave: "11940252517", exibir: "(11) 94025-2517 · celular", vencimentoDia: "[●]" }, // TODO: dia de vencimento
+  // Contratada é pessoa física (Yruena). `endereco` vazio = cláusula sem endereço.
+  contratada: { nome: "YRUENA DE SOUSA MONTEIRO", cpf: "777.074.782-15", endereco: "" },
+  multaRescisao: "1 (uma) mensalidade da cota contratada",
+  contratoVersao: "v2-2026-09",
 
   // Onde gravar cada adesão (tabela patrocinio_adesoes, migration 0010 do Clube).
   // Mesmos valores de VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY do .env do Clube.
@@ -271,13 +270,14 @@ function contratoHTML(d) {
   return `
     <h4>Contrato de Participação Publicitária e Patrocínio — Papo de Aluguel</h4>
     <p><b>CONTRATANTE:</b> ${m(d.nome)}, inscrito(a) no ${docLabel} nº ${m(d.documento)}, com endereço em ${m(d.endereco)}${rep}, e-mail ${m(d.email)} e telefone ${m(d.telefone)}.</p>
-    <p><b>CONTRATADA:</b> ${m(k.razao)}, inscrita no CNPJ nº ${m(k.cnpj)}, com sede em ${m(k.sede)}, responsável pela marca e pelo projeto Papo de Aluguel.</p>
+    <p><b>CONTRATADA:</b> ${m(k.nome)}, inscrita no CPF nº ${m(k.cpf)}${k.endereco ? `, residente em ${m(k.endereco)}` : ""}, responsável pela marca e pelo projeto Papo de Aluguel.</p>
     <p><b>1. OBJETO.</b> Participação da CONTRATANTE como patrocinadora do Papo de Aluguel, conforme a cota selecionada eletronicamente e as entregas descritas no respectivo plano.</p>
     <p><b>2. COTA CONTRATADA.</b> ${m(c.nome + " — " + brl2(c.valor) + " mensais")}, com as seguintes entregas: ${m(entregasCompletas(c).join("; "))}. As condições apresentadas no Mídia Kit e no resumo da contratação integram este instrumento.</p>
     <p><b>3. PRAZO.</b> Prazo determinado de ${CONFIG.prazoMeses} (seis) meses, de ${m(dataBR(ini))} a ${m(dataBR(fim))}. O pagamento mensal não se confunde com contratação mensal ou por prazo indeterminado.</p>
-    <p><b>4. VALOR.</b> Valor total de ${m(brl2(total))}, em ${CONFIG.prazoMeses} parcelas mensais de ${m(brl2(c.valor))}, via PIX para a chave ${m(CONFIG.pix.chave)}, com vencimento todo dia ${m(CONFIG.pix.vencimentoDia)}.</p>
+    <p><b>3.1. RENOVAÇÃO.</b> Caso a CONTRATANTE não manifeste, por escrito, a intenção de não renovar até o término do prazo, este contrato será renovado automaticamente por mais ${CONFIG.prazoMeses} (seis) meses, nas mesmas condições, e assim sucessivamente.</p>
+    <p><b>4. VALOR.</b> Valor total de ${m(brl2(total))}, em ${CONFIG.prazoMeses} parcelas mensais de ${m(brl2(c.valor))}, via PIX para a chave ${m(CONFIG.pix.exibir || CONFIG.pix.chave)}, com vencimento todo dia ${m(CONFIG.pix.vencimentoDia)}.</p>
     <p><b>4.1.</b> O parcelamento mensal é exclusivamente forma de pagamento do valor total contratado e não confere à CONTRATANTE direito de cancelamento imotivado mês a mês.</p>
-    <p><b>5. RESCISÃO ANTECIPADA.</b> A desistência imotivada da CONTRATANTE antes do término do prazo sujeita-a ao pagamento de multa equivalente a ${m(CONFIG.multaRescisao)}, sem prejuízo das parcelas vencidas.</p>
+    <p><b>5. RESCISÃO ANTECIPADA.</b> A desistência imotivada da CONTRATANTE antes do término do prazo sujeita-a ao pagamento de multa equivalente a ${m(CONFIG.multaRescisao)}, sem prejuízo das parcelas já vencidas.</p>
     <p><b>6. ENTREGAS.</b> As entregas da CONTRATADA são as correspondentes à cota selecionada, conforme quadro comercial vigente aceito na contratação.</p>
     <p><b>7. MATERIAIS DA MARCA.</b> A CONTRATANTE fornecerá logotipo, identidade visual, links e informações comerciais necessários às divulgações, responsabilizando-se por sua titularidade, veracidade e regularidade.</p>
     <p><b>8. USO DE MARCA.</b> Durante a vigência, a CONTRATANTE autoriza o uso de sua marca, nome comercial e materiais fornecidos exclusivamente para execução deste contrato e divulgação da parceria.</p>
@@ -364,7 +364,7 @@ function prepararPagamento(d, reg) {
   $("#doneNome").textContent = d.nomeComercial || d.nome;
   $("#doneData").textContent = new Date(reg.criadoEm).toLocaleString("pt-BR");
   $("#pixValor").textContent = brl2(d.cota.valor);
-  $("#pixChave").textContent = CONFIG.pix.chave;
+  $("#pixChave").textContent = CONFIG.pix.exibir || CONFIG.pix.chave;
   const msg = [
     "Olá, produção do Papo de Aluguel! Acabei de aderir ao patrocínio.",
     `Cota: ${d.cota.nome} (${brl(d.cota.valor)}/mês · ${CONFIG.prazoMeses} meses · total ${brl(reg.valorTotal)})`,
