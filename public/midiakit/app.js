@@ -39,14 +39,14 @@ const CONFIG = {
   ],
 
   valores: [
-    { nome: "Instrução", foto: "/midiakit/img/grid4.jpg", legenda: "Conhecimento é o ponto de partida de tudo." },
+    { nome: "Instrução", foto: "/midiakit/img/valor-instrucao.jpg", legenda: "Conhecimento é o ponto de partida de tudo." },
     { nome: "Profissionalismo", foto: "/midiakit/img/valor-profissionalismo.jpg", legenda: "Quem senta nessa mesa trata a corretagem como profissão." },
     { nome: "Excelência", foto: "/midiakit/img/valor-excelencia.jpg", legenda: "Cenário, produção e conteúdo no mesmo padrão." },
     { nome: "Comprometimento", foto: "/midiakit/img/valor-comprometimento.jpg", legenda: "Ao vivo, toda semana, com quem faz o mercado." },
     { nome: "Transparência", foto: "/midiakit/img/valor-transparencia.jpg", legenda: "Debate aberto, sem papo furado." },
     { nome: "Inovação", foto: "/midiakit/img/valor-inovacao.jpg", legenda: "Novas ideias para um mercado em transformação." },
     { nome: "Respeito à profissão", foto: "/midiakit/img/valor-respeito.jpg", legenda: "Uma bandeira vestida por uma comunidade inteira." },
-    { nome: "Desenvolvimento contínuo", foto: "/midiakit/img/grid5.jpg", legenda: "Quem aprende não depende." },
+    { nome: "Desenvolvimento contínuo", foto: "/midiakit/img/valor-desenvolvimento.jpg", legenda: "Quem aprende não depende." },
   ],
 
   cotas: [
