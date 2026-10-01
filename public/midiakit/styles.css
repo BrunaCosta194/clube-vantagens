@@ -250,7 +250,7 @@ em { font-style: normal; }
 .valores__photo img.is-swap { opacity: 0; transform: scale(1.04); }
 .valores__photo figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 60px 22px 20px; font-size: 15px; background: linear-gradient(transparent, rgba(13, 26, 44, .92)); }
 .valores__photo figcaption b { display: block; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--orange); margin-bottom: 4px; }
-@media (max-width: 900px) { .valores { grid-template-columns: 1fr; } .valores__photo { height: auto; min-height: 0; aspect-ratio: 4/3; order: -1; } }
+@media (max-width: 900px) { .valores { grid-template-columns: 1fr; } .valores__photo { height: auto; min-height: 0; aspect-ratio: 4/5; order: -1; } }
 
 /* ============ 5 · ALCANCE ============ */
 .alcance { background: var(--paper); padding: clamp(90px, 12vw, 150px) 0; overflow: hidden; }
