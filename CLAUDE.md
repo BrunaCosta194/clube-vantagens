@@ -21,7 +21,7 @@ Landing page + área de membro do clube de vantagens da Sanchez Imóveis (Mogi d
 - **Mídia kit do Papo de Aluguel** em `/midiakit` — cópia estática em `public/midiakit/` (rewrite no `vercel.json` antes do catch-all). Fonte de verdade fica fora do repo (`~/papo-de-aluguel-midiakit` no PC da Bruna); ao editar, recopiar trocando `img/` por `/midiakit/img/`. Adesões gravam em `patrocinio_adesoes` (migration 0010).
 - Página `/papodealuguel` (podcast) e catch-all `*` → `/`.
 
-**Banco:** Supabase próprio do Clube (não é o do Connect). Migrations `0001`–`0010` em `supabase/migrations/`, **aplicadas à mão pela Bruna** no SQL Editor. RLS: leads/eventos/cotações só têm INSERT para anon; leitura só por `/admin`, dashboard ou service_role. O mesmo projeto Supabase hospeda o schema `inteligencia` do projeto Sanchez Inteligência — não mexer nele por aqui.
+**Banco:** Supabase próprio do Clube (não é o do Connect). Migrations `0001`–`0011` em `supabase/migrations/`, **aplicadas à mão pela Bruna** no SQL Editor (a `0011` já estava no banco pela `0006` do repo `sanchez-inteligencia`). RLS: leads/eventos/cotações só têm INSERT para anon; leitura só por `/admin`, dashboard ou service_role. O mesmo projeto Supabase hospeda o schema `inteligencia` do projeto Sanchez Inteligência — não mexer nele por aqui.
 
 **Integração com o Sanchez Connect (CRM):** bancos separados de propósito. Um script no repo do Connect lê `membros` daqui de hora em hora e cruza por CPF/CNPJ (só dígitos — `normalizarDocumento()` em `src/lib/membros.ts`). Por isso CPF/CNPJ é obrigatório no cadastro.
 
@@ -29,7 +29,7 @@ Landing page + área de membro do clube de vantagens da Sanchez Imóveis (Mogi d
 
 **Pendências — dependem da Yruena:** bloco 7 (parceiros completos + Level Up: planilha + logos), bloco 8 (Loja DEWA: planilha + fotos), bloco 12 (regra dos 5% da indicação); primeira entrada no `/admin` com dados reais; revisão da `/privacidade` (prazos de guarda são rascunho); título da seção Instagram; logo vetor transparente; conteúdo real de Bioreluz/Insurance e do "Quem somos"; arte de banner do contato; artes de celular dos banners.
 
-**Pendência técnica:** branch `fix/trigger-pula-equipe` (faz o trigger `handle_new_membro` pular usuários de equipe do Inteligência) precisa renumerar a migration para `0011` antes do PR — `0009` e `0010` já existem.
+**Gatilho `handle_new_membro`:** pula usuários de equipe do Inteligência (`0011`). Quem mudar essa função precisa manter esse trecho, senão a criação de login de equipe volta a dar "Database error creating new user".
 
 **Regras deste site:**
 - Fluxo: branch a partir da `main` → PR → a Bruna revisa, mescla e roda migrations. Push/merge na `main` é dela.
