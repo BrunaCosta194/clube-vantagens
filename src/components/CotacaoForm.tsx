@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import type { ProdutoInsurance } from "@/data/insuranceProdutos";
 import { track } from "@/lib/track";
+import { DOC_QTD_MAX, DOC_TIPOS, problemaDoArquivo } from "@/lib/cotacoes";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -53,6 +54,7 @@ export default function CotacaoForm({
   const [enviado, setEnviado] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+  const [avisoArquivos, setAvisoArquivos] = useState<string | null>(null);
 
   // reseta ao trocar de produto
   useEffect(() => {
@@ -61,6 +63,7 @@ export default function CotacaoForm({
     setWhatsapp("");
     setEmail("");
     setArquivos([]);
+    setAvisoArquivos(null);
     setAceite(false);
     setEnviado(false);
     setErro(null);
@@ -80,7 +83,16 @@ export default function CotacaoForm({
 
   function addArquivos(lista: FileList | null) {
     if (!lista) return;
-    setArquivos((prev) => [...prev, ...Array.from(lista)]);
+    const novos = Array.from(lista);
+    const problemas = novos.map(problemaDoArquivo).filter((p): p is string => !!p);
+    const validos = novos.filter((f) => !problemaDoArquivo(f));
+    const cabem = Math.max(0, DOC_QTD_MAX - arquivos.length);
+    if (validos.length > cabem) {
+      problemas.push(`No máximo ${DOC_QTD_MAX} arquivos por cotação.`);
+    }
+    setAvisoArquivos(problemas.length ? problemas.join(" ") : null);
+    setArquivos((prev) => [...prev, ...validos.slice(0, cabem)]);
+    if (fileRef.current) fileRef.current.value = "";
   }
 
   function removerArquivo(i: number) {
@@ -363,10 +375,18 @@ export default function CotacaoForm({
                     ref={fileRef}
                     type="file"
                     multiple
-                    accept="image/*,application/pdf"
+                    accept={DOC_TIPOS.join(",")}
                     className="hidden"
                     onChange={(e) => addArquivos(e.target.files)}
                   />
+                  <p className="mt-2 text-[11px] text-grafite-muted">
+                    PDF ou foto, até 10 MB cada (no máximo {DOC_QTD_MAX}).
+                  </p>
+                  {avisoArquivos && (
+                    <p role="alert" className="mt-1 text-xs font-medium text-terracota">
+                      {avisoArquivos}
+                    </p>
+                  )}
 
                   {arquivos.length > 0 && (
                     <ul className="mt-3 space-y-2">

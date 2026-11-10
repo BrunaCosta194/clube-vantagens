@@ -1,6 +1,26 @@
 import { supabase } from "./supabase";
 import type { CotacaoPayload } from "@/components/CotacaoForm";
 
+// Limites do bucket `cotacoes-docs` (migration 0012). O Storage recusa o que
+// passar disso; aqui o formulário avisa antes. Mudar nos dois lugares.
+export const DOC_TAMANHO_MAX = 10 * 1024 * 1024; // 10 MB
+export const DOC_QTD_MAX = 10;
+export const DOC_TIPOS = [
+  "application/pdf",
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/heic",
+  "image/heif",
+];
+
+// Motivo pelo qual o arquivo não pode ser anexado, ou null se pode.
+export function problemaDoArquivo(f: File): string | null {
+  if (!DOC_TIPOS.includes(f.type)) return `${f.name}: envie PDF ou foto (JPG, PNG, WEBP ou HEIC).`;
+  if (f.size > DOC_TAMANHO_MAX) return `${f.name}: o arquivo passa de 10 MB.`;
+  return null;
+}
+
 // Envia uma cotação da Insurance & Santé pro Supabase.
 //
 // Ordem importa por causa da RLS (só há policy de INSERT, nada de SELECT/
