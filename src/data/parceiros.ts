@@ -12,6 +12,7 @@ import oticasDiniz from "@/assets/parceiros/oticas-diniz-logo-card.png";
 import remalar from "@/assets/parceiros/remalar-logo-card.png";
 import renovaLar from "@/assets/parceiros/renova-lar-logo-card.png";
 import lumineStudio from "@/assets/parceiros/lumine-studio-logo-card.png";
+import { DEWA_WHATS, fotoDewa } from "@/data/dewa";
 import vidracariaAv from "@/assets/parceiros/vidracaria-av-logo-card.png";
 
 export type Parceiro = {
@@ -35,6 +36,23 @@ export type Parceiro = {
 };
 
 export const parceiros: Parceiro[] = [
+  {
+    // DEMO para a reunião de 11/11/2026: benefício de exemplo até fechar com a Dewa.
+    slug: "dewa",
+    nome: "Dewa",
+    categoria: "Moda e Lifestyle",
+    descricaoCurta:
+      "Moda em algodão, lifestyle e bem-estar, feita em Mogi das Cruzes desde 2008.",
+    descricao:
+      "Marca própria de roupas e acessórios de Mogi das Cruzes, com loja, sala de yoga e quintal na Vila Oliveira. Condição exclusiva para o Clube Sanchez.",
+    voucher: "Condição exclusiva Sanchez", // TODO: confirmar % / valor com a Dewa
+    imagem: fotoDewa("BoneMauvecomLogodeMaosPretas.png?v=1793995594", 600), // TODO: trocar pelo logo oficial da Dewa
+    cor: "hsl(20, 25%, 22%)",
+    whatsapp: DEWA_WHATS,
+    site: "https://www.instagram.com/usedewa",
+    tags: ["Moda", "Lifestyle", "Yoga"],
+    pagina: "/parceiro/dewa",
+  },
   {
     slug: "bioreluz",
     nome: "Bioreluz",
