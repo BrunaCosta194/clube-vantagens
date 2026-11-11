@@ -15,6 +15,7 @@ const PapoDeAluguel = lazy(() => import("./pages/PapoDeAluguel"));
 const Privacidade = lazy(() => import("./pages/Privacidade"));
 const ParceiroBioreluz = lazy(() => import("./pages/ParceiroBioreluz"));
 const ParceiroInsurance = lazy(() => import("./pages/ParceiroInsurance"));
+const ParceiroDewa = lazy(() => import("./pages/ParceiroDewa"));
 
 export default function App() {
   return (
@@ -30,6 +31,7 @@ export default function App() {
           <Route path="/privacidade" element={<Privacidade />} />
           <Route path="/parceiro/bioreluz" element={<ParceiroBioreluz />} />
           <Route path="/parceiro/insurance-sante" element={<ParceiroInsurance />} />
+          <Route path="/parceiro/dewa" element={<ParceiroDewa />} />
           <Route path="/admin" element={<Admin />} />
           {/* Rota desconhecida (ex: /premium, que foi removida) volta pra home
               em vez de renderizar tela branca. */}
