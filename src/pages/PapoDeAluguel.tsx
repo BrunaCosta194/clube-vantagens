@@ -21,6 +21,7 @@ import EbookFormModal from "@/components/EbookFormModal";
 import yruena from "@/assets/papo/yruena-papo.jpg";
 import logoPapo from "@/assets/papo/logo-papo.png";
 import ebookCapa from "@/assets/papo/ebook-capa.jpg";
+import LinkRastreado from "@/components/LinkRastreado";
 import grid1 from "@/assets/papo/grid1.jpg";
 import grid2 from "@/assets/papo/grid2.jpg";
 import grid3 from "@/assets/papo/grid3.jpg";
@@ -33,11 +34,11 @@ import grid8 from "@/assets/papo/grid8.jpg";
 // Página /papodealuguel — banner "Papo de Aluguel" reconstruído nativo e
 // responsivo. Design original (1920×645) traduzido para os tokens do site
 // (papo-azul / papo-laranja / Poppins) e empilhado no celular.
-// TODO: trocar os href="#" pelos links reais do YouTube e do Instagram.
+// Redes do podcast: os mesmos endereços do mídia kit (public/midiakit/app.js).
 
 const social = [
-  { Icon: Youtube, label: "ASSISTA NO YOUTUBE", href: "#" },
-  { Icon: Instagram, label: "SIGA NO INSTAGRAM", href: "#" },
+  { Icon: Youtube, rede: "youtube", label: "ASSISTA NO YOUTUBE", href: "https://www.youtube.com/@papodealuguel" },
+  { Icon: Instagram, rede: "instagram", label: "SIGA NO INSTAGRAM", href: "https://www.instagram.com/papodealuguel/" },
 ];
 
 const features = [
@@ -256,13 +257,17 @@ export default function PapoDeAluguel() {
           <div className="flex flex-wrap items-center gap-x-5 gap-y-3 pt-1">
             {social.map((s, i) => (
               <div key={s.label} className="flex items-center gap-5">
-                <a
+                <LinkRastreado
                   href={s.href}
-                  className="inline-flex items-center gap-2 text-[12.5px] font-medium tracking-[0.06em] text-papo-texto/90 transition-colors hover:text-papo-laranja"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  evento="social_click"
+                  props={{ rede: s.rede, local: "papo_de_aluguel" }}
+                  className="inline-flex min-h-11 items-center gap-2 text-[12.5px] font-medium tracking-[0.06em] text-papo-texto/90 transition-colors hover:text-papo-laranja"
                 >
                   <s.Icon className="h-[18px] w-[18px] text-papo-laranja" strokeWidth={1.6} />
                   {s.label}
-                </a>
+                </LinkRastreado>
                 {i < social.length - 1 && (
                   <span className="hidden h-3.5 w-px bg-white/20 sm:block" />
                 )}
