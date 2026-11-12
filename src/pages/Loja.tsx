@@ -29,15 +29,13 @@ export default function Loja() {
   return (
     <div className="min-h-screen bg-creme">
       <Navbar />
-      <main className="pt-28 sm:pt-32">
+      <main className="pt-[104px] sm:pt-[128px]">
         <header className="container-club">
-          <p className="font-mono text-xs uppercase tracking-[0.18em] text-cobre-deep">
-            Loja Sanchez
-          </p>
-          <h1 className="mt-3 h-display text-[clamp(2.25rem,5.5vw,4rem)]">
-            A loja do <span className="italic text-cobre">clube.</span>
+          <p className="eyebrow">Loja Sanchez</p>
+          <h1 className="mt-3 h-display text-[clamp(3rem,7vw,6rem)]">
+            A loja do <span className="italic text-cobre-deep">clube.</span>
           </h1>
-          <p className="mt-4 max-w-xl text-base leading-relaxed text-grafite-soft">
+          <p className="mt-6 max-w-xl text-lg leading-relaxed text-grafite">
             {soShopee
               ? "Produtos com curadoria Sanchez. Compra segura pela Shopee, com a confiança de quem já é do clube."
               : "Produtos com curadoria Sanchez. Compra segura pelo Mercado Livre (em até 2x) ou pela Shopee — o selo em cada produto mostra o canal."}
@@ -52,10 +50,10 @@ export default function Loja() {
               <button
                 key={f.valor}
                 onClick={() => setFiltro(f.valor)}
-                className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors duration-300 ${
+                className={`min-h-11 rounded-full px-5 text-[15px] font-semibold transition-colors duration-300 ${
                   filtro === f.valor
-                    ? "border-cobre-deep bg-cobre-deep text-perola"
-                    : "border-cobre-line/30 text-grafite-soft hover:border-cobre hover:text-cobre-deep"
+                    ? "bg-grafite text-perola"
+                    : "bg-creme-100 text-grafite hover:bg-creme-200"
                 }`}
               >
                 {f.label}
@@ -64,13 +62,13 @@ export default function Loja() {
           </div>
         </header>
 
-        <div className="container-club mt-10 pb-24 sm:mt-12">
+        <div className="container-club mt-14 pb-28 sm:mt-16 lg:pb-36">
           {lista.length === 0 ? (
-            <p className="py-16 text-center text-grafite-muted">
+            <p className="py-16 text-lg text-grafite">
               Nenhum produto neste canal ainda.
             </p>
           ) : (
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-12 sm:gap-x-6 lg:grid-cols-4">
               {lista.map((p) => (
                 <ProdutoCard key={p.slug} produto={p} />
               ))}

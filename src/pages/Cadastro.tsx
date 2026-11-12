@@ -148,13 +148,13 @@ export default function Cadastro() {
       footer={
         <>
           Já é membro?{" "}
-          <Link to={loginHref} className="font-medium text-terracota hover:underline">
+          <Link to={loginHref} className="font-semibold text-cobre-deep underline decoration-cobre/50 underline-offset-4 hover:decoration-cobre-deep">
             Fazer login
           </Link>
         </>
       }
     >
-      <form onSubmit={handleSubmit} onFocusCapture={marcarInicioCadastro} className="space-y-4">
+      <form onSubmit={handleSubmit} onFocusCapture={marcarInicioCadastro} className="space-y-5">
         <div>
           <label className={labelClass} htmlFor="nome">
             Nome completo
@@ -237,10 +237,10 @@ export default function Cadastro() {
           />
         </div>
 
-        <label className="flex items-start gap-2 text-xs text-neutral-600">
+        <label className="flex items-start gap-3 text-sm leading-relaxed text-grafite-soft">
           <input
             type="checkbox"
-            className="mt-0.5 h-4 w-4 shrink-0 accent-terracota"
+            className="mt-0.5 h-5 w-5 shrink-0 accent-cobre-deep"
             checked={aceite}
             onChange={(e) => setAceite(e.target.checked)}
           />
@@ -252,7 +252,7 @@ export default function Cadastro() {
           </span>
         </label>
 
-        {erro && <p className="text-sm text-terracota-700">{erro}</p>}
+        {erro && <p className="text-sm text-gatilho">{erro}</p>}
 
         <button type="submit" disabled={carregando} className="btn-primary group w-full justify-center disabled:opacity-60">
           {carregando ? "Criando conta..." : "Criar minha conta"}

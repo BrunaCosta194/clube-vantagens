@@ -46,12 +46,12 @@ export default function ParceiroDewa() {
   }, []);
 
   return (
-    <main className="min-h-screen overflow-x-hidden bg-warm-wash">
+    <main className="min-h-screen overflow-x-hidden bg-creme">
       {/* topo: voltar + WhatsApp */}
       <header className="absolute inset-x-0 top-0 z-30 mx-auto flex w-full max-w-[92rem] items-center justify-between gap-3 px-4 py-4 sm:px-8 sm:py-5">
         <Link
           to="/"
-          className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/35 px-4 py-2 text-xs font-medium text-white transition-colors hover:bg-black/55"
+          className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/35 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-black/55"
         >
           <ArrowLeft className="h-4 w-4" strokeWidth={1.5} />
           <span className="hidden sm:inline">Voltar ao clube</span>
@@ -63,7 +63,7 @@ export default function ParceiroDewa() {
           rel="noreferrer"
           evento="partner_contact"
           props={{ slug: SLUG, canal: "whatsapp", lugar: "topo" }}
-          className="inline-flex items-center gap-2 rounded-full bg-[hsl(145,63%,42%)] px-4 py-2 text-xs font-semibold text-white shadow-lux-sm transition hover:brightness-105"
+          className="inline-flex items-center gap-2 rounded-full bg-[#2a9e6a] px-4 py-2 text-sm font-semibold text-white transition hover:brightness-105"
         >
           <MessageCircle className="h-4 w-4" strokeWidth={1.6} />
           Falar com a Dewa
@@ -95,11 +95,11 @@ export default function ParceiroDewa() {
               transition={{ duration: 0.9, delay: 0.2, ease }}
               className="max-w-2xl"
             >
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-black/30 px-3 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-white">
+              <span className="inline-flex items-center gap-2 text-[15px] text-white font-semibold">
                 <span className="h-1.5 w-1.5 rounded-full bg-cobre-light" />
                 Parceiro Sanchez Clube
               </span>
-              <h1 className="mt-5 font-display text-[clamp(3.5rem,13vw,8rem)] font-semibold leading-[0.88] tracking-[-0.02em] text-white">
+              <h1 className="mt-5 font-display text-[clamp(3.5rem,13vw,8rem)] leading-[0.88] tracking-[-0.02em] text-white">
                 Dewa
               </h1>
               <p className="mt-4 font-display text-2xl italic text-white/90 sm:text-3xl">
@@ -109,7 +109,7 @@ export default function ParceiroDewa() {
                 Moda em algodão, lifestyle e bem-estar, feita em Mogi das Cruzes
                 desde 2008. Agora com condição exclusiva para quem é do clube.
               </p>
-              <ul className="mt-7 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-white/20 pt-5 font-mono text-[10px] uppercase tracking-[0.16em] text-white/75 sm:text-[11px]">
+              <ul className="mt-7 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-white/20 pt-5 text-sm text-white/75 font-semibold">
                 <li>Desde 2008</li>
                 <li aria-hidden className="h-3 w-px bg-white/30" />
                 <li>Vila Oliveira · Mogi</li>
@@ -127,10 +127,10 @@ export default function ParceiroDewa() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.15, ease }}
-          className="relative z-10 -mt-14 grid gap-6 rounded-[2rem] border border-grafite/10 bg-creme p-5 shadow-lux sm:p-9 lg:grid-cols-[1.4fr_1fr] lg:gap-10"
+          className="relative z-10 -mt-14 grid gap-6 rounded-[12px] border border-grafite/10 bg-creme p-5 sm:p-9 lg:grid-cols-[1.4fr_1fr] lg:gap-10"
         >
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-cobre-deep">
+            <p className="text-sm text-cobre-deep font-semibold">
               Sobre a Dewa
             </p>
             <p className="mt-3 text-[15px] leading-relaxed text-grafite-soft sm:text-base">
@@ -141,7 +141,7 @@ export default function ParceiroDewa() {
                 (t) => (
                   <span
                     key={t}
-                    className="rounded-full border border-grafite/10 bg-white/60 px-3 py-1 text-xs text-grafite-soft"
+                    className="rounded-full border border-grafite/10 bg-white/60 px-3 py-1 text-sm text-grafite-soft"
                   >
                     {t}
                   </span>
@@ -156,11 +156,11 @@ export default function ParceiroDewa() {
 
       {/* ── COMO USAR ── */}
       <section className="mx-auto w-full max-w-[92rem] px-5 pt-16 sm:px-8 sm:pt-24">
-        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-cobre-deep">
+        <p className="text-sm text-cobre-deep font-semibold">
           Três passos
         </p>
-        <h2 className="h-display mt-2 text-[clamp(1.75rem,4vw,2.75rem)]">Como usar seu benefício</h2>
-        <ol className="mt-8 grid gap-0 sm:mt-12 sm:grid-cols-3 sm:gap-10">
+        <h2 className="h-display mt-2 text-[clamp(2.5rem,5.2vw,4.5rem)]">Como usar seu benefício</h2>
+        <ol className="mt-10 grid gap-2 sm:mt-12 sm:grid-cols-3">
           {[
             {
               t: "Entre no clube",
@@ -179,15 +179,10 @@ export default function ParceiroDewa() {
               key={p.t}
               {...aparecer}
               transition={{ duration: 0.7, delay: i * 0.1, ease }}
-              className="grid grid-cols-[3.25rem_1fr] gap-x-3 border-t border-grafite/15 py-5 sm:block sm:py-0 sm:pt-6"
+              className="rounded-[10px] bg-creme-100 px-6 py-7 sm:px-8 sm:py-9"
             >
-              <span className="font-display text-4xl font-semibold leading-none text-cobre/70 sm:text-5xl">
-                {i + 1}
-              </span>
-              <div className="sm:mt-5">
-                <h3 className="font-display text-lg font-semibold text-grafite sm:text-xl">{p.t}</h3>
-                <p className="mt-1.5 max-w-xs text-sm leading-relaxed text-grafite-soft">{p.d}</p>
-              </div>
+              <h3 className="font-display text-[clamp(1.6rem,2.4vw,2rem)] leading-tight text-grafite">{p.t}</h3>
+              <p className="mt-2 text-base leading-relaxed text-grafite">{p.d}</p>
             </motion.li>
           ))}
         </ol>
@@ -197,10 +192,10 @@ export default function ParceiroDewa() {
       <section className="mx-auto w-full max-w-[92rem] px-5 py-16 sm:px-8 sm:py-24">
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-cobre-deep">
+            <p className="text-sm text-cobre-deep font-semibold">
               Coleção
             </p>
-            <h2 className="h-display mt-2 text-[clamp(1.75rem,4vw,2.75rem)]">Peças da Dewa</h2>
+            <h2 className="h-display mt-2 text-[clamp(2.5rem,5.2vw,4.5rem)]">Peças da Dewa</h2>
           </div>
           <LinkRastreado
             href={DEWA_SITE}
@@ -230,14 +225,14 @@ export default function ParceiroDewa() {
                 props={{ slug: SLUG, canal: "dewa", produto: p.nome }}
                 className="group block"
               >
-                <div className="relative aspect-[4/5] overflow-hidden rounded-[1.25rem] bg-creme-200 sm:rounded-[1.5rem]">
+                <div className="relative aspect-[4/5] overflow-hidden rounded-[10px] bg-creme-200 sm:rounded-[10px]">
                   <img
                     src={fotoDewa(p.foto, 700)}
                     alt={p.nome}
                     loading="lazy"
                     className="h-full w-full object-cover transition-transform duration-[1.2s] ease-lux group-hover:scale-[1.05]"
                   />
-                  <span className="absolute left-2.5 top-2.5 rounded-full bg-white/90 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-grafite sm:left-3 sm:top-3 sm:text-[10px]">
+                  <span className="absolute left-2.5 top-2.5 rounded-full bg-white/90 px-2.5 py-1 text-sm text-grafite sm:left-3 sm:top-3 font-semibold">
                     {p.linha}
                   </span>
                 </div>
@@ -248,14 +243,14 @@ export default function ParceiroDewa() {
                   <span className="font-semibold text-cobre-deep">{p.precoPix}</span>{" "}
                   <span className="text-grafite-muted">no Pix</span>
                 </p>
-                <p className="text-xs text-grafite-muted">ou {p.preco} no cartão</p>
+                <p className="text-sm text-grafite-muted">ou {p.preco} no cartão</p>
               </LinkRastreado>
             </motion.div>
           ))}
         </div>
 
         {/* vantagens da loja */}
-        <div className="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-[1.5rem] border border-grafite/10 bg-grafite/10 sm:mt-14 lg:grid-cols-4">
+        <div className="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-[10px] border border-grafite/10 bg-grafite/10 sm:mt-14 lg:grid-cols-4">
           {dewaVantagensLoja.map((v) => (
             <div key={v.titulo} className="bg-creme-100 p-5">
               <p className="font-semibold text-grafite">{v.titulo}</p>
@@ -269,7 +264,7 @@ export default function ParceiroDewa() {
       <section className="bg-[#2a211c] py-16 text-perola sm:py-24">
         <div className="mx-auto w-full max-w-[92rem] px-5 sm:px-8">
           <div className="grid gap-6 md:grid-cols-[1fr_1fr] md:items-end">
-            <h2 className="font-display text-[clamp(1.75rem,4vw,2.75rem)] font-semibold leading-tight">
+            <h2 className="font-display text-[clamp(2.5rem,5.2vw,4.5rem)] leading-[1.05] tracking-[-0.03em]">
               Mais que uma loja: a Casa Dewa
             </h2>
             <p className="max-w-md text-sm leading-relaxed text-perola/70 md:justify-self-end md:text-right">
@@ -281,7 +276,7 @@ export default function ParceiroDewa() {
           <div className="-mx-5 mt-10 flex snap-x snap-mandatory scroll-px-5 gap-4 overflow-x-auto px-5 pb-2 [scrollbar-width:none] sm:mt-14 md:mx-0 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0 md:pb-0 [&::-webkit-scrollbar]:hidden">
             {dewaCasa.map((c) => (
               <figure key={c.titulo} className="w-[80%] shrink-0 snap-start sm:w-[45%] md:w-auto">
-                <div className="group aspect-[4/5] overflow-hidden rounded-[1.5rem]">
+                <div className="group aspect-[4/5] overflow-hidden rounded-[10px]">
                   <img
                     src={fotoDewa(c.foto, 800)}
                     alt={c.titulo}
@@ -290,13 +285,13 @@ export default function ParceiroDewa() {
                   />
                 </div>
                 <figcaption className="mt-4">
-                  <p className="font-display text-lg font-semibold">{c.titulo}</p>
+                  <p className="font-display text-lg">{c.titulo}</p>
                   <p className="mt-1 text-sm leading-relaxed text-perola/70">{c.texto}</p>
                 </figcaption>
               </figure>
             ))}
           </div>
-          <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.16em] text-perola/50 md:hidden">
+          <p className="mt-4 text-sm text-perola/50 md:hidden font-semibold">
             Deslize para ver mais →
           </p>
         </div>
@@ -304,7 +299,7 @@ export default function ParceiroDewa() {
 
       {/* ── VISITE ── */}
       <section className="mx-auto w-full max-w-[92rem] px-5 py-16 sm:px-8 sm:py-24">
-        <div className="grid overflow-hidden rounded-[2rem] border border-grafite/10 bg-creme shadow-lux md:grid-cols-2">
+        <div className="grid overflow-hidden rounded-[12px] border border-grafite/10 bg-creme md:grid-cols-2">
           <div className="relative aspect-[4/3] md:aspect-auto md:min-h-[30rem]">
             <img
               src={fotoDewa(dewaFotos.fachada, 1000)}
@@ -314,7 +309,7 @@ export default function ParceiroDewa() {
             />
           </div>
           <div className="flex flex-col justify-center p-6 sm:p-10 lg:p-14">
-            <h2 className="h-display text-[clamp(1.6rem,3.5vw,2.4rem)]">Visite a Casa Dewa</h2>
+            <h2 className="h-display text-[clamp(2.25rem,4.5vw,3.5rem)]">Visite a Casa Dewa</h2>
             <ul className="mt-6 space-y-4 text-[15px] text-grafite-soft">
               <li className="flex gap-3">
                 <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-cobre" strokeWidth={1.5} />
@@ -340,7 +335,7 @@ export default function ParceiroDewa() {
                 rel="noreferrer"
                 evento="partner_contact"
                 props={{ slug: SLUG, canal: "mapa" }}
-                className="inline-flex items-center gap-2 rounded-full bg-cobre px-5 py-3 text-sm font-semibold text-white transition hover:bg-cobre-deep"
+                className="inline-flex items-center gap-2 rounded-md bg-cobre-deep px-5 text-[15px] font-semibold text-white transition hover:bg-grafite-deep min-h-[3.25rem]"
               >
                 <MapPin className="h-4 w-4" strokeWidth={1.6} />
                 Como chegar
@@ -351,7 +346,7 @@ export default function ParceiroDewa() {
                 rel="noreferrer"
                 evento="partner_contact"
                 props={{ slug: SLUG, canal: "instagram" }}
-                className="inline-flex items-center gap-2 rounded-full border border-grafite/15 px-5 py-3 text-sm font-medium text-grafite transition hover:border-cobre hover:text-cobre-deep"
+                className="inline-flex items-center gap-2 rounded-md border border-grafite/15 px-5 text-[15px] font-medium text-grafite transition hover:border-cobre hover:text-cobre-deep min-h-[3.25rem]"
               >
                 <Instagram className="h-4 w-4" strokeWidth={1.5} />
                 @usedewa
@@ -364,7 +359,7 @@ export default function ParceiroDewa() {
       {/* ── CHAMADA FINAL ── */}
       {!membro && (
         <section className="mx-auto w-full max-w-[92rem] px-5 pb-20 sm:px-8 sm:pb-28">
-          <div className="relative isolate overflow-hidden rounded-[2rem] bg-grafite px-6 py-14 text-center text-perola sm:px-10 sm:py-20">
+          <div className="relative isolate overflow-hidden rounded-[12px] bg-grafite px-6 py-14 text-center text-perola sm:px-10 sm:py-20">
             <img
               src={fotoDewa(dewaFotos.festa, 1400)}
               alt=""
@@ -372,7 +367,7 @@ export default function ParceiroDewa() {
               className="absolute inset-0 -z-10 h-full w-full object-cover"
             />
             <div className="absolute inset-0 -z-10 bg-grafite/80" />
-            <h2 className="font-display text-[clamp(1.75rem,4vw,2.75rem)] font-semibold">
+            <h2 className="font-display text-[clamp(2.25rem,4.5vw,3.5rem)] leading-tight">
               Ainda não é do Sanchez Clube?
             </h2>
             <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-perola/75">
@@ -380,7 +375,7 @@ export default function ParceiroDewa() {
             </p>
             <Link
               to="/cadastro"
-              className="mt-7 inline-flex items-center gap-2 rounded-full bg-cobre px-6 py-3 text-sm font-semibold text-white transition hover:bg-cobre-deep"
+              className="mt-7 inline-flex items-center gap-2 rounded-md bg-cobre-deep px-6 text-[15px] font-semibold text-white transition hover:bg-grafite-deep min-h-[3.25rem]"
             >
               Quero fazer parte
               <ArrowUpRight className="h-4 w-4" strokeWidth={1.6} />
@@ -407,20 +402,20 @@ function Beneficio({ membro }: { membro: boolean }) {
   }
 
   return (
-    <div className="flex flex-col justify-between rounded-[1.5rem] border border-cobre-line/40 bg-cobre/10 p-5 sm:p-6">
+    <div className="flex flex-col justify-between rounded-[10px] border border-cobre-line/40 bg-cobre/10 p-5 sm:p-6">
       <div>
         <div className="flex items-center justify-between gap-3">
-          <p className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-cobre-deep">
+          <p className="inline-flex items-center gap-2 text-sm text-cobre-deep font-semibold">
             <BadgePercent className="h-4 w-4" strokeWidth={1.5} />
             Sua vantagem
           </p>
           {dewaBeneficio.exemplo && (
-            <span className="rounded-full bg-white/70 px-2.5 py-0.5 text-[10px] font-medium text-grafite-muted">
+            <span className="rounded-full bg-white/70 px-2.5 py-0.5 text-sm font-medium text-grafite-muted">
               valor de exemplo
             </span>
           )}
         </div>
-        <p className="mt-3 font-display text-[2.25rem] font-semibold leading-tight text-grafite sm:text-4xl">
+        <p className="mt-3 font-display text-[2.25rem] leading-tight text-grafite sm:text-4xl">
           {dewaBeneficio.titulo}
         </p>
         <p className="mt-1 text-sm leading-relaxed text-grafite-soft">{dewaBeneficio.detalhe}</p>
@@ -430,17 +425,17 @@ function Beneficio({ membro }: { membro: boolean }) {
         <button
           type="button"
           onClick={copiar}
-          className="mt-5 flex items-center justify-between gap-3 rounded-2xl border border-dashed border-cobre-line bg-white px-4 py-3 text-left transition hover:border-cobre"
+          className="mt-5 flex items-center justify-between gap-3 rounded-[10px] border border-dashed border-cobre-line bg-white px-4 py-3 text-left transition hover:border-cobre"
         >
           <span>
-            <span className="block font-mono text-[10px] uppercase tracking-[0.16em] text-grafite-muted">
+            <span className="block text-sm text-grafite-muted font-semibold">
               Seu cupom
             </span>
-            <span className="font-mono text-lg font-semibold tracking-wider text-grafite">
+            <span className="text-lg font-semibold text-grafite">
               {dewaBeneficio.cupom}
             </span>
           </span>
-          <span className="inline-flex items-center gap-1.5 text-xs font-medium text-cobre-deep">
+          <span className="inline-flex items-center gap-1.5 text-sm font-medium text-cobre-deep">
             {copiado ? (
               <>
                 <Check className="h-4 w-4" strokeWidth={1.8} /> Copiado
@@ -455,7 +450,7 @@ function Beneficio({ membro }: { membro: boolean }) {
       ) : (
         <Link
           to="/cadastro"
-          className="mt-5 inline-flex items-center justify-center gap-2 rounded-full bg-cobre px-5 py-3 text-sm font-semibold text-white transition hover:bg-cobre-deep"
+          className="mt-5 inline-flex items-center justify-center gap-2 rounded-md bg-cobre-deep px-5 text-[15px] font-semibold text-white transition hover:bg-grafite-deep min-h-[3.25rem]"
         >
           <span className="sm:hidden">Pegar meu cupom</span>
           <span className="hidden sm:inline">Entrar no clube e pegar o cupom</span>

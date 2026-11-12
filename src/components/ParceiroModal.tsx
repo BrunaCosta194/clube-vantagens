@@ -33,7 +33,7 @@ export default function ParceiroModal({ parceiro, onClose }: Props) {
           exit={{ opacity: 0 }}
         >
           <div
-            className="absolute inset-0 bg-grafite/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-grafite/70"
             onClick={onClose}
           />
 
@@ -45,49 +45,44 @@ export default function ParceiroModal({ parceiro, onClose }: Props) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 40, scale: 0.98 }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="relative flex max-h-[92vh] w-full max-w-xl flex-col overflow-hidden rounded-t-[2rem] border border-grafite/10 bg-creme shadow-lux sm:rounded-[2rem]"
+            className="relative flex max-h-[92vh] w-full max-w-xl flex-col overflow-hidden rounded-t-[12px] bg-creme shadow-[0_30px_90px_rgba(45,26,15,0.3)] sm:rounded-[12px]"
           >
             {/* imagem */}
             <div className="relative bg-[#FBF8F3]">
               <img
                 src={parceiro.imagem}
                 alt={parceiro.nome}
-                className="h-44 w-full object-contain px-10 py-8 sm:h-52"
+                className="h-48 w-full object-contain px-10 py-8 sm:h-56"
               />
               <button
                 onClick={onClose}
                 aria-label="Fechar"
-                className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full bg-creme/90 text-grafite shadow-lux-sm backdrop-blur-sm transition hover:bg-creme"
+                className="absolute right-4 top-4 grid h-11 w-11 place-items-center rounded-full bg-creme text-grafite transition-colors hover:bg-grafite hover:text-perola"
               >
                 <X className="h-4 w-4" strokeWidth={1.5} />
               </button>
-              <span
-                className="absolute bottom-4 left-4 rounded-full px-3 py-1 text-xs font-semibold text-white shadow"
-                style={{ backgroundColor: parceiro.cor }}
-              >
-                {parceiro.categoria}
-              </span>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-6 sm:p-7">
-              <h3 className="font-display text-2xl font-semibold text-grafite">
+            <div className="flex-1 overflow-y-auto p-6 sm:p-8">
+              <p className="text-[15px] text-grafite-soft">{parceiro.categoria}</p>
+              <h3 className="mt-1 font-display text-[clamp(2rem,4vw,2.5rem)] leading-tight text-grafite">
                 {parceiro.nome}
               </h3>
 
               {/* voucher destaque (só quando o parceiro tem vantagem anunciada) */}
               {parceiro.voucher && (
-                <div className="mt-4 flex items-center gap-3 rounded-2xl border border-cobre-line/40 bg-cobre/10 px-4 py-3">
+                <div className="mt-5 flex items-center gap-3 rounded-[10px] bg-creme-100 px-5 py-4">
                   <BadgePercent className="h-5 w-5 shrink-0 text-cobre-deep" strokeWidth={1.5} />
                   <div>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-cobre-deep">
+                    <p className="text-[15px] text-grafite-soft">
                       Sua vantagem
                     </p>
-                    <p className="font-semibold text-grafite">{parceiro.voucher}</p>
+                    <p className="text-lg font-semibold text-cobre-deep">{parceiro.voucher}</p>
                   </div>
                 </div>
               )}
 
-              <p className="mt-5 leading-relaxed text-grafite-soft">
+              <p className="mt-5 text-[17px] leading-relaxed text-grafite">
                 {parceiro.descricao}
               </p>
 
@@ -95,7 +90,7 @@ export default function ParceiroModal({ parceiro, onClose }: Props) {
                 {parceiro.tags.map((t) => (
                   <span
                     key={t}
-                    className="rounded-full border border-grafite/10 bg-white px-3 py-1 text-xs font-medium text-grafite-soft"
+                    className="rounded-full bg-creme-100 px-3 py-1.5 text-sm text-grafite"
                   >
                     {t}
                   </span>
@@ -104,7 +99,7 @@ export default function ParceiroModal({ parceiro, onClose }: Props) {
             </div>
 
             {/* ações */}
-            <div className="border-t border-grafite/10 bg-white p-5">
+            <div className="bg-creme-100 p-5 sm:px-8">
               <div className="flex flex-wrap gap-3">
                 <LinkRastreado
                   href={parceiro.site ?? "#"}
@@ -113,10 +108,10 @@ export default function ParceiroModal({ parceiro, onClose }: Props) {
                   aria-disabled={!parceiro.site}
                   evento="partner_contact"
                   props={{ slug: parceiro.slug, canal: "site" }}
-                  className={`inline-flex flex-1 items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition ${
+                  className={`inline-flex min-h-[3.25rem] flex-1 items-center justify-center gap-2 rounded-md px-5 text-[15px] font-semibold transition-colors ${
                     parceiro.site
-                      ? "border border-grafite/15 bg-white text-grafite hover:border-terracota/40 hover:text-terracota-700"
-                      : "cursor-not-allowed border border-grafite/10 bg-grafite/5 text-grafite-muted"
+                      ? "border border-grafite text-grafite hover:bg-grafite hover:text-perola"
+                      : "cursor-not-allowed bg-creme-200 text-grafite-soft"
                   }`}
                 >
                   {isInstagram ? (
@@ -133,10 +128,10 @@ export default function ParceiroModal({ parceiro, onClose }: Props) {
                   aria-disabled={!parceiro.whatsapp}
                   evento="partner_contact"
                   props={{ slug: parceiro.slug, canal: "whatsapp" }}
-                  className={`inline-flex flex-1 items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition ${
+                  className={`inline-flex min-h-[3.25rem] flex-1 items-center justify-center gap-2 rounded-md px-5 text-[15px] font-semibold transition-colors ${
                     parceiro.whatsapp
-                      ? "bg-[hsl(145,63%,42%)] text-white hover:brightness-105"
-                      : "cursor-not-allowed bg-grafite/5 text-grafite-muted"
+                      ? "bg-[#2a9e6a] text-white hover:bg-[#23855a]"
+                      : "cursor-not-allowed bg-creme-200 text-grafite-soft"
                   }`}
                 >
                   <MessageCircle className="h-4 w-4" strokeWidth={1.5} />
@@ -146,7 +141,7 @@ export default function ParceiroModal({ parceiro, onClose }: Props) {
               <Link
                 to="/cadastro"
                 onClick={onClose}
-                className="mt-3 flex items-center justify-center gap-2 rounded-full bg-terracota px-5 py-3 text-sm font-semibold text-white shadow-card transition hover:bg-terracota-600"
+                className="mt-3 flex min-h-[3.25rem] items-center justify-center gap-2 rounded-md bg-cobre-deep px-5 text-[15px] font-semibold text-perola transition-colors hover:bg-grafite"
               >
                 Quero este benefício
                 <ArrowRight className="h-4 w-4" strokeWidth={1.5} />

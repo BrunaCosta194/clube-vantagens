@@ -31,12 +31,12 @@ export default function ParceiroBioreluz() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-warm-wash">
+    <main className="min-h-screen bg-creme">
       {/* topo: voltar */}
       <header className="absolute inset-x-0 top-0 z-30 mx-auto flex w-full max-w-[92rem] items-center justify-between px-5 py-5 sm:px-8">
         <Link
           to="/"
-          className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-grafite/20 px-4 py-2 text-xs font-medium text-white backdrop-blur-md transition-colors hover:bg-grafite/30"
+          className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-grafite/20 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-grafite/30"
         >
           <ArrowLeft className="h-4 w-4" strokeWidth={1.5} />
           Voltar ao clube
@@ -47,7 +47,7 @@ export default function ParceiroBioreluz() {
           rel="noreferrer"
           evento="partner_contact"
           props={{ slug: "bioreluz", canal: "whatsapp" }}
-          className="inline-flex items-center gap-2 rounded-full bg-[hsl(145,63%,42%)] px-4 py-2 text-xs font-semibold text-white shadow-lux-sm transition hover:brightness-105"
+          className="inline-flex items-center gap-2 rounded-full bg-[#2a9e6a] px-4 py-2 text-sm font-semibold text-white transition hover:brightness-105"
         >
           <MessageCircle className="h-4 w-4" strokeWidth={1.6} />
           Falar no WhatsApp
@@ -73,7 +73,7 @@ export default function ParceiroBioreluz() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease }}
-          className="relative z-10 -mt-10 rounded-[2rem] border border-grafite/10 bg-creme p-6 shadow-lux sm:-mt-14 sm:p-9"
+          className="relative z-10 -mt-10 rounded-[12px] border border-grafite/10 bg-creme p-6 sm:-mt-14 sm:p-9"
         >
           <div className="flex flex-col gap-7 md:flex-row md:items-start md:justify-between">
             <div className="max-w-2xl">
@@ -81,13 +81,13 @@ export default function ParceiroBioreluz() {
                 <img
                   src={logo}
                   alt="Bioreluz"
-                  className="h-14 w-14 rounded-2xl border border-grafite/10 object-cover shadow-lux-sm"
+                  className="h-14 w-14 rounded-[10px] border border-grafite/10 object-cover"
                 />
                 <div>
-                  <h1 className="font-display text-2xl font-semibold leading-tight text-grafite sm:text-3xl">
+                  <h1 className="font-display text-[clamp(2.25rem,4.5vw,3.5rem)] leading-[1.05] tracking-[-0.02em] text-grafite">
                     Bioreluz
                   </h1>
-                  <span className="mt-1 inline-block rounded-full bg-cobre/10 px-3 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.16em] text-cobre-deep">
+                  <span className="mt-1 inline-block rounded-full bg-cobre/10 px-3 py-1 text-sm text-cobre-deep font-semibold">
                     Limpeza e Impermeabilização
                   </span>
                 </div>
@@ -99,13 +99,13 @@ export default function ParceiroBioreluz() {
               </p>
             </div>
 
-            <div className="inline-flex shrink-0 items-center gap-3 rounded-2xl border border-cobre-line/40 bg-cobre/10 px-4 py-3">
+            <div className="inline-flex shrink-0 items-center gap-3 rounded-[10px] border border-cobre-line/40 bg-cobre/10 px-4 py-3">
               <BadgePercent
                 className="h-5 w-5 shrink-0 text-cobre-deep"
                 strokeWidth={1.5}
               />
               <div>
-                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-cobre-deep">
+                <p className="text-sm text-cobre-deep font-semibold">
                   Sua vantagem
                 </p>
                 <p className="font-semibold text-grafite">
@@ -120,7 +120,7 @@ export default function ParceiroBioreluz() {
       {/* ── SERVIÇOS ── */}
       <section className="mx-auto w-full max-w-[92rem] px-6 py-16 sm:px-8 sm:py-24">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <h2 className="h-display text-[clamp(1.75rem,4vw,2.75rem)]">
+          <h2 className="h-display text-[clamp(2.5rem,5.2vw,4.5rem)]">
             Catálogo de serviços
           </h2>
           <p className="max-w-xs text-sm leading-relaxed text-grafite-muted md:text-right">
@@ -156,14 +156,14 @@ export default function ParceiroBioreluz() {
                       />
                     </div>
                   )}
-                  <span className="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-white/90 text-grafite shadow-lux-sm backdrop-blur-sm transition group-hover:bg-white">
+                  <span className="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-white/90 text-grafite transition group-hover:bg-white">
                     <PlayCircle className="h-4 w-4" strokeWidth={1.5} />
                   </span>
                 </div>
 
                 <div className="px-4 pb-4 pt-5">
                   <div className="flex items-start justify-between gap-3">
-                    <h3 className="font-display text-lg font-semibold leading-tight text-grafite">
+                    <h3 className="font-display text-[22px] leading-tight text-grafite">
                       {s.nome}
                     </h3>
                     <span className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full border border-grafite/10 text-grafite-soft transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:border-cobre group-hover:bg-cobre group-hover:text-perola">
@@ -175,7 +175,7 @@ export default function ParceiroBioreluz() {
                   </p>
                   <div className="mt-4 flex items-center gap-2 border-t border-grafite/10 pt-4">
                     <span className="h-1.5 w-1.5 rounded-full bg-cobre" />
-                    <span className="font-mono text-xs font-medium tracking-wide text-cobre-deep">
+                    <span className="text-sm font-medium text-cobre-deep">
                       Saiba mais
                     </span>
                   </div>
@@ -219,7 +219,7 @@ function ServicoModal({
           exit={{ opacity: 0 }}
         >
           <div
-            className="absolute inset-0 bg-grafite/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-grafite/60"
             onClick={onClose}
           />
 
@@ -231,7 +231,7 @@ function ServicoModal({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 40, scale: 0.98 }}
             transition={{ duration: 0.35, ease }}
-            className="relative flex max-h-[92vh] w-full max-w-xl flex-col overflow-hidden rounded-t-[2rem] border border-grafite/10 bg-creme shadow-lux sm:rounded-[2rem]"
+            className="relative flex max-h-[92vh] w-full max-w-xl flex-col overflow-hidden rounded-t-[2rem] border border-grafite/10 bg-creme sm:rounded-[12px]"
           >
             {/* vídeo ou placeholder */}
             <div className="relative aspect-video w-full bg-grafite">
@@ -250,7 +250,7 @@ function ServicoModal({
                       className="h-12 w-12 text-white/60"
                       strokeWidth={1.2}
                     />
-                    <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/60">
+                    <p className="text-sm text-white/60 font-semibold">
                       Vídeo em breve
                     </p>
                   </div>
@@ -259,14 +259,14 @@ function ServicoModal({
               <button
                 onClick={onClose}
                 aria-label="Fechar"
-                className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full bg-creme/90 text-grafite shadow-lux-sm backdrop-blur-sm transition hover:bg-creme"
+                className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full bg-creme/90 text-grafite transition hover:bg-creme"
               >
                 <X className="h-4 w-4" strokeWidth={1.5} />
               </button>
             </div>
 
             <div className="flex-1 overflow-y-auto p-6 sm:p-7">
-              <h3 className="font-display text-2xl font-semibold text-grafite">
+              <h3 className="font-display text-2xl text-grafite">
                 {servico.nome}
               </h3>
               <p className="mt-2 text-sm font-medium text-cobre-deep">
@@ -284,7 +284,7 @@ function ServicoModal({
                 rel="noreferrer"
                 evento="partner_contact"
                 props={{ slug: "bioreluz", canal: "whatsapp", servico: servico.slug }}
-                className="flex items-center justify-center gap-2 rounded-full bg-[hsl(145,63%,42%)] px-5 py-3 text-sm font-semibold text-white transition hover:brightness-105"
+                className="flex items-center justify-center gap-2 rounded-md bg-[#2a9e6a] px-5 text-[15px] font-semibold text-white transition hover:brightness-105 min-h-[3.25rem]"
               >
                 <MessageCircle className="h-4 w-4" strokeWidth={1.5} />
                 Solicitar este serviço

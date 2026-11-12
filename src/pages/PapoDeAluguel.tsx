@@ -117,7 +117,6 @@ export default function PapoDeAluguel() {
       style={{ background: fundo }}
     >
       {/* brilho radial + textura pontilhada (decorativos) */}
-      <div className="pointer-events-none absolute -top-40 right-[18%] h-[42rem] w-[42rem] rounded-full bg-[radial-gradient(circle,rgba(89,208,240,0.18),transparent_70%)]" />
       <div
         className="pointer-events-none absolute inset-0 opacity-50"
         style={{
@@ -136,17 +135,17 @@ export default function PapoDeAluguel() {
             className="h-9 w-9 object-contain"
           />
           <span className="flex flex-col leading-[1.05]">
-            <span className="text-[15px] font-semibold tracking-wide text-papo-texto">
+            <span className="text-[15px] font-semibold text-papo-texto">
               Papo
             </span>
-            <span className="text-[15px] font-semibold tracking-wide text-papo-laranja">
+            <span className="text-[15px] font-semibold text-papo-laranja">
               de Aluguel
             </span>
           </span>
         </span>
         <Link
           to="/"
-          className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-xs font-medium text-papo-texto/80 transition-colors hover:border-white/30 hover:text-papo-texto"
+          className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-sm font-medium text-papo-texto/80 transition-colors hover:border-white/30 hover:text-papo-texto"
         >
           <ArrowLeft className="h-4 w-4" strokeWidth={1.5} />
           Voltar ao clube
@@ -187,32 +186,32 @@ export default function PapoDeAluguel() {
           </div>
 
           {/* card do e-book — capa + download com gate de cadastro */}
-          <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.06] p-3 backdrop-blur-sm sm:gap-5 sm:p-4">
+          <div className="flex items-center gap-4 rounded-[10px] border border-white/10 bg-white/[0.06] p-3 sm:gap-5 sm:p-4">
             <img
               src={ebookCapa}
               alt="E-book Da Porta ao Topo — Papo de Aluguel"
-              className="h-32 w-auto shrink-0 rounded-lg shadow-lux-sm sm:h-40"
+              className="h-32 w-auto shrink-0 rounded-lg sm:h-40"
             />
             <div className="min-w-0">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-papo-laranja">
+              <p className="text-sm font-semibold text-papo-laranja">
                 E-book grátis
               </p>
-              <h3 className="mt-1 font-display text-lg font-semibold leading-tight text-papo-texto sm:text-xl">
+              <h3 className="mt-1 font-display text-lg leading-tight text-papo-texto sm:text-xl">
                 Da Porta ao Topo
               </h3>
-              <p className="mt-1.5 text-xs leading-relaxed text-papo-texto/60 sm:text-sm">
+              <p className="mt-1.5 text-sm leading-relaxed text-papo-texto/60 sm:text-sm">
                 Autoconfiança e habilidades pra se destacar no mercado
                 imobiliário.
               </p>
               <button
                 onClick={baixarEbookDaPagina}
                 disabled={baixando}
-                className="mt-3.5 inline-flex items-center gap-2 rounded-full bg-papo-laranja px-5 py-2.5 text-sm font-semibold text-papo-azul shadow-lux-sm transition-all duration-500 ease-lux hover:brightness-105 active:scale-[0.98] disabled:opacity-60"
+                className="mt-3.5 inline-flex items-center gap-2 rounded-md bg-papo-laranja px-5 text-[15px] font-semibold text-papo-azul transition-all duration-500 ease-lux hover:brightness-105 active:scale-[0.98] disabled:opacity-60 min-h-[3.25rem]"
               >
                 <Download className="h-4 w-4" strokeWidth={2} />
                 {baixando ? "Preparando..." : "Baixe grátis"}
               </button>
-              <p className="mt-2 text-[11px] text-papo-texto/60">
+              <p className="mt-2 text-sm text-papo-texto/60">
                 Sem cadastro: só nome, e-mail e WhatsApp.
               </p>
             </div>
@@ -240,7 +239,7 @@ export default function PapoDeAluguel() {
                     className="h-5 w-5 text-papo-laranja"
                     strokeWidth={1.5}
                   />
-                  <span className="text-[10.5px] font-medium leading-tight tracking-wide text-papo-texto/60">
+                  <span className="text-[10.5px] font-medium leading-tight text-papo-texto/60">
                     {f.l1}
                     <br />
                     {f.l2}

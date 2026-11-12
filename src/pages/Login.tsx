@@ -50,13 +50,13 @@ export default function Login() {
       footer={
         <>
           Ainda não é membro?{" "}
-          <Link to={cadastroHref} className="font-medium text-terracota hover:underline">
+          <Link to={cadastroHref} className="font-semibold text-cobre-deep underline decoration-cobre/50 underline-offset-4 hover:decoration-cobre-deep">
             Criar conta
           </Link>
         </>
       }
     >
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-5">
         <div>
           <label className={labelClass} htmlFor="email">
             E-mail
@@ -85,7 +85,7 @@ export default function Login() {
           />
         </div>
 
-        {erro && <p className="text-sm text-terracota-700">{erro}</p>}
+        {erro && <p className="text-sm text-gatilho">{erro}</p>}
 
         <button type="submit" disabled={carregando} className="btn-primary group w-full justify-center disabled:opacity-60">
           {carregando ? "Entrando..." : "Entrar"}
