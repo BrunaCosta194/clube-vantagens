@@ -97,7 +97,8 @@ export const banners: Banner[] = [
   {
     id: "papo",
     campanha: "institucional-papo-de-aluguel",
-    destino: "/papodealuguel",
+    // Arte "Aqui não tem papo furado" (12/11): o clique abre o mídia kit.
+    destino: "/midiakit",
     ativo: true,
     ordem: 5,
   },
