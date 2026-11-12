@@ -11,3 +11,6 @@ dist-ssr
 .claude/settings.local.json
 supabase/.temp
 *.tsbuildinfo
+
+# capturas de trabalho da skill de design
+.taste-skill/
