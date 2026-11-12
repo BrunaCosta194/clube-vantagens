@@ -13,7 +13,8 @@ import {
 } from "lucide-react";
 import type { ProdutoInsurance } from "@/data/insuranceProdutos";
 import { track } from "@/lib/track";
-import { DOC_QTD_MAX, DOC_TIPOS, problemaDoArquivo } from "@/lib/cotacoes";
+import { DOC_QTD_MAX, DOC_TIPOS, ErroCotacao, problemaDoArquivo, type ResultadoCotacao } from "@/lib/cotacoes";
+import Turnstile, { CHAVE_TURNSTILE } from "./Turnstile";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -24,8 +25,8 @@ type Props = {
   produto: ProdutoInsurance | null;
   categoria?: string;
   onClose: () => void;
-  /** Fase B2: substituir o envio-MVP por gravação no Supabase + notificação. */
-  onEnviar?: (payload: CotacaoPayload) => Promise<void>;
+  /** Grava a cotação (Edge Function cotacao-enviar). Sem ele, só abre o WhatsApp. */
+  onEnviar?: (payload: CotacaoPayload, turnstile: string) => Promise<ResultadoCotacao>;
 };
 
 export type CotacaoPayload = {
@@ -55,6 +56,9 @@ export default function CotacaoForm({
   const [erro, setErro] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const [avisoArquivos, setAvisoArquivos] = useState<string | null>(null);
+  const [token, setToken] = useState("");
+  const [reiniciarTurnstile, setReiniciarTurnstile] = useState(0);
+  const [docsFalharam, setDocsFalharam] = useState(0);
 
   // reseta ao trocar de produto
   useEffect(() => {
@@ -67,6 +71,7 @@ export default function CotacaoForm({
     setAceite(false);
     setEnviado(false);
     setErro(null);
+    setDocsFalharam(0);
   }, [produto?.slug]);
 
   useEffect(() => {
@@ -120,12 +125,23 @@ export default function CotacaoForm({
     setErro(null);
     if (!produto) return;
 
+    // campo escondido preenchido = robô: finge que enviou e não grava nada
+    const isca = (e.currentTarget as HTMLFormElement).elements.namedItem("website");
+    if (isca instanceof HTMLInputElement && isca.value.trim()) {
+      setEnviado(true);
+      return;
+    }
+
     if (!nome.trim() || !whatsapp.trim()) {
       setErro("Preencha ao menos nome e WhatsApp.");
       return;
     }
     if (!aceite) {
       setErro("É preciso aceitar o tratamento dos dados para enviar.");
+      return;
+    }
+    if (onEnviar && CHAVE_TURNSTILE && !token) {
+      setErro("Confirme que você não é um robô e tente de novo.");
       return;
     }
 
@@ -144,9 +160,8 @@ export default function CotacaoForm({
       // Persiste (Fase B2: grava no Supabase — tabela cotacoes + Storage).
       // Sem onEnviar (Fase B1), só registra no console.
       if (onEnviar) {
-        await onEnviar(payload);
-      } else {
-        console.log("[cotacao] payload:", payload);
+        const r = await onEnviar(payload, token);
+        setDocsFalharam(r.docsFalharam);
       }
 
       // Notifica a Yruena no WhatsApp com o resumo. Os documentos, quando há
@@ -163,7 +178,13 @@ export default function CotacaoForm({
       setEnviado(true);
     } catch (err) {
       console.error(err);
-      setErro("Não foi possível enviar agora. Tente novamente em instantes.");
+      setErro(
+        err instanceof ErroCotacao
+          ? err.message
+          : "Não foi possível enviar agora. Tente novamente em instantes.",
+      );
+      // o token do anti-robô vale para uma tentativa só
+      setReiniciarTurnstile((n) => n + 1);
     } finally {
       setEnviando(false);
     }
@@ -231,6 +252,14 @@ export default function CotacaoForm({
                   A Yruena recebeu seu pedido de {produto.nome} e vai te
                   retornar pelo WhatsApp com a cotação. Fique de olho!
                 </p>
+                {docsFalharam > 0 && (
+                  <p className="max-w-xs rounded-[10px] bg-creme-100 px-4 py-3 text-sm leading-relaxed text-grafite">
+                    {docsFalharam === 1
+                      ? "Um documento não conseguiu subir."
+                      : `${docsFalharam} documentos não conseguiram subir.`}{" "}
+                    Mande pelo WhatsApp, junto da mensagem.
+                  </p>
+                )}
                 <button
                   onClick={onClose}
                   className="mt-2 min-h-11 rounded-md bg-grafite px-6 text-[15px] font-semibold text-white transition hover:bg-grafite/90"
@@ -428,8 +457,21 @@ export default function CotacaoForm({
                   </label>
                 </div>
 
+                {/* campo escondido: gente não vê, robô preenche (a função descarta) */}
+                <input
+                  type="text"
+                  name="website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  className="hidden"
+                  defaultValue=""
+                />
+
+                {onEnviar && <Turnstile onToken={setToken} reiniciar={reiniciarTurnstile} />}
+
                 {erro && (
-                  <p className="text-sm font-semibold text-gatilho">{erro}</p>
+                  <p role="alert" className="text-sm font-semibold text-gatilho">{erro}</p>
                 )}
 
                 <button

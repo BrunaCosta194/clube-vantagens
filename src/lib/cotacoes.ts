@@ -21,39 +21,59 @@ export function problemaDoArquivo(f: File): string | null {
   return null;
 }
 
-// Envia uma cotação da Insurance & Santé pro Supabase.
-//
-// Ordem importa por causa da RLS (só há policy de INSERT, nada de SELECT/
-// UPDATE): geramos a pasta no client, subimos os docs, e inserimos a linha
-// já com os caminhos — sem precisar ler o id de volta nem dar update depois.
-export async function enviarCotacao(p: CotacaoPayload): Promise<void> {
-  const pasta =
-    typeof crypto !== "undefined" && "randomUUID" in crypto
-      ? crypto.randomUUID()
-      : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+export type ResultadoCotacao = {
+  /** Documentos que não conseguiram subir (a cotação foi gravada mesmo assim). */
+  docsFalharam: number;
+};
 
-  // 1. sobe os documentos pro bucket privado, agrupados na pasta da cotação.
-  const documentos: string[] = [];
-  for (const arquivo of p.arquivos) {
-    const nomeSeguro = arquivo.name.replace(/[^\w.\-]+/g, "_");
-    const caminho = `${pasta}/${Date.now()}_${nomeSeguro}`;
-    const { error } = await supabase.storage
-      .from("cotacoes-docs")
-      .upload(caminho, arquivo, { upsert: false });
-    if (error) throw error;
-    documentos.push(caminho);
+/** Erro com a mensagem pronta para mostrar no formulário. */
+export class ErroCotacao extends Error {}
+
+// Envia uma cotação da Insurance & Santé pela Edge Function `cotacao-enviar`
+// (supabase/functions/cotacao-enviar). A função confere o anti-robô e o limite
+// por IP, grava a cotação e devolve um link de upload de uso único por arquivo;
+// cada documento sobe direto no bucket privado `cotacoes-docs` por esse link.
+// Sem acesso direto do visitante à tabela nem ao bucket (migration 0014).
+export async function enviarCotacao(p: CotacaoPayload, turnstile: string): Promise<ResultadoCotacao> {
+  const { data, error } = await supabase.functions.invoke("cotacao-enviar", {
+    body: {
+      produto: p.produto,
+      categoria: p.categoria ?? null,
+      nome: p.nome,
+      whatsapp: p.whatsapp,
+      email: p.email,
+      dados: p.dados,
+      arquivos: p.arquivos.map((f) => ({ nome: f.name, tipo: f.type, tamanho: f.size })),
+      aceite: true,
+      turnstile,
+      website: "",
+    },
+  });
+
+  if (error) {
+    // Resposta de erro da função (400/403/429/500): lê o motivo para a mensagem.
+    let corpo: { erro?: string; erros?: Record<string, string> } | null = null;
+    const resposta = (error as { context?: Response }).context;
+    if (resposta && typeof resposta.json === "function") corpo = await resposta.json().catch(() => null);
+    if (corpo?.erros) throw new ErroCotacao(Object.values(corpo.erros).join(" "));
+    if (corpo?.erro === "robo") throw new ErroCotacao("Não conseguimos confirmar que você não é um robô. Tente de novo.");
+    if (corpo?.erro === "limite")
+      throw new ErroCotacao("Muitos envios em pouco tempo. Tente de novo mais tarde ou fale com a Yruena no WhatsApp.");
+    throw error;
   }
 
-  // 2. grava a cotação já com os caminhos dos docs.
-  const { error } = await supabase.from("cotacoes").insert({
-    produto: p.produto,
-    categoria: p.categoria ?? null,
-    nome: p.nome,
-    whatsapp: p.whatsapp,
-    email: p.email || null,
-    dados: p.dados,
-    documentos,
-    consentimento_lgpd_em: new Date().toISOString(),
-  });
-  if (error) throw error;
+  const uploads = ((data as { uploads?: { caminho: string; token: string }[] })?.uploads ?? []);
+  let docsFalharam = 0;
+  for (let i = 0; i < uploads.length; i++) {
+    const arquivo = p.arquivos[i];
+    if (!arquivo) continue;
+    const { error: erroUpload } = await supabase.storage
+      .from("cotacoes-docs")
+      .uploadToSignedUrl(uploads[i].caminho, uploads[i].token, arquivo, { contentType: arquivo.type });
+    if (erroUpload) {
+      console.error(erroUpload);
+      docsFalharam++;
+    }
+  }
+  return { docsFalharam };
 }
