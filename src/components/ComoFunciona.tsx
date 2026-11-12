@@ -33,202 +33,157 @@ const beneficios = [
 
 // Uma sequência só: como funciona (4 etapas, a última já é o convite pra
 // indicar) fechando com a chamada final de cadastro — sem repetir blocos.
+// A ordem é dada pela lista (<ol>) e pela posição, sem números decorativos.
 export default function ComoFunciona() {
   const { usuario, carregando } = useSessao();
   const logado = !carregando && usuario !== null;
 
   return (
-    <section id="como-funciona" className="section-y relative isolate bg-warm-wash">
-      <div className="ambiente" />
-      <div className="container-club relative">
+    <section id="como-funciona" className="bg-creme-100">
+      <div className="container-club grid gap-12 py-20 sm:py-28 lg:grid-cols-12 lg:gap-10 lg:py-36">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.8, ease }}
-          className="max-w-xl"
+          className="lg:col-span-5"
         >
-          <h2 className="h-display text-[clamp(2rem,4.5vw,3.25rem)]">
+          <h2 className="h-display text-[clamp(2.5rem,5.2vw,4.5rem)] lg:sticky lg:top-32">
             Como funciona
             <br />
-            <span className="italic text-cobre">o Clube Sanchez.</span>
+            <span className="italic text-cobre-deep">o Clube Sanchez.</span>
           </h2>
         </motion.div>
 
-        <div className="mt-10 grid gap-x-8 gap-y-10 sm:mt-16 sm:grid-cols-2 sm:gap-y-12 lg:grid-cols-4 lg:gap-x-10">
+        <ol className="grid gap-2 lg:col-span-7">
           {passos.map((p, i) => (
-            <motion.div
+            <motion.li
               key={p.num}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.7, delay: i * 0.12, ease }}
-              className="group"
+              transition={{ duration: 0.7, delay: i * 0.08, ease }}
+              className="rounded-[10px] bg-creme px-6 py-7 sm:px-10 sm:py-9"
             >
-              <div className="relative mb-6 h-px w-full bg-grafite/10">
-                <div className="absolute inset-y-0 left-0 w-full origin-left scale-x-[0.18] bg-cobre transition-transform duration-700 ease-lux group-hover:scale-x-100" />
-              </div>
-              <span className="font-display text-6xl font-light italic leading-none text-cobre/30 transition-colors duration-500 group-hover:text-cobre">
-                {p.num}
-              </span>
-              <h3 className="mt-5 font-display text-2xl font-semibold text-grafite">
+              <h3 className="font-display text-[clamp(1.75rem,2.6vw,2.25rem)] leading-tight text-grafite">
                 {p.titulo}
               </h3>
-              <p className="mt-3 max-w-xs leading-relaxed text-grafite-soft">
-                {p.texto}
-              </p>
-            </motion.div>
+              <p className="mt-2 max-w-lg text-lg leading-relaxed text-grafite">{p.texto}</p>
+            </motion.li>
           ))}
 
           {/* Etapa 4 — Indique. Fecha o "como funciona" e já é o convite pra
               indicar: sem repetir um bloco de "indique e ganhe" separado. */}
-          <motion.div
+          <motion.li
             id="indique"
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.7, delay: 3 * 0.12, ease }}
-            className="group scroll-mt-28"
+            transition={{ duration: 0.7, delay: 3 * 0.08, ease }}
+            className="scroll-mt-28 rounded-[10px] bg-cobre-deep px-6 py-7 text-perola sm:px-10 sm:py-9"
           >
-            <div className="relative mb-6 h-px w-full bg-grafite/10">
-                <div className="absolute inset-y-0 left-0 w-full origin-left scale-x-[0.18] bg-cobre transition-transform duration-700 ease-lux group-hover:scale-x-100" />
-              </div>
-            <span className="font-display text-6xl font-light italic leading-none text-cobre/30 transition-colors duration-500 group-hover:text-cobre">
-              04
-            </span>
-            <h3 className="mt-5 font-display text-2xl font-semibold text-grafite">
+            <h3 className="font-display text-[clamp(1.75rem,2.6vw,2.25rem)] leading-tight">
               Indique
             </h3>
-            <p className="mt-3 max-w-xs leading-relaxed text-grafite-soft">
+            <p className="mt-2 max-w-lg text-lg leading-relaxed">
               Compartilhe seu link. Convide; quem entra já ganha.
             </p>
-
-            <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-cobre/10 px-3 py-1.5">
-              <span className="font-mono text-xs font-semibold uppercase tracking-[0.08em] text-cobre-deep">
-                {VOUCHER_CADASTRO_LABEL} de boas-vindas
-              </span>
-            </div>
-            <p className="mt-2 max-w-xs text-[11px] leading-snug text-grafite-muted">
+            <p className="mt-5 font-display text-[clamp(2rem,3.4vw,2.75rem)] leading-none">
+              {VOUCHER_CADASTRO_LABEL} de boas-vindas
+            </p>
+            <p className="mt-3 max-w-lg text-[15px] leading-snug text-perola/85">
               {VOUCHER_CADASTRO_NOTA}
             </p>
 
-            {logado ? (
-              <Link
-                to="/area"
-                className="group/link mt-4 inline-flex items-center gap-2 text-sm font-medium text-cobre-deep underline-offset-4 transition-colors duration-300 hover:underline"
-              >
-                <Copy className="h-3.5 w-3.5" strokeWidth={1.5} />
-                Copiar meu link
-              </Link>
-            ) : (
-              <Link
-                to="/cadastro"
-                className="group/link mt-4 inline-flex items-center gap-2 text-sm font-medium text-cobre-deep underline-offset-4 transition-colors duration-300 hover:underline"
-              >
-                <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={1.5} />
-                Pegar meu link
-              </Link>
-            )}
-          </motion.div>
-        </div>
+            <Link
+              to={logado ? "/area" : "/cadastro"}
+              className="mt-6 inline-flex min-h-11 items-center gap-2 text-[15px] font-semibold underline decoration-perola/50 underline-offset-[6px] transition-colors hover:decoration-perola"
+            >
+              {logado ? (
+                <Copy className="h-4 w-4" strokeWidth={1.75} />
+              ) : (
+                <ArrowUpRight className="h-4 w-4" strokeWidth={1.75} />
+              )}
+              {logado ? "Copiar meu link" : "Pegar meu link"}
+            </Link>
+          </motion.li>
+        </ol>
       </div>
 
-      {/* Chamada final — mesma sequência, sem seção separada. Paleta
-          institucional (grafite + cobre de detalhe), fundo laranja removido. */}
-      <div id="cadastro" className="container-club relative mt-16 scroll-mt-28 sm:mt-20 lg:mt-24">
-        <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.9, ease }}
-          className="relative overflow-hidden rounded-[2rem] bg-grafite px-6 py-12 shadow-[0_60px_120px_-60px_hsl(19_40%_14%/0.55),inset_0_1px_0_hsl(0_0%_100%/0.08)] ring-1 ring-grafite/10 ring-offset-[6px] ring-offset-creme-100 sm:rounded-[2.5rem] sm:px-16 sm:py-20"
-        >
-          {/* cobre sofisticado como detalhe — fundo segue a identidade institucional */}
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_120%_at_100%_0%,hsl(19_45%_28%/0.55),transparent_55%)]" />
-          <div className="pointer-events-none absolute inset-0 opacity-[0.06] [background-image:linear-gradient(hsl(0_0%_100%/0.4)_1px,transparent_1px)] [background-size:100%_2.2rem]" />
-
-          {/* logo à direita — só em telas maiores (no mobile empilharia feio) */}
-          <img
-            src={logoCta}
-            alt="Clube Sanchez"
-            loading="lazy"
-            decoding="async"
-            className="pointer-events-none absolute right-6 top-1/2 hidden w-[clamp(13rem,24vw,24rem)] -translate-y-1/2 select-none opacity-90 drop-shadow-[0_20px_45px_hsl(19_50%_6%/0.5)] lg:block"
-          />
-
-          <div className="relative max-w-2xl">
+      {/* Chamada final — faixa escura de ponta a ponta, cor lisa. */}
+      <div id="cadastro" className="scroll-mt-20 bg-grafite text-perola">
+        <div className="container-club relative grid items-center gap-10 py-20 sm:py-28 lg:grid-cols-12">
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.9, ease }}
+            className="lg:col-span-8"
+          >
             {logado ? (
               <>
-                <span className="eyebrow eyebrow-escuro">
-                  Você já é do clube
-                </span>
-                <h2 className="mt-5 font-display text-[clamp(2.2rem,5vw,3.6rem)] font-semibold leading-[1.02] tracking-[-0.01em] text-perola">
+                <p className="eyebrow eyebrow-escuro">Você já é do clube</p>
+                <h2 className="mt-4 font-display text-[clamp(2.5rem,5.2vw,4.5rem)] leading-[1.05] tracking-[-0.03em]">
                   Continue aproveitando o Clube Sanchez
                 </h2>
-                <p className="mt-6 max-w-lg text-lg leading-relaxed text-perola/85">
+                <p className="mt-6 max-w-lg text-lg leading-relaxed text-perola/90">
                   Acompanhe seu voucher, seu link de indicação e as vantagens
                   disponíveis na sua área.
                 </p>
-
-                <div className="mt-11 flex flex-wrap items-center gap-x-7 gap-y-3">
-                  <Link
-                    to="/area"
-                    className="group inline-flex items-center gap-3 rounded-full bg-cobre-deep py-2.5 pl-6 pr-2.5 text-sm font-semibold text-perola transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-cobre active:scale-[0.985]"
-                  >
+                <div className="mt-10">
+                  <Link to="/area" className="btn-primary group bg-perola text-grafite hover:bg-cobre-light hover:text-grafite">
                     Minha área
-                    <span className="grid h-9 w-9 place-items-center rounded-full bg-white/15 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                      <ArrowUpRight className="h-4 w-4" strokeWidth={1.5} />
+                    <span className="btn-primary-icon">
+                      <ArrowUpRight className="h-[18px] w-[18px]" strokeWidth={1.75} />
                     </span>
                   </Link>
                 </div>
               </>
             ) : (
               <>
-                <span className="eyebrow eyebrow-escuro">
-                  O cadastro é a chave
-                </span>
-                <h2 className="mt-5 font-display text-[clamp(2.2rem,5vw,3.6rem)] font-semibold leading-[1.02] tracking-[-0.01em] text-perola">
+                <p className="eyebrow eyebrow-escuro">O cadastro é a chave</p>
+                <h2 className="mt-4 font-display text-[clamp(2.5rem,5.2vw,4.5rem)] leading-[1.05] tracking-[-0.03em]">
                   Faça parte do Clube Sanchez
                 </h2>
-                <p className="mt-6 max-w-lg text-lg leading-relaxed text-perola/85">
+                <p className="mt-6 max-w-lg text-lg leading-relaxed text-perola/90">
                   Cadastro gratuito e acesso imediato às vantagens disponíveis.
                 </p>
 
-                <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2.5">
+                <ul className="mt-8 flex flex-wrap gap-x-8 gap-y-3">
                   {beneficios.map((b) => (
-                    <span
-                      key={b}
-                      className="inline-flex items-center gap-2 text-sm text-perola/90"
-                    >
-                      <span className="grid h-5 w-5 place-items-center rounded-full bg-white/15">
-                        <Check className="h-3 w-3" strokeWidth={2} />
-                      </span>
+                    <li key={b} className="inline-flex items-center gap-2.5 text-base">
+                      <Check className="h-[18px] w-[18px] text-cobre-light" strokeWidth={2} />
                       {b}
-                    </span>
+                    </li>
                   ))}
-                </div>
+                </ul>
 
-                <div className="mt-11 flex flex-wrap items-center gap-x-7 gap-y-3">
-                  <Link
-                    to="/cadastro"
-                    className="group inline-flex items-center gap-3 rounded-full bg-cobre-deep py-2.5 pl-6 pr-2.5 text-sm font-semibold text-perola transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-cobre active:scale-[0.985]"
-                  >
+                <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3">
+                  <Link to="/cadastro" className="btn-primary group bg-perola text-grafite hover:bg-cobre-light hover:text-grafite">
                     Criar minha conta
-                    <span className="grid h-9 w-9 place-items-center rounded-full bg-white/15 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                      <ArrowUpRight className="h-4 w-4" strokeWidth={1.5} />
+                    <span className="btn-primary-icon">
+                      <ArrowUpRight className="h-[18px] w-[18px]" strokeWidth={1.75} />
                     </span>
                   </Link>
                   <Link
                     to="/login"
-                    className="text-sm font-medium text-perola/90 underline-offset-4 transition hover:underline"
+                    className="inline-flex min-h-11 items-center text-[15px] font-semibold underline decoration-perola/50 underline-offset-[6px] transition-colors hover:decoration-perola"
                   >
                     Já sou membro
                   </Link>
                 </div>
               </>
             )}
-          </div>
-        </motion.div>
+          </motion.div>
+
+          <img
+            src={logoCta}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            className="pointer-events-none hidden w-full max-w-[18rem] select-none justify-self-end lg:col-span-4 lg:block"
+          />
+        </div>
       </div>
     </section>
   );

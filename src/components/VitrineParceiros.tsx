@@ -12,81 +12,62 @@ export default function VitrineParceiros() {
   const [aberto, setAberto] = useState<Parceiro | null>(null);
 
   return (
-    <section id="parceiros" className="section-y relative isolate bg-warm-wash">
-      <div className="ambiente" />
-      <div className="container-club relative">
-        {/* cabeçalho editorial */}
-        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.8, ease }}
-            className="max-w-xl"
-          >
-            <span className="eyebrow">Parceiros</span>
-            <h2 className="h-display mt-4 text-[clamp(2rem,4.5vw,3.25rem)]">
-              Vantagens de quem <span className="italic text-cobre">a Sanchez confia</span>
-            </h2>
-          </motion.div>
-          <p className="max-w-xs text-sm leading-relaxed text-grafite-soft md:text-right">
+    <section id="parceiros" className="section-y bg-creme-100">
+      <div className="container-club">
+        {/* cabeçalho: título à esquerda, instrução à direita na mesma linha de base */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.8, ease }}
+          className="grid gap-6 lg:grid-cols-12 lg:items-end"
+        >
+          <h2 className="h-display text-[clamp(2.5rem,5.2vw,4.5rem)] lg:col-span-8">
+            Vantagens de quem <span className="italic text-cobre-deep">a Sanchez confia</span>
+          </h2>
+          <p className="max-w-sm text-lg leading-relaxed text-grafite lg:col-span-4 lg:justify-self-end">
             Escolha um parceiro para conhecer o benefício, as condições e os
             canais de atendimento.
           </p>
-        </div>
+        </motion.div>
 
-        {/* mobile: carrossel horizontal com swipe + peek; sm+: grid */}
-        <div className="-mx-6 mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-6 px-6 pb-2 no-scrollbar sm:mx-0 sm:mt-14 sm:grid sm:snap-none sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4 lg:gap-5">
+        {/* celular: carrossel com o próximo aparecendo; sm+: grade */}
+        <div className="mt-12 grid gap-y-8 sm:mt-16 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-14 lg:grid-cols-3 lg:gap-x-8">
           {parceiros.map((p, i) => (
             <motion.div
               key={p.slug}
               initial={{ opacity: 0, y: 28 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.7, delay: (i % 4) * 0.08, ease }}
-              className="group w-[72%] min-w-0 shrink-0 snap-start sm:w-auto sm:shrink"
+              transition={{ duration: 0.7, delay: (i % 4) * 0.07, ease }}
+              className="group min-w-0"
             >
               {(() => {
                 const inner = (
-                  <div className="bezel flex h-full flex-col transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-1.5 group-hover:shadow-[0_50px_90px_-45px_hsl(19_40%_14%/0.4)]">
-                <div className="bezel-core relative aspect-[16/10] overflow-hidden bg-[#FBF8F3] shadow-[inset_0_0_0_1px_hsl(19_30%_14%/0.05)]">
-                  {/* logo inteiro, centralizado na placa — os arquivos têm proporções
-                      bem diferentes (quadrado, faixa larga), cover cortava */}
-                  <img
-                    src={p.imagem}
-                    alt={p.nome}
-                    loading="lazy"
-                    className="h-full w-full object-contain px-6 pb-4 pt-10 transition-transform duration-[1.2s] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.05]"
-                  />
-                  <span
-                    className="absolute left-3 top-3 rounded-full bg-creme/90 px-2.5 py-1 font-mono text-[9px] font-medium uppercase tracking-[0.14em] text-grafite-soft backdrop-blur-sm"
-                    style={{ boxShadow: `inset 0 0 0 1px ${p.cor}33` }}
-                  >
-                    {p.categoria}
-                  </span>
-                </div>
-
-                <div className="flex flex-1 flex-col p-3.5 sm:px-4 sm:pb-4 sm:pt-5">
-                  <div className="flex items-start justify-between gap-3">
-                    <h3 className="font-display text-base font-semibold leading-tight text-grafite sm:text-lg">
-                      {p.nome}
-                    </h3>
-                    <span className="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full border border-grafite/10 text-grafite-soft transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:border-cobre group-hover:bg-cobre group-hover:text-perola sm:h-8 sm:w-8">
-                      <ArrowUpRight className="h-4 w-4" strokeWidth={1.5} />
-                    </span>
-                  </div>
-                  <p className="mb-3 mt-1.5 line-clamp-2 text-[13px] leading-relaxed text-grafite-soft sm:mb-4 sm:mt-2 sm:line-clamp-3 sm:text-sm">
-                    {p.descricaoCurta}
-                  </p>
-                  {p.voucher && (
-                    <div className="mt-auto flex items-center gap-2 border-t border-grafite/10 pt-3 sm:pt-4">
-                      <span className="h-1.5 w-1.5 rounded-full bg-cobre" />
-                      <span className="font-mono text-[11px] font-medium tracking-wide text-cobre-deep sm:text-xs">
-                        {p.voucher}
+                  <div className="grid h-full grid-cols-[7.5rem_1fr] items-start gap-x-5 sm:flex sm:flex-col">
+                    {/* placa do logo: tom acima do fundo, logo inteiro (object-contain) */}
+                    <div className="relative row-span-4 aspect-square overflow-hidden rounded-[10px] bg-[#FBF7F2] transition-colors duration-500 group-hover:bg-white sm:aspect-[16/11] sm:w-full">
+                      <img
+                        src={p.imagem}
+                        alt={p.nome}
+                        loading="lazy"
+                        className="h-full w-full object-contain p-3 transition sm:p-8-transform duration-[1.2s] ease-lux group-hover:scale-[1.05]"
+                      />
+                      <span className="absolute bottom-3 right-3 hidden h-10 w-10 place-items-center rounded-full bg-creme-100 text-grafite sm:grid transition-colors duration-300 group-hover:bg-cobre-deep group-hover:text-perola">
+                        <ArrowUpRight className="h-[18px] w-[18px]" strokeWidth={1.75} />
                       </span>
                     </div>
-                  )}
-                </div>
+
+                    <p className="text-[15px] text-grafite-soft sm:mt-5">{p.categoria}</p>
+                    <h3 className="mt-1 font-display text-[22px] leading-tight sm:text-[26px] text-grafite transition-colors duration-300 group-hover:text-cobre-deep">
+                      {p.nome}
+                    </h3>
+                    <p className="mt-2 line-clamp-3 text-base leading-relaxed text-grafite">
+                      {p.descricaoCurta}
+                    </p>
+                    {p.voucher && (
+                      <p className="mt-3 text-base font-semibold text-cobre-deep">{p.voucher}</p>
+                    )}
                   </div>
                 );
                 return p.pagina ? (

@@ -16,10 +16,8 @@ export default function BotaoWhatsApp() {
       aria-label="Falar no WhatsApp"
       evento="social_click"
       props={{ rede: "whatsapp", local: "flutuante" }}
-      className="group fixed bottom-4 right-4 z-40 grid h-12 w-12 place-items-center rounded-full bg-[#25D366] text-white shadow-lux transition-transform duration-300 hover:scale-105 active:scale-95 sm:bottom-6 sm:right-6 sm:h-14 sm:w-14"
+      className="group fixed bottom-4 right-4 z-40 grid h-12 w-12 place-items-center rounded-full border-[3px] border-white bg-[#2a9e6a] text-white shadow-[0_8px_22px_rgba(15,44,27,0.22)] transition-transform duration-300 hover:-translate-y-0.5 active:translate-y-0 sm:bottom-6 sm:right-6 sm:h-14 sm:w-14"
     >
-      {/* pulso suave */}
-      <span className="absolute inset-0 rounded-full bg-[#25D366] opacity-50 animate-ping [animation-duration:2.4s]" />
       <svg
         viewBox="0 0 24 24"
         fill="currentColor"

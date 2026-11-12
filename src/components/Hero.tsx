@@ -1,5 +1,4 @@
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { parceiros } from "@/data/parceiros";
@@ -11,54 +10,40 @@ const parceirosAtivos = parceiros.filter((p) => p.ativo !== false).length;
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-const up = {
-  hidden: { opacity: 0, y: 24 },
-  show: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.9, delay: 0.1 + i * 0.09, ease },
-  }),
-};
-
+// Apresentação do clube, logo abaixo dos banners. Mesma linguagem do site da
+// Sanchez Imóveis: título grande em Playfair, texto em DM Sans, foto inteira
+// sem moldura, números grandes no lugar de rótulos miúdos.
 export default function Hero() {
-  const fotoRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: fotoRef,
-    offset: ["start end", "end start"],
-  });
+  const reduzido = useReducedMotion() ?? false;
+  const entra = (i: number) =>
+    reduzido
+      ? {}
+      : {
+          initial: { opacity: 0, y: 24 },
+          animate: { opacity: 1, y: 0 },
+          transition: { duration: 0.8, delay: 0.08 + i * 0.08, ease },
+        };
 
-  // revelação: entra suave conforme a foto surge na tela
-  const revealY = useTransform(scrollYProgress, [0, 0.35], [70, 0]);
-  const revealOpacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
-  const revealScale = useTransform(scrollYProgress, [0, 0.35], [0.94, 1]);
-
-  // parallax: a foto "flutua" dentro da moldura enquanto a seção passa pela tela
-  // foto (2:3) é mais alta que a moldura (4:5) → há folga só embaixo;
-  // parallax move dentro dessa folga (sem scale, pra não cortar o rosto)
-  const imgParallaxY = useTransform(scrollYProgress, [0, 1], [0, -18]);
+  const numeros = [
+    { n: String(parceirosAtivos), l: "parceiros ativos" },
+    { n: String(anosDeSanchez()), l: "anos de Sanchez" },
+    { n: VOUCHER_CADASTRO_LABEL, l: "de boas-vindas" },
+  ];
 
   return (
-    <section className="relative overflow-hidden bg-club-hero">
-      <div className="container-club relative grid items-center gap-14 py-14 sm:gap-12 sm:py-24 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16">
-        {/* ── Coluna editorial ── */}
-        <div className="max-w-xl">
+    <section className="bg-creme">
+      <div className="container-club grid items-end gap-12 pb-20 pt-10 sm:pb-28 sm:pt-12 lg:grid-cols-12 lg:gap-10 lg:pb-36 lg:pt-16">
+        <div className="lg:col-span-7">
           <motion.h1
-            custom={0}
-            variants={up}
-            initial="hidden"
-            animate="show"
-            className="h-display text-[clamp(2.5rem,7vw,5rem)]"
+            {...entra(0)}
+            className="h-display text-[clamp(3.25rem,8.4vw,7.5rem)] leading-[0.98]"
           >
-            Clube de{" "}
-            <span className="italic text-cobre">Vantagens.</span>
+            Clube de <span className="italic text-cobre-deep">Vantagens.</span>
           </motion.h1>
 
           <motion.p
-            custom={1}
-            variants={up}
-            initial="hidden"
-            animate="show"
-            className="mt-6 max-w-md text-base leading-relaxed text-grafite-soft sm:mt-7 sm:text-lg"
+            {...entra(1)}
+            className="mt-8 max-w-xl text-lg leading-[1.6] text-grafite sm:text-xl"
           >
             Há {anosDeSanchez()} anos, a Sanchez Imóveis realiza negócios
             imobiliários em Mogi das Cruzes e no Alto Tietê. O Clube Sanchez
@@ -67,16 +52,13 @@ export default function Hero() {
           </motion.p>
 
           <motion.div
-            custom={2}
-            variants={up}
-            initial="hidden"
-            animate="show"
-            className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-4 sm:mt-9"
+            {...entra(2)}
+            className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4"
           >
             <Link to="/cadastro" className="btn-primary group">
               Quero fazer parte
               <span className="btn-primary-icon">
-                <ArrowUpRight className="h-4 w-4" strokeWidth={1.5} />
+                <ArrowUpRight className="h-[18px] w-[18px]" strokeWidth={1.75} />
               </span>
             </Link>
             <Link to="/login" className="btn-quiet">
@@ -85,57 +67,42 @@ export default function Hero() {
           </motion.div>
 
           <motion.dl
-            custom={3}
-            variants={up}
-            initial="hidden"
-            animate="show"
-            className="mt-10 flex flex-wrap gap-x-8 gap-y-4 border-t border-grafite/10 pt-6 sm:mt-12 sm:gap-x-10 sm:pt-7"
+            {...entra(3)}
+            className="mt-14 grid max-w-xl grid-cols-3 gap-6 sm:mt-20"
           >
-            {[
-              { n: parceirosAtivos.toString().padStart(2, "0"), l: "Parceiros ativos" },
-              { n: anosDeSanchez().toString(), l: "Anos de Sanchez" },
-              { n: VOUCHER_CADASTRO_LABEL, l: "De boas-vindas" },
-            ].map((s) => (
-              <div key={s.l}>
-                <dt className="font-mono text-2xl font-semibold text-grafite">{s.n}</dt>
-                <dd className="mt-0.5 text-xs uppercase tracking-[0.14em] text-grafite-soft">
-                  {s.l}
+            {numeros.map((s) => (
+              <div key={s.l} className="flex flex-col-reverse">
+                <dt className="mt-2 text-[15px] leading-snug text-grafite-soft">{s.l}</dt>
+                <dd className="font-display text-[clamp(2.5rem,4.4vw,3.75rem)] leading-none tracking-[-0.03em] text-grafite">
+                  {s.n}
                 </dd>
               </div>
             ))}
           </motion.dl>
         </div>
 
-        {/* ── Foto da Yruena (protagonista) ── */}
-        <motion.div
-          ref={fotoRef}
-          style={{ y: revealY, opacity: revealOpacity, scale: revealScale }}
-          className="relative mx-auto w-full max-w-[19rem] sm:max-w-md lg:mr-0"
+        {/* Foto da Yruena: inteira, grande, sem moldura nem cartão flutuante */}
+        <motion.figure
+          {...(reduzido
+            ? {}
+            : {
+                initial: { opacity: 0, y: 32 },
+                animate: { opacity: 1, y: 0 },
+                transition: { duration: 1, delay: 0.2, ease },
+              })}
+          className="mx-auto w-full max-w-md lg:col-span-5 lg:max-w-none"
         >
-          <div className="bezel">
-            <div className="bezel-core">
-              <motion.img
-                src={yruena}
-                alt="Yruena — à frente do Clube Sanchez"
-                style={{ y: imgParallaxY }}
-                className="aspect-[4/5] w-full object-cover object-top"
-              />
-            </div>
+          <div className="overflow-hidden rounded-[10px] bg-creme-200">
+            <img
+              src={yruena}
+              alt="Yruena, à frente do Clube Sanchez"
+              className="aspect-[4/5] w-full object-cover object-top transition-transform duration-[1.2s] ease-lux hover:scale-[1.02]"
+            />
           </div>
-
-          {/* caption flutuante */}
-          <div className="animate-float-slow absolute -bottom-5 -left-3 flex items-center gap-3 rounded-2xl border border-grafite/10 bg-creme/90 px-4 py-3 shadow-lux backdrop-blur-sm sm:-left-5">
-            <span className="grid h-9 w-9 place-items-center rounded-full bg-cobre/10 font-display text-sm font-semibold text-cobre-deep">
-              Y
-            </span>
-            <div>
-              <p className="text-sm font-semibold leading-tight text-grafite">Yruena</p>
-              <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-grafite-soft">
-                Clube Sanchez
-              </p>
-            </div>
-          </div>
-        </motion.div>
+          <figcaption className="mt-4 text-[15px] text-grafite-soft">
+            <span className="font-semibold text-grafite">Yruena</span> · Clube Sanchez
+          </figcaption>
+        </motion.figure>
       </div>
     </section>
   );

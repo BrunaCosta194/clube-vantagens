@@ -14,55 +14,48 @@ export default function LojaSecao() {
     .slice(0, 4);
 
   return (
-    <section id="loja" className="section-y relative isolate bg-warm-wash">
-      <div className="ambiente" />
-      <div className="container-club relative">
+    <section id="loja" className="section-y bg-creme">
+      <div className="container-club">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.8, ease }}
-          className="flex flex-wrap items-end justify-between gap-6"
+          className="grid gap-6 lg:grid-cols-12 lg:items-end"
         >
-          <div className="max-w-xl">
-            <span className="eyebrow">Produtos com curadoria</span>
-            <h2 className="h-display mt-4 text-[clamp(2rem,4.5vw,3.25rem)]">
-              Loja <span className="italic text-cobre">Sanchez</span>
+          <div className="lg:col-span-8">
+            <h2 className="h-display text-[clamp(2.5rem,5.2vw,4.5rem)]">
+              Loja <span className="italic text-cobre-deep">Sanchez</span>
             </h2>
-            <p className="mt-4 max-w-md text-base leading-relaxed text-grafite-soft">
+            <p className="mt-5 max-w-xl text-lg leading-relaxed text-grafite">
               A curadoria presente nos serviços da Sanchez agora também está
               disponível para compra pela Loja Sanchez e pela Shopee.
             </p>
           </div>
 
-          <Link
-            to="/loja"
-            className="group inline-flex items-center gap-2 text-sm font-medium text-cobre-deep underline-offset-4 transition-colors duration-300 hover:underline"
-          >
+          <Link to="/loja" className="btn-quiet group lg:col-span-4 lg:justify-self-end">
             Ver todos os produtos
             <ArrowUpRight
-              className="h-4 w-4 transition-transform duration-500 ease-lux group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-              strokeWidth={1.5}
+              className="h-[18px] w-[18px] transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+              strokeWidth={1.75}
             />
           </Link>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.9, delay: 0.1, ease }}
-          className="-mx-6 mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-6 px-6 pb-2 no-scrollbar sm:mx-0 sm:mt-12 sm:grid sm:snap-none sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4"
-        >
-          {vitrine.map((p) => (
-            <div
+        <div className="mt-12 grid grid-cols-2 gap-x-4 gap-y-10 sm:mt-16 sm:gap-x-6 sm:gap-y-12 lg:grid-cols-4">
+          {vitrine.map((p, i) => (
+            <motion.div
               key={p.slug}
-              className="w-[72%] min-w-0 shrink-0 snap-start sm:w-auto sm:shrink"
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.7, delay: i * 0.07, ease }}
+              className="min-w-0"
             >
               <ProdutoCard produto={p} />
-            </div>
+            </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

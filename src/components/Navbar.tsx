@@ -46,116 +46,97 @@ export default function Navbar() {
     };
   }, [aberto]);
 
+  const linkDesktop =
+    "inline-flex min-h-11 items-center text-[15px] font-semibold text-grafite transition-colors duration-200 hover:text-cobre-deep";
+  const linkCelular =
+    "block w-full py-4 text-left font-display text-2xl text-grafite transition-colors hover:text-cobre-deep";
+
   return (
-    <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4 sm:pt-6">
-      <nav
-        className={`flex items-center gap-1 rounded-full border transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] sm:gap-2 ${
-          scrolled
-            ? "border-grafite/10 bg-creme/80 py-2 pl-3 pr-2 shadow-lux-sm backdrop-blur-md"
-            : "border-white/10 bg-grafite/5 py-2.5 pl-4 pr-2.5 backdrop-blur-md"
-        }`}
-      >
+    <header
+      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
+        scrolled || aberto ? "bg-creme-100" : "bg-creme"
+      }`}
+    >
+      <nav className="container-club flex h-[72px] items-center gap-6 sm:h-20">
         <Link
           to="/"
           onClick={() => {
             // já na home: rola pro topo em vez de só trocar a rota
             if (naHome) window.scrollTo({ top: 0, behavior: "smooth" });
           }}
-          className="flex items-center gap-2.5 pr-1 sm:pr-2"
+          className="flex shrink-0 items-center gap-3"
         >
-          <img src={logo} alt="Clube Sanchez" className="h-9 w-9 object-contain" />
-          <span className="hidden font-display text-[15px] font-semibold leading-none text-grafite sm:block">
+          <img src={logo} alt="" className="h-10 w-10 object-contain" />
+          <span className="font-display text-xl leading-none text-grafite sm:text-[22px]">
             Clube Sanchez
           </span>
         </Link>
 
-        <div className="mx-1 hidden items-center gap-1 xl:flex">
+        <div className="ml-auto hidden items-center gap-8 xl:flex">
           {links.map((l) =>
             l.modal ? (
-              <button
-                key={l.label}
-                onClick={() => setQuemSomos(true)}
-                className="rounded-full px-3.5 py-2 text-sm font-medium text-grafite-soft transition-colors duration-300 hover:bg-grafite/5 hover:text-grafite"
-              >
+              <button key={l.label} onClick={() => setQuemSomos(true)} className={linkDesktop}>
                 {l.label}
               </button>
             ) : l.to ? (
-              <Link
-                key={l.to}
-                to={l.to}
-                className="rounded-full px-3.5 py-2 text-sm font-medium text-grafite-soft transition-colors duration-300 hover:bg-grafite/5 hover:text-grafite"
-              >
+              <Link key={l.to} to={l.to} className={linkDesktop}>
                 {l.label}
               </Link>
             ) : (
-              <a
-                key={l.href}
-                href={naHome ? l.href : `/${l.href}`}
-                className="rounded-full px-3.5 py-2 text-sm font-medium text-grafite-soft transition-colors duration-300 hover:bg-grafite/5 hover:text-grafite"
-              >
+              <a key={l.href} href={naHome ? l.href : `/${l.href}`} className={linkDesktop}>
                 {l.label}
               </a>
             ),
           )}
         </div>
 
-        {/* Minha área — único botão de acesso: leva pro login quando
-            deslogado, pra área do membro quando logado. Cobre a antiga
-            dupla Entrar/Fazer parte (o menu já leva pro cadastro). */}
-        {logada && (
-          <span className="hidden px-3 py-2 text-sm font-medium text-grafite-soft sm:block sm:px-3.5">
-            Olá, {primeiroNome(nome)}
-          </span>
-        )}
-        <Link
-          to={logada ? "/area" : "/login"}
-          className="group inline-flex items-center gap-2 rounded-full bg-cobre-deep py-2 pl-4 pr-2 text-sm font-medium text-perola transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-grafite active:scale-[0.98]"
-        >
-          Minha área
-          <span className="grid h-7 w-7 place-items-center rounded-full bg-white/10 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-            <UserRound className="h-3.5 w-3.5" strokeWidth={1.5} />
-          </span>
-        </Link>
-
-        {/* menu do celular/tablet — a partir de xl os links já aparecem inteiros */}
-        <button
-          onClick={() => setAberto((v) => !v)}
-          aria-label={aberto ? "Fechar menu" : "Abrir menu"}
-          aria-expanded={aberto}
-          className="ml-0.5 grid h-10 w-10 place-items-center rounded-full text-grafite transition-colors hover:bg-grafite/5 xl:hidden"
-        >
-          {aberto ? (
-            <X className="h-5 w-5" strokeWidth={1.5} />
-          ) : (
-            <Menu className="h-5 w-5" strokeWidth={1.5} />
+        <div className="ml-auto flex items-center gap-2 sm:gap-4 xl:ml-0">
+          {/* Minha área — único botão de acesso: leva pro login quando
+              deslogado, pra área do membro quando logado. */}
+          {logada && (
+            <span className="hidden text-[15px] text-grafite-soft sm:block">
+              Olá, {primeiroNome(nome)}
+            </span>
           )}
-        </button>
+          <Link
+            to={logada ? "/area" : "/login"}
+            aria-label="Minha área"
+            className="inline-flex h-11 min-w-11 items-center justify-center gap-2 rounded-full border border-cobre-deep text-[15px] font-semibold text-grafite transition-colors duration-200 hover:bg-cobre-deep hover:text-perola sm:px-5"
+          >
+            <UserRound className="h-[18px] w-[18px]" strokeWidth={1.75} />
+            <span className="hidden sm:inline">Minha área</span>
+          </Link>
+
+          {/* menu do celular/tablet — a partir de xl os links já aparecem inteiros */}
+          <button
+            onClick={() => setAberto((v) => !v)}
+            aria-label={aberto ? "Fechar menu" : "Abrir menu"}
+            aria-expanded={aberto}
+            className="grid h-11 w-11 place-items-center rounded-full text-grafite transition-colors hover:bg-grafite/5 xl:hidden"
+          >
+            {aberto ? (
+              <X className="h-6 w-6" strokeWidth={1.5} />
+            ) : (
+              <Menu className="h-6 w-6" strokeWidth={1.5} />
+            )}
+          </button>
+        </div>
       </nav>
 
       <AnimatePresence>
         {aberto && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setAberto(false)}
-              className="fixed inset-0 -z-10 bg-grafite/50 backdrop-blur-sm xl:hidden"
-            />
-            <motion.div
-              initial={{ opacity: 0, y: -12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-x-4 top-[calc(100%+0.5rem)] rounded-[1.75rem] border border-grafite/10 bg-creme p-3 shadow-lux xl:hidden"
-            >
-              {/* No celular/tablet a saudação não cabe na barra; aparece aqui. */}
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-x-0 bottom-0 top-[72px] overflow-y-auto bg-creme-100 sm:top-20 xl:hidden"
+          >
+            <div className="container-club pb-10 pt-4">
+              {/* No celular a saudação não cabe na barra; aparece aqui. */}
               {logada && (
-                <p className="border-b border-grafite/10 px-4 pb-3 pt-1 font-mono text-[11px] uppercase tracking-[0.18em] text-grafite-soft">
-                  Olá, {primeiroNome(nome)}
-                </p>
+                <p className="pb-2 text-[15px] text-grafite-soft">Olá, {primeiroNome(nome)}</p>
               )}
-
               {links.map((l) =>
                 l.modal ? (
                   <button
@@ -164,17 +145,12 @@ export default function Navbar() {
                       setAberto(false);
                       setQuemSomos(true);
                     }}
-                    className="block w-full rounded-2xl px-4 py-3.5 text-left text-[15px] font-medium text-grafite transition-colors hover:bg-grafite/5"
+                    className={linkCelular}
                   >
                     {l.label}
                   </button>
                 ) : l.to ? (
-                  <Link
-                    key={l.to}
-                    to={l.to}
-                    onClick={() => setAberto(false)}
-                    className="block rounded-2xl px-4 py-3.5 text-[15px] font-medium text-grafite transition-colors hover:bg-grafite/5"
-                  >
+                  <Link key={l.to} to={l.to} onClick={() => setAberto(false)} className={linkCelular}>
                     {l.label}
                   </Link>
                 ) : (
@@ -182,14 +158,14 @@ export default function Navbar() {
                     key={l.href}
                     href={naHome ? l.href : `/${l.href}`}
                     onClick={() => setAberto(false)}
-                    className="block rounded-2xl px-4 py-3.5 text-[15px] font-medium text-grafite transition-colors hover:bg-grafite/5"
+                    className={linkCelular}
                   >
                     {l.label}
                   </a>
                 ),
               )}
-            </motion.div>
-          </>
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
 

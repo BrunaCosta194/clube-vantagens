@@ -65,9 +65,11 @@ export default {
         },
       },
       fontFamily: {
-        display: ['"Merriweather"', "serif"],
-        sans: ['"Poppins"', "system-ui", "sans-serif"],
-        mono: ['"IBM Plex Mono"', "monospace"],
+        // Mesma família do site da Sanchez Imóveis (V4).
+        display: ['"Playfair Display"', "Georgia", "serif"],
+        sans: ['"DM Sans"', "system-ui", "sans-serif"],
+        // Sem monoespaçada no site: o que usava `font-mono` cai no texto.
+        mono: ['"DM Sans"', "system-ui", "sans-serif"],
       },
       borderRadius: {
         "4xl": "2rem",
