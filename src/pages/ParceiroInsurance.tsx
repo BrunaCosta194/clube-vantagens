@@ -45,12 +45,12 @@ export default function ParceiroInsurance() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-warm-wash">
+    <main className="min-h-screen bg-creme">
       {/* topo: voltar */}
       <header className="absolute inset-x-0 top-0 z-30 mx-auto flex w-full max-w-[92rem] items-center justify-between px-5 py-5 sm:px-8">
         <Link
           to="/"
-          className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-grafite/20 px-4 py-2 text-xs font-medium text-white backdrop-blur-md transition-colors hover:bg-grafite/30"
+          className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-grafite/20 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-grafite/30"
         >
           <ArrowLeft className="h-4 w-4" strokeWidth={1.5} />
           Voltar ao clube
@@ -75,7 +75,7 @@ export default function ParceiroInsurance() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease }}
-          className="relative z-10 -mt-10 rounded-[2rem] border border-grafite/10 bg-creme p-6 shadow-lux sm:-mt-14 sm:p-9"
+          className="relative z-10 -mt-10 rounded-[12px] border border-grafite/10 bg-creme p-6 sm:-mt-14 sm:p-9"
         >
           <div className="flex flex-col gap-7 md:flex-row md:items-start md:justify-between">
             <div className="max-w-2xl">
@@ -83,13 +83,13 @@ export default function ParceiroInsurance() {
                 <img
                   src={logo}
                   alt="Insurance & Santé"
-                  className="h-14 w-14 rounded-2xl border border-grafite/10 object-cover shadow-lux-sm"
+                  className="h-14 w-14 rounded-[10px] border border-grafite/10 object-cover"
                 />
                 <div>
-                  <h1 className="font-display text-2xl font-semibold leading-tight text-grafite sm:text-3xl">
+                  <h1 className="font-display text-[clamp(2.25rem,4.5vw,3.5rem)] leading-[1.05] tracking-[-0.02em] text-grafite">
                     Insurance &amp; Santé
                   </h1>
-                  <span className="mt-1 inline-block rounded-full bg-cobre/10 px-3 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.16em] text-cobre-deep">
+                  <span className="mt-1 inline-block rounded-full bg-cobre/10 px-3 py-1 text-sm text-cobre-deep font-semibold">
                     Seguros · Consórcio · Planos de Saúde
                   </span>
                 </div>
@@ -99,10 +99,10 @@ export default function ParceiroInsurance() {
               </p>
             </div>
 
-            <div className="inline-flex shrink-0 items-center gap-3 rounded-2xl border border-cobre-line/40 bg-cobre/10 px-4 py-3">
+            <div className="inline-flex shrink-0 items-center gap-3 rounded-[10px] border border-cobre-line/40 bg-cobre/10 px-4 py-3">
               <BadgePercent className="h-5 w-5 shrink-0 text-cobre-deep" strokeWidth={1.5} />
               <div>
-                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-cobre-deep">
+                <p className="text-sm text-cobre-deep font-semibold">
                   Sua vantagem
                 </p>
                 <p className="font-semibold text-grafite">
@@ -121,11 +121,11 @@ export default function ParceiroInsurance() {
           return (
             <section key={cat.slug} className="mb-14 last:mb-0">
               <div className="flex items-start gap-3">
-                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-cobre/12 text-cobre-deep">
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-[10px] bg-cobre/12 text-cobre-deep">
                   <Icone className="h-5 w-5" strokeWidth={1.5} />
                 </span>
                 <div>
-                  <h2 className="font-display text-2xl font-semibold text-grafite">
+                  <h2 className="font-display text-[clamp(1.75rem,3vw,2.25rem)] leading-tight text-grafite">
                     {cat.titulo}
                   </h2>
                   <p className="mt-1 text-sm text-grafite-soft">
@@ -145,10 +145,10 @@ export default function ParceiroInsurance() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-60px" }}
                     transition={{ duration: 0.6, delay: (i % 3) * 0.08, ease }}
-                    className="group flex h-full flex-col rounded-[1.5rem] border border-grafite/10 bg-white p-5 text-left shadow-card transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-cobre/40 hover:shadow-lux"
+                    className="group flex h-full flex-col rounded-[10px] border border-grafite/10 bg-white p-5 text-left transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-cobre/40"
                   >
                     <div className="flex items-start justify-between gap-3">
-                      <h3 className="font-display text-lg font-semibold leading-tight text-grafite">
+                      <h3 className="font-display text-[22px] leading-tight text-grafite">
                         {p.nome}
                       </h3>
                       <span className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full border border-grafite/10 text-grafite-soft transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:border-cobre group-hover:bg-cobre group-hover:text-perola">
@@ -160,7 +160,7 @@ export default function ParceiroInsurance() {
                     </p>
                     <div className="mt-4 flex items-center gap-2 border-t border-grafite/10 pt-4">
                       <span className="h-1.5 w-1.5 rounded-full bg-cobre" />
-                      <span className="font-mono text-xs font-medium tracking-wide text-cobre-deep">
+                      <span className="text-sm font-medium text-cobre-deep">
                         Faça sua cotação
                       </span>
                     </div>
@@ -177,7 +177,7 @@ export default function ParceiroInsurance() {
         <div className="mx-auto w-full max-w-[92rem] px-6 py-16 sm:px-8 sm:py-20">
           <div className="flex items-center gap-3">
             <PlayCircle className="h-6 w-6 text-cobre-deep" strokeWidth={1.5} />
-            <h2 className="h-display text-[clamp(1.5rem,3.5vw,2.25rem)]">
+            <h2 className="h-display text-[clamp(2.25rem,4.5vw,3.5rem)]">
               Assista à explicação do seu produto
             </h2>
           </div>
@@ -189,7 +189,7 @@ export default function ParceiroInsurance() {
             {insuranceProdutosFlat.map((p) => (
               <div
                 key={p.slug}
-                className="overflow-hidden rounded-[1.25rem] border border-grafite/10 bg-white shadow-card"
+                className="overflow-hidden rounded-[10px] border border-grafite/10 bg-white"
               >
                 <div className="relative aspect-video w-full">
                   {p.videoUrl ? (
@@ -204,7 +204,7 @@ export default function ParceiroInsurance() {
                     <div className="grid h-full w-full place-items-center bg-gradient-to-br from-grafite to-[hsl(184,40%,24%)]">
                       <div className="flex flex-col items-center gap-1.5 text-center">
                         <PlayCircle className="h-9 w-9 text-white/55" strokeWidth={1.2} />
-                        <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/55">
+                        <span className="text-sm text-white/55 font-semibold">
                           Vídeo em breve
                         </span>
                       </div>

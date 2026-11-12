@@ -23,7 +23,7 @@ import { track } from "@/lib/track";
 const ease = [0.22, 1, 0.36, 1] as const;
 
 const inputCls =
-  "w-full rounded-xl border border-grafite/15 bg-white px-3.5 py-2.5 text-sm text-grafite outline-none transition focus:border-cobre focus:ring-2 focus:ring-cobre/20";
+  "min-h-[3.25rem] w-full rounded-md border border-grafite/20 bg-white px-4 py-3 text-base text-grafite placeholder:text-grafite-muted outline-none transition-colors focus:border-cobre-deep focus:ring-2 focus:ring-cobre/20";
 
 type Props = {
   aberto: boolean;
@@ -105,7 +105,7 @@ export default function EbookFormModal({ aberto, onClose, onBaixado }: Props) {
           exit={{ opacity: 0 }}
         >
           <div
-            className="absolute inset-0 bg-grafite/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-grafite/70"
             onClick={onClose}
           />
 
@@ -117,21 +117,21 @@ export default function EbookFormModal({ aberto, onClose, onBaixado }: Props) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 40, scale: 0.98 }}
             transition={{ duration: 0.35, ease }}
-            className="relative flex max-h-[94vh] w-full max-w-md flex-col overflow-hidden rounded-t-[2rem] border border-grafite/10 bg-creme shadow-lux sm:rounded-[2rem]"
+            className="relative flex max-h-[94vh] w-full max-w-md flex-col overflow-hidden rounded-t-[12px] bg-creme shadow-[0_30px_90px_rgba(45,26,15,0.3)] sm:rounded-[12px]"
           >
             {/* cabeçalho — cobre-deep atrás de pérola (contraste AA) */}
             <div className="relative bg-cobre-deep px-6 py-6">
               <button
                 onClick={onClose}
                 aria-label="Fechar"
-                className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full bg-perola/90 text-grafite shadow-lux-sm transition hover:bg-perola"
+                className="absolute right-4 top-4 grid h-11 w-11 place-items-center rounded-full bg-perola text-grafite transition-colors hover:bg-cobre-light"
               >
                 <X className="h-4 w-4" strokeWidth={1.5} />
               </button>
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-perola/80">
+              <p className="text-[15px] font-semibold text-cobre-light">
                 E-book grátis
               </p>
-              <h2 className="mt-1.5 max-w-[16rem] font-display text-2xl font-semibold leading-tight text-perola">
+              <h2 className="mt-1.5 max-w-[16rem] font-display text-[28px] leading-tight text-perola">
                 Antes de baixar
               </h2>
             </div>
@@ -139,22 +139,22 @@ export default function EbookFormModal({ aberto, onClose, onBaixado }: Props) {
             {baixou ? (
               /* ── sucesso ── */
               <div className="flex flex-col items-center gap-4 px-6 py-11 text-center">
-                <span className="grid h-16 w-16 place-items-center rounded-full bg-[hsl(145,63%,42%)]/12">
+                <span className="grid h-16 w-16 place-items-center rounded-full bg-[#2a9e6a]/12">
                   <CheckCircle2
-                    className="h-9 w-9 text-[hsl(145,63%,38%)]"
+                    className="h-9 w-9 text-[#23855a]"
                     strokeWidth={1.5}
                   />
                 </span>
-                <h3 className="font-display text-xl font-semibold text-grafite">
+                <h3 className="font-display text-[26px] leading-tight text-grafite">
                   Download liberado!
                 </h3>
-                <p className="max-w-xs text-sm leading-relaxed text-grafite-soft">
+                <p className="max-w-xs text-base leading-relaxed text-grafite">
                   O e-book já começou a baixar. Se não aparecer, confira a pasta
                   de downloads do seu navegador.
                 </p>
                 <button
                   onClick={onClose}
-                  className="mt-2 rounded-full bg-grafite px-6 py-2.5 text-sm font-semibold text-perola transition hover:bg-grafite/90"
+                  className="mt-2 min-h-11 rounded-md bg-grafite px-6 text-[15px] font-semibold text-perola transition hover:bg-grafite/90"
                 >
                   Fechar
                 </button>
@@ -162,13 +162,13 @@ export default function EbookFormModal({ aberto, onClose, onBaixado }: Props) {
             ) : (
               /* ── formulário ── */
               <form onSubmit={enviar} className="flex-1 space-y-4 overflow-y-auto px-6 py-6" noValidate>
-                <p className="text-sm leading-relaxed text-grafite-soft">
+                <p className="text-base leading-relaxed text-grafite">
                   Preencha seus dados para receber o e-book e novos materiais do
                   Papo de Aluguel.
                 </p>
 
                 <label className="block">
-                  <span className="mb-1 block text-xs font-medium text-grafite-soft">
+                  <span className="mb-1.5 block text-[15px] font-semibold text-grafite">
                     Nome completo *
                   </span>
                   <input
@@ -182,7 +182,7 @@ export default function EbookFormModal({ aberto, onClose, onBaixado }: Props) {
                 </label>
 
                 <label className="block">
-                  <span className="mb-1 block text-xs font-medium text-grafite-soft">
+                  <span className="mb-1.5 block text-[15px] font-semibold text-grafite">
                     E-mail *
                   </span>
                   <input
@@ -198,7 +198,7 @@ export default function EbookFormModal({ aberto, onClose, onBaixado }: Props) {
                 </label>
 
                 <label className="block">
-                  <span className="mb-1 block text-xs font-medium text-grafite-soft">
+                  <span className="mb-1.5 block text-[15px] font-semibold text-grafite">
                     WhatsApp *
                   </span>
                   <input
@@ -213,14 +213,14 @@ export default function EbookFormModal({ aberto, onClose, onBaixado }: Props) {
                 </label>
 
                 {/* Opt-in separado: sem `required`, desmarcado por padrão. */}
-                <div className="flex items-start gap-2.5 rounded-2xl bg-grafite/[0.03] px-4 py-3">
+                <div className="flex items-start gap-2.5 rounded-[10px] bg-creme-100 px-4 py-4">
                   <Lock className="mt-0.5 h-4 w-4 shrink-0 text-grafite-muted" strokeWidth={1.5} />
-                  <label className="flex cursor-pointer items-start gap-2 text-xs leading-relaxed text-grafite-soft">
+                  <label className="flex cursor-pointer items-start gap-2.5 text-sm leading-relaxed text-grafite">
                     <input
                       type="checkbox"
                       checked={aceitaComunicacao}
                       onChange={(e) => setAceitaComunicacao(e.target.checked)}
-                      className="mt-0.5 h-4 w-4 shrink-0 accent-cobre"
+                      className="mt-0.5 h-5 w-5 shrink-0 accent-cobre-deep"
                     />
                     <span>
                       Quero receber novidades e materiais do Clube Sanchez por
@@ -230,7 +230,7 @@ export default function EbookFormModal({ aberto, onClose, onBaixado }: Props) {
                   </label>
                 </div>
 
-                <p className="text-xs leading-relaxed text-grafite-muted">
+                <p className="text-sm leading-relaxed text-grafite-soft">
                   Seus dados são usados para enviar o material e, se você
                   autorizar acima, novidades do clube. Veja a{" "}
                   <Link
@@ -245,7 +245,7 @@ export default function EbookFormModal({ aberto, onClose, onBaixado }: Props) {
                 </p>
 
                 {erro && (
-                  <p role="alert" className="text-xs font-medium text-terracota-700">
+                  <p role="alert" className="text-sm font-semibold text-gatilho">
                     {erro}
                   </p>
                 )}
@@ -253,7 +253,7 @@ export default function EbookFormModal({ aberto, onClose, onBaixado }: Props) {
                 <button
                   type="submit"
                   disabled={enviando}
-                  className="flex w-full items-center justify-center gap-2 rounded-full bg-cobre-deep px-5 py-3.5 text-sm font-semibold text-perola shadow-lux-sm transition hover:bg-grafite disabled:opacity-60"
+                  className="flex w-full items-center justify-center gap-2 min-h-[3.25rem] rounded-md bg-cobre-deep px-5 text-[15px] font-semibold text-perola transition-colors hover:bg-grafite disabled:opacity-60"
                 >
                   {enviando ? (
                     <Loader2 className="h-4 w-4 animate-spin" strokeWidth={2} />

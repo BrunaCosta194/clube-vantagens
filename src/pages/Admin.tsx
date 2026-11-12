@@ -89,7 +89,7 @@ const TODOS = "";
 
 function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
-    <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-grafite-muted">
+    <p className="text-sm text-grafite-muted font-semibold">
       {children}
     </p>
   );
@@ -97,7 +97,7 @@ function Eyebrow({ children }: { children: React.ReactNode }) {
 
 function Card({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`rounded-[1.5rem] border border-cobre-line/20 bg-white/70 p-6 sm:p-8 ${className}`}>
+    <div className={`rounded-[10px] border border-cobre-line/20 bg-white/70 p-6 sm:p-8 ${className}`}>
       {children}
     </div>
   );
@@ -121,7 +121,7 @@ function Tabela({
         <thead>
           <tr className="border-b border-cobre-line/20 text-left">
             {colunas.map((coluna) => (
-              <th key={coluna} className="whitespace-nowrap py-2 pr-4 font-mono text-[11px] uppercase tracking-[0.12em] text-grafite-muted">
+              <th key={coluna} className="whitespace-nowrap py-2 pr-4 text-sm text-grafite-muted font-semibold">
                 {coluna}
               </th>
             ))}
@@ -149,7 +149,7 @@ function BarraFunil({ rotulo, valor, base }: { rotulo: string; valor: number; ba
     <div>
       <div className="flex items-baseline justify-between gap-3 text-sm">
         <span className="text-grafite">{rotulo}</span>
-        <span className="font-mono text-grafite-muted">
+        <span className="text-grafite-muted">
           {numero(valor)} · {percentual(valor, base)}
         </span>
       </div>
@@ -289,7 +289,7 @@ export default function Admin() {
     return (
       <div className="flex min-h-screen items-center justify-center bg-creme px-6">
         <div className="max-w-sm text-center">
-          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-grafite-muted">Painel</p>
+          <p className="text-sm text-grafite-muted font-semibold">Painel</p>
           <h1 className="h-display mt-3 text-2xl">Sem acesso ao painel</h1>
           <p className="mt-3 text-sm text-grafite-muted">
             Essa área é restrita à equipe do Clube Sanchez. Se você acha que deveria ter acesso, fale com quem administra o painel.
@@ -308,7 +308,7 @@ export default function Admin() {
 
   return (
     <div className="min-h-screen bg-creme pb-24">
-      <header className="border-b border-cobre-line/20 bg-white/60 backdrop-blur-sm">
+      <header className="border-b border-cobre-line/20 bg-white/60">
         <div className="container-club flex flex-wrap items-center justify-between gap-3 py-5">
           <div>
             <Eyebrow>Clube Sanchez</Eyebrow>
@@ -455,7 +455,7 @@ export default function Admin() {
         </Card>
 
         {erro && (
-          <p className="mt-4 rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-700">{erro}</p>
+          <p className="mt-4 rounded-[10px] border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-700">{erro}</p>
         )}
 
         {carregandoMetricas && !m && (
@@ -574,19 +574,19 @@ export default function Admin() {
               <Eyebrow>Indicações</Eyebrow>
               <div className="mt-4 grid grid-cols-3 gap-4">
                 <div>
-                  <p className="text-xs text-grafite-muted">Compartilhamentos</p>
+                  <p className="text-sm text-grafite-muted">Compartilhamentos</p>
                   <p className="h-display mt-1 text-xl">{numero(m.indicacoes.compartilhamentos)}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-grafite-muted">Cadastradas</p>
+                  <p className="text-sm text-grafite-muted">Cadastradas</p>
                   <p className="h-display mt-1 text-xl">{numero(m.indicacoes.cadastradas)}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-grafite-muted">Convertidas</p>
+                  <p className="text-sm text-grafite-muted">Convertidas</p>
                   <p className="h-display mt-1 text-xl">{numero(m.indicacoes.convertidas)}</p>
                 </div>
               </div>
-              <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.18em] text-grafite-muted">
+              <p className="mt-6 text-sm text-grafite-muted font-semibold">
                 Top códigos
               </p>
               <Tabela

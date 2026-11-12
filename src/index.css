@@ -13,12 +13,12 @@
     /* Navbar é fixed (header pt-4 + nav ~65.6px = ~81.6px no mobile;
        pt-6 + nav = ~89.6px a partir do breakpoint sm). Folga extra pra o
        título da seção não ficar colado no menu ao navegar por /#âncora. */
-    scroll-padding-top: 108px;
+    scroll-padding-top: 96px;
   }
 
   @media (min-width: 640px) {
     html {
-      scroll-padding-top: 120px;
+      scroll-padding-top: 104px;
     }
   }
 
@@ -51,71 +51,50 @@
   }
 }
 
-/* Grão de filme — overlay fixo em camada própria. Sem mix-blend-mode: com
-   blend o navegador remistura a tela inteira a cada quadro de scroll (era a
-   principal causa do scroll travado). Na opacidade 0.04 a diferença não aparece. */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 40;
-  pointer-events: none;
-  opacity: 0.04;
-  transform: translateZ(0);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 120px 120px;
-}
-
 @layer components {
   .container-club {
-    @apply mx-auto w-full max-w-[76rem] px-6 sm:px-8;
+    @apply mx-auto w-full max-w-[84rem] px-5 sm:px-8 lg:px-10;
   }
 
   /* título de seção serifado, alto contraste */
   .h-display {
-    @apply font-display font-semibold leading-[0.98] tracking-[-0.01em] text-grafite;
+    @apply font-display font-normal leading-[1.08] tracking-[-0.03em] text-grafite;
   }
 
   /* CTA primário — pill cobre (guia de identidade) com ícone aninhado */
+  /* CTA primário — retângulo cobre de canto curto, como no site da Sanchez */
   .btn-primary {
-    @apply inline-flex items-center gap-3 rounded-full bg-cobre py-2.5 pl-6 pr-2.5 text-sm font-medium text-perola transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-cobre-deep active:scale-[0.985];
+    @apply inline-flex min-h-[3.25rem] items-center gap-3 rounded-md bg-cobre-deep px-6 text-[15px] font-semibold text-perola transition-colors duration-300 hover:bg-grafite active:translate-y-px;
   }
   .btn-primary-icon {
-    @apply grid h-9 w-9 place-items-center rounded-full bg-white/15 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0.5 group-hover:bg-white/25;
+    @apply grid place-items-center transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5;
   }
 
   .btn-quiet {
-    @apply inline-flex items-center gap-2 text-sm font-medium text-grafite-soft underline-offset-4 transition-colors duration-300 hover:text-cobre-deep hover:underline;
+    @apply inline-flex min-h-11 items-center gap-2 text-[15px] font-semibold text-grafite underline decoration-cobre/50 underline-offset-[6px] transition-colors duration-300 hover:text-cobre-deep hover:decoration-cobre-deep;
   }
 
   /* Double-bezel: moldura externa + núcleo interno (curvas concêntricas) */
+  /* Superfície: um degrau de tom acima do fundo, sem borda nem sombra. */
   .bezel {
-    @apply rounded-[2rem] border border-grafite/10 bg-white/40 p-1.5 shadow-lux backdrop-blur-sm;
+    @apply rounded-[10px] bg-creme-100;
   }
   .bezel-core {
-    @apply overflow-hidden rounded-[calc(2rem-0.375rem)];
+    @apply overflow-hidden rounded-[10px];
   }
 
-  /* rótulo acima dos títulos de seção — pílula fina com ponto cobre */
+  /* frase curta acima do título: texto cobre, sem pílula nem caixa alta */
   .eyebrow {
-    @apply inline-flex items-center gap-2 rounded-full border border-cobre-line/25 bg-white/45 px-3 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.22em] text-cobre-deep;
+    @apply inline-block text-[15px] font-semibold text-cobre-deep;
   }
-  .eyebrow::before {
-    content: "";
-    @apply h-1.5 w-1.5 rounded-full bg-cobre;
-  }
-  /* versão pra fundo escuro (chamada final) */
   .eyebrow-escuro {
-    @apply border-white/15 bg-white/5 text-cobre-light;
+    @apply text-cobre-light;
   }
 
-  /* luz ambiente cobre nos cantos da seção — gradiente estático, sem blur
-     (não custa nada no scroll). O pai precisa de position relative. */
+  /* A antiga luz cobre nos cantos saiu (degradê decorativo). A classe fica
+     vazia para não quebrar as páginas que ainda a usam. */
   .ambiente {
-    @apply pointer-events-none absolute inset-0 -z-0;
-    background:
-      radial-gradient(38rem 24rem at 100% 0%, hsl(19 45% 55% / 0.07), transparent 70%),
-      radial-gradient(30rem 22rem at 0% 100%, hsl(19 45% 55% / 0.05), transparent 70%);
+    @apply hidden;
   }
 
   .rule {
@@ -125,7 +104,7 @@ body::after {
   /* Padding vertical padrão das seções da home — reduzido em relação ao
      antigo py-16 sm:py-24 lg:py-32, pra cortar espaço vazio entre blocos. */
   .section-y {
-    @apply py-12 sm:py-16 lg:py-20;
+    @apply py-20 sm:py-28 lg:py-36;
   }
 }
 

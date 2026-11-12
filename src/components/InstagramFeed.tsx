@@ -49,25 +49,21 @@ export default function InstagramFeed() {
   if (!FEED_ID) return null;
 
   return (
-    <section ref={secaoRef} id="instagram" className="section-y relative isolate scroll-mt-24 bg-creme">
-      <div className="ambiente" />
-      <div className="container-club relative">
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-          <div className="max-w-xl">
-            <span className="eyebrow">Instagram</span>
-            <h2 className="h-display mt-4 text-[clamp(2rem,4.5vw,3.25rem)]">
-              O que rola <span className="italic text-cobre">na Sanchez.</span>
-            </h2>
-          </div>
+    <section ref={secaoRef} id="instagram" className="section-y scroll-mt-24 bg-creme">
+      <div className="container-club">
+        <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
+          <h2 className="h-display text-[clamp(2.5rem,5.2vw,4.5rem)] lg:col-span-8">
+            O que rola <span className="italic text-cobre-deep">na Sanchez.</span>
+          </h2>
           <LinkRastreado
             href={INSTAGRAM}
             target="_blank"
             rel="noopener noreferrer"
             evento="social_click"
             props={{ rede: "instagram", local: "feed_seguir" }}
-            className="inline-flex min-h-11 items-center justify-center gap-2 self-start rounded-full border border-cobre px-5 text-sm font-medium text-cobre-deep transition hover:bg-cobre/10 sm:self-auto"
+            className="btn-quiet self-start lg:col-span-4 lg:self-auto lg:justify-self-end"
           >
-            <Instagram className="h-4 w-4" strokeWidth={1.5} />
+            <Instagram className="h-[18px] w-[18px]" strokeWidth={1.75} />
             Seguir @sanchezimoveisenegocios
           </LinkRastreado>
         </div>
@@ -75,7 +71,7 @@ export default function InstagramFeed() {
         {/* O widget abre os posts em links próprios (dentro do shadow DOM dele);
             o clique sobe até aqui, então dá pra contar sem saber qual post foi. */}
         <div
-          className="mt-10 min-h-[240px] lg:mt-14"
+          className="mt-12 min-h-[240px] lg:mt-16"
           onClick={() => void track("social_click", { rede: "instagram", local: "feed_post" })}
         >
           {visivel && <div data-behold-id={FEED_ID} />}

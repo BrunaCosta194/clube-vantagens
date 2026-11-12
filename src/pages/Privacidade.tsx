@@ -27,7 +27,7 @@ const CONTROLADOR = {
 
 function Pendente({ o_que }: { o_que: string }) {
   return (
-    <mark className="rounded bg-gatilho/10 px-1.5 py-0.5 font-mono text-[11px] uppercase tracking-[0.12em] text-gatilho">
+    <mark className="rounded-[4px] bg-gatilho/10 px-1.5 py-0.5 text-sm font-semibold text-gatilho">
       pendente: {o_que}
     </mark>
   );
@@ -35,9 +35,9 @@ function Pendente({ o_que }: { o_que: string }) {
 
 function Secao({ titulo, id, children }: { titulo: string; id?: string; children: React.ReactNode }) {
   return (
-    <section id={id} className="scroll-mt-28 border-t border-grafite/10 pt-8">
-      <h2 className="font-display text-xl font-semibold text-grafite sm:text-2xl">{titulo}</h2>
-      <div className="mt-4 space-y-4 text-[15px] leading-relaxed text-grafite-soft">{children}</div>
+    <section id={id} className="scroll-mt-28">
+      <h2 className="font-display text-[clamp(1.75rem,3vw,2.25rem)] leading-tight text-grafite">{titulo}</h2>
+      <div className="mt-5 space-y-4 text-[17px] leading-[1.65] text-grafite">{children}</div>
     </section>
   );
 }
@@ -54,16 +54,16 @@ export default function Privacidade() {
     <div className="min-h-screen bg-creme">
       <Navbar />
 
-      <main className="mx-auto max-w-3xl px-5 pb-24 pt-32 sm:px-8 sm:pt-40">
-        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-cobre-deep">
+      <main className="mx-auto max-w-3xl px-5 pb-28 pt-[120px] sm:px-8 sm:pt-[160px]">
+        <p className="eyebrow">
           Clube Sanchez
         </p>
-        <h1 className="mt-3 font-display text-3xl font-semibold leading-tight text-grafite sm:text-4xl">
+        <h1 className="mt-3 h-display text-[clamp(2.75rem,6vw,4.5rem)]">
           Política de Privacidade
         </h1>
-        <p className="mt-3 text-sm text-grafite-soft">Atualizada em {ATUALIZADO_EM}.</p>
+        <p className="mt-4 text-base text-grafite-soft">Atualizada em {ATUALIZADO_EM}.</p>
 
-        <div className="mt-10 space-y-10">
+        <div className="mt-16 space-y-16">
           <Secao titulo="Quem cuida dos seus dados">
             <p>
               O Clube Sanchez é o hub de negócios da Comunidade Sanchez, mantido pela{" "}
@@ -97,7 +97,7 @@ export default function Privacidade() {
               <strong className="text-grafite">Materiais gratuitos, como o e-book do Papo de
               Aluguel:</strong> nome, e-mail e WhatsApp. Não é preciso virar membro para baixar.
             </p>
-            <p className="rounded-2xl bg-perola px-5 py-4 text-grafite">
+            <p className="rounded-[10px] bg-creme-100 px-6 py-5 text-grafite">
               No cadastro do Clube pedimos CPF ou CNPJ. Para baixar materiais gratuitos, não — ali
               são só nome, e-mail e WhatsApp.
             </p>
@@ -217,8 +217,8 @@ export default function Privacidade() {
           </Secao>
         </div>
 
-        <div className="mt-12 border-t border-grafite/10 pt-8">
-          <Link to="/" className="text-sm font-medium text-cobre-deep hover:underline">
+        <div className="mt-16">
+          <Link to="/" className="btn-quiet">
             ← Voltar para o Clube Sanchez
           </Link>
         </div>

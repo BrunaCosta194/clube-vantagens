@@ -29,19 +29,18 @@ export default function Footer() {
   const naHome = pathname === "/";
   const hrefWpp = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(MENSAGEM_WPP)}`;
 
+  const titulo = "text-[15px] text-perola/60";
+  const link = "transition-colors duration-200 hover:text-cobre-light";
+
   return (
-    <footer className="relative overflow-hidden bg-grafite text-white/70">
-      {/* brilho cobre discreto no canto — mesmo recurso da chamada final */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(60rem_30rem_at_100%_0%,hsl(19_45%_28%/0.45),transparent_60%)]" />
-      <div className="container-club relative grid gap-10 py-16 sm:grid-cols-2 lg:grid-cols-[1.2fr_0.85fr_0.85fr_0.85fr]">
-        <div>
-          <Link to="/" className="inline-flex items-center gap-2.5">
-            <img src={logo} alt="Clube Sanchez" className="h-9 w-9 object-contain" />
-            <span className="font-display text-lg font-semibold text-white">
-              Clube Sanchez
-            </span>
+    <footer className="bg-premium text-perola">
+      <div className="container-club grid gap-12 pb-12 pt-20 sm:grid-cols-2 sm:pt-28 lg:grid-cols-12 lg:gap-10">
+        <div className="lg:col-span-5">
+          <Link to="/" className="inline-flex items-center gap-3">
+            <img src={logo} alt="" className="h-10 w-10 object-contain" />
+            <span className="font-display text-[22px] leading-none">Clube Sanchez</span>
           </Link>
-          <p className="mt-4 max-w-xs text-sm leading-relaxed">
+          <p className="mt-6 max-w-sm text-base leading-relaxed text-perola/85">
             Há {anosDeSanchez()} anos, a Sanchez Imóveis realiza negócios
             imobiliários em Mogi das Cruzes e no Alto Tietê. O Clube Sanchez
             amplia essa história e conecta nossa comunidade a parceiros,
@@ -49,17 +48,12 @@ export default function Footer() {
           </p>
         </div>
 
-        <div>
-          <p className="font-mono text-xs uppercase tracking-[0.18em] text-white/60">
-            Navegação
-          </p>
-          <ul className="mt-4 space-y-2.5 text-sm">
+        <div className="lg:col-span-2">
+          <p className={titulo}>Navegação</p>
+          <ul className="mt-4 space-y-3 text-base">
             {navegacao.map((l) => (
               <li key={l.href}>
-                <a
-                  href={naHome ? l.href : `/${l.href}`}
-                  className="transition-colors duration-300 hover:text-white"
-                >
+                <a href={naHome ? l.href : `/${l.href}`} className={link}>
                   {l.label}
                 </a>
               </li>
@@ -67,26 +61,19 @@ export default function Footer() {
           </ul>
         </div>
 
-        <div>
-          <p className="font-mono text-xs uppercase tracking-[0.18em] text-white/60">
-            Empresas do grupo
-          </p>
-          <ul className="mt-4 space-y-2.5 text-sm">
+        <div className="lg:col-span-2">
+          <p className={titulo}>Empresas do grupo</p>
+          <ul className="mt-4 space-y-3 text-base">
             {empresasDoGrupo.map((e) =>
               e.externo ? (
                 <li key={e.href}>
-                  <a
-                    href={e.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="transition-colors duration-300 hover:text-white"
-                  >
+                  <a href={e.href} target="_blank" rel="noopener noreferrer" className={link}>
                     {e.label}
                   </a>
                 </li>
               ) : (
                 <li key={e.href}>
-                  <Link to={e.href} className="transition-colors duration-300 hover:text-white">
+                  <Link to={e.href} className={link}>
                     {e.label}
                   </Link>
                 </li>
@@ -95,11 +82,9 @@ export default function Footer() {
           </ul>
         </div>
 
-        <div>
-          <p className="font-mono text-xs uppercase tracking-[0.18em] text-white/60">
-            Contato
-          </p>
-          <ul className="mt-4 space-y-3 text-sm">
+        <div className="lg:col-span-3">
+          <p className={titulo}>Contato</p>
+          <ul className="mt-4 space-y-3 text-base">
             <li>
               <LinkRastreado
                 href={hrefWpp}
@@ -107,9 +92,9 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 evento="social_click"
                 props={{ rede: "whatsapp", local: "footer" }}
-                className="inline-flex items-center gap-2 transition-colors duration-300 hover:text-white"
+                className={`inline-flex items-center gap-2 ${link}`}
               >
-                <MessageCircle className="h-4 w-4 text-cobre-light" strokeWidth={1.5} />
+                <MessageCircle className="h-4 w-4 text-cobre-light" strokeWidth={1.75} />
                 WhatsApp da Sanchez
               </LinkRastreado>
             </li>
@@ -120,30 +105,35 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 evento="social_click"
                 props={{ rede: "instagram", local: "footer" }}
-                className="inline-flex items-center gap-2 transition-colors duration-300 hover:text-white"
+                className={`inline-flex items-center gap-2 break-all ${link}`}
               >
-                <Instagram className="h-4 w-4 text-cobre-light" strokeWidth={1.5} />
+                <Instagram className="h-4 w-4 shrink-0 text-cobre-light" strokeWidth={1.75} />
                 @sanchezimoveisenegocios
               </LinkRastreado>
             </li>
             <li className="inline-flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-cobre-light" strokeWidth={1.5} />
+              <MapPin className="h-4 w-4 text-cobre-light" strokeWidth={1.75} />
               Mogi das Cruzes · SP
             </li>
           </ul>
         </div>
       </div>
 
-      <div className="relative border-t border-white/10">
-        <div className="container-club flex flex-col items-center justify-between gap-2 pb-24 pt-6 text-xs text-white/60 sm:flex-row sm:pb-6">
-          <p>
-            © {new Date().getFullYear()} Sanchez Imóveis · Clube Sanchez ·{" "}
-            <Link to="/privacidade" className="underline-offset-4 transition-colors duration-300 hover:text-white hover:underline">
-              Privacidade
-            </Link>
-          </p>
-          <p className="font-medium text-white/75">{ASSINATURA}</p>
-        </div>
+      {/* fecho: o nome do clube de ponta a ponta */}
+      <div className="container-club overflow-hidden" aria-hidden="true">
+        <p className="whitespace-nowrap font-display text-[clamp(3.5rem,13.4vw,12.5rem)] leading-[0.9] tracking-[-0.04em] text-cobre-light">
+          Clube Sanchez
+        </p>
+      </div>
+
+      <div className="container-club flex flex-col justify-between gap-2 pb-28 pt-8 text-[15px] text-perola/70 sm:flex-row sm:pb-10">
+        <p>
+          © {new Date().getFullYear()} Sanchez Imóveis · Clube Sanchez ·{" "}
+          <Link to="/privacidade" className="underline underline-offset-4 hover:text-perola">
+            Privacidade
+          </Link>
+        </p>
+        <p className="font-semibold text-perola/85">{ASSINATURA}</p>
       </div>
     </footer>
   );

@@ -169,7 +169,7 @@ export default function BannerCarousel() {
       id="top"
       aria-roledescription="carousel"
       aria-label="Banners do Clube Sanchez"
-      className="relative w-full overflow-hidden bg-creme pb-6 pt-20 sm:pb-8 sm:pt-24"
+      className="relative w-full overflow-hidden bg-creme pb-4 pt-[80px] sm:pb-6 sm:pt-[96px]"
       // onFocus/onBlur do React são focusin/focusout (sobem na árvore): o
       // autoplay para assim que o teclado entra em qualquer botão daqui.
       onMouseEnter={() => setHover(true)}
@@ -187,7 +187,7 @@ export default function BannerCarousel() {
         transition={
           movimentoReduzido ? { duration: 0 } : { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
         }
-        className="relative mx-auto w-full max-w-[92rem] px-4 sm:px-6"
+        className="container-club relative"
       >
         {/* Duas proporções, uma por arte (ver CLAUDE.md): no celular o palco
             é 4:3, casando com os recortes de `banners/mobile`; de md pra cima
@@ -199,7 +199,7 @@ export default function BannerCarousel() {
         <div
           ref={palcoRef}
           aria-live={pausado ? "polite" : "off"}
-          className="relative aspect-[4/3] w-full overflow-hidden rounded-[1.75rem] shadow-lux md:aspect-[1920/465]"
+          className="relative aspect-[4/3] w-full overflow-hidden rounded-[10px] bg-creme-200 md:aspect-[1920/465]"
         >
           <AnimatePresence initial={false} custom={dir} mode="popLayout">
             <motion.div
@@ -239,7 +239,7 @@ export default function BannerCarousel() {
               type="button"
               onClick={() => go(-1)}
               aria-label={`Banner anterior (mostrando ${posicao} de ${total})`}
-              className={`absolute left-6 top-1/2 hidden h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-creme/85 text-grafite shadow-lux-sm backdrop-blur-sm transition hover:bg-creme sm:grid sm:left-9 ${focoVisivel}`}
+              className={`absolute left-8 top-1/2 hidden h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-creme text-grafite transition-colors hover:bg-grafite hover:text-perola sm:grid sm:left-12 lg:left-14 ${focoVisivel}`}
             >
               <ChevronLeft className="h-5 w-5" strokeWidth={1.5} />
             </button>
@@ -247,7 +247,7 @@ export default function BannerCarousel() {
               type="button"
               onClick={() => go(1)}
               aria-label={`Próximo banner (mostrando ${posicao} de ${total})`}
-              className={`absolute right-6 top-1/2 hidden h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-creme/85 text-grafite shadow-lux-sm backdrop-blur-sm transition hover:bg-creme sm:grid sm:right-9 ${focoVisivel}`}
+              className={`absolute right-8 top-1/2 hidden h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-creme text-grafite transition-colors hover:bg-grafite hover:text-perola sm:grid sm:right-12 lg:right-14 ${focoVisivel}`}
             >
               <ChevronRight className="h-5 w-5" strokeWidth={1.5} />
             </button>

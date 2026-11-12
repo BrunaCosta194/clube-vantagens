@@ -88,8 +88,8 @@ export default function AreaMembro() {
 
   if (lendoSessao || carregando) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-warm-wash">
-        <p className="text-sm text-grafite-muted">Carregando...</p>
+      <div className="flex min-h-screen items-center justify-center bg-creme">
+        <p className="text-base text-grafite-soft">Carregando...</p>
       </div>
     );
   }
@@ -97,84 +97,76 @@ export default function AreaMembro() {
   if (!perfil) return null;
 
   return (
-    <div className="min-h-screen bg-warm-wash pb-24">
-      <header className="border-b border-grafite/10 bg-white/50 backdrop-blur-sm">
-        <div className="container-club flex items-center justify-between py-5">
-          <Link to="/" className="flex items-center gap-2.5">
-            <img src={logo} alt="Clube Sanchez" className="h-8 w-8 object-contain" />
-            <span className="font-display text-[15px] font-semibold text-grafite">
+    <div className="min-h-screen bg-creme">
+      <header className="bg-creme-100">
+        <div className="container-club flex h-[72px] items-center justify-between gap-4 sm:h-20">
+          <Link to="/" className="flex items-center gap-3">
+            <img src={logo} alt="" className="h-10 w-10 object-contain" />
+            <span className="font-display text-xl leading-none text-grafite sm:text-[22px]">
               Clube Sanchez
             </span>
           </Link>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-5">
             {admin && (
               <Link to="/admin" className="btn-quiet">
-                <BarChart3 className="h-4 w-4" strokeWidth={1.5} />
+                <BarChart3 className="h-4 w-4" strokeWidth={1.75} />
                 Painel
               </Link>
             )}
             <button onClick={handleSair} className="btn-quiet">
-              <LogOut className="h-4 w-4" strokeWidth={1.5} />
+              <LogOut className="h-4 w-4" strokeWidth={1.75} />
               Sair
             </button>
           </div>
         </div>
       </header>
 
-      <div className="container-club pt-12">
-        <h1 className="h-display text-[clamp(1.8rem,4vw,2.6rem)]">
-          Olá, {perfil.nome.split(" ")[0]}.
+      <div className="container-club pb-28 pt-14 sm:pt-20 lg:pb-36">
+        <h1 className="h-display text-[clamp(3rem,7vw,6rem)]">
+          Olá, <span className="italic text-cobre-deep">{perfil.nome.split(" ")[0]}.</span>
         </h1>
 
-        <div className="mt-8 grid gap-6 sm:grid-cols-2">
-          <div className="bezel">
-            <div className="bezel-core bg-club-panel px-7 py-8">
-              <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/80">
-                Seu voucher de boas-vindas
-              </span>
-              <p className="mt-3 font-display text-[clamp(2.4rem,6vw,3.4rem)] font-semibold text-white">
-                {VOUCHER_CADASTRO_LABEL} de desconto
-              </p>
-            </div>
+        <div className="mt-12 grid gap-2 lg:grid-cols-12">
+          <div className="rounded-[10px] bg-cobre-deep px-7 py-9 text-perola sm:px-10 sm:py-12 lg:col-span-5">
+            <p className="text-[15px] text-perola/85">Seu voucher de boas-vindas</p>
+            <p className="mt-3 font-display text-[clamp(2.75rem,6vw,4.5rem)] leading-none tracking-[-0.03em]">
+              {VOUCHER_CADASTRO_LABEL} de desconto
+            </p>
           </div>
 
-          <div className="bezel">
-            <div className="bezel-core bg-white/70 px-7 py-8 backdrop-blur-sm">
-              <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-grafite-muted">
-                Seu link de indicação
-              </span>
-              <p className="mt-3 truncate font-mono text-sm text-grafite-soft">
-                {linkIndicacao(perfil.codigo_indicacao)}
-              </p>
-              <button onClick={copiarLink} className="btn-primary group mt-5">
-                {copiado ? <Check className="h-4 w-4" strokeWidth={1.5} /> : <Copy className="h-4 w-4" strokeWidth={1.5} />}
-                {copiado ? "Copiado!" : "Copiar link"}
-              </button>
-            </div>
+          <div className="rounded-[10px] bg-creme-100 px-7 py-9 sm:px-10 sm:py-12 lg:col-span-7">
+            <p className="text-[15px] text-grafite-soft">Seu link de indicação</p>
+            <p className="mt-3 break-all text-lg font-semibold text-grafite">
+              {linkIndicacao(perfil.codigo_indicacao)}
+            </p>
+            <button onClick={copiarLink} className="btn-primary group mt-6">
+              {copiado ? <Check className="h-[18px] w-[18px]" strokeWidth={1.75} /> : <Copy className="h-[18px] w-[18px]" strokeWidth={1.75} />}
+              {copiado ? "Copiado!" : "Copiar link"}
+            </button>
           </div>
         </div>
 
-        <div className="mt-10">
-          <h2 className="h-display text-xl">Suas indicações</h2>
+        <div className="mt-20">
+          <h2 className="h-display text-[clamp(2rem,4vw,3rem)]">Suas indicações</h2>
 
           {indicacoes.length === 0 ? (
-            <p className="mt-4 text-sm text-grafite-muted">
+            <p className="mt-5 max-w-xl text-lg leading-relaxed text-grafite">
               Você ainda não indicou ninguém. Compartilhe seu link para convidar amigos.
             </p>
           ) : (
-            <div className="mt-4 space-y-2">
+            <ul className="mt-6 grid gap-2">
               {indicacoes.map((ind) => (
-                <div
+                <li
                   key={ind.id}
-                  className="flex items-center justify-between rounded-2xl border border-grafite/10 bg-white/60 px-5 py-4"
+                  className="flex items-center justify-between gap-4 rounded-[10px] bg-creme-100 px-6 py-5"
                 >
-                  <p className="text-sm font-medium text-grafite">{statusLabel[ind.status]}</p>
-                  <p className="text-xs text-grafite-muted">
+                  <p className="text-base font-semibold text-grafite">{statusLabel[ind.status]}</p>
+                  <p className="text-[15px] text-grafite-soft">
                     {new Date(ind.created_at).toLocaleDateString("pt-BR")}
                   </p>
-                </div>
+                </li>
               ))}
-            </div>
+            </ul>
           )}
         </div>
       </div>

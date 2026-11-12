@@ -170,7 +170,7 @@ export default function CotacaoForm({
   }
 
   const inputCls =
-    "w-full rounded-xl border border-grafite/15 bg-white px-3.5 py-2.5 text-sm text-grafite outline-none transition focus:border-cobre focus:ring-2 focus:ring-cobre/20";
+    "min-h-[3.25rem] w-full rounded-md border border-grafite/20 bg-white px-4 py-3 text-base text-grafite placeholder:text-grafite-muted outline-none transition-colors focus:border-cobre-deep focus:ring-2 focus:ring-cobre/20";
 
   return (
     <AnimatePresence>
@@ -182,7 +182,7 @@ export default function CotacaoForm({
           exit={{ opacity: 0 }}
         >
           <div
-            className="absolute inset-0 bg-grafite/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-grafite/70"
             onClick={onClose}
           />
 
@@ -194,22 +194,22 @@ export default function CotacaoForm({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 40, scale: 0.98 }}
             transition={{ duration: 0.35, ease }}
-            className="relative flex max-h-[94vh] w-full max-w-lg flex-col overflow-hidden rounded-t-[2rem] border border-grafite/10 bg-creme shadow-lux sm:rounded-[2rem]"
+            className="relative flex max-h-[94vh] w-full max-w-lg flex-col overflow-hidden rounded-t-[12px] bg-creme shadow-[0_30px_90px_rgba(45,26,15,0.3)] sm:rounded-[12px]"
           >
             {/* cabeçalho */}
-            <div className="flex items-start justify-between gap-3 border-b border-grafite/10 bg-white px-6 py-5">
+            <div className="flex items-start justify-between gap-3 bg-creme-100 px-6 py-6">
               <div>
-                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-cobre-deep">
+                <p className="text-[15px] font-semibold text-cobre-deep">
                   Faça sua cotação
                 </p>
-                <h3 className="mt-1 font-display text-xl font-semibold text-grafite">
+                <h3 className="mt-1 font-display text-[26px] leading-tight text-grafite">
                   {produto.nome}
                 </h3>
               </div>
               <button
                 onClick={onClose}
                 aria-label="Fechar"
-                className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-grafite/10 text-grafite transition hover:bg-grafite/5"
+                className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-creme text-grafite transition-colors hover:bg-grafite hover:text-perola"
               >
                 <X className="h-4 w-4" strokeWidth={1.5} />
               </button>
@@ -218,22 +218,22 @@ export default function CotacaoForm({
             {enviado ? (
               /* ── sucesso ── */
               <div className="flex flex-col items-center gap-4 px-6 py-12 text-center">
-                <span className="grid h-16 w-16 place-items-center rounded-full bg-[hsl(145,63%,42%)]/12">
+                <span className="grid h-16 w-16 place-items-center rounded-full bg-[#2a9e6a]/12">
                   <CheckCircle2
-                    className="h-9 w-9 text-[hsl(145,63%,38%)]"
+                    className="h-9 w-9 text-[#23855a]"
                     strokeWidth={1.5}
                   />
                 </span>
-                <h4 className="font-display text-xl font-semibold text-grafite">
+                <h4 className="font-display text-[26px] leading-tight text-grafite">
                   Cotação enviada!
                 </h4>
-                <p className="max-w-xs text-sm leading-relaxed text-grafite-soft">
+                <p className="max-w-xs text-base leading-relaxed text-grafite">
                   A Yruena recebeu seu pedido de {produto.nome} e vai te
                   retornar pelo WhatsApp com a cotação. Fique de olho!
                 </p>
                 <button
                   onClick={onClose}
-                  className="mt-2 rounded-full bg-grafite px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-grafite/90"
+                  className="mt-2 min-h-11 rounded-md bg-grafite px-6 text-[15px] font-semibold text-white transition hover:bg-grafite/90"
                 >
                   Fechar
                 </button>
@@ -245,12 +245,12 @@ export default function CotacaoForm({
                 className="flex-1 space-y-5 overflow-y-auto px-6 py-6"
               >
                 {/* mensagem de confiança no topo */}
-                <div className="flex items-center gap-3 rounded-2xl border border-cobre-line/40 bg-cobre/10 px-4 py-3">
+                <div className="flex items-center gap-3 rounded-[10px] bg-creme-100 px-4 py-4">
                   <ShieldCheck
                     className="h-5 w-5 shrink-0 text-cobre-deep"
                     strokeWidth={1.5}
                   />
-                  <p className="text-xs leading-relaxed text-grafite-soft">
+                  <p className="text-sm leading-relaxed text-grafite">
                     Cotação <strong>sem compromisso</strong>. Seus dados são
                     tratados com sigilo e usados só para calcular sua proposta.
                   </p>
@@ -259,7 +259,7 @@ export default function CotacaoForm({
                 {/* base */}
                 <div className="grid gap-3 sm:grid-cols-2">
                   <label className="sm:col-span-2">
-                    <span className="mb-1 block text-xs font-medium text-grafite-soft">
+                    <span className="mb-1.5 block text-[15px] font-semibold text-grafite">
                       Nome completo *
                     </span>
                     <input
@@ -270,7 +270,7 @@ export default function CotacaoForm({
                     />
                   </label>
                   <label>
-                    <span className="mb-1 block text-xs font-medium text-grafite-soft">
+                    <span className="mb-1.5 block text-[15px] font-semibold text-grafite">
                       WhatsApp *
                     </span>
                     <input
@@ -283,7 +283,7 @@ export default function CotacaoForm({
                     />
                   </label>
                   <label>
-                    <span className="mb-1 block text-xs font-medium text-grafite-soft">
+                    <span className="mb-1.5 block text-[15px] font-semibold text-grafite">
                       E-mail
                     </span>
                     <input
@@ -304,7 +304,7 @@ export default function CotacaoForm({
                         key={c.name}
                         className={c.full ? "sm:col-span-2" : ""}
                       >
-                        <span className="mb-1 block text-xs font-medium text-grafite-soft">
+                        <span className="mb-1.5 block text-[15px] font-semibold text-grafite">
                           {c.label}
                         </span>
                         {c.tipo === "select" ? (
@@ -341,10 +341,10 @@ export default function CotacaoForm({
                 {/* upload de documentos */}
                 <div>
                   <div className="mb-2 flex items-center justify-between">
-                    <span className="text-xs font-medium text-grafite-soft">
+                    <span className="text-[15px] font-semibold text-grafite">
                       Documentos para a simulação
                     </span>
-                    <span className="font-mono text-[10px] text-grafite-muted">
+                    <span className="text-sm text-grafite-soft">
                       opcional agora
                     </span>
                   </div>
@@ -354,7 +354,7 @@ export default function CotacaoForm({
                       {produto.docsExigidos.map((d) => (
                         <li
                           key={d}
-                          className="flex items-center gap-2 text-xs text-grafite-soft"
+                          className="flex items-center gap-2 text-sm text-grafite"
                         >
                           <span className="h-1 w-1 rounded-full bg-cobre" />
                           {d}
@@ -366,7 +366,7 @@ export default function CotacaoForm({
                   <button
                     type="button"
                     onClick={() => fileRef.current?.click()}
-                    className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-grafite/25 bg-white px-4 py-4 text-sm font-medium text-grafite-soft transition hover:border-cobre hover:text-cobre-deep"
+                    className="flex w-full items-center justify-center gap-2 rounded-md border border-dashed border-grafite/40 bg-white px-4 py-4 text-[15px] font-semibold text-grafite transition-colors hover:border-cobre-deep hover:text-cobre-deep"
                   >
                     <FileUp className="h-4 w-4" strokeWidth={1.5} />
                     Anexar arquivos (PDF, foto...)
@@ -379,11 +379,11 @@ export default function CotacaoForm({
                     className="hidden"
                     onChange={(e) => addArquivos(e.target.files)}
                   />
-                  <p className="mt-2 text-[11px] text-grafite-muted">
+                  <p className="mt-2 text-sm text-grafite-soft">
                     PDF ou foto, até 10 MB cada (no máximo {DOC_QTD_MAX}).
                   </p>
                   {avisoArquivos && (
-                    <p role="alert" className="mt-1 text-xs font-medium text-terracota">
+                    <p role="alert" className="mt-1 text-sm font-semibold text-gatilho">
                       {avisoArquivos}
                     </p>
                   )}
@@ -393,7 +393,7 @@ export default function CotacaoForm({
                       {arquivos.map((f, i) => (
                         <li
                           key={`${f.name}-${i}`}
-                          className="flex items-center gap-2 rounded-lg border border-grafite/10 bg-white px-3 py-2 text-xs text-grafite"
+                          className="flex items-center gap-2 rounded-md bg-white px-3 py-2.5 text-sm text-grafite"
                         >
                           <Paperclip className="h-3.5 w-3.5 shrink-0 text-grafite-muted" strokeWidth={1.5} />
                           <span className="min-w-0 flex-1 truncate">{f.name}</span>
@@ -412,14 +412,14 @@ export default function CotacaoForm({
                 </div>
 
                 {/* segurança + LGPD */}
-                <div className="flex items-start gap-2.5 rounded-2xl bg-grafite/[0.03] px-4 py-3">
+                <div className="flex items-start gap-2.5 rounded-[10px] bg-creme-100 px-4 py-4">
                   <Lock className="mt-0.5 h-4 w-4 shrink-0 text-grafite-muted" strokeWidth={1.5} />
-                  <label className="flex cursor-pointer items-start gap-2 text-xs leading-relaxed text-grafite-soft">
+                  <label className="flex cursor-pointer items-start gap-2.5 text-sm leading-relaxed text-grafite">
                     <input
                       type="checkbox"
                       checked={aceite}
                       onChange={(e) => setAceite(e.target.checked)}
-                      className="mt-0.5 h-4 w-4 shrink-0 accent-cobre"
+                      className="mt-0.5 h-5 w-5 shrink-0 accent-cobre-deep"
                     />
                     <span>
                       Autorizo o uso dos meus dados e documentos exclusivamente
@@ -429,13 +429,13 @@ export default function CotacaoForm({
                 </div>
 
                 {erro && (
-                  <p className="text-xs font-medium text-terracota">{erro}</p>
+                  <p className="text-sm font-semibold text-gatilho">{erro}</p>
                 )}
 
                 <button
                   type="submit"
                   disabled={enviando}
-                  className="flex w-full items-center justify-center gap-2 rounded-full bg-cobre-deep px-5 py-3.5 text-sm font-semibold text-perola shadow-card transition hover:bg-grafite disabled:opacity-60"
+                  className="flex w-full items-center justify-center gap-2 min-h-[3.25rem] rounded-md bg-cobre-deep px-5 text-[15px] font-semibold text-perola transition-colors hover:bg-grafite disabled:opacity-60"
                 >
                   {enviando ? (
                     <Loader2 className="h-4 w-4 animate-spin" strokeWidth={2} />
