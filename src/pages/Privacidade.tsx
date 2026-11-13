@@ -181,6 +181,42 @@ export default function Privacidade() {
             </p>
           </Secao>
 
+          <Secao titulo="Empresas parceiras do Clube" id="parceiros">
+            <p>
+              A empresa que preenche o cadastro de parceiro pelo link enviado pela coordenação informa
+              o nome e o WhatsApp do responsável, os dados da empresa (apresentação, benefício,
+              produtos ou serviços, contatos, endereço e horário) e envia logotipo, fotografias e, se
+              quiser, um catálogo.
+            </p>
+            <p>
+              Registramos também a data e a hora da confirmação de cada versão do benefício, do aceite
+              das{" "}
+              <Link to="/condicoes-parceiro" className="font-semibold text-cobre-deep underline underline-offset-4">
+                Condições de participação
+              </Link>{" "}
+              (com a versão aceita) e da aprovação da página.
+            </p>
+            <p>
+              <strong className="text-grafite">Para que:</strong> montar e manter a página da empresa
+              no Clube e conversar com ela sobre a parceria. Os dados da empresa e os materiais
+              aprovados aparecem publicamente na página, porque esse é o objetivo da parceria. O nome
+              e o WhatsApp do responsável, os arquivos não usados e o histórico do cadastro, não: só a
+              coordenação do Clube vê.
+            </p>
+            <p>
+              <strong className="text-grafite">Onde ficam:</strong> os arquivos ficam num espaço
+              privado. Só as imagens escolhidas e tratadas vão para a página pública. As fotos são
+              reduzidas no aparelho antes do envio, o que também apaga dados escondidos delas, como a
+              localização.
+            </p>
+            <p>
+              <strong className="text-grafite">Por quanto tempo:</strong> enquanto a empresa
+              participar do Clube e por mais cinco anos depois da saída, para comprovar as
+              autorizações dadas. A página e o benefício saem do ar assim que a empresa pede a saída.
+              Cadastro iniciado e nunca enviado é apagado depois de 180 dias sem atividade.
+            </p>
+          </Secao>
+
           <Secao titulo="Por quanto tempo guardamos">
             <p>
               Cadastro de membro: enquanto você fizer parte do Clube, e por mais cinco anos depois
