@@ -2,7 +2,7 @@
 
 Data: 2026-11-13
 Fonte: "Briefing para Bruna — Portal de Cadastro de Parceiros", da Júlia (Papo de Aluguel), recebido em 13/11.
-Situação: **validada pela Júlia em 13/11** (respostas na seção 10); blocos A–C implementados. Antes: proposta para validar com a Júlia e a Yruena. O próprio briefing pede isso ("validar a estrutura das telas e o fluxo antes do desenvolvimento completo").
+Situação: **validada pela Júlia em 13/11** (respostas na seção 10); blocos A–E implementados (o aviso por e-mail espera o endereço e o domínio do remetente). Antes: proposta para validar com a Júlia e a Yruena. O próprio briefing pede isso ("validar a estrutura das telas e o fluxo antes do desenvolvimento completo").
 
 Este documento segue o briefing e acrescenta melhorias, marcadas com **[+]**. Onde a proposta muda algo do briefing, isso vem marcado com **[≠]** e com o motivo.
 

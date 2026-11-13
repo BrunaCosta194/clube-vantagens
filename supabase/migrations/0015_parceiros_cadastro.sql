@@ -9,8 +9,8 @@
 -- confere o código. Por isso:
 --   • as três tabelas novas têm RLS ligada e NENHUMA policy: visitante e membro
 --     logado não leem nem gravam nada;
---   • o bucket `parceiros-cadastro` é privado e sem policy: os arquivos sobem por
---     link de upload de uso único gerado pela função;
+--   • o bucket `parceiros-cadastro` é privado: os arquivos sobem por link de upload
+--     de uso único gerado pela função, e só a equipe (papel parceiros/validacao) lê;
 --   • o código do link nunca é guardado, só o hash SHA-256 dele (token_hash).
 --
 -- Convites: `parceiro_convite_criar(...)` devolve o código UMA vez. Enquanto o
@@ -294,6 +294,248 @@ revoke all on function public.parceiro_convite_invalidar(uuid) from public, anon
 grant execute on function public.parceiro_convite_criar(text, text, text, jsonb, integer) to authenticated;
 grant execute on function public.parceiro_convite_renovar(uuid, integer) to authenticated;
 grant execute on function public.parceiro_convite_invalidar(uuid) to authenticated;
+
+-- ── Painel da coordenação (/admin/parceiros) ────────────────────────────────
+-- Tudo por funções SECURITY DEFINER que conferem o papel. Ver: `parceiros` ou
+-- `validacao`. Mudar status: conforme a tabela de transições abaixo, espelhada em
+-- TRANSICOES (supabase/functions/_shared/parceiro-cadastro.ts): mudar nos dois.
+
+create or replace function public.meus_papeis()
+returns text[]
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select coalesce((select papeis from public.admins where user_id = auth.uid()), '{}'::text[]);
+$$;
+
+create or replace function public.parceiros_pode_ver()
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select public.tem_papel('parceiros') or public.tem_papel('validacao');
+$$;
+
+-- A equipe baixa os arquivos direto do bucket (link assinado gerado no navegador).
+-- Visitante e membro continuam sem acesso: a policy exige o papel.
+drop policy if exists "equipe lê arquivos de parceiros" on storage.objects;
+create policy "equipe lê arquivos de parceiros" on storage.objects
+  for select to authenticated
+  using (bucket_id = 'parceiros-cadastro' and public.parceiros_pode_ver());
+
+-- Lista: um item por cadastro, com as respostas (para calcular pendências na tela)
+-- e só o tipo dos arquivos. Nunca devolve o hash do link.
+create or replace function public.parceiros_painel_lista()
+returns jsonb
+language plpgsql
+stable
+security definer
+set search_path = public
+as $$
+begin
+  if not public.parceiros_pode_ver() then
+    raise exception 'acesso negado' using errcode = '42501';
+  end if;
+  return coalesce((
+    select jsonb_agg(jsonb_build_object(
+      'id', c.id,
+      'status', c.status,
+      'slug', c.slug,
+      'convite_empresa', c.convite_empresa,
+      'convite_contato', c.convite_contato,
+      'convite_whatsapp', c.convite_whatsapp,
+      'respostas', c.respostas,
+      'etapas_completas', c.etapas_completas,
+      'beneficio_confirmado_em', c.beneficio_confirmado_em,
+      'enviado_em', c.enviado_em,
+      'ultima_atividade_em', c.ultima_atividade_em,
+      'token_expira_em', c.token_expira_em,
+      'responsavel_equipe', c.responsavel_equipe,
+      'created_at', c.created_at,
+      'arquivos', coalesce((
+        select jsonb_agg(jsonb_build_object('tipo', a.tipo, 'item_id', a.item_id))
+        from public.parceiros_arquivos a
+        where a.cadastro_id = c.id and a.confirmado
+      ), '[]'::jsonb)
+    ) order by coalesce(c.ultima_atividade_em, c.created_at) desc)
+    from public.parceiros_cadastro c
+  ), '[]'::jsonb);
+end;
+$$;
+
+-- Ficha completa de um cadastro.
+create or replace function public.parceiros_painel_ficha(p_id uuid)
+returns jsonb
+language plpgsql
+stable
+security definer
+set search_path = public
+as $$
+declare
+  v jsonb;
+begin
+  if not public.parceiros_pode_ver() then
+    raise exception 'acesso negado' using errcode = '42501';
+  end if;
+  select to_jsonb(c) - 'token_hash' into v from public.parceiros_cadastro c where c.id = p_id;
+  if v is null then
+    raise exception 'cadastro não encontrado';
+  end if;
+  return jsonb_build_object(
+    'cadastro', v,
+    'arquivos', coalesce((
+      select jsonb_agg(jsonb_build_object(
+        'id', a.id, 'tipo', a.tipo, 'item_id', a.item_id, 'caminho', a.caminho, 'nome', a.nome_original,
+        'mime', a.mime, 'tamanho', a.tamanho, 'largura', a.largura, 'altura', a.altura, 'usar', a.usar,
+        'created_at', a.created_at
+      ) order by a.tipo, a.created_at)
+      from public.parceiros_arquivos a
+      where a.cadastro_id = p_id and a.confirmado
+    ), '[]'::jsonb),
+    'beneficio_versoes', coalesce((
+      select jsonb_agg(jsonb_build_object(
+        'id', b.id, 'texto', b.texto, 'situacao', b.situacao, 'confirmado_em', b.confirmado_em,
+        'confirmado_por', b.confirmado_por, 'validado_em', b.validado_em,
+        'validado_por', (select email from public.admins where user_id = b.validado_por)
+      ) order by b.created_at desc)
+      from public.parceiros_beneficio_versoes b
+      where b.cadastro_id = p_id
+    ), '[]'::jsonb),
+    'historico', coalesce((
+      select jsonb_agg(x order by x->>'quando' desc)
+      from (
+        select jsonb_build_object(
+          'quando', h.quando,
+          'acao', h.acao,
+          'detalhe', h.detalhe,
+          'autor', coalesce((select email from public.admins where user_id::text = h.autor), h.autor)
+        ) as x
+        from public.parceiros_historico h
+        where h.cadastro_id = p_id
+        order by h.quando desc
+        limit 200
+      ) t
+    ), '[]'::jsonb)
+  );
+end;
+$$;
+
+-- Muda o status, conferindo o papel e a transição. Ao validar (Yruena), a versão
+-- confirmada do benefício passa a `validado`: é a que a página pode mostrar.
+create or replace function public.parceiro_painel_mudar_status(p_id uuid, p_status text, p_nota text default null)
+returns void
+language plpgsql
+volatile
+security definer
+set search_path = public
+as $$
+declare
+  v_atual text;
+  v_enviado timestamptz;
+  v_ok boolean := false;
+  v_versao uuid;
+begin
+  if not public.parceiros_pode_ver() then
+    raise exception 'acesso negado' using errcode = '42501';
+  end if;
+
+  select status, enviado_em into v_atual, v_enviado
+    from public.parceiros_cadastro where id = p_id for update;
+  if v_atual is null then
+    raise exception 'cadastro não encontrado';
+  end if;
+
+  v_ok := case
+    when p_status = 'arquivado' then v_atual <> 'arquivado' and public.tem_papel('parceiros')
+    -- reabrir um arquivado: volta para recebido (se já tinha enviado) ou iniciado
+    when v_atual = 'arquivado' then public.tem_papel('parceiros')
+      and p_status = (case when v_enviado is null then 'cadastro_iniciado' else 'cadastro_recebido' end)
+    when p_status = 'em_preparacao' then
+      (public.tem_papel('parceiros') and v_atual in ('cadastro_recebido', 'informacoes_incompletas', 'aguardando_validacao', 'ajustes_solicitados'))
+      or (public.tem_papel('validacao') and v_atual = 'aguardando_validacao')
+    when p_status = 'informacoes_incompletas' then
+      public.tem_papel('parceiros') and v_atual in ('cadastro_recebido', 'em_preparacao')
+    when p_status = 'aguardando_validacao' then
+      public.tem_papel('parceiros') and v_atual in ('em_preparacao', 'ajustes_solicitados')
+    when p_status = 'aguardando_aprovacao' then
+      public.tem_papel('validacao') and v_atual = 'aguardando_validacao'
+    when p_status = 'ajustes_solicitados' then
+      public.tem_papel('parceiros') and v_atual = 'aguardando_aprovacao'
+    when p_status = 'publicado' then
+      public.tem_papel('parceiros') and v_atual = 'aprovado'
+    else false   -- 'aprovado' só pelo parceiro, no link
+  end;
+  if not v_ok then
+    raise exception 'mudança de status não permitida (% → %)', v_atual, p_status using errcode = '42501';
+  end if;
+
+  if p_status = 'aguardando_aprovacao' then
+    select id into v_versao from public.parceiros_beneficio_versoes
+     where cadastro_id = p_id and situacao in ('confirmado', 'validado')
+     order by created_at desc limit 1;
+    if v_versao is null then
+      raise exception 'o parceiro ainda não confirmou o benefício';
+    end if;
+    update public.parceiros_beneficio_versoes
+       set situacao = 'validado', validado_em = coalesce(validado_em, now()), validado_por = coalesce(validado_por, auth.uid())
+     where id = v_versao;
+  end if;
+
+  update public.parceiros_cadastro
+     set status = p_status, updated_at = now()
+   where id = p_id;
+
+  insert into public.parceiros_historico (cadastro_id, autor, acao, detalhe)
+  values (p_id, coalesce(auth.uid()::text, 'sql'), 'status',
+          jsonb_build_object('de', v_atual, 'para', p_status, 'nota', nullif(trim(coalesce(p_nota, '')), '')));
+end;
+$$;
+
+-- Nota interna e responsável da equipe.
+create or replace function public.parceiro_painel_anotar(p_id uuid, p_nota text default null, p_responsavel text default null)
+returns void
+language plpgsql
+volatile
+security definer
+set search_path = public
+as $$
+begin
+  if not public.parceiros_pode_ver() then
+    raise exception 'acesso negado' using errcode = '42501';
+  end if;
+  if p_responsavel is not null then
+    if not public.tem_papel('parceiros') then
+      raise exception 'acesso negado' using errcode = '42501';
+    end if;
+    update public.parceiros_cadastro
+       set responsavel_equipe = nullif(left(trim(p_responsavel), 80), ''), updated_at = now()
+     where id = p_id;
+    insert into public.parceiros_historico (cadastro_id, autor, acao, detalhe)
+    values (p_id, coalesce(auth.uid()::text, 'sql'), 'responsavel', jsonb_build_object('responsavel', nullif(trim(p_responsavel), '')));
+  end if;
+  if nullif(trim(coalesce(p_nota, '')), '') is not null then
+    insert into public.parceiros_historico (cadastro_id, autor, acao, detalhe)
+    values (p_id, coalesce(auth.uid()::text, 'sql'), 'nota', jsonb_build_object('nota', left(trim(p_nota), 2000)));
+  end if;
+end;
+$$;
+
+revoke all on function public.meus_papeis() from public, anon;
+revoke all on function public.parceiros_pode_ver() from public, anon;
+revoke all on function public.parceiros_painel_lista() from public, anon;
+revoke all on function public.parceiros_painel_ficha(uuid) from public, anon;
+revoke all on function public.parceiro_painel_mudar_status(uuid, text, text) from public, anon;
+revoke all on function public.parceiro_painel_anotar(uuid, text, text) from public, anon;
+grant execute on function public.meus_papeis() to authenticated;
+grant execute on function public.parceiros_pode_ver() to authenticated;
+grant execute on function public.parceiros_painel_lista() to authenticated;
+grant execute on function public.parceiros_painel_ficha(uuid) to authenticated;
+grant execute on function public.parceiro_painel_mudar_status(uuid, text, text) to authenticated;
+grant execute on function public.parceiro_painel_anotar(uuid, text, text) to authenticated;
 
 -- ── Eventos do formulário (para medir o teste com as 2 empresas) ────────────
 -- Mesmo check da 0007, mais os 3 nomes novos. Espelho em src/lib/track.ts.

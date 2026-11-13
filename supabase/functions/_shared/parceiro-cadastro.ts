@@ -82,6 +82,54 @@ export function editavel(status: string): boolean {
   );
 }
 
+// ── Quem muda cada status no painel ──────────────────────────────────────────
+// Espelho da função parceiro_painel_mudar_status (migration 0015): mudar nos dois.
+// "aprovado" não está aqui de propósito: só o parceiro aprova, pelo link.
+
+export type Papel = keyof typeof PAPEIS;
+
+export interface Transicao {
+  para: Status;
+  papel: Papel;
+  rotulo: string;
+  /** Pede uma nota explicando (fica no histórico). */
+  pedeNota?: boolean;
+}
+
+export const TRANSICOES: Partial<Record<Status, Transicao[]>> = {
+  cadastro_recebido: [
+    { para: "em_preparacao", papel: "parceiros", rotulo: "Começar a preparar a página" },
+    { para: "informacoes_incompletas", papel: "parceiros", rotulo: "Pedir informações ao parceiro", pedeNota: true },
+  ],
+  informacoes_incompletas: [{ para: "em_preparacao", papel: "parceiros", rotulo: "Começar a preparar a página" }],
+  em_preparacao: [
+    { para: "aguardando_validacao", papel: "parceiros", rotulo: "Enviar para a validação da Yruena" },
+    { para: "informacoes_incompletas", papel: "parceiros", rotulo: "Pedir informações ao parceiro", pedeNota: true },
+  ],
+  aguardando_validacao: [
+    { para: "aguardando_aprovacao", papel: "validacao", rotulo: "Validar e liberar para o parceiro aprovar" },
+    { para: "em_preparacao", papel: "validacao", rotulo: "Devolver para ajustes da equipe", pedeNota: true },
+    { para: "em_preparacao", papel: "parceiros", rotulo: "Voltar para a preparação" },
+  ],
+  ajustes_solicitados: [
+    { para: "em_preparacao", papel: "parceiros", rotulo: "Voltar para a preparação" },
+    { para: "aguardando_validacao", papel: "parceiros", rotulo: "Enviar para a validação da Yruena" },
+  ],
+  aguardando_aprovacao: [
+    { para: "ajustes_solicitados", papel: "parceiros", rotulo: "Registrar pedido de ajuste do parceiro", pedeNota: true },
+  ],
+  aprovado: [{ para: "publicado", papel: "parceiros", rotulo: "Publicar a página" }],
+};
+
+/** Arquivar vale de qualquer status (menos arquivado); reabrir volta para onde fazia sentido. */
+export const ARQUIVAR: Transicao = { para: "arquivado", papel: "parceiros", rotulo: "Arquivar", pedeNota: true };
+
+export function transicoesPara(status: string, papeis: string[]): Transicao[] {
+  const lista = (TRANSICOES[status as Status] ?? []).filter((t) => papeis.includes(t.papel));
+  if (status !== "arquivado" && papeis.includes("parceiros")) lista.push(ARQUIVAR);
+  return lista;
+}
+
 // ── Etapas ────────────────────────────────────────────────────────────────────
 
 export const ETAPAS = ["negocio", "beneficio", "produtos", "fotos", "contato", "orcamento"] as const;

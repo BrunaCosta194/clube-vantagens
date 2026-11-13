@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSessao } from "../lib/sessao";
+import { meusPapeis } from "../lib/painelParceiros";
 import {
   carregarMetricas,
   carregarOpcoesFiltro,
@@ -168,6 +169,7 @@ export default function Admin() {
   const { usuario, carregando: lendoSessao } = useSessao();
 
   const [admin, setAdmin] = useState<boolean | null>(null);
+  const [papeis, setPapeis] = useState<string[]>([]);
   const [checandoAcesso, setChecandoAcesso] = useState(true);
 
   const [opcoes, setOpcoes] = useState<PainelOpcoesFiltro>({ campanhas: [], origens: [], refs: [] });
@@ -208,9 +210,16 @@ export default function Admin() {
     }
 
     let ativo = true;
-    ehAdmin()
-      .then((resultado) => {
-        if (ativo) setAdmin(resultado);
+    Promise.all([ehAdmin(), meusPapeis().catch(() => [] as string[])])
+      .then(([resultado, meus]) => {
+        if (!ativo) return;
+        // Quem só cuida dos parceiros (Júlia) cai direto na área de parceiros.
+        if (!meus.includes("painel") && (meus.includes("parceiros") || meus.includes("validacao"))) {
+          navigate("/admin/parceiros", { replace: true });
+          return;
+        }
+        setPapeis(meus);
+        setAdmin(resultado);
       })
       .catch(() => {
         if (ativo) setAdmin(false);
@@ -317,7 +326,12 @@ export default function Admin() {
             <Eyebrow>Clube Sanchez</Eyebrow>
             <h1 className="h-display mt-1 text-[clamp(1.4rem,3vw,1.9rem)]">Painel de desempenho</h1>
           </div>
-          <div className="flex items-center gap-5">
+          <div className="flex flex-wrap items-center gap-5">
+            {(papeis.includes("parceiros") || papeis.includes("validacao")) && (
+              <Link to="/admin/parceiros" className="btn-quiet">
+                Parceiros
+              </Link>
+            )}
             <Link to="/area?membro=1" className="btn-quiet">
               Minha área de membro
             </Link>
