@@ -560,6 +560,55 @@ alter table public.eventos add constraint eventos_nome_check check (nome in (
   'parceiro_cadastro_enviou'
 ));
 
+-- ── Rascunhos parados: apagados depois de 180 dias ──────────────────────────
+-- A Política de privacidade (seção "Empresas parceiras") promete: cadastro iniciado
+-- e nunca enviado é apagado depois de 180 dias sem atividade. Conta como atividade
+-- o parceiro salvar ou subir arquivo e a equipe mexer no cadastro (anotar, gerar
+-- link novo, invalidar). Os arquivos no Storage não podem ser apagados por SQL, então
+-- quem apaga é a função `parceiro-cadastro` (acao = limpar_rascunhos): ela pega a
+-- lista aqui, remove os arquivos pela API do Storage e apaga o cadastro (arquivos,
+-- histórico e versões do benefício vão junto, por cascade). Todo dia às 6h17 (UTC)
+-- o pg_cron chama a função pelo pg_net.
+create or replace function public.parceiros_rascunhos_vencidos(p_dias integer default 180)
+returns setof uuid
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select id
+    from public.parceiros_cadastro
+   where status in ('convite_enviado', 'cadastro_iniciado')
+     and enviado_em is null
+     and greatest(updated_at, coalesce(ultima_atividade_em, updated_at))
+         < now() - make_interval(days => greatest(p_dias, 180))
+$$;
+revoke all on function public.parceiros_rascunhos_vencidos(integer) from public, anon, authenticated;
+grant execute on function public.parceiros_rascunhos_vencidos(integer) to service_role;
+
+do $cron$
+begin
+  if not exists (select 1 from pg_available_extensions where name = 'pg_cron')
+     or not exists (select 1 from pg_available_extensions where name = 'pg_net') then
+    raise warning 'pg_cron/pg_net indisponíveis: limpeza dos rascunhos NÃO agendada';
+    return;
+  end if;
+  create extension if not exists pg_cron;
+  create extension if not exists pg_net with schema extensions;
+  perform cron.schedule(
+    'parceiros-limpar-rascunhos',
+    '17 6 * * *',
+    $job$
+      select net.http_post(
+        url := 'https://yfdlvusoanyyetcgoafz.supabase.co/functions/v1/parceiro-cadastro',
+        headers := '{"Content-Type": "application/json"}'::jsonb,
+        body := '{"acao": "limpar_rascunhos"}'::jsonb
+      );
+    $job$
+  );
+end;
+$cron$;
+
 -- ── Conferência ─────────────────────────────────────────────────────────────
 -- As três tabelas sem nenhuma policy (tem de voltar vazio):
 --   select tablename, policyname from pg_policies
@@ -567,6 +616,9 @@ alter table public.eventos add constraint eventos_nome_check check (nome in (
 --                        'parceiros_beneficio_versoes');
 -- Bucket privado:
 --   select id, public, file_size_limit from storage.buckets where id = 'parceiros-cadastro';
+-- Limpeza agendada (1 linha) e as últimas execuções (depois de publicada a função):
+--   select jobname, schedule from cron.job where jobname = 'parceiros-limpar-rascunhos';
+--   select status_code, content, created from net._http_response order by created desc limit 5;
 --
 -- ── Criar um convite pelo SQL Editor ────────────────────────────────────────
 --   select * from public.parceiro_convite_criar('Dewa', 'Nome do contato', '11999999999');

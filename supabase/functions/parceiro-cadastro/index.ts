@@ -15,6 +15,9 @@
 //   remover_arquivo { id }
 //   enviar          { autorizacao: true }   → 400 { erros: Pendencia[] } se faltar o mínimo
 //   pedir_correcao  { mensagem }            → depois do envio, avisa a equipe pelo histórico
+//   limpar_rascunhos (sem código)           → apaga rascunhos parados há RASCUNHO_DIAS (cadastro
+//                   + arquivos no Storage). Chamada todo dia pelo pg_cron (0015). Não precisa de
+//                   senha: só apaga o que a regra da 0015 já manda apagar, chamar de novo não muda nada.
 //
 // Erros: 404 link_invalido · 410 link_vencido · 409 nao_editavel | conflito · 400 invalido | limite
 //
@@ -45,6 +48,7 @@ import {
   limparRespostas,
   pendencias,
   problemaArquivo,
+  RASCUNHO_DIAS,
   TERMOS_VERSAO,
   textoBeneficio,
   type ArquivoResumo,
@@ -198,6 +202,37 @@ function resumo(c: Cadastro) {
   };
 }
 
+/** Apaga os rascunhos vencidos: primeiro os arquivos no Storage, depois o cadastro. */
+async function limparRascunhos(): Promise<number> {
+  const { data, error } = await admin.rpc("parceiros_rascunhos_vencidos", { p_dias: RASCUNHO_DIAS });
+  if (error) throw new Falha(error.message);
+  const ids = ((data as string[] | null) ?? []).slice(0, 50);
+  let apagados = 0;
+  for (const id of ids) {
+    // Lista as pastas do Storage (pega também upload que nunca foi confirmado).
+    const caminhos: string[] = [];
+    for (const tipo of Object.keys(ARQUIVOS)) {
+      const { data: lista, error: erroLista } = await admin.storage.from(BUCKET).list(`${id}/${tipo}`, { limit: 1000 });
+      if (erroLista) throw new Falha(erroLista.message);
+      for (const o of lista ?? []) if (o.id) caminhos.push(`${id}/${tipo}/${o.name}`);
+    }
+    if (caminhos.length) {
+      const { error: erroRemover } = await admin.storage.from(BUCKET).remove(caminhos);
+      if (erroRemover) throw new Falha(erroRemover.message);
+    }
+    // Confere de novo o status: cadastro enviado nunca é apagado aqui.
+    const { error: erroApagar, count } = await admin
+      .from("parceiros_cadastro")
+      .delete({ count: "exact" })
+      .eq("id", id)
+      .in("status", ["convite_enviado", "cadastro_iniciado"])
+      .is("enviado_em", null);
+    if (erroApagar) throw new Falha(erroApagar.message);
+    apagados += count ?? 0;
+  }
+  return apagados;
+}
+
 Deno.serve(async (req) => {
   const headers = cors(req);
   const json = (body: unknown, status = 200) =>
@@ -212,6 +247,15 @@ Deno.serve(async (req) => {
     corpo = lido && typeof lido === "object" ? (lido as Obj) : {};
   } catch {
     return json({ ok: false, erro: "invalido" }, 400);
+  }
+
+  if (corpo.acao === "limpar_rascunhos") {
+    try {
+      return json({ ok: true, apagados: await limparRascunhos() });
+    } catch (e) {
+      console.error("limpar_rascunhos", e);
+      return json({ ok: false, erro: "falha" }, 500);
+    }
   }
 
   if (!codigoComFormato(corpo.codigo)) return json({ ok: false, erro: "link_invalido" }, 404);

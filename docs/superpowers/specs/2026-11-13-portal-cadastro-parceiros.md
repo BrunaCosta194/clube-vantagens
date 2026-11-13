@@ -427,7 +427,7 @@ Como cada ponto do item 8 do briefing é atendido:
 | Política de privacidade (LGPD) | nova seção "Parceiros" na `/privacidade`: dados coletados, finalidade, prazo de guarda e contato para correção ou exclusão |
 | Consentimento para uso público | caixa de autorização com data e versão dos termos, mais a aprovação da página com snapshot |
 | Quem edita e publica | papel `parceiros`. Publicar exige aprovação registrada, conferida no banco |
-| Correção e exclusão | correção pelo link (quando reaberto) ou pela equipe. Botão "Excluir cadastro e arquivos" no admin. **[+]** Cadastro parado há 180 dias sem envio é apagado automaticamente (rascunho não vira acervo) |
+| Correção e exclusão | correção pelo link (quando reaberto) ou pela equipe. Botão "Excluir cadastro e arquivos" no admin. **[+]** Cadastro parado há 180 dias sem envio é apagado automaticamente (rascunho não vira acervo). Implementado: `pg_cron` diário → função `parceiro-cadastro` (`limpar_rascunhos`) |
 | Formulário não dá acesso a outros parceiros | um link = um cadastro, o código é guardado só como hash e não existe listagem |
 
 O repositório é público, então a chave do Resend e qualquer outro segredo ficam **só nos secrets do Supabase**.

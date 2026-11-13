@@ -14,6 +14,12 @@ import { nomeSeguro, telefoneBR } from "./cotacao.ts";
 export const VALIDADE_LINK_DIAS = 90;
 
 /**
+ * Cadastro iniciado e nunca enviado é apagado depois deste prazo sem atividade
+ * (Política de privacidade, seção "Empresas parceiras"). A 0015 não aceita menos.
+ */
+export const RASCUNHO_DIAS = 180;
+
+/**
  * Versão das Condições de participação (src/pages/CondicoesParceiro.tsx) aceita no
  * envio. Mudou o texto das Condições, muda a versão: fica gravada em cada cadastro.
  */
