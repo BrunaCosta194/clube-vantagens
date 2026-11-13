@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -10,6 +10,38 @@ const ease = [0.22, 1, 0.36, 1] as const;
 
 export default function VitrineParceiros() {
   const [aberto, setAberto] = useState<Parceiro | null>(null);
+  const [lista, setLista] = useState<Parceiro[]>(parceiros);
+
+  // Páginas publicadas pelo Portal do Parceiro entram depois das do arquivo. Se o
+  // mesmo parceiro estiver nos dois, vale a do banco (o do arquivo sai da lista).
+  useEffect(() => {
+    let vivo = true;
+    // Import sob demanda: as regras da página não entram no pacote inicial da home.
+    void Promise.all([
+      import("@/lib/paginasParceiros"),
+      import("../../supabase/functions/_shared/parceiro-pagina.ts"),
+    ]).then(async ([{ paginasPublicadas, urlPublica }, { tituloBeneficio }]) => {
+      const paginas = await paginasPublicadas();
+      if (!vivo || !paginas.length) return;
+      const doBanco: Parceiro[] = paginas.map(({ slug, perfil }) => ({
+        slug,
+        nome: perfil.nome,
+        categoria: perfil.categoria,
+        descricaoCurta: perfil.frase,
+        descricao: perfil.sobre,
+        voucher: tituloBeneficio(perfil) || undefined,
+        imagem: urlPublica(perfil.logo) ?? "",
+        cor: "hsl(20, 25%, 22%)",
+        tags: perfil.tags,
+        pagina: `/parceiro/${slug}`,
+      }));
+      const slugs = new Set(doBanco.map((p) => p.slug));
+      setLista([...parceiros.filter((p) => !slugs.has(p.slug)), ...doBanco]);
+    });
+    return () => {
+      vivo = false;
+    };
+  }, []);
 
   return (
     <section id="parceiros" className="section-y bg-creme-100">
@@ -33,7 +65,7 @@ export default function VitrineParceiros() {
 
         {/* celular: carrossel com o próximo aparecendo; sm+: grade */}
         <div className="mt-12 grid gap-y-8 sm:mt-16 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-14 lg:grid-cols-3 lg:gap-x-8">
-          {parceiros.map((p, i) => (
+          {lista.map((p, i) => (
             <motion.div
               key={p.slug}
               initial={{ opacity: 0, y: 28 }}

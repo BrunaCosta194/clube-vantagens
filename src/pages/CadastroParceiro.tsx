@@ -12,6 +12,7 @@ import {
   EtapaProdutosTela,
   type Erros,
 } from "@/components/cadastro-parceiro/etapas";
+import Aprovacao from "@/components/cadastro-parceiro/Aprovacao";
 import { Aviso, Caixa, TituloEtapa } from "@/components/cadastro-parceiro/ui";
 import {
   abrir,
@@ -56,6 +57,7 @@ const COORDENACAO_WPP = "5511996628696"; // Papo de Aluguel (briefing da Júlia)
 const ESPERA_SALVAR_MS = 1500;
 const REVISAO = 7;
 const CONCLUSAO = 8;
+const PREVIA = 9;
 
 type Completas = Required<Respostas>;
 
@@ -420,6 +422,19 @@ export default function CadastroParceiro() {
     );
   }
 
+  // ── prévia da página para aprovar ────────────────────────────────────────
+  if (tela === PREVIA) {
+    return (
+      <Aprovacao
+        codigo={codigo}
+        responsavel={respostas.negocio.responsavel}
+        somenteVer={cadastro.status !== "aguardando_aprovacao"}
+        onVoltar={() => irPara(CONCLUSAO)}
+        onDecidiu={() => void carregar()}
+      />
+    );
+  }
+
   // ── conclusão / andamento ────────────────────────────────────────────────
   if (tela === CONCLUSAO) {
     return (
@@ -431,6 +446,7 @@ export default function CadastroParceiro() {
           codigo={codigo}
           onEditar={() => irPara(REVISAO)}
           onVer={() => irPara(REVISAO)}
+          onPrevia={() => irPara(PREVIA)}
         />
       </Moldura>
     );
@@ -817,7 +833,7 @@ const PASSOS = [
   // A validação da Yruena é interna: para o parceiro, a página ainda está em preparação.
   { rotulo: "Em preparação", status: ["em_preparacao", "aguardando_validacao", "ajustes_solicitados"] },
   { rotulo: "Aguardando sua aprovação", status: ["aguardando_aprovacao"] },
-  { rotulo: "Publicado", status: ["aprovado", "publicado"] },
+  { rotulo: "Publicado", status: ["publicado"] },
 ];
 
 function Conclusao({
@@ -827,6 +843,7 @@ function Conclusao({
   codigo,
   onEditar,
   onVer,
+  onPrevia,
 }: {
   cadastro: CadastroTela;
   empresa: string;
@@ -834,8 +851,18 @@ function Conclusao({
   codigo: string;
   onEditar: () => void;
   onVer: () => void;
+  onPrevia: () => void;
 }) {
-  const passo = PASSOS.findIndex((p) => p.status.includes(cadastro.status));
+  // "aprovado": a aprovação do parceiro está feita, falta a equipe publicar.
+  const passo = cadastro.status === "aprovado" ? 2 : PASSOS.findIndex((p) => p.status.includes(cadastro.status));
+  const titulo =
+    cadastro.status === "publicado"
+      ? "Sua página está no ar!"
+      : cadastro.status === "aguardando_aprovacao"
+        ? "Sua página está pronta para você conferir"
+        : cadastro.status === "aprovado"
+          ? "Página aprovada!"
+          : "Cadastro recebido com sucesso!";
   const [correcao, setCorrecao] = useState("");
   const [abrirCorrecao, setAbrirCorrecao] = useState(false);
   const [estadoCorrecao, setEstadoCorrecao] = useState<"" | "enviando" | "ok" | "erro">("");
@@ -859,8 +886,36 @@ function Conclusao({
       <span className="mt-6 grid h-16 w-16 place-items-center rounded-full bg-cobre/12">
         <CheckCircle2 className="h-9 w-9 text-cobre-deep" strokeWidth={1.5} aria-hidden="true" />
       </span>
-      <h1 className="h-display text-[clamp(2rem,7vw,2.75rem)]">Cadastro recebido com sucesso!</h1>
-      <div className="flex flex-col gap-4 text-[17px] leading-relaxed text-grafite">
+      <h1 className="h-display text-[clamp(2rem,7vw,2.75rem)]">{titulo}</h1>
+      {cadastro.status === "aguardando_aprovacao" && (
+        <div className="flex flex-col gap-4 text-[17px] leading-relaxed text-grafite">
+          <p>Nossa equipe montou a página da {empresa} no Sanchez Clube. Veja como ela vai ficar e aprove, ou peça um ajuste.</p>
+          <button type="button" className="btn-primary group justify-center" onClick={onPrevia}>
+            Ver e aprovar minha página
+            <ArrowRight className="btn-primary-icon h-5 w-5" aria-hidden="true" />
+          </button>
+        </div>
+      )}
+      {cadastro.status === "aprovado" && (
+        <div className="flex flex-col gap-4 text-[17px] leading-relaxed text-grafite">
+          <p>Obrigado! Registramos sua aprovação. Agora nossa equipe publica a página e te avisa quando estiver no ar.</p>
+          <button type="button" className="btn-quiet self-start" onClick={onPrevia}>
+            Ver a página que aprovei
+          </button>
+        </div>
+      )}
+      {cadastro.status === "publicado" && (
+        <div className="flex flex-col gap-4 text-[17px] leading-relaxed text-grafite">
+          <p>A página da {empresa} já aparece para os membros do Sanchez Clube.</p>
+          {cadastro.slug && (
+            <a className="btn-primary group justify-center" href={`/parceiro/${cadastro.slug}`} target="_blank" rel="noreferrer">
+              Ver minha página
+              <ArrowRight className="btn-primary-icon h-5 w-5" aria-hidden="true" />
+            </a>
+          )}
+        </div>
+      )}
+      <div className={`flex flex-col gap-4 text-[17px] leading-relaxed text-grafite ${["aguardando_aprovacao", "aprovado", "publicado"].includes(cadastro.status) ? "hidden" : ""}`}>
         <p>Obrigado por compartilhar um pouco mais sobre sua empresa!</p>
         <p>Nossa equipe vai organizar os materiais e preparar sua página dentro do Clube Sanchez.</p>
         <p>
