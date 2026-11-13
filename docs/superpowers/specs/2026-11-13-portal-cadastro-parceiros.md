@@ -47,7 +47,7 @@ Convite (admin gera o link) → Cadastro iniciado → Cadastro recebido
 - O link vale por **90 dias** a partir do envio do convite. O admin pode **gerar um novo link**, o que invalida o anterior na hora (para o caso de link vazado ou contato trocado).
 - Limite de requisições por IP e por link, com hash do IP como na cotação.
 - A página tem `noindex`, `referrer: no-referrer` e **nenhum script de terceiros**: nada de Behold, Turnstile ou analytics externo. O `track()` interno continua.
-- Depois do envio, o link mostra "Cadastro recebido" e o resumo **somente para leitura**. Para corrigir alguma coisa, há o botão "Preciso corrigir algo", que avisa a coordenação. A edição volta a abrir se o status for para "Informações incompletas" ou "Ajustes solicitados".
+- Depois do envio, o link mostra "Cadastro recebido" e o andamento. **O parceiro ainda pode completar e corrigir** (por exemplo, mandar o logo que faltou) até a equipe passar o status para "Em preparação". *(Mudou na implementação, 13/11: com o resumo só para leitura, quem enviasse sem logo não teria como mandá-lo pelo link.)* Depois disso, o botão "Preciso corrigir algo" avisa a coordenação pelo histórico. A edição volta a abrir se o status for para "Informações incompletas" ou "Ajustes solicitados".
 - **[+]** Mais de uma pessoa da empresa pode usar o mesmo link. Cada gravação confere a versão (`versao`). Se outra pessoa salvou antes, a tela avisa e recarrega, em vez de apagar o que a outra escreveu.
 
 **[+] Parceiros que já estão no site.** O admin pode criar o convite **já preenchido** com o que existe em `src/data/parceiros.ts` (nome, categoria, descrição, WhatsApp, Instagram). Os 8 parceiros atuais só completam e confirmam o que falta, sem digitar tudo de novo.
@@ -323,7 +323,7 @@ Hoje o `/admin` mostra **só números agregados**. A ficha de parceiro tem dado 
 
 ## 5. Estrutura de dados
 
-Tudo vai numa migration nova (`0015_parceiros_cadastro.sql`), rodada à mão pela Bruna como as anteriores. Todas as tabelas ficam **com RLS ligada e sem policy para visitante**. O parceiro passa pela Edge Function e a equipe passa por funções `security definer` que conferem o papel.
+A parte do parceiro está na migration `0015_parceiros_cadastro.sql` (cadastro, arquivos, histórico, bucket, papéis, convites). O perfil e as aprovações (`parceiros_perfil`, `parceiros_aprovacoes`) entram numa migration seguinte, junto com o bloco F. As migrations são rodadas à mão pela Bruna, como as anteriores. Todas as tabelas ficam **com RLS ligada e sem policy para visitante**. O parceiro passa pela Edge Function e a equipe passa por funções `security definer` que conferem o papel.
 
 ```
 parceiros_cadastro          um por empresa

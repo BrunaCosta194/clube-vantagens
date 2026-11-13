@@ -56,6 +56,9 @@ const ROTULOS_EVENTO: Record<string, string> = {
   referral_conversion: "Indicação convertida",
   map_open: "Abriu mapa ou rota",
   social_click: "Clique em rede ou contato",
+  parceiro_cadastro_abriu: "Parceiro abriu o cadastro",
+  parceiro_cadastro_etapa: "Parceiro passou por uma etapa",
+  parceiro_cadastro_enviou: "Parceiro enviou o cadastro",
 };
 
 function numero(n: number): string {

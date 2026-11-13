@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Landing from "./pages/Landing";
 import BotaoWhatsApp from "./components/BotaoWhatsApp";
 import { SessaoProvider } from "./lib/sessao";
@@ -16,6 +16,14 @@ const Privacidade = lazy(() => import("./pages/Privacidade"));
 const ParceiroBioreluz = lazy(() => import("./pages/ParceiroBioreluz"));
 const ParceiroInsurance = lazy(() => import("./pages/ParceiroInsurance"));
 const ParceiroDewa = lazy(() => import("./pages/ParceiroDewa"));
+const CadastroParceiro = lazy(() => import("./pages/CadastroParceiro"));
+
+// O botão flutuante cobriria os botões do formulário do parceiro, e lá o
+// WhatsApp que vale é o da coordenação (fica na própria página).
+function WhatsAppFlutuante() {
+  const { pathname } = useLocation();
+  return pathname.startsWith("/cadastro-parceiro") ? null : <BotaoWhatsApp />;
+}
 
 export default function App() {
   return (
@@ -33,12 +41,13 @@ export default function App() {
           <Route path="/parceiro/insurance-sante" element={<ParceiroInsurance />} />
           <Route path="/parceiro/dewa" element={<ParceiroDewa />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/cadastro-parceiro" element={<CadastroParceiro />} />
           {/* Rota desconhecida (ex: /premium, que foi removida) volta pra home
               em vez de renderizar tela branca. */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>
-      <BotaoWhatsApp />
+      <WhatsAppFlutuante />
     </SessaoProvider>
   );
 }

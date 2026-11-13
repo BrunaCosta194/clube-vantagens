@@ -23,7 +23,8 @@ import { getAtribuicao } from "./atribuicao";
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string | undefined;
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
 
-/** Espelho do `check (nome in (...))` da migration 0007_eventos.sql — mudar
+/** Espelho do `check (nome in (...))` da migration 0007_eventos.sql (os três
+ * `parceiro_cadastro_*` entraram na 0015) — mudar
  * um lado sem o outro quebra o insert silenciosamente (RLS engole o erro). */
 export type NomeEvento =
   | "banner_view"
@@ -39,7 +40,10 @@ export type NomeEvento =
   | "referral_share"
   | "referral_conversion"
   | "map_open"
-  | "social_click";
+  | "social_click"
+  | "parceiro_cadastro_abriu"
+  | "parceiro_cadastro_etapa"
+  | "parceiro_cadastro_enviou";
 
 type Dispositivo = "mobile" | "tablet" | "desktop";
 
