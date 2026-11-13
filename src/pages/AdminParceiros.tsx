@@ -16,6 +16,8 @@ import {
   Search,
 } from "lucide-react";
 import { useSessao } from "../lib/sessao";
+import EditorPagina from "@/components/admin/EditorPagina";
+import { publicar } from "@/lib/painelPagina";
 import { parceiros as parceirosDoSite } from "@/data/parceiros";
 import {
   abrirFicha,
@@ -655,6 +657,10 @@ const ROTULO_ACAO: Record<string, string> = {
   responsavel: "Responsável na equipe",
   nota: "Nota",
   status: "Status",
+  pagina_montada: "Página montada",
+  pagina_editada: "Página editada",
+  pagina_aprovada: "Parceiro aprovou a página",
+  pagina_ajuste: "Parceiro pediu ajuste na página",
 };
 
 function FichaTela({ id, papeis, onVoltar, onMudou }: { id: string; papeis: string[]; onVoltar: () => void; onMudou: () => void }) {
@@ -702,7 +708,13 @@ function FichaTela({ id, papeis, onVoltar, onMudou }: { id: string; papeis: stri
       onMudou();
     } catch (e) {
       const msg = (e as { message?: string })?.message ?? "";
-      setAviso(msg.includes("benefício") ? "O parceiro ainda não confirmou o benefício: não dá para validar." : "Não foi possível fazer isso agora.");
+      setAviso(
+        msg.includes("ainda não confirmou o benefício")
+          ? "O parceiro ainda não confirmou o benefício: não dá para validar."
+          : /monte a página|aprovação do parceiro|aprovar a página|versão validada|logo e foto|foto ainda não/.test(msg)
+            ? msg.charAt(0).toUpperCase() + msg.slice(1) + "."
+            : "Não foi possível fazer isso agora.",
+      );
     } finally {
       setOcupado(false);
     }
@@ -757,8 +769,8 @@ function FichaTela({ id, papeis, onVoltar, onMudou }: { id: string; papeis: stri
         <Secao titulo="Próximo passo">
           {c.status === "aguardando_validacao" && papeis.includes("validacao") && (
             <p>
-              Confira o benefício e as informações abaixo. Ao validar, a versão confirmada do benefício fica registrada como validada
-              por você e a página vai para o parceiro aprovar.
+              Confira a página (botão “Ver prévia”, na seção Página) e o benefício. Ao validar, a versão confirmada do benefício fica
+              registrada como validada por você e a página vai para o parceiro aprovar.
             </p>
           )}
           <div className="flex flex-wrap gap-2">
@@ -767,7 +779,13 @@ function FichaTela({ id, papeis, onVoltar, onMudou }: { id: string; papeis: stri
                 key={t.para + t.rotulo}
                 type="button"
                 disabled={ocupado}
-                onClick={() => (t.pedeNota ? setAcao(t) : void fazer(() => mudarStatus(id, t.para), `Status: ${STATUS[t.para]}.`))}
+                onClick={() =>
+                  t.para === "publicado"
+                    ? void fazer(() => publicar(id, ficha.perfil?.conteudo), "Página publicada: já aparece no site e na vitrine.")
+                    : t.pedeNota
+                      ? setAcao(t)
+                      : void fazer(() => mudarStatus(id, t.para), `Status: ${STATUS[t.para]}.`)
+                }
                 className={i === 0 && t.para !== "arquivado" ? "btn-primary" : botao}
               >
                 {t.rotulo}
@@ -870,6 +888,10 @@ function FichaTela({ id, papeis, onVoltar, onMudou }: { id: string; papeis: stri
           )}
         </Secao>
       </div>
+
+      <Secao titulo="Página">
+        <EditorPagina ficha={ficha} podeEditar={ehEquipe} urlsDoParceiro={urls} onSalvou={async () => { await carregar(); onMudou(); }} />
+      </Secao>
 
       <Secao titulo="Benefício">
         {b && cardBeneficio(b).titulo ? (

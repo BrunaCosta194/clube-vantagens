@@ -1,4 +1,5 @@
 import { supabase } from "./supabase";
+import type { AprovacaoFicha, PerfilFicha } from "./painelPagina";
 import type { Parceiro } from "@/data/parceiros";
 import {
   SEGMENTOS,
@@ -79,6 +80,9 @@ export interface Ficha {
   };
   arquivos: ArquivoFicha[];
   beneficio_versoes: VersaoBeneficio[];
+  /** Página montada pela equipe (0016). null = ainda não montada. */
+  perfil: PerfilFicha | null;
+  aprovacoes: AprovacaoFicha[];
   historico: ItemHistorico[];
 }
 
@@ -101,7 +105,12 @@ export async function abrirFicha(id: string): Promise<Ficha> {
   const { data, error } = await supabase.rpc("parceiros_painel_ficha", { p_id: id });
   if (error) throw error;
   const f = data as Ficha;
-  return { ...f, cadastro: { ...f.cadastro, respostas: limparRespostas(f.cadastro.respostas) } };
+  return {
+    ...f,
+    perfil: f.perfil ?? null,
+    aprovacoes: f.aprovacoes ?? [],
+    cadastro: { ...f.cadastro, respostas: limparRespostas(f.cadastro.respostas) },
+  };
 }
 
 export async function mudarStatus(id: string, status: string, nota?: string) {

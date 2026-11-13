@@ -419,13 +419,13 @@ function obj(v: unknown): Obj {
 }
 
 /** Texto de uma linha: espaços repetidos viram um. */
-function linha(v: unknown, max: number): string {
+export function linha(v: unknown, max: number): string {
   if (typeof v !== "string" && typeof v !== "number") return "";
   return String(v).replace(/\s+/g, " ").trim().slice(0, max);
 }
 
 /** Texto de várias linhas: mantém quebras (no máximo 2 seguidas). */
-function bloco(v: unknown, max: number): string {
+export function bloco(v: unknown, max: number): string {
   if (typeof v !== "string") return "";
   return v
     .replace(/\r\n?/g, "\n")
@@ -633,13 +633,13 @@ export function videoValido(v: string): boolean {
   );
 }
 
-function reais(v: string): string {
+export function reais(v: string): string {
   const n = Number(v.replace(/\./g, "").replace(",", "."));
   if (!Number.isFinite(n) || n <= 0) return `R$ ${v}`;
   return n.toLocaleString("pt-BR", { style: "currency", currency: "BRL", minimumFractionDigits: n % 1 ? 2 : 0 });
 }
 
-function lista(itens: string[]): string {
+export function lista(itens: string[]): string {
   if (itens.length <= 1) return itens.join("");
   return `${itens.slice(0, -1).join(", ")} e ${itens[itens.length - 1]}`;
 }

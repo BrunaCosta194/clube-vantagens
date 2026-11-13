@@ -8,6 +8,7 @@ import {
   type Respostas,
   type TipoArquivo,
 } from "../../supabase/functions/_shared/parceiro-cadastro.ts";
+import type { PerfilPagina } from "../../supabase/functions/_shared/parceiro-pagina.ts";
 
 // ─────────────────────────────────────────────────────────────
 // PORTAL DO PARCEIRO — client da Edge Function `parceiro-cadastro`.
@@ -31,6 +32,8 @@ export interface ArquivoTela {
 export interface CadastroTela {
   status: string;
   editavel: boolean;
+  /** Só vem quando a página está publicada. */
+  slug: string | null;
   empresa: string;
   contato: string | null;
   respostas: Respostas;
@@ -103,6 +106,21 @@ export function enviar(codigo: string) {
 
 export function pedirCorrecao(codigo: string, mensagem: string) {
   return chamar<{ ok: true }>(codigo, "pedir_correcao", { mensagem });
+}
+
+// ── Prévia da página e aprovação ──────────────────────────────────────────────
+
+export function previa(codigo: string) {
+  return chamar<{ perfil: PerfilPagina; hash: string; fotos: Record<string, string> }>(codigo, "previa");
+}
+
+/** 409 "conflito" = a equipe mudou a página depois que a prévia abriu. */
+export function decidirPagina(codigo: string, p: { aprovar: boolean; hash: string; nome: string; comentario?: string }) {
+  return chamar<{ status: string }>(codigo, p.aprovar ? "aprovar" : "pedir_ajuste", {
+    hash: p.hash,
+    nome: p.nome,
+    comentario: p.comentario ?? "",
+  });
 }
 
 // ── Fotos: reduz no próprio aparelho antes de subir ───────────────────────────

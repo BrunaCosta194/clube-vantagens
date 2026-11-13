@@ -15,6 +15,10 @@
 //   remover_arquivo { id }
 //   enviar          { autorizacao: true }   → 400 { erros: Pendencia[] } se faltar o mínimo
 //   pedir_correcao  { mensagem }            → depois do envio, avisa a equipe pelo histórico
+//   previa                                  → página montada pela equipe (status aguardando_aprovacao
+//                   ou aprovado): { perfil, hash, fotos: { caminho: link de 1 h } }
+//   aprovar         { hash, nome }          → registra a aprovação do conteúdo exato (hash) · 409 mudou
+//   pedir_ajuste    { hash, nome, comentario } → registra o pedido e volta para a equipe
 //   limpar_rascunhos (sem código)           → apaga rascunhos parados há RASCUNHO_DIAS (cadastro
 //                   + arquivos no Storage). Chamada todo dia pelo pg_cron (0015). Não precisa de
 //                   senha: só apaga o que a regra da 0015 já manda apagar, chamar de novo não muda nada.
@@ -33,7 +37,8 @@
 // O e-mail leva só o nome da empresa, a data e o link do painel: nenhum dado pessoal.
 
 import { createClient } from "jsr:@supabase/supabase-js@2";
-import { origemPermitida } from "../_shared/cotacao.ts";
+import { hashDoIp, hojeBrasilia, ipDaRequisicao, origemPermitida } from "../_shared/cotacao.ts";
+import { fotosDoPerfil, limparPerfil } from "../_shared/parceiro-pagina.ts";
 import {
   ARQUIVOS,
   caminhoArquivo,
@@ -67,6 +72,7 @@ const CORRECOES_POR_DIA = 5;
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY") ?? "";
 const AVISO_REMETENTE = Deno.env.get("AVISO_REMETENTE") ?? "";
 const AVISO_EMAILS = (Deno.env.get("AVISO_EMAILS") ?? "").split(",").map((s) => s.trim()).filter(Boolean);
+const SAL = Deno.env.get("SITE_IP_SAL") ?? ""; // o mesmo da cotacao-enviar; sem ele, a aprovação fica sem ip_hash
 
 const admin = createClient(URL, SERVICE, { auth: { persistSession: false } });
 
@@ -75,6 +81,7 @@ type Obj = Record<string, unknown>;
 interface Cadastro {
   id: string;
   status: string;
+  slug: string | null;
   token_expira_em: string;
   convite_empresa: string;
   convite_contato: string | null;
@@ -191,6 +198,7 @@ function resumo(c: Cadastro) {
   return {
     status: c.status,
     editavel: editavel(c.status),
+    slug: c.status === "publicado" ? c.slug : null,
     empresa: c.convite_empresa,
     contato: c.convite_contato,
     respostas: limparRespostas(c.respostas),
@@ -264,7 +272,7 @@ Deno.serve(async (req) => {
     const { data: achado, error: erroBusca } = await admin
       .from("parceiros_cadastro")
       .select(
-        "id, status, token_expira_em, convite_empresa, convite_contato, respostas, versao, etapa_atual, etapas_completas, beneficio_confirmado_texto, autorizacao_uso_em, enviado_em",
+        "id, status, slug, token_expira_em, convite_empresa, convite_contato, respostas, versao, etapa_atual, etapas_completas, beneficio_confirmado_texto, autorizacao_uso_em, enviado_em",
       )
       .eq("token_hash", await hashCodigo(corpo.codigo))
       .maybeSingle();
@@ -303,6 +311,48 @@ Deno.serve(async (req) => {
       await historico(cad.id, "parceiro_pediu_correcao", { mensagem });
       await admin.from("parceiros_cadastro").update({ ultima_atividade_em: agora }).eq("id", cad.id);
       return json({ ok: true });
+    }
+
+    // ── prévia da página e decisão do parceiro ─────────────────────────────
+    if (acao === "previa") {
+      if (cad.status !== "aguardando_aprovacao" && cad.status !== "aprovado") {
+        return json({ ok: false, erro: "nao_editavel", status: cad.status }, 409);
+      }
+      const { data: perfil, error } = await admin
+        .from("parceiros_perfil")
+        .select("conteudo, conteudo_hash")
+        .eq("cadastro_id", cad.id)
+        .maybeSingle();
+      if (error) throw new Falha(error.message);
+      if (!perfil) return json({ ok: false, erro: "nao_editavel", status: cad.status }, 409);
+      const conteudo = limparPerfil(perfil.conteudo);
+      const caminhos = fotosDoPerfil(conteudo).filter((c) => c.startsWith(`${cad.id}/pagina/`));
+      const fotos: Record<string, string> = {};
+      if (caminhos.length) {
+        const { data } = await admin.storage.from(BUCKET).createSignedUrls(caminhos, LINK_VER_SEGUNDOS);
+        for (const l of data ?? []) if (l.path && l.signedUrl) fotos[l.path] = l.signedUrl;
+      }
+      return json({ ok: true, perfil: conteudo, hash: perfil.conteudo_hash, fotos });
+    }
+
+    if (acao === "aprovar" || acao === "pedir_ajuste") {
+      const nome = typeof corpo.nome === "string" ? corpo.nome.replace(/\s+/g, " ").trim().slice(0, 120) : "";
+      const comentario = typeof corpo.comentario === "string" ? corpo.comentario.trim().slice(0, 2000) : "";
+      const hash = typeof corpo.hash === "string" && /^[0-9a-f]{64}$/.test(corpo.hash) ? corpo.hash : "";
+      if (!nome || !hash || (acao === "pedir_ajuste" && !comentario)) return json({ ok: false, erro: "invalido" }, 400);
+      const ipHash = SAL ? await hashDoIp(ipDaRequisicao(req.headers), hojeBrasilia(), SAL) : null;
+      const { data: resultado, error } = await admin.rpc("parceiro_pagina_decidir", {
+        p_id: cad.id,
+        p_hash: hash,
+        p_decisao: acao === "aprovar" ? "aprovado" : "ajuste",
+        p_nome: nome,
+        p_comentario: comentario || null,
+        p_ip_hash: ipHash,
+      });
+      if (error) throw new Falha(error.message);
+      if (resultado === "mudou") return json({ ok: false, erro: "conflito" }, 409);
+      if (resultado !== "ok") return json({ ok: false, erro: "nao_editavel", status: cad.status }, 409);
+      return json({ ok: true, status: acao === "aprovar" ? "aprovado" : "ajustes_solicitados" });
     }
 
     // Daqui para baixo, tudo muda o cadastro.

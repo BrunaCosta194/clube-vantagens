@@ -323,7 +323,7 @@ Hoje o `/admin` mostra **só números agregados**. A ficha de parceiro tem dado 
 
 ## 5. Estrutura de dados
 
-A parte do parceiro está na migration `0015_parceiros_cadastro.sql` (cadastro, arquivos, histórico, bucket, papéis, convites). O perfil e as aprovações (`parceiros_perfil`, `parceiros_aprovacoes`) entram numa migration seguinte, junto com o bloco F. As migrations são rodadas à mão pela Bruna, como as anteriores. Todas as tabelas ficam **com RLS ligada e sem policy para visitante**. O parceiro passa pela Edge Function e a equipe passa por funções `security definer` que conferem o papel.
+A parte do parceiro está na migration `0015_parceiros_cadastro.sql` (cadastro, arquivos, histórico, bucket, papéis, convites). O perfil e as aprovações (`parceiros_perfil`, `parceiros_aprovacoes`) estão na `0016_parceiros_pagina.sql` (bloco F). Implementado com uma diferença: o perfil fica num `jsonb` só (`conteudo`, forma `PerfilPagina` em `_shared/parceiro-pagina.ts`) com o hash, em vez de colunas; a publicação guarda a cópia que está no ar (`publicado`). As fotos são reprocessadas no navegador da equipe (canvas), não na função. As migrations são rodadas à mão pela Bruna, como as anteriores. Todas as tabelas ficam **com RLS ligada e sem policy para visitante**. O parceiro passa pela Edge Function e a equipe passa por funções `security definer` que conferem o papel.
 
 ```
 parceiros_cadastro          um por empresa
