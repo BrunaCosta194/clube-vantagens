@@ -21,6 +21,13 @@
 // Deploy (da pasta do clube-vantagens):
 //   npx supabase functions deploy parceiro-cadastro --project-ref yfdlvusoanyyetcgoafz --no-verify-jwt
 // Usa CLUBE_ORIGENS (o mesmo da cotacao-enviar). SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY vêm no runtime.
+//
+// Aviso de cadastro novo por e-mail (Resend). Sem as três variáveis abaixo, a função
+// funciona normalmente e só não manda o aviso:
+//   RESEND_API_KEY   chave do Resend
+//   AVISO_REMETENTE  ex.: "Clube Sanchez <avisos@dominio-verificado>"
+//   AVISO_EMAILS     destinatários separados por vírgula (e-mail operacional da coordenação + 1)
+// O e-mail leva só o nome da empresa, a data e o link do painel: nenhum dado pessoal.
 
 import { createClient } from "jsr:@supabase/supabase-js@2";
 import { origemPermitida } from "../_shared/cotacao.ts";
@@ -53,6 +60,9 @@ const BUCKET = "parceiros-cadastro";
 const LINK_VER_SEGUNDOS = 60 * 60;
 const UPLOAD_ABANDONADO_MS = 60 * 60 * 1000;
 const CORRECOES_POR_DIA = 5;
+const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY") ?? "";
+const AVISO_REMETENTE = Deno.env.get("AVISO_REMETENTE") ?? "";
+const AVISO_EMAILS = (Deno.env.get("AVISO_EMAILS") ?? "").split(",").map((s) => s.trim()).filter(Boolean);
 
 const admin = createClient(URL, SERVICE, { auth: { persistSession: false } });
 
@@ -144,6 +154,33 @@ async function apagarArquivos(linhas: Pick<LinhaArquivo, "id" | "caminho">[]) {
   const { error } = await admin.storage.from(BUCKET).remove(linhas.map((a) => a.caminho));
   if (error) console.error("parceiro-cadastro, remover do Storage:", error.message);
   await admin.from("parceiros_arquivos").delete().in("id", linhas.map((a) => a.id));
+}
+
+/** Aviso à coordenação. Nunca derruba o envio do parceiro: se falhar, só registra no log. */
+async function avisarCoordenacao(c: Cadastro, reenvio: boolean, origem: string) {
+  if (!RESEND_API_KEY || !AVISO_REMETENTE || !AVISO_EMAILS.length) return;
+  const empresa = limparRespostas(c.respostas).negocio?.nomeEmpresa || c.convite_empresa;
+  const quando = new Date().toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo", dateStyle: "short", timeStyle: "short" });
+  const link = `${origem}/admin/parceiros#${c.id}`;
+  const esc = (t: string) => t.replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[ch]!);
+  const titulo = reenvio ? `Cadastro atualizado: ${empresa}` : `Novo cadastro de parceiro: ${empresa}`;
+  try {
+    const r = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${RESEND_API_KEY}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        from: AVISO_REMETENTE,
+        to: AVISO_EMAILS,
+        subject: titulo,
+        text: `${titulo}\nEnviado em ${quando}.\n\nAbrir no painel: ${link}`,
+        html: `<p><strong>${esc(titulo)}</strong></p><p>Enviado em ${esc(quando)}.</p><p><a href="${esc(link)}">Abrir no painel</a></p>`,
+      }),
+      signal: AbortSignal.timeout(6_000),
+    });
+    if (!r.ok) console.error("parceiro-cadastro, aviso por e-mail:", r.status, await r.text().catch(() => ""));
+  } catch (e) {
+    console.error("parceiro-cadastro, aviso por e-mail:", e instanceof Error ? e.message : e);
+  }
 }
 
 function resumo(c: Cadastro) {
@@ -277,7 +314,23 @@ Deno.serve(async (req) => {
         return json({ ok: false, erro: "conflito", cadastro: resumo(cad) }, 409);
       }
       if (cad.status === "convite_enviado") await historico(cad.id, "cadastro_iniciado");
-      if (mudanca.beneficio_confirmado_em) await historico(cad.id, "beneficio_confirmado", { texto: mudanca.beneficio_confirmado_texto });
+      if (mudanca.beneficio_confirmado_em) {
+        // Versão nova do benefício: a anterior deixa de valer (inclusive uma já validada).
+        await admin
+          .from("parceiros_beneficio_versoes")
+          .update({ situacao: "substituido" })
+          .eq("cadastro_id", cad.id)
+          .neq("situacao", "substituido");
+        const { error: erroVersao } = await admin.from("parceiros_beneficio_versoes").insert({
+          cadastro_id: cad.id,
+          texto: mudanca.beneficio_confirmado_texto,
+          dados: respostas.beneficio,
+          confirmado_por: respostas.negocio?.responsavel || null,
+          confirmado_em: agora,
+        });
+        if (erroVersao) console.error("parceiro-cadastro, versão do benefício:", erroVersao.message);
+        await historico(cad.id, "beneficio_confirmado", { texto: mudanca.beneficio_confirmado_texto });
+      }
 
       return json({
         ok: true,
@@ -454,7 +507,8 @@ Deno.serve(async (req) => {
       await historico(cad.id, reenvio ? "cadastro_reenviado" : "cadastro_enviado", {
         faltando_para_publicar: p.publicacao.map((x) => x.texto),
       });
-      // TODO bloco E: e-mail para a coordenação (decisão D3).
+      const origem = origemPermitida(req.headers.get("origin"), ORIGENS);
+      await avisarCoordenacao(cad, reenvio, origem === "*" ? "https://clube-vantagens.vercel.app" : origem);
       return json({ ok: true, pendencias: p });
     }
 

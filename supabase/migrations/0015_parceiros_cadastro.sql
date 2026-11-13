@@ -1,6 +1,9 @@
 -- 0015 — Portal do Parceiro (fase 1, parte do parceiro)
 -- Spec: docs/superpowers/specs/2026-11-13-portal-cadastro-parceiros.md
 --
+-- Fluxo (Júlia, 13/11): cadastro recebido → revisão pela Júlia → página preparada →
+-- validação da Yruena → aprovação do parceiro → publicação manual pela coordenação.
+--
 -- O parceiro preenche o cadastro por um link pessoal (/cadastro-parceiro#<código>),
 -- sem conta. Quem grava é a Edge Function `parceiro-cadastro` (service_role), que
 -- confere o código. Por isso:
@@ -18,8 +21,13 @@
 create extension if not exists pgcrypto with schema extensions;
 
 -- ── Papéis no painel ────────────────────────────────────────────────────────
--- `painel` = métricas agregadas (o que já existe). `parceiros` = ver e editar os
--- cadastros de parceiro, que têm dado pessoal (nome e WhatsApp do responsável).
+-- Definidos com a Júlia em 13/11:
+--   `painel`    = métricas agregadas (o /admin que já existia);
+--   `parceiros` = ver e editar os cadastros de parceiro (têm dado pessoal: nome e
+--                 WhatsApp do responsável), pedir pendências, preparar e publicar (Júlia);
+--   `validacao` = acompanhar os cadastros e fazer a validação institucional final
+--                 antes de a página ir para o parceiro aprovar (Yruena).
+-- A Bruna fica com os três (acesso técnico).
 alter table public.admins
   add column if not exists papeis text[] not null default array['painel'];
 
@@ -47,6 +55,7 @@ create table if not exists public.parceiros_cadastro (
     'cadastro_recebido',
     'informacoes_incompletas',
     'em_preparacao',
+    'aguardando_validacao',   -- página pronta, esperando a validação da Yruena
     'aguardando_aprovacao',
     'ajustes_solicitados',
     'aprovado',
@@ -123,6 +132,30 @@ create index if not exists parceiros_historico_cadastro_idx
   on public.parceiros_historico (cadastro_id, quando desc);
 
 alter table public.parceiros_historico enable row level security;
+
+-- ── Versões do benefício ─────────────────────────────────────────────────────
+-- Registro próprio das condições comerciais que a empresa autorizou divulgar
+-- (pedido da Júlia, 13/11). Cada confirmação do parceiro vira uma linha com o texto
+-- exato; a anterior passa a `substituido`. A página publicada só pode mostrar uma
+-- versão `validado` (validação da equipe, no painel). Mudou o benefício depois de
+-- publicado: nova versão, nova confirmação, nova validação.
+create table if not exists public.parceiros_beneficio_versoes (
+  id uuid primary key default gen_random_uuid(),
+  cadastro_id uuid not null references public.parceiros_cadastro (id) on delete cascade,
+  texto text not null check (length(texto) <= 4000),   -- o texto que o parceiro confirmou
+  dados jsonb not null,                                 -- as respostas do benefício naquele momento
+  situacao text not null default 'confirmado' check (situacao in ('confirmado', 'validado', 'substituido')),
+  confirmado_em timestamptz not null default now(),
+  confirmado_por text,                                  -- nome do responsável informado no cadastro
+  validado_em timestamptz,
+  validado_por uuid references auth.users (id),
+  created_at timestamptz not null default now()
+);
+
+create index if not exists parceiros_beneficio_versoes_cadastro_idx
+  on public.parceiros_beneficio_versoes (cadastro_id, created_at desc);
+
+alter table public.parceiros_beneficio_versoes enable row level security;
 
 -- ── Bucket privado ──────────────────────────────────────────────────────────
 -- Limite geral de 25 MB (PDF de referência). Os limites por tipo de arquivo
@@ -226,10 +259,41 @@ begin
 end;
 $$;
 
+-- Invalida o link sem gerar outro (link vazou, contato saiu da empresa). Troca o
+-- hash por um aleatório que ninguém conhece: o link antigo passa a dar "não é mais
+-- válido". Para mandar um link novo depois, usar parceiro_convite_renovar.
+create or replace function public.parceiro_convite_invalidar(p_id uuid)
+returns void
+language plpgsql
+volatile
+security definer
+set search_path = public, extensions
+as $$
+begin
+  if session_user = 'authenticator' and not public.tem_papel('parceiros') then
+    raise exception 'acesso negado' using errcode = '42501';
+  end if;
+
+  update public.parceiros_cadastro
+     set token_hash = encode(extensions.digest(encode(extensions.gen_random_bytes(32), 'hex'), 'sha256'), 'hex'),
+         token_expira_em = now(),
+         updated_at = now()
+   where id = p_id;
+  if not found then
+    raise exception 'cadastro não encontrado';
+  end if;
+
+  insert into public.parceiros_historico (cadastro_id, autor, acao)
+  values (p_id, coalesce(auth.uid()::text, 'sql'), 'link_invalidado');
+end;
+$$;
+
 revoke all on function public.parceiro_convite_criar(text, text, text, jsonb, integer) from public, anon;
 revoke all on function public.parceiro_convite_renovar(uuid, integer) from public, anon;
+revoke all on function public.parceiro_convite_invalidar(uuid) from public, anon;
 grant execute on function public.parceiro_convite_criar(text, text, text, jsonb, integer) to authenticated;
 grant execute on function public.parceiro_convite_renovar(uuid, integer) to authenticated;
+grant execute on function public.parceiro_convite_invalidar(uuid) to authenticated;
 
 -- ── Eventos do formulário (para medir o teste com as 2 empresas) ────────────
 -- Mesmo check da 0007, mais os 3 nomes novos. Espelho em src/lib/track.ts.
@@ -257,7 +321,8 @@ alter table public.eventos add constraint eventos_nome_check check (nome in (
 -- ── Conferência ─────────────────────────────────────────────────────────────
 -- As três tabelas sem nenhuma policy (tem de voltar vazio):
 --   select tablename, policyname from pg_policies
---    where tablename in ('parceiros_cadastro', 'parceiros_arquivos', 'parceiros_historico');
+--    where tablename in ('parceiros_cadastro', 'parceiros_arquivos', 'parceiros_historico',
+--                        'parceiros_beneficio_versoes');
 -- Bucket privado:
 --   select id, public, file_size_limit from storage.buckets where id = 'parceiros-cadastro';
 --
@@ -265,5 +330,7 @@ alter table public.eventos add constraint eventos_nome_check check (nome in (
 --   select * from public.parceiro_convite_criar('Dewa', 'Nome do contato', '11999999999');
 -- Guardar o `codigo` (não dá para ver de novo) e mandar:
 --   https://clube-vantagens.vercel.app/cadastro-parceiro#<codigo>
--- Para dar o papel de parceiros a um admin:
---   update public.admins set papeis = array['painel', 'parceiros'] where email = '...';
+-- Papéis (a pessoa precisa já estar em `admins`, ver 0009):
+--   Júlia:  update public.admins set papeis = array['parceiros'] where email = '...';
+--   Yruena: update public.admins set papeis = array['painel', 'validacao'] where email = '...';
+--   Bruna:  update public.admins set papeis = array['painel', 'parceiros', 'validacao'] where email = '...';

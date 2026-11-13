@@ -38,6 +38,7 @@ import {
   type Dia,
   type NomeEtapa,
   type Pendencia,
+  type Pendencias,
   type Respostas,
 } from "../../supabase/functions/_shared/parceiro-cadastro.ts";
 
@@ -638,7 +639,7 @@ function Revisao({
 }: {
   respostas: Completas;
   arquivos: ArquivoTela[];
-  pend: { envio: Pendencia[]; publicacao: Pendencia[] };
+  pend: Pendencias;
   editavel: boolean;
   codigo: string;
   onEditar: (n: number) => void;
@@ -660,7 +661,7 @@ function Revisao({
 
   async function enviarAgora() {
     setErro(null);
-    if (!autorizo) return setErro("Marque a autorização de uso dos materiais para enviar.");
+    if (!autorizo) return setErro("Para enviar, marque que aceita as Condições de participação.");
     setEnviando(true);
     try {
       if (!(await antesDeEnviar())) {
@@ -703,7 +704,7 @@ function Revisao({
         <Bloco titulo="Seu negócio" n={1} onEditar={onEditar} editavel={editavel}>
           <Linha r="Empresa" v={n.nomeEmpresa} />
           <Linha r="Responsável" v={n.responsavel} />
-          <Linha r="Segmento" v={n.segmento === "Outro" ? n.segmentoOutro || "Outro" : n.segmento} />
+          <Linha r="Segmento" v={n.segmento === "Outros" ? n.segmentoOutro || "Outros" : n.segmento} />
           <Linha r="Cidade" v={n.cidade} />
           <Linha r="Começou em" v={n.anoFundacao} />
           {n.oQueFaz && <p className="whitespace-pre-line">{n.oQueFaz}</p>}
@@ -771,11 +772,22 @@ function Revisao({
             assim mesmo e mandar o que falta depois, por este mesmo link.
           </Aviso>
         )}
+        {pend.recomendado.length > 0 && (
+          <p className="text-[15px] leading-relaxed text-grafite-soft">
+            <strong className="text-grafite">Deixa a página mais completa (não é obrigatório):</strong>{" "}
+            {pend.recomendado.map((p) => p.texto.toLowerCase()).join(", ")}.
+          </p>
+        )}
 
         {editavel && (
           <>
             <Caixa id="autorizacao" marcada={autorizo} onChange={setAutorizo}>
-              Autorizo o uso dos materiais enviados na página pública do Clube Sanchez, conforme a{" "}
+              Li e aceito as{" "}
+              <a href="/condicoes-parceiro" target="_blank" rel="noreferrer" className="font-semibold text-cobre-deep underline underline-offset-4">
+                Condições de participação
+              </a>{" "}
+              e autorizo o uso do nome, do logo, das fotos, das informações e do benefício enviados no site e nos canais do
+              Clube Sanchez, conforme a{" "}
               <a href="/privacidade" target="_blank" rel="noreferrer" className="font-semibold text-cobre-deep underline underline-offset-4">
                 Política de privacidade
               </a>
@@ -802,7 +814,8 @@ function Revisao({
 
 const PASSOS = [
   { rotulo: "Cadastro recebido", status: ["cadastro_recebido", "informacoes_incompletas"] },
-  { rotulo: "Em preparação", status: ["em_preparacao", "ajustes_solicitados"] },
+  // A validação da Yruena é interna: para o parceiro, a página ainda está em preparação.
+  { rotulo: "Em preparação", status: ["em_preparacao", "aguardando_validacao", "ajustes_solicitados"] },
   { rotulo: "Aguardando sua aprovação", status: ["aguardando_aprovacao"] },
   { rotulo: "Publicado", status: ["aprovado", "publicado"] },
 ];

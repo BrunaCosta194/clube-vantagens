@@ -13,21 +13,30 @@ import { nomeSeguro, telefoneBR } from "./cotacao.ts";
 /** Validade do link a partir do convite (decisão D5/D8 da spec, ainda a confirmar). */
 export const VALIDADE_LINK_DIAS = 90;
 
-/** Versão do texto de autorização aceito no envio. Trocar quando as Condições de participação chegarem. */
-export const TERMOS_VERSAO = "2026-11-rascunho";
+/**
+ * Versão das Condições de participação (src/pages/CondicoesParceiro.tsx) aceita no
+ * envio. Mudou o texto das Condições, muda a versão: fica gravada em cada cadastro.
+ */
+export const TERMOS_VERSAO = "2026-11-13";
 
-/** Lista inicial de segmentos (decisão D6, a Júlia ainda vai confirmar). */
+/** Segmentos definidos pela Júlia em 13/11. "Outros" abre um campo para escrever. */
 export const SEGMENTOS = [
   "Casa e decoração",
-  "Reforma e construção",
+  "Construção e reforma",
   "Serviços para casa",
-  "Moda",
+  "Moda e acessórios",
   "Beleza e bem-estar",
   "Saúde",
+  "Alimentação e bebidas",
+  "Educação",
+  "Tecnologia",
+  "Serviços profissionais",
   "Seguros e finanças",
-  "Alimentação",
-  "Fotografia e eventos",
-  "Outro",
+  "Automotivo",
+  "Imobiliário",
+  "Fotografia e audiovisual",
+  "Eventos",
+  "Outros",
 ] as const;
 
 export const STATUS = {
@@ -36,6 +45,7 @@ export const STATUS = {
   cadastro_recebido: "Cadastro recebido",
   informacoes_incompletas: "Informações incompletas",
   em_preparacao: "Em preparação",
+  aguardando_validacao: "Aguardando validação da Yruena",
   aguardando_aprovacao: "Aguardando aprovação do parceiro",
   ajustes_solicitados: "Ajustes solicitados",
   aprovado: "Aprovado",
@@ -43,6 +53,19 @@ export const STATUS = {
   arquivado: "Arquivado",
 } as const;
 export type Status = keyof typeof STATUS;
+
+/**
+ * Papéis no painel (coluna admins.papeis, migration 0015).
+ * - parceiros: acompanha, pede pendências, edita, prepara e publica (Júlia).
+ * - validacao: acompanha e faz a validação institucional final (Yruena).
+ * - painel: métricas agregadas (o /admin que já existia).
+ * A Bruna tem os três.
+ */
+export const PAPEIS = {
+  painel: "Métricas do site",
+  parceiros: "Cadastros de parceiros",
+  validacao: "Validação final das páginas",
+} as const;
 
 /**
  * Status em que o parceiro pode mexer nas respostas pelo link. Inclui "cadastro
@@ -92,9 +115,10 @@ export const ONDE_USAR = {
   outro: "Outro",
 } as const;
 
+// "Apresentação da identificação de membro" saiu (decisão da Júlia, 13/11): o Clube
+// ainda não tem carteirinha. Volta quando a identificação existir na Minha Área.
 export const COMO_USAR = {
   codigo: "Código de desconto",
-  identificacao: "Apresentação da identificação de membro",
   contato: "Contato direto com a empresa",
   outro: "Outro procedimento",
 } as const;
@@ -718,14 +742,22 @@ export interface ArquivoResumo {
   item_id?: string | null;
 }
 
+export interface Pendencias {
+  envio: Pendencia[];
+  publicacao: Pendencia[];
+  recomendado: Pendencia[];
+}
+
 /**
- * `envio`: impede enviar (o mínimo para a equipe trabalhar).
- * `publicacao`: não impede enviar, mas a página não vai ao ar sem isso
- * (aparece como "Ainda falta" na revisão e como pendência no painel).
+ * `envio`: impede enviar (o mínimo para a equipe trabalhar, incluindo o benefício confirmado).
+ * `publicacao`: não impede enviar, mas a página não vai ao ar sem isso: só logo e foto principal.
+ * `recomendado`: deixa a página melhor, mas não segura nada (catálogo, endereço, horário,
+ *   mais fotos). A página pode ir ao ar sem catálogo completo (Júlia, 13/11).
  */
-export function pendencias(r: Respostas, arquivos: ArquivoResumo[]): { envio: Pendencia[]; publicacao: Pendencia[] } {
+export function pendencias(r: Respostas, arquivos: ArquivoResumo[]): Pendencias {
   const envio: Pendencia[] = [];
   const publicacao: Pendencia[] = [];
+  const recomendado: Pendencia[] = [];
   const falta = (lista: Pendencia[], etapa: Pendencia["etapa"], campo: string, texto: string) =>
     lista.push({ etapa, campo, texto });
 
@@ -733,7 +765,7 @@ export function pendencias(r: Respostas, arquivos: ArquivoResumo[]): { envio: Pe
   if (!n.nomeEmpresa) falta(envio, "negocio", "nomeEmpresa", "Nome da empresa");
   if (!n.responsavel) falta(envio, "negocio", "responsavel", "Nome do responsável");
   if (!n.segmento) falta(envio, "negocio", "segmento", "Segmento");
-  else if (n.segmento === "Outro" && !n.segmentoOutro) falta(envio, "negocio", "segmentoOutro", "Qual é o segmento");
+  else if (n.segmento === "Outros" && !n.segmentoOutro) falta(envio, "negocio", "segmentoOutro", "Qual é o segmento");
   if (!n.cidade) falta(envio, "negocio", "cidade", "Cidade");
   if (!n.oQueFaz) falta(envio, "negocio", "oQueFaz", "O que a empresa faz");
 
@@ -758,14 +790,16 @@ export function pendencias(r: Respostas, arquivos: ArquivoResumo[]): { envio: Pe
   const p = r.produtos ?? VAZIO.produtos();
   const temMaterial = !!n.materialLink || tem("referencia");
   if (!p.itens.some((i) => i.nome) && !temMaterial)
-    falta(publicacao, "produtos", "itens", "Produtos ou serviços (ou um catálogo)");
+    falta(recomendado, "produtos", "itens", "Produtos ou serviços (ou um catálogo)");
+  if (arquivos.filter((a) => a.tipo === "galeria").length < 3 && !temMaterial)
+    falta(recomendado, "fotos", "galeria", "Mais fotos da empresa (de 3 a 6)");
   if (c.modalidades.includes("presencial")) {
-    if (!c.rua || !c.numero) falta(publicacao, "contato", "rua", "Endereço");
+    if (!c.rua || !c.numero) falta(recomendado, "contato", "rua", "Endereço");
     if (!c.horaMarcada && !Object.values(c.horarios).some(Boolean))
-      falta(publicacao, "contato", "horarios", "Horário de funcionamento");
+      falta(recomendado, "contato", "horarios", "Horário de funcionamento");
   }
 
-  return { envio, publicacao };
+  return { envio, publicacao, recomendado };
 }
 
 /** Etapas (1–6) que já têm o essencial. Serve para a barra de progresso e o painel. */

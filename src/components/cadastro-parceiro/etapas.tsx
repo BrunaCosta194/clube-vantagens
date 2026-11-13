@@ -104,7 +104,7 @@ export function EtapaNegocioTela({
             onChange={(v) => editavel && mudar({ segmento: v })}
           />
         </Grupo>
-        {d.segmento === "Outro" && (
+        {d.segmento === "Outros" && (
           <Campo id="segmentoOutro" rotulo="Qual é o segmento?" erro={erros.segmentoOutro}>
             <input
               id="segmentoOutro"
@@ -351,12 +351,6 @@ export function EtapaBeneficioTela({
             onChange={(v) => mudar({ comoUsar: v })}
           />
         </Grupo>
-        {b.comoUsar === "identificacao" && (
-          <Aviso tom="atencao">
-            O Clube ainda não tem carteirinha de membro. Enquanto ela não existe, recomendamos usar um código de desconto
-            ou o contato direto. Nossa equipe fala com você sobre isso.
-          </Aviso>
-        )}
         {b.comoUsar === "codigo" && (
           <div className="flex flex-col gap-3">
             <Campo id="codigo" rotulo="Qual é o código?" ajuda="Se ainda não tiver um, marque a opção abaixo.">

@@ -17,6 +17,7 @@ const ParceiroBioreluz = lazy(() => import("./pages/ParceiroBioreluz"));
 const ParceiroInsurance = lazy(() => import("./pages/ParceiroInsurance"));
 const ParceiroDewa = lazy(() => import("./pages/ParceiroDewa"));
 const CadastroParceiro = lazy(() => import("./pages/CadastroParceiro"));
+const CondicoesParceiro = lazy(() => import("./pages/CondicoesParceiro"));
 
 // O botão flutuante cobriria os botões do formulário do parceiro, e lá o
 // WhatsApp que vale é o da coordenação (fica na própria página).
@@ -42,6 +43,7 @@ export default function App() {
           <Route path="/parceiro/dewa" element={<ParceiroDewa />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/cadastro-parceiro" element={<CadastroParceiro />} />
+          <Route path="/condicoes-parceiro" element={<CondicoesParceiro />} />
           {/* Rota desconhecida (ex: /premium, que foi removida) volta pra home
               em vez de renderizar tela branca. */}
           <Route path="*" element={<Navigate to="/" replace />} />

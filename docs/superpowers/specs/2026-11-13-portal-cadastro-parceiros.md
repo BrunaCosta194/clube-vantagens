@@ -2,7 +2,7 @@
 
 Data: 2026-11-13
 Fonte: "Briefing para Bruna — Portal de Cadastro de Parceiros", da Júlia (Papo de Aluguel), recebido em 13/11.
-Situação: **proposta para validar** com a Júlia e a Yruena antes de desenvolver. O próprio briefing pede isso ("validar a estrutura das telas e o fluxo antes do desenvolvimento completo").
+Situação: **validada pela Júlia em 13/11** (respostas na seção 10); blocos A–C implementados. Antes: proposta para validar com a Júlia e a Yruena. O próprio briefing pede isso ("validar a estrutura das telas e o fluxo antes do desenvolvimento completo").
 
 Este documento segue o briefing e acrescenta melhorias, marcadas com **[+]**. Onde a proposta muda algo do briefing, isso vem marcado com **[≠]** e com o motivo.
 
@@ -285,7 +285,7 @@ Fica dentro do `/admin` atual, numa aba "Parceiros".
 
 ### Status
 
-Os 8 do briefing, mais **[+] "Convite enviado"** antes de tudo e **[+] "Arquivado"** para quem desistiu. Quem muda cada status:
+Os 8 do briefing, mais **[+] "Convite enviado"** antes de tudo, **"Aguardando validação"** (pedido da Júlia: validação institucional da Yruena antes de a página ir ao parceiro) e **[+] "Arquivado"** para quem desistiu. Quem muda cada status:
 
 | Status | Quem muda |
 |---|---|
@@ -293,14 +293,15 @@ Os 8 do briefing, mais **[+] "Convite enviado"** antes de tudo e **[+] "Arquivad
 | Cadastro iniciado | automático, na primeira gravação do parceiro |
 | Cadastro recebido | automático, quando o parceiro clica em "Enviar" |
 | Informações incompletas | equipe (reabre a edição pelo link) |
-| Em preparação | equipe |
-| Aguardando aprovação do parceiro | equipe (libera a prévia no link) |
+| Em preparação | equipe (Júlia revisa e prepara a página) |
+| Aguardando validação | equipe, quando a página está pronta; só quem tem o papel `validacao` (Yruena) libera para o parceiro. Para o parceiro aparece como "Em preparação" |
+| Aguardando aprovação do parceiro | Yruena, ao validar (libera a prévia no link) |
 | Ajustes solicitados | parceiro ("Pedir ajuste") ou equipe |
 | Aprovado | automático, quando o parceiro aprova |
 | Publicado | equipe (botão "Publicar", que só funciona se o status for Aprovado) |
 | Arquivado | equipe (tira do ar, se estava publicado) |
 
-**Publicar sem aprovação registrada é bloqueado no banco**, não só na tela. Isso cumpre o "a conclusão do cadastro não deve publicar automaticamente".
+**Publicar sem a validação da Yruena e sem a aprovação do parceiro registradas é bloqueado no banco**, não só na tela. Isso cumpre o "a conclusão do cadastro não deve publicar automaticamente".
 
 ### Notificação de cadastro concluído
 
@@ -315,9 +316,8 @@ O briefing pede que a coordenação seja avisada. Proposta: **e-mail pela Edge F
 
 Hoje o `/admin` mostra **só números agregados**. A ficha de parceiro tem dado pessoal (nome e WhatsApp do responsável), então aqui o acesso é outro:
 
-- **[+] A tabela `admins` ganha a coluna `papeis`** (`painel`, `parceiros`).
-- Para ver e editar parceiros, a pessoa precisa do papel `parceiros`.
-- A Júlia recebe só esse papel, se a Yruena quiser. Ver a decisão D2.
+- **[+] A tabela `admins` ganha a coluna `papeis`**: `painel` (métricas), `parceiros` (Júlia: ver, editar, preparar, publicar) e `validacao` (Yruena: ver e validar). A Bruna tem os três.
+- Ver os cadastros exige `parceiros` ou `validacao`; editar e publicar, `parceiros`; validar, `validacao`.
 
 ---
 
@@ -457,7 +457,7 @@ A ordem sugerida é A → B → C → D, e então o **teste com 2 empresas** (se
 
 | Bloco | O quê | Dificuldade |
 |---|---|---|
-| **G** | Cartão de membro na `/area` (nome, número de membro, QR), para os parceiros que escolherem "apresentação da identificação de membro" | 🟡 |
+| **G** | Cartão de membro na `/area` (nome, número de membro, QR). **Fase 2** (Júlia, 13/11); quando existir, a opção "identificação de membro" volta ao cadastro | 🟡 |
 
 ### Fase 2: experiência e autonomia
 
@@ -482,10 +482,26 @@ O briefing já prevê esse teste. **[+] A proposta é deixar ele mensurável:**
 
 ---
 
-## 10. Decisões pendentes
+## 10. Decisões (respondidas pela Júlia em 13/11)
 
-| # | Decisão | Quem decide |
-|---|---|---|
+| # | Decisão | Resposta | Onde está no código |
+|---|---|---|---|
+| D1 | Condições de participação | Termo simples: autoriza uso de nome, logo, fotos, informações e benefícios no site e canais do Clube; sem exclusividade; alteração ou saída avisando a coordenação; sem cobrança nesta fase (condição futura só com aceite); nada divulgado sem confirmação; página só publicada depois da aprovação. Aceite junto com a Política de privacidade. | `/condicoes-parceiro` (`src/pages/CondicoesParceiro.tsx`), versão em `TERMOS_VERSAO`; seção "Empresas parceiras" na `/privacidade`. **Texto precisa da leitura da Yruena.** |
+| D2 | Acessos e publicação | Júlia: área de parceiros (acompanha, pede pendências, revisa, prepara, publica). Yruena: acompanha e faz a **validação institucional final**. Bruna: acesso técnico. Publicação sempre manual. | Papéis `parceiros`, `validacao`, `painel` em `admins.papeis`; status novo `aguardando_validacao` (0015). |
+| D3 | Aviso de cadastro novo | E-mail operacional da coordenação + mais um destinatário (endereço a confirmar). Só empresa, data e link do painel. | Função manda pelo Resend quando `RESEND_API_KEY`, `AVISO_REMETENTE` e `AVISO_EMAILS` existirem. **Pendente: endereço e domínio do remetente.** |
+| D4 | Cartão de membro | Fica para a fase 2. Não oferecer no cadastro uma identificação que não existe. | Opção "identificação de membro" removida de `COMO_USAR`. |
+| D5 | Validade do link | 90 dias. Painel precisa renovar, gerar outro e **invalidar** o anterior. | `parceiro_convite_renovar` e `parceiro_convite_invalidar` (0015); botões no bloco D. |
+| D6 | Endereço da página | Sem objeção: `/cadastro-parceiro`. | — |
+| D7 | Os 8 parceiros atuais | Sim, todos fazem, com link pré-preenchido para conferir, corrigir e completar. | `p_respostas` do convite; botão "Convidar a partir do parceiro do site" no bloco D. O benefício vem desmarcado: precisa de confirmação nova. |
+| D8 | Segmentos | Lista de 16, com "Outros" abrindo campo. | `SEGMENTOS`. |
+| D9 | Teste | Dewa (produto) e Bioreluz ou MRT (serviço), também pelo celular, medindo tempo e envio de arquivos. | Eventos `parceiro_cadastro_*`. |
+
+**Pontos extras da Júlia:**
+- **Cadastro ≠ patrocínio.** Ser parceiro do Clube não é contratar cota do Papo de Aluguel. Já são tabelas e fluxos separados (`patrocinio_adesoes` × `parceiros_cadastro`); as Condições dizem isso com todas as letras.
+- **Página pode ir ao ar sem catálogo completo.** `pendencias()` passou a ter três níveis: `envio` (o mínimo para enviar), `publicacao` (só logo e foto principal) e `recomendado` (catálogo, mais fotos, endereço e horário: não seguram nada).
+- **Registro próprio do benefício.** Tabela `parceiros_beneficio_versoes`: cada confirmação vira uma versão com o texto exato; a anterior vira `substituido`. A página publicada só mostra versão `validado`. Mudou depois de publicado: nova confirmação e nova validação.
+
+---|---|---|
 | D1 | Texto das **Condições de participação** do parceiro (o que o Clube pode fazer com os materiais, exclusividade, como sair). O cadastro aponta para esse texto, que ainda não existe | Yruena + Júlia |
 | D2 | Quem da coordenação acessa os dados dos parceiros no admin (Júlia? mais alguém?) e quem pode **publicar** | Yruena |
 | D3 | Notificação: e-mail de quem? Criar uma conta no Resend com remetente do domínio (precisa de domínio próprio) ou usar o remetente de teste? | Bruna + Júlia |

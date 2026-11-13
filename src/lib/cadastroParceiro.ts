@@ -4,7 +4,7 @@ import {
   mimePelaExtensao,
   problemaArquivo,
   type NomeEtapa,
-  type Pendencia,
+  type Pendencias,
   type Respostas,
   type TipoArquivo,
 } from "../../supabase/functions/_shared/parceiro-cadastro.ts";
@@ -41,10 +41,7 @@ export interface CadastroTela {
   enviado_em: string | null;
 }
 
-export interface Pendencias {
-  envio: Pendencia[];
-  publicacao: Pendencia[];
-}
+export type { Pendencias };
 
 export type ErroPortal =
   | "link_invalido"

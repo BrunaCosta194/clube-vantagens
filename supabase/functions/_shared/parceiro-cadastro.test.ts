@@ -29,7 +29,7 @@ const completo: Respostas = {
     ...VAZIO.negocio(),
     nomeEmpresa: "Casa Aurora",
     responsavel: "Ana",
-    segmento: "Moda",
+    segmento: "Moda e acessórios",
     oQueFaz: "Roupas de algodão.",
   },
   beneficio: {
@@ -66,11 +66,23 @@ test("cadastro vazio lista o que falta, por etapa", () => {
   assert.deepEqual([...etapas].sort(), ["beneficio", "contato", "negocio"]);
 });
 
-test("presencial pede endereço e horário para publicar", () => {
+test("para publicar bastam logo e foto principal; catálogo, endereço e horário são recomendação", () => {
   const r = { ...completo, contato: { ...completo.contato!, modalidades: ["presencial"] } };
-  const campos = pendencias(r, [{ tipo: "logo" }, { tipo: "capa" }]).publicacao.map((x) => x.campo);
-  assert.ok(campos.includes("rua"));
-  assert.ok(campos.includes("horarios"));
+  const p = pendencias(r, [{ tipo: "logo" }, { tipo: "capa" }]);
+  assert.deepEqual(p.publicacao, []);
+  const recomendado = p.recomendado.map((x) => x.campo);
+  assert.ok(recomendado.includes("itens"));
+  assert.ok(recomendado.includes("rua"));
+  assert.ok(recomendado.includes("horarios"));
+});
+
+test("segmento Outros pede o nome do segmento", () => {
+  const r = { ...completo, negocio: { ...completo.negocio!, segmento: "Outros" } };
+  assert.deepEqual(pendencias(r, []).envio.map((x) => x.campo), ["segmentoOutro"]);
+});
+
+test("identificação de membro não é mais opção de uso", () => {
+  assert.equal(limparBeneficio({ comoUsar: "identificacao" }).comoUsar, "");
 });
 
 test("etapas completas", () => {
