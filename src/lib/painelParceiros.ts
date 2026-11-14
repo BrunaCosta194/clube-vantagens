@@ -113,11 +113,16 @@ export async function abrirFicha(id: string): Promise<Ficha> {
   };
 }
 
-export async function mudarStatus(id: string, status: string, nota?: string) {
+/**
+ * `hash` = conteudo_hash da página que está na tela. O banco exige na validação
+ * (status aguardando_aprovacao): se a página mudou depois de aberta, recusa (0018).
+ */
+export async function mudarStatus(id: string, status: string, nota?: string, hash?: string | null) {
   const { error } = await supabase.rpc("parceiro_painel_mudar_status", {
     p_id: id,
     p_status: status,
     p_nota: nota || null,
+    p_hash: hash ?? null,
   });
   if (error) throw error;
 }
