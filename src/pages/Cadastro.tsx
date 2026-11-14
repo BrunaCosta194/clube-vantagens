@@ -1,7 +1,7 @@
 import { type FormEvent, useMemo, useRef, useState } from "react";
 import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import AuthLayout, { inputClass, labelClass } from "../components/AuthLayout";
-import { criarMembro, normalizarDocumento } from "../lib/membros";
+import { criarMembro, documentoValido, normalizarDocumento } from "../lib/membros";
 import { useSessao } from "../lib/sessao";
 import { supabase } from "../lib/supabase";
 import { getAtribuicao } from "../lib/atribuicao";
@@ -74,6 +74,10 @@ export default function Cadastro() {
     const doc = normalizarDocumento(documento);
     if (doc.length !== 11 && doc.length !== 14) {
       setErro("CPF ou CNPJ inválido. Digite 11 dígitos (CPF) ou 14 (CNPJ).");
+      return;
+    }
+    if (!documentoValido(doc)) {
+      setErro("CPF ou CNPJ inválido. Confira os números digitados.");
       return;
     }
     if (!aceite) {

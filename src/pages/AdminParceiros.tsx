@@ -51,6 +51,7 @@ import {
   TITULO_ETAPA,
   cardBeneficio,
   limparRespostas,
+  linkValido,
   pendencias as calcularPendencias,
   transicoesPara,
   type Dia,
@@ -985,8 +986,8 @@ function FichaTela({ id, papeis, onVoltar, onMudou }: { id: string; papeis: stri
                         </span>
                       )}
                       {i.descricao && <span className="block">{i.descricao}</span>}
-                      {i.video && (
-                        <a href={i.video} target="_blank" rel="noreferrer" className="text-sm text-cobre-deep underline">
+                      {linkValido(i.video) && (
+                        <a href={linkValido(i.video) ?? undefined} target="_blank" rel="noreferrer" className="text-sm text-cobre-deep underline">
                           vídeo
                         </a>
                       )}

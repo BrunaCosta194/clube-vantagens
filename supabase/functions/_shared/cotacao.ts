@@ -202,8 +202,25 @@ export function hostnameDoClube(hostname: unknown, origens: string[]): boolean {
  * nenhuma cotação de verdade se perder. Mesma regra do formulário do site da Sanchez.
  */
 export type ResultadoTurnstile = "ok" | "recusado" | "sem_resposta";
+
+/** A Cloudflare documenta no máximo 2048 caracteres por token. */
+export const TURNSTILE_TOKEN_MAX = 2048;
+
+/** Token com cara de token: texto, não vazio, dentro do tamanho. O resto nem vai à Cloudflare. */
+export function tokenTurnstilePlausivel(token: unknown): token is string {
+  return typeof token === "string" && token.length > 0 && token.length <= TURNSTILE_TOKEN_MAX;
+}
+
+/**
+ * Resposta HTTP da Cloudflare que conta como "não consegui falar com ela": só erro do
+ * lado dela (5xx). Um 4xx é pedido recusado (token malformado), não queda do serviço.
+ */
+export function turnstileForaDoAr(status: number): boolean {
+  return status >= 500;
+}
+
 export function resultadoTurnstile(token: unknown, resposta: unknown, origens: string[]): ResultadoTurnstile {
-  if (typeof token !== "string" || !token) return "recusado";
+  if (!tokenTurnstilePlausivel(token)) return "recusado";
   if (!resposta || typeof resposta !== "object") return "sem_resposta";
   const r = resposta as { success?: unknown; hostname?: unknown; "error-codes"?: unknown };
   if (r.success === true) return hostnameDoClube(r.hostname, origens) ? "ok" : "recusado";
