@@ -41,6 +41,25 @@ export function normalizarDocumento(documento: string): string {
   return documento.replace(/\D/g, "");
 }
 
+/** CPF (11) ou CNPJ (14) com os dígitos verificadores certos. Mesma conta de
+ * public.documento_valido() (migration 0017), que confere de novo no banco:
+ * mudar nos dois. */
+export function documentoValido(documento: string): boolean {
+  const doc = normalizarDocumento(documento);
+  if (!/^(\d{11}|\d{14})$/.test(doc) || /^(\d)\1+$/.test(doc)) return false;
+  const d = [...doc].map(Number);
+  if (doc.length === 11) {
+    const dv = (n: number) => ((d.slice(0, n).reduce((s, x, i) => s + x * (n + 1 - i), 0) * 10) % 11) % 10;
+    return dv(9) === d[9] && dv(10) === d[10];
+  }
+  const pesos = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+  const dv = (n: number) => {
+    const r = d.slice(0, n).reduce((s, x, i) => s + x * pesos[i + 13 - n], 0) % 11;
+    return r < 2 ? 0 : 11 - r;
+  };
+  return dv(12) === d[12] && dv(13) === d[13];
+}
+
 /** Cria a conta no Supabase Auth. O registro em `membros` (e a indicação, se
  * houver `codigoRef`) é criado automaticamente por trigger no banco. */
 export async function criarMembro(dados: DadosCadastro) {

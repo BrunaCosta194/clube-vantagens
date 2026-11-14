@@ -37,6 +37,8 @@ import {
   origemPermitida,
   pareceRobo,
   resultadoTurnstile,
+  tokenTurnstilePlausivel,
+  turnstileForaDoAr,
   type ResultadoTurnstile,
   validarCotacao,
 } from "../_shared/cotacao.ts";
@@ -59,7 +61,7 @@ function cors(req: Request) {
 }
 
 async function turnstile(token: unknown, ip: string | null): Promise<ResultadoTurnstile> {
-  if (typeof token !== "string" || !token) return "recusado";
+  if (!tokenTurnstilePlausivel(token)) return "recusado";
   const form = new FormData();
   form.append("secret", TURNSTILE_SECRET);
   form.append("response", token);
@@ -72,7 +74,11 @@ async function turnstile(token: unknown, ip: string | null): Promise<ResultadoTu
       signal: AbortSignal.timeout(5_000),
     });
     if (r.ok) resposta = await r.json().catch(() => null);
-    else await r.body?.cancel().catch(() => undefined);
+    else {
+      await r.body?.cancel().catch(() => undefined);
+      // 4xx = a Cloudflare recusou o pedido (token malformado): não é "fora do ar".
+      if (!turnstileForaDoAr(r.status)) return "recusado";
+    }
   } catch {
     resposta = null;
   }
@@ -86,8 +92,9 @@ Deno.serve(async (req) => {
 
   if (req.method === "OPTIONS") return new Response("ok", { headers });
   if (req.method !== "POST") return json({ ok: false, erro: "método não permitido" }, 405);
-  if (!TURNSTILE_SECRET || !SAL) {
-    console.error("cotacao-enviar sem configuração: falta TURNSTILE_SECRET ou SITE_IP_SAL");
+  // Sem CLUBE_ORIGENS o CORS viraria "*" e o Turnstile aceitaria token de qualquer site.
+  if (!TURNSTILE_SECRET || !SAL || ORIGENS.length === 0) {
+    console.error("cotacao-enviar sem configuração: falta TURNSTILE_SECRET, SITE_IP_SAL ou CLUBE_ORIGENS");
     return json({ ok: false, erro: "falha" }, 500);
   }
 

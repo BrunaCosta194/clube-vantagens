@@ -18,6 +18,7 @@ import {
   mimePelaExtensao,
   pendencias,
   problemaArquivo,
+  STATUS_EDITAVEIS,
   textoBeneficio,
   VAZIO,
   videoValido,
@@ -166,4 +167,13 @@ test("status em que o parceiro edita", () => {
   assert.equal(editavel("cadastro_recebido"), true);
   assert.equal(editavel("em_preparacao"), false);
   assert.equal(editavel("publicado"), false);
+  // a função usa esta mesma lista para travar a gravação: depois que a página vai para
+  // validação ou aprovação, o parceiro não mexe mais
+  assert.deepEqual(
+    [...STATUS_EDITAVEIS].sort(),
+    ["ajustes_solicitados", "cadastro_iniciado", "cadastro_recebido", "convite_enviado", "informacoes_incompletas"],
+  );
+  for (const s of ["aguardando_validacao", "aguardando_aprovacao", "aprovado", "arquivado", "constructor"]) {
+    assert.equal(editavel(s), false);
+  }
 });

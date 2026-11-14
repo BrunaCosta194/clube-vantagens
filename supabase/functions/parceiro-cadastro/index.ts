@@ -54,6 +54,7 @@ import {
   pendencias,
   problemaArquivo,
   RASCUNHO_DIAS,
+  STATUS_EDITAVEIS,
   TERMOS_VERSAO,
   textoBeneficio,
   type ArquivoResumo,
@@ -400,12 +401,24 @@ Deno.serve(async (req) => {
         .update(mudanca)
         .eq("id", cad.id)
         .eq("versao", corpo.versao)
+        // a equipe pode ter mudado o status entre a leitura lá em cima e esta gravação
+        .in("status", [...STATUS_EDITAVEIS])
         .select("versao")
         .maybeSingle();
       if (error) throw new Falha(error.message);
       if (!salvo) {
         // outra aba ou outra pessoa salvou antes: devolve o que está gravado
         return json({ ok: false, erro: "conflito", cadastro: resumo(cad) }, 409);
+      }
+      if (mudanca.beneficio_confirmado_em === null && cad.beneficio_confirmado_texto) {
+        // Tirou a confirmação: a versão que estava confirmada deixa de valer. Sem isto a
+        // página seria montada com um benefício que o parceiro já desfez.
+        await admin
+          .from("parceiros_beneficio_versoes")
+          .update({ situacao: "substituido" })
+          .eq("cadastro_id", cad.id)
+          .neq("situacao", "substituido");
+        await historico(cad.id, "beneficio_desconfirmado");
       }
       if (cad.status === "convite_enviado") await historico(cad.id, "cadastro_iniciado");
       if (mudanca.beneficio_confirmado_em) {
@@ -437,7 +450,8 @@ Deno.serve(async (req) => {
     // ── upload: devolve o link de uso único ────────────────────────────────
     if (acao === "upload") {
       const tipo = corpo.tipo as TipoArquivo;
-      const regra = ARQUIVOS[tipo];
+      // hasOwn: "constructor", "toString" etc. existem em todo objeto e não são tipos de arquivo
+      const regra = typeof corpo.tipo === "string" && Object.hasOwn(ARQUIVOS, corpo.tipo) ? ARQUIVOS[tipo] : undefined;
       const nome = typeof corpo.nome === "string" ? corpo.nome.slice(0, 200) : "";
       const mime = typeof corpo.mime === "string" ? corpo.mime : "";
       const tamanho = typeof corpo.tamanho === "number" ? corpo.tamanho : NaN;
@@ -585,7 +599,7 @@ Deno.serve(async (req) => {
       if (p.envio.length) return json({ ok: false, erro: "invalido", erros: p.envio }, 400);
 
       const reenvio = !!cad.enviado_em;
-      const { error } = await admin
+      const { data: enviado, error } = await admin
         .from("parceiros_cadastro")
         .update({
           status: "cadastro_recebido",
@@ -596,8 +610,13 @@ Deno.serve(async (req) => {
           ultima_atividade_em: agora,
           updated_at: agora,
         })
-        .eq("id", cad.id);
+        .eq("id", cad.id)
+        // a equipe pode ter mudado o status entre a leitura lá em cima e esta gravação
+        .in("status", [...STATUS_EDITAVEIS])
+        .select("id")
+        .maybeSingle();
       if (error) throw new Falha(error.message);
+      if (!enviado) return json({ ok: false, erro: "nao_editavel" }, 409);
       await historico(cad.id, reenvio ? "cadastro_reenviado" : "cadastro_enviado", {
         faltando_para_publicar: p.publicacao.map((x) => x.texto),
       });
