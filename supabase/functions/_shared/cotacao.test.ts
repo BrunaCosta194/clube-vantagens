@@ -10,6 +10,9 @@ import {
   pareceRobo,
   resultadoTurnstile,
   telefoneBR,
+  tokenTurnstilePlausivel,
+  TURNSTILE_TOKEN_MAX,
+  turnstileForaDoAr,
   validarCotacao,
 } from "./cotacao.ts";
 
@@ -88,6 +91,19 @@ test("Turnstile: recusa, aceita e falha de rede", () => {
   assert.equal(resultadoTurnstile("t", { success: true, hostname: "outro.com" }, origens), "recusado");
   assert.equal(resultadoTurnstile("t", { success: false, "error-codes": ["internal-error"] }, origens), "sem_resposta");
   assert.equal(resultadoTurnstile("t", { success: false, "error-codes": ["invalid-input-response"] }, origens), "recusado");
+});
+
+test("Turnstile: token fora do tamanho e 4xx da Cloudflare não passam como 'fora do ar'", () => {
+  const origens = ["https://clube-vantagens.vercel.app"];
+  const gigante = "x".repeat(TURNSTILE_TOKEN_MAX + 1);
+  assert.equal(tokenTurnstilePlausivel("x".repeat(TURNSTILE_TOKEN_MAX)), true);
+  assert.equal(tokenTurnstilePlausivel(gigante), false);
+  assert.equal(tokenTurnstilePlausivel(123), false);
+  // sem resposta da Cloudflare, o token gigante é recusado (antes virava "sem_resposta")
+  assert.equal(resultadoTurnstile(gigante, null, origens), "recusado");
+  assert.equal(turnstileForaDoAr(400), false);
+  assert.equal(turnstileForaDoAr(413), false);
+  assert.equal(turnstileForaDoAr(502), true);
 });
 
 test("hash do IP muda com o dia e não guarda o IP", async () => {

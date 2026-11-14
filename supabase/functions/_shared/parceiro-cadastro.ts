@@ -78,14 +78,16 @@ export const PAPEIS = {
  * recebido": quem enviou sem logo ou sem fotos completa pelo mesmo link até a
  * equipe começar a preparar a página.
  */
+export const STATUS_EDITAVEIS: readonly Status[] = [
+  "convite_enviado",
+  "cadastro_iniciado",
+  "cadastro_recebido",
+  "informacoes_incompletas",
+  "ajustes_solicitados",
+];
+
 export function editavel(status: string): boolean {
-  return (
-    status === "convite_enviado" ||
-    status === "cadastro_iniciado" ||
-    status === "cadastro_recebido" ||
-    status === "informacoes_incompletas" ||
-    status === "ajustes_solicitados"
-  );
+  return (STATUS_EDITAVEIS as readonly string[]).includes(status);
 }
 
 // ── Quem muda cada status no painel ──────────────────────────────────────────
