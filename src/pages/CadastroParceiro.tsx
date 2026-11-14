@@ -87,11 +87,25 @@ function linkCoordenacao(empresa: string, texto?: string) {
 // ── Backup no aparelho (internet caiu no meio) ────────────────────────────────
 
 type Backup = { versao: number; sujas: NomeEtapa[]; respostas: Respostas };
-const chaveBackup = (codigo: string) => `clube_parceiro_${codigo.slice(0, 16)}`;
+
+/** Resumo curto do código (FNV-1a), só para dar nome à cópia: não dá para voltar ao código. */
+function resumoDoCodigo(codigo: string): string {
+  let a = 0x811c9dc5;
+  let b = 0x01000193;
+  for (let i = 0; i < codigo.length; i++) {
+    a = Math.imul(a ^ codigo.charCodeAt(i), 0x01000193);
+    b = Math.imul(b ^ codigo.charCodeAt(codigo.length - 1 - i), 0x811c9dc5);
+  }
+  return (a >>> 0).toString(16).padStart(8, "0") + (b >>> 0).toString(16).padStart(8, "0");
+}
+// O nome da cópia não leva nenhum pedaço do código do link (que é a senha do cadastro).
+const chaveBackup = (codigo: string) => `clube_parceiro_r_${resumoDoCodigo(codigo)}`;
+/** Nome usado até 14/11 (tinha os 16 primeiros caracteres do código). Lido uma vez e apagado. */
+const chaveBackupAntiga = (codigo: string) => `clube_parceiro_${codigo.slice(0, 16)}`;
 
 function lerBackup(codigo: string): Backup | null {
   try {
-    const t = localStorage.getItem(chaveBackup(codigo));
+    const t = localStorage.getItem(chaveBackup(codigo)) ?? localStorage.getItem(chaveBackupAntiga(codigo));
     return t ? (JSON.parse(t) as Backup) : null;
   } catch {
     return null;
@@ -99,6 +113,7 @@ function lerBackup(codigo: string): Backup | null {
 }
 function gravarBackup(codigo: string, b: Backup | null) {
   try {
+    localStorage.removeItem(chaveBackupAntiga(codigo));
     if (b) localStorage.setItem(chaveBackup(codigo), JSON.stringify(b));
     else localStorage.removeItem(chaveBackup(codigo));
   } catch {

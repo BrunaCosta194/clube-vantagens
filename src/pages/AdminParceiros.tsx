@@ -712,10 +712,14 @@ function FichaTela({ id, papeis, onVoltar, onMudou }: { id: string; papeis: stri
       setAviso(
         msg.includes("ainda não confirmou o benefício")
           ? "O parceiro ainda não confirmou o benefício: não dá para validar."
-          : /monte a página|aprovação do parceiro|aprovar a página|versão validada|logo e foto|foto ainda não/.test(msg)
-            ? msg.charAt(0).toUpperCase() + msg.slice(1) + "."
-            : "Não foi possível fazer isso agora.",
+          : msg.includes("página mudou depois que você abriu")
+            ? "A página foi alterada depois que você abriu. Carregamos a versão mais recente: confira de novo antes de validar."
+            : /monte a página|aprovação do parceiro|aprovar a página|versão validada|logo e foto|foto ainda não/.test(msg)
+              ? msg.charAt(0).toUpperCase() + msg.slice(1) + "."
+              : "Não foi possível fazer isso agora.",
       );
+      // validação recusada porque a página mudou: mostra a versão atual
+      if (msg.includes("página mudou depois que você abriu")) await carregar().catch(() => undefined);
     } finally {
       setOcupado(false);
     }
@@ -785,7 +789,7 @@ function FichaTela({ id, papeis, onVoltar, onMudou }: { id: string; papeis: stri
                     ? void fazer(() => publicar(id, ficha.perfil?.conteudo), "Página publicada: já aparece no site e na vitrine.")
                     : t.pedeNota
                       ? setAcao(t)
-                      : void fazer(() => mudarStatus(id, t.para), `Status: ${STATUS[t.para]}.`)
+                      : void fazer(() => mudarStatus(id, t.para, undefined, ficha.perfil?.conteudo_hash), `Status: ${STATUS[t.para]}.`)
                 }
                 className={i === 0 && t.para !== "arquivado" ? "btn-primary" : botao}
               >
