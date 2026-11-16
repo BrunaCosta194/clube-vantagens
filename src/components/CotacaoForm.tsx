@@ -140,7 +140,14 @@ export default function CotacaoForm({
       setErro("É preciso aceitar o tratamento dos dados para enviar.");
       return;
     }
-    if (onEnviar && CHAVE_TURNSTILE && !token) {
+    if (onEnviar && !CHAVE_TURNSTILE) {
+      // Site publicado sem VITE_TURNSTILE_SITE_KEY: a caixa do anti-robô nem aparece e a
+      // função recusaria o envio. Avisa de forma clara em vez de culpar o visitante.
+      console.error("Cotação: falta VITE_TURNSTILE_SITE_KEY no build (Vercel → Environment Variables).");
+      setErro("O envio pelo site está fora do ar no momento. Fale com a gente pelo WhatsApp, por favor.");
+      return;
+    }
+    if (onEnviar && !token) {
       setErro("Confirme que você não é um robô e tente de novo.");
       return;
     }
