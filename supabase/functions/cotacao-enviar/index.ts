@@ -34,6 +34,7 @@ import {
   hojeBrasilia,
   ipDaRequisicao,
   LIMITE_POR_HORA,
+  origemDoIp,
   origemPermitida,
   pareceRobo,
   resultadoTurnstile,
@@ -113,6 +114,10 @@ Deno.serve(async (req) => {
   const c = v.cotacao;
 
   const ip = ipDaRequisicao(req.headers);
+  // Só o nome do cabeçalho, nunca o IP: para conferir no log que o limite por hora está de pé.
+  if (origemDoIp(req.headers) !== "cf-connecting-ip") {
+    console.warn("cotacao-enviar: IP veio de", origemDoIp(req.headers), "(limite por hora pode ser contornado)");
+  }
   const t = await turnstile((corpo as Record<string, unknown>).turnstile, ip);
   if (t === "recusado") return json({ ok: false, erro: "robo" }, 403);
   if (t === "sem_resposta") console.error("cotacao-enviar: Turnstile sem resposta; cotação gravada sem a checagem");

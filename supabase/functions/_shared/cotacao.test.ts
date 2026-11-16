@@ -7,7 +7,9 @@ import {
   DOC_QTD_MAX,
   hashDoIp,
   nomeSeguro,
+  origemDoIp,
   pareceRobo,
+  segredoConfere,
   resultadoTurnstile,
   telefoneBR,
   tokenTurnstilePlausivel,
@@ -104,6 +106,18 @@ test("Turnstile: token fora do tamanho e 4xx da Cloudflare não passam como 'for
   assert.equal(turnstileForaDoAr(400), false);
   assert.equal(turnstileForaDoAr(413), false);
   assert.equal(turnstileForaDoAr(502), true);
+});
+
+test("de onde o IP saiu (para o log) e segredo da chamada agendada", () => {
+  assert.equal(origemDoIp(new Headers({ "cf-connecting-ip": "1.2.3.4", "x-forwarded-for": "9.9.9.9" })), "cf-connecting-ip");
+  assert.equal(origemDoIp(new Headers({ "x-forwarded-for": "9.9.9.9, 1.2.3.4" })), "x-forwarded-for");
+  assert.equal(origemDoIp(new Headers()), "nenhum");
+
+  assert.equal(segredoConfere("abc123", "abc123"), true);
+  assert.equal(segredoConfere("abc124", "abc123"), false);
+  assert.equal(segredoConfere("abc12", "abc123"), false);
+  assert.equal(segredoConfere(null, "abc123"), false);
+  assert.equal(segredoConfere("", ""), false); // segredo vazio nunca confere
 });
 
 test("hash do IP muda com o dia e não guarda o IP", async () => {

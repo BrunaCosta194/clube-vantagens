@@ -172,6 +172,24 @@ export function ipDaRequisicao(headers: Headers): string | null {
   return xff ? xff.split(",")[0].trim() || null : null;
 }
 
+/**
+ * De qual cabeçalho o IP saiu, para o log (nunca o IP). Serve para conferir em produção
+ * se o limite por hora está de pé: "cf-connecting-ip" não dá para forjar; em
+ * "x-forwarded-for" o primeiro valor pode vir do próprio visitante; "nenhum" = sem limite.
+ */
+export function origemDoIp(headers: Headers): "cf-connecting-ip" | "x-forwarded-for" | "nenhum" {
+  if (headers.get("cf-connecting-ip")?.trim()) return "cf-connecting-ip";
+  return ipDaRequisicao(headers) ? "x-forwarded-for" : "nenhum";
+}
+
+/** Compara dois segredos sem parar no primeiro caractere diferente. Vazio nunca confere. */
+export function segredoConfere(recebido: string | null, esperado: string): boolean {
+  if (!esperado || !recebido || recebido.length !== esperado.length) return false;
+  let diferenca = 0;
+  for (let i = 0; i < esperado.length; i++) diferenca |= recebido.charCodeAt(i) ^ esperado.charCodeAt(i);
+  return diferenca === 0;
+}
+
 /** Data de hoje em Brasília (AAAA-MM-DD). */
 export function hojeBrasilia(agora: Date = new Date()): string {
   return agora.toLocaleDateString("sv-SE", { timeZone: "America/Sao_Paulo" });
