@@ -30,10 +30,14 @@
 import { createClient } from "jsr:@supabase/supabase-js@2";
 import {
   caminhosDosArquivos,
+  caminhosParaApagar,
+  DOCS_GUARDA_DIAS,
+  segredoConfere,
   hashDoIp,
   hojeBrasilia,
   ipDaRequisicao,
   LIMITE_POR_HORA,
+  origemDoIp,
   origemPermitida,
   pareceRobo,
   resultadoTurnstile,
@@ -47,6 +51,9 @@ const URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const TURNSTILE_SECRET = Deno.env.get("TURNSTILE_SECRET") ?? "";
 const SAL = Deno.env.get("SITE_IP_SAL") ?? "";
+// Segredo da limpeza diária (o mesmo da função parceiro-cadastro, migration 0019).
+// Sem ele a limpeza não roda: apagar dado exige o segredo, sempre.
+const CRON_SEGREDO = Deno.env.get("CRON_SEGREDO") ?? "";
 const ORIGENS = (Deno.env.get("CLUBE_ORIGENS") ?? "").split(",").map((s) => s.trim()).filter(Boolean);
 
 const admin = createClient(URL, SERVICE, { auth: { persistSession: false } });
@@ -85,6 +92,37 @@ async function turnstile(token: unknown, ip: string | null): Promise<ResultadoTu
   return resultadoTurnstile(token, resposta, ORIGENS);
 }
 
+/**
+ * Apaga o que passou do prazo de guarda. Primeiro os documentos das cotações (arquivo
+ * só sai pela API do Storage), marcando a linha; depois as linhas vencidas, pela função
+ * do banco, que só apaga cotação cujos arquivos já saíram. Se o Storage falhar, para:
+ * a linha fica sem a marca e entra de novo na limpeza do dia seguinte.
+ */
+async function limparDados(): Promise<Record<string, number>> {
+  const { data, error } = await admin.rpc("cotacoes_docs_vencidos", { p_dias: DOCS_GUARDA_DIAS });
+  if (error) throw new Error(error.message);
+  const vencidas = (data ?? []) as { id: string; documentos: string[] | null }[];
+  let documentos = 0;
+  for (const c of vencidas) {
+    const { data: lista, error: erroLista } = await admin.storage.from("cotacoes-docs").list(c.id, { limit: 100 });
+    if (erroLista) throw new Error(erroLista.message);
+    const caminhos = caminhosParaApagar(c.id, c.documentos, (lista ?? []).filter((o) => o.id).map((o) => o.name));
+    if (caminhos.length) {
+      const { error: erroRemover } = await admin.storage.from("cotacoes-docs").remove(caminhos);
+      if (erroRemover) throw new Error(erroRemover.message);
+      documentos += caminhos.length;
+    }
+    const { error: erroMarca } = await admin
+      .from("cotacoes")
+      .update({ documentos: [], documentos_apagados_em: new Date().toISOString() })
+      .eq("id", c.id);
+    if (erroMarca) throw new Error(erroMarca.message);
+  }
+  const { data: linhas, error: erroLinhas } = await admin.rpc("limpeza_de_dados");
+  if (erroLinhas) throw new Error(erroLinhas.message);
+  return { documentos, ...((linhas ?? {}) as Record<string, number>) };
+}
+
 Deno.serve(async (req) => {
   const headers = cors(req);
   const json = (body: unknown, status = 200) =>
@@ -105,6 +143,19 @@ Deno.serve(async (req) => {
     return json({ ok: false, erros: { geral: "Envio inválido." } }, 400);
   }
 
+  // Limpeza diária (prazos de guarda, migration 0020). Só o pg_cron chama, com o segredo.
+  if (corpo && typeof corpo === "object" && (corpo as Record<string, unknown>).acao === "limpar") {
+    if (!segredoConfere(req.headers.get("x-cron-segredo"), CRON_SEGREDO)) {
+      return json({ ok: false, erro: "negado" }, 403);
+    }
+    try {
+      return json({ ok: true, apagados: await limparDados() });
+    } catch (e) {
+      console.error("cotacao-enviar, limpeza:", e instanceof Error ? e.message : e);
+      return json({ ok: false, erro: "falha" }, 500);
+    }
+  }
+
   // robô que preencheu o campo escondido: finge que deu certo e não grava
   if (pareceRobo(corpo)) return json({ ok: true, id: null, uploads: [] });
 
@@ -113,6 +164,10 @@ Deno.serve(async (req) => {
   const c = v.cotacao;
 
   const ip = ipDaRequisicao(req.headers);
+  // Só o nome do cabeçalho, nunca o IP: para conferir no log que o limite por hora está de pé.
+  if (origemDoIp(req.headers) !== "cf-connecting-ip") {
+    console.warn("cotacao-enviar: IP veio de", origemDoIp(req.headers), "(limite por hora pode ser contornado)");
+  }
   const t = await turnstile((corpo as Record<string, unknown>).turnstile, ip);
   if (t === "recusado") return json({ ok: false, erro: "robo" }, 403);
   if (t === "sem_resposta") console.error("cotacao-enviar: Turnstile sem resposta; cotação gravada sem a checagem");

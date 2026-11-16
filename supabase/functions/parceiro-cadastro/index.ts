@@ -20,8 +20,9 @@
 //   aprovar         { hash, nome }          → registra a aprovação do conteúdo exato (hash) · 409 mudou
 //   pedir_ajuste    { hash, nome, comentario } → registra o pedido e volta para a equipe
 //   limpar_rascunhos (sem código)           → apaga rascunhos parados há RASCUNHO_DIAS (cadastro
-//                   + arquivos no Storage). Chamada todo dia pelo pg_cron (0015). Não precisa de
-//                   senha: só apaga o que a regra da 0015 já manda apagar, chamar de novo não muda nada.
+//                   + arquivos no Storage). Chamada todo dia pelo pg_cron (0015/0019). Com o secret
+//                   CRON_SEGREDO definido, exige o cabeçalho x-cron-segredo igual (403 sem ele).
+//                   Só apaga o que a regra da 0015 já manda apagar; chamar de novo não muda nada.
 //
 // Erros: 404 link_invalido · 410 link_vencido · 409 nao_editavel | conflito · 400 invalido | limite
 //
@@ -37,7 +38,7 @@
 // O e-mail leva só o nome da empresa, a data e o link do painel: nenhum dado pessoal.
 
 import { createClient } from "jsr:@supabase/supabase-js@2";
-import { hashDoIp, hojeBrasilia, ipDaRequisicao, origemPermitida } from "../_shared/cotacao.ts";
+import { hashDoIp, hojeBrasilia, ipDaRequisicao, origemPermitida, segredoConfere } from "../_shared/cotacao.ts";
 import { fotosDoPerfil, limparPerfil } from "../_shared/parceiro-pagina.ts";
 import {
   ARQUIVOS,
@@ -73,6 +74,10 @@ const CORRECOES_POR_DIA = 5;
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY") ?? "";
 const AVISO_REMETENTE = Deno.env.get("AVISO_REMETENTE") ?? "";
 const AVISO_EMAILS = (Deno.env.get("AVISO_EMAILS") ?? "").split(",").map((s) => s.trim()).filter(Boolean);
+// Segredo da chamada agendada (limpar_rascunhos). O pg_cron manda o mesmo valor, lido do
+// Vault, no cabeçalho x-cron-segredo (migration 0019). Enquanto o secret não existir, a
+// ação continua aberta como era (só apaga o que a regra da 0015 já manda apagar).
+const CRON_SEGREDO = Deno.env.get("CRON_SEGREDO") ?? "";
 const SAL = Deno.env.get("SITE_IP_SAL") ?? ""; // o mesmo da cotacao-enviar; sem ele, a aprovação fica sem ip_hash
 
 const admin = createClient(URL, SERVICE, { auth: { persistSession: false } });
@@ -259,6 +264,9 @@ Deno.serve(async (req) => {
   }
 
   if (corpo.acao === "limpar_rascunhos") {
+    if (CRON_SEGREDO && !segredoConfere(req.headers.get("x-cron-segredo"), CRON_SEGREDO)) {
+      return json({ ok: false, erro: "invalido" }, 403);
+    }
     try {
       return json({ ok: true, apagados: await limparRascunhos() });
     } catch (e) {

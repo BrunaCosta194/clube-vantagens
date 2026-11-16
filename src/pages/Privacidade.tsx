@@ -221,7 +221,8 @@ export default function Privacidade() {
             <p>
               Cadastro de membro: enquanto você fizer parte do Clube, e por mais cinco anos depois
               do encerramento, prazo legal para questões contratuais. Leads de material: até dois
-              anos sem interação sua. Registros de navegação: dois anos.
+              anos sem interação sua. Registros de navegação: dois anos. Pedidos de cotação: um ano;
+              os documentos enviados com o pedido são apagados depois de 90 dias.
             </p>
           </Secao>
 
