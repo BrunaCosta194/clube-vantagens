@@ -203,7 +203,7 @@
         <div class="participa reveal">
           <p class="participa__title">Sua marca não aparece. <span class="serif">Ela participa.</span></p>
           <p><span class="live-dot" aria-hidden="true"></span> O Papo de Aluguel acontece <strong>ao vivo</strong>. Sua marca não fica apenas estampada em uma peça: está presente enquanto a conversa acontece, é apresentada à audiência e continua circulando depois que o episódio termina.</p>
-          <p>Conforme a cota escolhida, essa presença se desdobra em stories, cortes direcionados, conteúdo dedicado e participação no ecossistema do Clube de Vantagens.</p>
+          <p>São duas formas de participar: a <strong>Presença</strong>, com a marca na identificação coletiva dos patrocinadores, e o <strong>Destaque</strong>, com menção individual da Yruena e Stories toda semana.</p>
         </div>
 
         <div class="planos" id="planos"><!-- app.js --></div>
@@ -212,8 +212,51 @@
           <summary>Comparar todas as entregas</summary>
           <div class="compare__scroll">
             <table id="compareTable"><!-- app.js --></table>
+            <div id="compareNotas"><!-- app.js --></div>
           </div>
         </details>
+
+        <div class="novidade reveal">
+          <div class="novidade__head">
+            <p class="eyebrow eyebrow--orange">Plano Destaque</p>
+            <h3>Sua empresa tem uma novidade? <span class="serif">A gente ajuda a divulgar.</span></h3>
+            <p>No Plano Destaque, você aproveita seus espaços semanais para compartilhar promoções, lançamentos, eventos e campanhas especiais com a nossa audiência. Não é a mesma propaganda repetida toda semana.</p>
+            <ul class="novidade__tags" aria-label="Exemplos">
+              <li>Promoção especial</li><li>Novo serviço</li><li>Evento</li><li>Dia das Mães</li><li>Black Friday</li>
+            </ul>
+          </div>
+          <div class="novidade__cols">
+            <div class="novidade__col">
+              <p class="novidade__titulo">Story da semana</p>
+              <ol>
+                <li>Você manda a novidade para a coordenação, de preferência <strong>7 dias antes</strong>.</li>
+                <li>A gente organiza a divulgação no Story previsto para aquela semana.</li>
+                <li>Sem novidade? Entra um conteúdo institucional da sua empresa.</li>
+              </ol>
+              <p class="novidade__obs">Usa o espaço semanal contratado. Não são publicações extras ilimitadas.</p>
+            </div>
+            <div class="novidade__col">
+              <p class="novidade__titulo">Post especial no feed</p>
+              <ol>
+                <li><strong>1 publicação exclusiva</strong> nos 6 meses de contrato.</li>
+                <li>Você escolhe a ocasião (aniversário, lançamento, campanha, data comemorativa), envia o material e sugere a data.</li>
+                <li>Arte estática ou carrossel de até 5 slides, conforme o nosso calendário.</li>
+              </ol>
+              <p class="novidade__obs">Gravações externas e Reels personalizados não estão incluídos.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bom-saber reveal">
+          <p class="bom-saber__titulo">Bom saber</p>
+          <ul>
+            <li>O Sanchez Clube e o Papo de Aluguel são projetos conectados, mas diferentes. O Clube é o ecossistema de empresas, benefícios e relacionamento; o patrocínio é a contratação de espaços de divulgação no Papo. Fazer parte do Clube não depende de patrocínio.</li>
+            <li>Menções e posições comerciais respeitam os espaços definidos para cada episódio, e as divulgações seguem o calendário do programa e as condições de cada contrato.</li>
+            <li>O logo dos patrocinadores não entra automaticamente em todos os cortes do podcast, e os planos não incluem vídeos personalizados da Yruena.</li>
+            <li>Publicações patrocinadas são identificadas como publicidade quando aplicável.</li>
+          </ul>
+          <a class="link-clube" data-link="clube" target="_blank" rel="noopener">Conhecer o Sanchez Clube ↗</a>
+        </div>
       </div>
     </section>
 
@@ -300,7 +343,7 @@
         <fieldset class="step is-on" data-step="1">
           <legend class="sr">Escolha da cota</legend>
           <div class="pick" id="pickCota"><!-- app.js --></div>
-          <p class="hint">Todas as cotas têm contrato de <strong>6 meses</strong>, pagos mensalmente.</p>
+          <p class="hint">Os dois planos têm contrato de <strong>6 meses</strong>, pagos mensalmente: Presença R$ 900 e Destaque R$ 1.800 no período.</p>
         </fieldset>
 
         <!-- Etapa 2 -->
@@ -338,14 +381,6 @@
             <label class="f file">Logotipo (PNG ou SVG)<input name="logo" type="file" accept=".png,.svg,image/png,image/svg+xml" /></label>
           </div>
 
-          <div data-only-cota="300" hidden>
-            <p class="fields-title">Clube de Vantagens · Comunidade Sanchez</p>
-            <div class="fields">
-              <label class="f f--3">Sobre a empresa<textarea name="descricao" rows="2"></textarea></label>
-              <label class="f f--2">Oferta / benefício para membros do Clube<input name="oferta" placeholder="Ex.: 10% de desconto no primeiro serviço" /></label>
-              <label class="f file">Banner (opcional)<input name="banner" type="file" accept="image/*" /></label>
-            </div>
-          </div>
           <p class="err" id="errDados" role="alert"></p>
         </fieldset>
 
@@ -379,7 +414,7 @@
             <button type="button" class="btn btn--ghost-dark" id="printContrato">Baixar contrato (PDF)</button>
             <a class="btn btn--orange" id="sendWhats" target="_blank" rel="noopener">Enviar para a produção</a>
           </div>
-          <p class="hint">A produção confirma o pagamento e inicia o onboarding da sua marca.</p>
+          <p class="hint">A produção confirma o pagamento e envia o link para você montar a página da sua marca no Sanchez Clube.</p>
         </fieldset>
       </div>
 

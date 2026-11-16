@@ -49,39 +49,52 @@ const CONFIG = {
     { nome: "Desenvolvimento contínuo", foto: "/midiakit/img/valor-desenvolvimento.jpg", legenda: "Quem aprende não depende." },
   ],
 
+  // Duas cotas (briefing da Yruena, 11/2026). O id é o valor mensal: o banco
+  // (patrocinio_adesoes) aceita '150' e '300' e calcula o valor por ele.
+  // `resumo` = lista curta do card; `entregas` = lista completa (vai para o contrato).
   cotas: [
     {
-      id: "150", nome: "Cota Presença", tag: "Sua marca na mesa.", valor: 150,
-      entregas: ["Logotipo (máscara) em todos os episódios", "Marca citada ao vivo durante o podcast"],
-    },
-    {
-      id: "250", nome: "Cota Destaque", tag: "Sua marca na voz da host.", valor: 250, destaque: true,
-      entregas: ["Tudo da Cota Presença", "1 story por semana com o corte da host apresentando sua marca"],
-    },
-    {
-      id: "300", nome: "Cota Ecossistema", tag: "Sua marca dentro da comunidade.", valor: 300,
+      id: "150", nome: "Plano Presença", curto: "Presença", tag: "Sua marca faz parte.", valor: 150,
+      resumo: ["Logo nos episódios", "Divulgação coletiva", "Página no Clube", "Comunidade de parceiros"],
       entregas: [
-        "Tudo da Cota Destaque",
-        "Entrada no Clube de Vantagens da Comunidade Sanchez",
-        "Banner e WhatsApp comercial clicável no site do Clube",
-        "Integração ao ecossistema comercial da Sanchez Imóveis",
+        "Logotipo na identificação coletiva dos patrocinadores dos episódios publicados durante o contrato",
+        "Nome da empresa na descrição dos episódios",
+        "Participação em pelo menos uma divulgação coletiva dos patrocinadores por mês no Instagram",
+        "Página individual e benefício divulgado no Sanchez Clube",
+        "Participação na comunidade de parceiros do Clube",
       ],
-      clube: true,
+      nota: "Não inclui menções individuais, Stories exclusivos nem publicações individuais no feed.",
+    },
+    {
+      id: "300", nome: "Plano Destaque", curto: "Destaque", tag: "Sua marca em evidência.", valor: 300, destaque: true,
+      resumo: ["Tudo do Plano Presença", "Menção individual nos episódios", "Mínimo de 1 Story por semana", "1 post especial por contrato", "Divulgação de campanhas e novidades"],
+      entregas: [
+        "Tudo do Plano Presença",
+        "Logotipo em posição de destaque nos episódios",
+        "Menção comercial individual pela Yruena nos episódios patrocinados, conforme o calendário do programa",
+        "No mínimo 1 Story exclusivo por semana no Instagram do Papo de Aluguel",
+        "1 publicação especial no feed por contrato de seis meses (arte estática ou carrossel de até cinco slides)",
+        "Divulgação de promoções, lançamentos, serviços, eventos e novidades da empresa nos espaços semanais contratados",
+        "Destaque comercial no site do Sanchez Clube, na área de patrocinadores",
+      ],
     },
   ],
   prazoMeses: 6,
 
-  // Comparativo (✓ por cota, na ordem 150/250/300)
+  // Comparativo (na ordem Presença/Destaque). 1 = ✓, 0 = —, texto = aparece escrito.
   comparativo: [
-    ["Logotipo (máscara) nos episódios", 1, 1, 1],
-    ["Marca citada ao vivo", 1, 1, 1],
-    ["Story semanal dedicado", 0, 1, 1],
-    ["Corte da host apresentando a marca", 0, 1, 1],
-    ["Participação no Clube de Vantagens", 0, 0, 1],
-    ["Banner no site do Clube", 0, 0, 1],
-    ["WhatsApp comercial clicável", 0, 0, 1],
-    ["Ecossistema comercial Sanchez", 0, 0, 1],
-    ["Prazo contratual", "6 meses", "6 meses", "6 meses"],
+    ["Logotipo na identificação coletiva dos patrocinadores", 1, 1],
+    ["Nome da empresa na descrição dos episódios", 1, 1],
+    ["Divulgação coletiva dos patrocinadores no Instagram", "Mín. 1 por mês", "Mín. 1 por mês"],
+    ["Página individual e benefício no Sanchez Clube", 1, 1],
+    ["Comunidade de parceiros do Clube", 1, 1],
+    ["Logotipo em posição de destaque nos episódios", 0, 1],
+    ["Menção comercial individual pela Yruena", 0, "Nos episódios patrocinados"],
+    ["Story exclusivo no Instagram do Papo", 0, "Mín. 1 por semana"],
+    ["Publicação especial no feed", 0, "1 por contrato"],
+    ["Divulgação de promoções, lançamentos e eventos", 0, "Nos Stories semanais"],
+    ["Destaque na área de patrocinadores do Clube", 0, 1],
+    ["Prazo contratual", "6 meses", "6 meses"],
   ],
 
   // Chave Pix = celular. `chave` é o que o botão copia; `exibir` é o que aparece na tela.
@@ -89,7 +102,7 @@ const CONFIG = {
   // Contratada é pessoa física (Yruena). `endereco` vazio = cláusula sem endereço.
   contratada: { nome: "YRUENA DE SOUSA MONTEIRO", cpf: "777.074.782-15", endereco: "" },
   multaRescisao: "1 (uma) mensalidade da cota contratada",
-  contratoVersao: "v2-2026-09",
+  contratoVersao: "v3-2026-11",
 
   // Onde gravar cada adesão (tabela patrocinio_adesoes, migration 0010 do Clube).
   // Mesmos valores de VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY do .env do Clube.
@@ -108,7 +121,7 @@ const dataBR = (d) => d.toLocaleDateString("pt-BR");
 // entregas completas da cota (resolve o "Tudo da Cota X" para o contrato)
 const entregasCompletas = (c) => {
   const idx = CONFIG.cotas.indexOf(c);
-  return CONFIG.cotas.slice(0, idx + 1).flatMap((k) => k.entregas.filter((e) => !e.startsWith("Tudo da")));
+  return CONFIG.cotas.slice(0, idx + 1).flatMap((k) => k.entregas.filter((e) => !/^Tudo d[oa] /.test(e)));
 };
 const playIcon = '<svg viewBox="0 0 12 14" aria-hidden="true"><path d="M0 0v14l12-7z"/></svg>';
 
@@ -183,25 +196,26 @@ function renderAlcance() {
 function renderCotas() {
   $("#planos").innerHTML = CONFIG.cotas.map((c, i) => `
     <article class="plano reveal${c.destaque ? " plano--feat" : ""}" style="--d:${i * 0.1}s">
-      ${c.destaque ? '<span class="plano__flag">Mais escolhida</span>' : ""}
-      <p class="plano__nome">${esc(c.nome)}</p>
+      ${c.destaque ? '<span class="plano__flag">Mais completo</span>' : ""}
+      <p class="plano__nome">${esc(c.curto)}</p>
       <p class="plano__tag">${esc(c.tag)}</p>
       <p class="plano__preco"><small>R$</small>${c.valor}<span>/mês</span></p>
-      <p class="plano__total">Parceria de ${CONFIG.prazoMeses} meses · ${brl(c.valor * CONFIG.prazoMeses)} no total</p>
-      <ul>${c.entregas.map((e) => `<li${e.startsWith("Tudo da") ? ' class="is-plus"' : ""}>${esc(e)}</li>`).join("")}</ul>
+      <p class="plano__total">Contrato de ${CONFIG.prazoMeses} meses · ${brl(c.valor * CONFIG.prazoMeses)} no período</p>
+      <ul>${c.resumo.map((e) => `<li${/^Tudo d[oa] /.test(e) ? ' class="is-plus"' : ""}>${esc(e)}</li>`).join("")}</ul>
       <div class="plano__actions">
-        <button class="btn ${c.destaque ? "btn--orange" : "btn--line"}" data-open-flow="${c.id}">Quero esta cota</button>
-        ${c.clube ? `<a class="btn btn--line" href="${esc(CONFIG.links.clube)}" target="_blank" rel="noopener">Conhecer o Clube de Vantagens ↗</a>` : ""}
+        <button class="btn ${c.destaque ? "btn--orange" : "btn--line"}" data-open-flow="${c.id}">Quero o ${esc(c.nome)}</button>
       </div>
     </article>`).join("");
 
-  const head = `<thead><tr><th>Entrega</th>${CONFIG.cotas.map((c) => `<th>${esc(c.nome.replace("Cota ", ""))}<br>R$ ${c.valor}</th>`).join("")}</tr></thead>`;
+  const head = `<thead><tr><th>Entrega</th>${CONFIG.cotas.map((c) => `<th>${esc(c.curto)}<br>R$ ${c.valor}</th>`).join("")}</tr></thead>`;
   const body = CONFIG.comparativo.map(([nome, ...v]) => `<tr><td>${esc(nome)}</td>${v.map((x) => (typeof x === "string" ? `<td>${esc(x)}</td>` : x ? '<td class="y" aria-label="Sim">✓</td>' : '<td class="n" aria-label="Não">—</td>')).join("")}</tr>`).join("");
+  const notas = CONFIG.cotas.filter((c) => c.nota).map((c) => `<p class="compare__nota">${esc(c.curto)}: ${esc(c.nota)}</p>`).join("");
   $("#compareTable").innerHTML = head + `<tbody>${body}</tbody>`;
+  $("#compareNotas").innerHTML = notas;
 
   $("#pickCota").innerHTML = CONFIG.cotas.map((c) => `
     <label><input type="radio" name="cota" value="${c.id}" />
-      <span class="card"><b>${esc(c.nome)}</b><strong>R$ ${c.valor}<small>/mês</small></strong><span>${esc(c.tag)} ${brl(c.valor * CONFIG.prazoMeses)} em ${CONFIG.prazoMeses} meses.</span></span>
+      <span class="card"><b>${esc(c.curto)}</b><strong>R$ ${c.valor}<small>/mês</small></strong><span>${esc(c.tag)} ${brl(c.valor * CONFIG.prazoMeses)} em ${CONFIG.prazoMeses} meses.</span></span>
     </label>`).join("");
 }
 
@@ -252,8 +266,7 @@ function formData() {
     endereco: g("endereco"), email: g("email"), telefone: g("telefone"),
     nomeComercial: g("nomeComercial") || g("fantasia") || (tipo === "PJ" ? g("razao") : g("nomePF")),
     segmento: g("segmento"), instagram: g("instagram"), site: g("site"), whatsComercial: g("whatsComercial"),
-    descricao: g("descricao"), oferta: g("oferta"),
-  };
+      };
 }
 
 function periodo() {
@@ -279,6 +292,10 @@ function contratoHTML(d) {
     <p><b>4.1.</b> O parcelamento mensal é exclusivamente forma de pagamento do valor total contratado e não confere à CONTRATANTE direito de cancelamento imotivado mês a mês.</p>
     <p><b>5. RESCISÃO ANTECIPADA.</b> A desistência imotivada da CONTRATANTE antes do término do prazo sujeita-a ao pagamento de multa equivalente a ${m(CONFIG.multaRescisao)}, sem prejuízo das parcelas já vencidas.</p>
     <p><b>6. ENTREGAS.</b> As entregas da CONTRATADA são as correspondentes à cota selecionada, conforme quadro comercial vigente aceito na contratação.</p>
+    <p><b>6.1.</b> As divulgações seguem o calendário do programa e os espaços comerciais definidos para cada episódio. A quantidade de menções e posições comerciais respeita esses espaços, e as publicações patrocinadas são identificadas como publicidade quando aplicável.</p>
+    <p><b>6.2.</b> Não estão incluídos o logotipo da CONTRATANTE em todos os cortes do podcast, vídeos personalizados gravados pela host, gravações externas nem Reels personalizados, salvo ajuste por escrito entre as partes.</p>${c.id === "300" ? `
+    <p><b>6.3. STORY SEMANAL.</b> A CONTRATANTE poderá enviar à coordenação, preferencialmente com 7 (sete) dias de antecedência, promoções, lançamentos, serviços, eventos e novidades para divulgação no Story previsto para a semana. O conteúdo utiliza o espaço semanal contratado e não dá direito a publicações extras. Sem novidade enviada, a CONTRATADA poderá publicar conteúdo institucional sobre a CONTRATANTE.</p>
+    <p><b>6.4. PUBLICAÇÃO NO FEED.</b> Uma publicação exclusiva no feed durante o prazo do contrato, em arte estática ou carrossel de até 5 (cinco) slides, com materiais enviados pela CONTRATANTE e data sugerida por ela, organizada conforme o calendário da CONTRATADA.</p>` : ""}
     <p><b>7. MATERIAIS DA MARCA.</b> A CONTRATANTE fornecerá logotipo, identidade visual, links e informações comerciais necessários às divulgações, responsabilizando-se por sua titularidade, veracidade e regularidade.</p>
     <p><b>8. USO DE MARCA.</b> Durante a vigência, a CONTRATANTE autoriza o uso de sua marca, nome comercial e materiais fornecidos exclusivamente para execução deste contrato e divulgação da parceria.</p>
     <p><b>9. CONTEÚDO EDITORIAL.</b> O patrocínio não confere à CONTRATANTE ingerência sobre a condução editorial do Papo de Aluguel, escolha de convidados, opiniões de terceiros ou conteúdo dos episódios, ressalvadas as entregas publicitárias contratadas.</p>
@@ -342,7 +359,7 @@ async function registrar(d) {
       representante: d.tipo === "PJ" ? d.representante : null, cpf_representante: d.tipo === "PJ" ? d.cpfRep : null,
       endereco: d.endereco, email: d.email, telefone: d.telefone,
       nome_comercial: d.nomeComercial || null, segmento: d.segmento || null, instagram: d.instagram || null,
-      site: d.site || null, whats_comercial: d.whatsComercial || null, descricao: d.descricao || null, oferta: d.oferta || null,
+      site: d.site || null, whats_comercial: d.whatsComercial || null, descricao: null, oferta: null,
       contrato_versao: CONFIG.contratoVersao, contrato_texto: $("#contrato").innerText.slice(0, 30000),
       aceite_contrato: true, aceite_lgpd: true, aceite_em: reg.criadoEm, user_agent: navigator.userAgent.slice(0, 500),
     };
