@@ -10,8 +10,8 @@ const CONFIG = {
     facebook: "https://www.facebook.com/profile.php?id=100082261186509",
     tiktok: "https://www.tiktok.com/@papo.de.aluguel",
     whatsapp: "https://wa.me/5511971796030",
-    clube: "https://clube-vantagens.vercel.app/",
-    privacidade: "https://clube-vantagens.vercel.app/privacidade#patrocinio",
+    clube: "https://clube.sanchezimoveis.com.br/",
+    privacidade: "https://clube.sanchezimoveis.com.br/privacidade#patrocinio",
   },
   whatsappNumero: "5511971796030",
 
