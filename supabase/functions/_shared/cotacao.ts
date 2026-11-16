@@ -16,6 +16,23 @@ export const DOC_TIPOS = [
   "image/heif",
 ];
 
+/**
+ * Dias que os documentos de uma cotação ficam guardados antes de a limpeza diária
+ * apagar. Mesmo prazo na migration 0020 (que não aceita menos) e na /privacidade.
+ */
+export const DOCS_GUARDA_DIAS = 90;
+
+/**
+ * Arquivos a apagar de uma cotação vencida: os caminhos gravados na linha mais o que
+ * estiver na pasta dela no bucket (pega upload que não constava na linha). Só caminho
+ * relativo e sem "..": nada fora do que é da cotação.
+ */
+export function caminhosParaApagar(id: string, gravados: unknown, naPasta: string[]): string[] {
+  const doBanco = Array.isArray(gravados) ? gravados.filter((c): c is string => typeof c === "string") : [];
+  const todos = [...doBanco, ...naPasta.map((nome) => `${id}/${nome}`)];
+  return [...new Set(todos)].filter((c) => c !== "" && !c.startsWith("/") && !c.split("/").includes(".."));
+}
+
 /** Envios por IP numa hora antes de recusar (429). */
 export const LIMITE_POR_HORA = 5;
 

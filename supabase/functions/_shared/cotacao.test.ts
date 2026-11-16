@@ -4,6 +4,8 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
   caminhosDosArquivos,
+  caminhosParaApagar,
+  DOCS_GUARDA_DIAS,
   DOC_QTD_MAX,
   hashDoIp,
   nomeSeguro,
@@ -118,6 +120,18 @@ test("de onde o IP saiu (para o log) e segredo da chamada agendada", () => {
   assert.equal(segredoConfere("abc12", "abc123"), false);
   assert.equal(segredoConfere(null, "abc123"), false);
   assert.equal(segredoConfere("", ""), false); // segredo vazio nunca confere
+});
+
+test("limpeza: só apaga arquivo da própria cotação", () => {
+  assert.equal(DOCS_GUARDA_DIAS, 90);
+  assert.deepEqual(caminhosParaApagar("abc", ["abc/01_rg.pdf", "antiga/cnh.jpg"], ["01_rg.pdf", "02_extra.png"]), [
+    "abc/01_rg.pdf",
+    "antiga/cnh.jpg",
+    "abc/02_extra.png",
+  ]);
+  // caminho estranho gravado na linha não sai da pasta do bucket
+  assert.deepEqual(caminhosParaApagar("abc", ["../outro/x.pdf", "/raiz.pdf", "", 7, null], []), []);
+  assert.deepEqual(caminhosParaApagar("abc", null, []), []);
 });
 
 test("hash do IP muda com o dia e não guarda o IP", async () => {
