@@ -13,8 +13,8 @@ import remalar from "@/assets/parceiros/remalar-logo-card.png";
 import renovaLar from "@/assets/parceiros/renova-lar-logo-card.png";
 import lumineStudio from "@/assets/parceiros/lumine-studio-logo-card.png";
 import { DEWA_WHATS, fotoDewa } from "@/data/dewa";
-import destakCard from "@/assets/parceiros/destak/destak-card.jpg";
-import { DESTAK_INSTAGRAM } from "@/data/destak";
+import destakLogo from "@/assets/parceiros/destak/destak-logo-card.png";
+import { DESTAK_INSTAGRAM, DESTAK_WHATS } from "@/data/destak";
 import vidracariaAv from "@/assets/parceiros/vidracaria-av-logo-card.png";
 
 export type Parceiro = {
@@ -57,15 +57,16 @@ export const parceiros: Parceiro[] = [
   },
   {
     // Entrou em 17/11/2026. Página própria com as peças escolhidas pela Yruena.
+    // Sem benefício por enquanto (17/11): sem `voucher`.
     slug: "destak-office",
-    nome: "Destak Office",
+    nome: "Destak Boutique",
     categoria: "Moda Feminina",
     descricaoCurta: "Moda feminina com corte de alfaiataria. 44 anos vestindo gerações.",
     descricao:
-      "Loja de moda feminina com 44 anos de história, com peças que vão do escritório ao fim de semana. Condição exclusiva para membros do Sanchez Clube.",
-    voucher: "Condição exclusiva Sanchez", // TODO: confirmar % / valor com a Yruena
-    imagem: destakCard, // TODO: trocar pelo logo oficial da Destak Office
+      "Loja de moda feminina com 44 anos de história, com peças que vão do escritório ao fim de semana.",
+    imagem: destakLogo,
     cor: "hsl(0, 70%, 38%)",
+    whatsapp: DESTAK_WHATS,
     site: DESTAK_INSTAGRAM,
     tags: ["Moda", "Feminino", "Alfaiataria"],
     pagina: "/parceiro/destak-office",

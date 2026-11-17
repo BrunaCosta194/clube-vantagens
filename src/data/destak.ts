@@ -1,31 +1,24 @@
 // ─────────────────────────────────────────────────────────────
-// DESTAK OFFICE — dados da página /parceiro/destak-office (17/11/2026).
-// Loja de moda feminina, "44 anos vestindo gerações". Peças e preços
-// passados pela Yruena em 17/11 para o post do Instagram.
-// Fotos em src/assets/parceiros/destak/ (enviadas pela loja).
-// Ainda faltam: benefício confirmado, WhatsApp, endereço e logo da loja.
-// Enquanto não houver WhatsApp, o "Quero" abre a conversa no Instagram.
+// DESTAK BOUTIQUE — dados da página /parceiro/destak-office (17/11/2026).
+// Loja de moda feminina, "44 anos vestindo gerações" (Instagram @destak_office).
+// Peças, preços, logo e WhatsApp passados pela Yruena em 17/11 para o post do
+// Instagram. Fotos em src/assets/parceiros/destak/ (enviadas pela loja).
+// Por enquanto SEM benefício para membros (decisão de 17/11). Quando houver,
+// incluir aqui e voltar com a caixa "Sua vantagem" na página e o `voucher` do card.
+// Ainda faltam: endereço e horário.
 // ─────────────────────────────────────────────────────────────
 
 import vestidoBrancoDetalhe from "@/assets/parceiros/destak/vestido-branco-detalhe.jpg";
 import vestidoVermelho from "@/assets/parceiros/destak/vestido-vermelho.jpg";
+import macacao from "@/assets/parceiros/destak/macacao.jpg";
 
+export const DESTAK_NOME = "Destak Boutique";
 export const DESTAK_INSTAGRAM = "https://www.instagram.com/destak_office";
-/** Abre a conversa (Direct) com a loja no Instagram. */
-export const DESTAK_DIRECT = "https://ig.me/m/destak_office";
-
-/**
- * Benefício do membro. Sem `cupom`, a página pede para o membro avisar a loja
- * que é do Sanchez Clube. TODO: confirmar % / valor com a Yruena.
- */
-export const destakBeneficio: { titulo: string; detalhe: string; cupom?: string } = {
-  titulo: "Condição exclusiva",
-  detalhe:
-    "para membros do Sanchez Clube. Na hora da compra, avise a loja que você é do clube.",
-};
+/** Link de mensagem do WhatsApp Business da loja (não aceita texto pronto). */
+export const DESTAK_WHATS = "https://wa.me/message/QAUBQ7YGWITYP1";
 
 export const destakHistoria =
-  "Há 44 anos a Destak Office veste mulheres de várias gerações, muitas vezes mãe, filha e neta. Peças com corte de alfaiataria e tecidos naturais, que vão do escritório ao fim de semana sem perder a elegância.";
+  "Há 44 anos a Destak Boutique veste mulheres de várias gerações, muitas vezes mãe, filha e neta. Peças com corte de alfaiataria e tecidos naturais, que vão do escritório ao fim de semana sem perder a elegância.";
 
 export type PecaDestak = {
   nome: string;
@@ -60,5 +53,14 @@ export const destakPecas: PecaDestak[] = [
     alt: "Modelo com vestido longo claro de um ombro só, andando na praia",
     proporcao: "aspect-[4/5]",
   },
+  {
+    nome: "Macacão com nó na cintura",
+    descricao:
+      "Malha fluida, pantalona e nó que valoriza a cintura. Conforto com elegância, do dia à noite.",
+    tamanhos: ["P", "M", "G"],
+    preco: "R$ 659,00",
+    foto: macacao,
+    alt: "Modelo com macacão marrom de malha fluida, nó na cintura e bolsa de palha colorida",
+    proporcao: "aspect-[866/1128]",
+  },
 ];
-

@@ -1,14 +1,15 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowUpRight, BadgePercent, Instagram } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Instagram, MessageCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import LinkRastreado from "@/components/LinkRastreado";
 import { useSessao } from "@/lib/sessao";
 import vestidoBranco from "@/assets/parceiros/destak/vestido-branco.jpg";
+import logoDestak from "@/assets/parceiros/destak/destak-logo-card.png";
 import {
-  DESTAK_DIRECT,
   DESTAK_INSTAGRAM,
-  destakBeneficio,
+  DESTAK_NOME,
+  DESTAK_WHATS,
   destakHistoria,
   destakPecas,
 } from "@/data/destak";
@@ -43,15 +44,15 @@ export default function ParceiroDestak() {
           <span className="sm:hidden">Clube</span>
         </Link>
         <LinkRastreado
-          href={DESTAK_INSTAGRAM}
+          href={DESTAK_WHATS}
           target="_blank"
           rel="noreferrer"
           evento="partner_contact"
-          props={{ slug: SLUG, canal: "instagram", lugar: "topo" }}
-          className="inline-flex items-center gap-2 rounded-full bg-grafite px-4 py-2 text-sm font-semibold text-perola transition hover:bg-cobre-deep"
+          props={{ slug: SLUG, canal: "whatsapp", lugar: "topo" }}
+          className="inline-flex items-center gap-2 rounded-full bg-[#2a9e6a] px-4 py-2 text-sm font-semibold text-white transition hover:brightness-105"
         >
-          <Instagram className="h-4 w-4" strokeWidth={1.6} />
-          @destak_office
+          <MessageCircle className="h-4 w-4" strokeWidth={1.6} />
+          Falar com a loja
         </LinkRastreado>
       </header>
 
@@ -63,14 +64,20 @@ export default function ParceiroDestak() {
           transition={{ duration: 0.9, delay: 0.15, ease }}
           className="order-2 min-w-0 md:order-1"
         >
-          <p className="inline-flex items-center gap-2 text-[15px] font-semibold text-cobre-deep">
-            <span className="h-1.5 w-1.5 rounded-full bg-cobre" />
-            Novo parceiro Sanchez Clube
-          </p>
-          <h1 className="mt-4 font-display text-[clamp(3.25rem,11vw,7.5rem)] leading-[0.9] tracking-[-0.02em] text-grafite">
+          <div className="flex items-center gap-4">
+            <img
+              src={logoDestak}
+              alt="Logo da Destak Boutique"
+              width={600}
+              height={600}
+              className="h-16 w-16 object-contain sm:h-20 sm:w-20"
+            />
+            <p className="text-[15px] font-semibold text-cobre-deep">Novo parceiro Sanchez Clube</p>
+          </div>
+          <h1 className="mt-5 font-display text-[clamp(3.25rem,11vw,7.5rem)] leading-[0.9] tracking-[-0.02em] text-grafite">
             Destak
             <br />
-            Office
+            Boutique
           </h1>
           <p className="mt-5 font-display text-2xl italic text-grafite-soft sm:text-3xl">
             44 anos vestindo gerações.
@@ -85,15 +92,17 @@ export default function ParceiroDestak() {
             >
               Ver as peças
             </a>
-            {!membro && (
-              <Link
-                to="/cadastro"
-                className="inline-flex min-h-[3.25rem] items-center gap-2 rounded-md border border-grafite/15 px-6 text-[15px] font-medium text-grafite transition hover:border-cobre hover:text-cobre-deep"
-              >
-                Entrar no clube
-                <ArrowUpRight className="h-4 w-4" strokeWidth={1.5} />
-              </Link>
-            )}
+            <LinkRastreado
+              href={DESTAK_INSTAGRAM}
+              target="_blank"
+              rel="noreferrer"
+              evento="partner_contact"
+              props={{ slug: SLUG, canal: "instagram", lugar: "topo" }}
+              className="inline-flex min-h-[3.25rem] items-center gap-2 rounded-md border border-grafite/15 px-6 text-[15px] font-medium text-grafite transition hover:border-cobre hover:text-cobre-deep"
+            >
+              <Instagram className="h-4 w-4" strokeWidth={1.5} />
+              @destak_office
+            </LinkRastreado>
           </div>
         </motion.div>
 
@@ -105,61 +114,17 @@ export default function ParceiroDestak() {
               transition={{ duration: 2, ease }}
               src={vestidoBranco}
               fetchPriority="high"
-              alt="Modelo com vestido longo de um ombro só, andando na praia"
+              alt={`Modelo com vestido longo de um ombro só, andando na praia, ${DESTAK_NOME}`}
               className="h-full w-full object-cover object-[50%_20%]"
             />
           </div>
         </div>
       </section>
 
-      {/* ── BENEFÍCIO ── */}
-      <section className="mx-auto w-full max-w-[92rem] px-4 sm:px-8">
-        <div className="grid gap-6 rounded-[12px] border border-cobre-line/40 bg-cobre/10 p-6 sm:p-10 md:grid-cols-[1fr_auto] md:items-center">
-          <div className="min-w-0">
-            <p className="inline-flex items-center gap-2 text-sm font-semibold text-cobre-deep">
-              <BadgePercent className="h-4 w-4" strokeWidth={1.5} />
-              Sua vantagem
-            </p>
-            <p className="mt-3 font-display text-[clamp(2rem,4vw,3rem)] leading-tight text-grafite">
-              {destakBeneficio.titulo}
-            </p>
-            <p className="mt-1 max-w-xl text-[15px] leading-relaxed text-grafite-soft">
-              {destakBeneficio.detalhe}
-            </p>
-            {membro && destakBeneficio.cupom && (
-              <p className="mt-4 text-base text-grafite">
-                Seu cupom: <span className="font-semibold">{destakBeneficio.cupom}</span>
-              </p>
-            )}
-          </div>
-          {membro ? (
-            <LinkRastreado
-              href={DESTAK_DIRECT}
-              target="_blank"
-              rel="noreferrer"
-              evento="partner_contact"
-              props={{ slug: SLUG, canal: "instagram_direct", lugar: "beneficio" }}
-              className="inline-flex min-h-[3.25rem] items-center justify-center gap-2 rounded-md bg-cobre-deep px-6 text-[15px] font-semibold text-white transition hover:bg-grafite-deep"
-            >
-              Falar com a loja
-              <ArrowUpRight className="h-4 w-4" strokeWidth={1.6} />
-            </LinkRastreado>
-          ) : (
-            <Link
-              to="/cadastro"
-              className="inline-flex min-h-[3.25rem] items-center justify-center gap-2 rounded-md bg-cobre-deep px-6 text-[15px] font-semibold text-white transition hover:bg-grafite-deep"
-            >
-              Quero ser membro
-              <ArrowUpRight className="h-4 w-4" strokeWidth={1.6} />
-            </Link>
-          )}
-        </div>
-      </section>
-
       {/* ── PEÇAS ── */}
-      <section id="pecas" className="mx-auto w-full max-w-[92rem] scroll-mt-6 px-4 py-16 sm:px-8 sm:py-24">
+      <section id="pecas" className="mx-auto w-full max-w-[92rem] scroll-mt-6 px-4 pb-16 pt-4 sm:px-8 sm:pb-24 sm:pt-8">
         <p className="text-sm font-semibold text-cobre-deep">Seleção da Yruena</p>
-        <h2 className="h-display mt-2 text-[clamp(2.5rem,5.2vw,4.5rem)]">Duas peças para a estação</h2>
+        <h2 className="h-display mt-2 text-[clamp(2.5rem,5.2vw,4.5rem)]">Peças para a estação</h2>
 
         <div className="mt-10 grid gap-16 sm:mt-14 md:gap-24">
           {destakPecas.map((p, i) => (
@@ -208,18 +173,18 @@ export default function ParceiroDestak() {
                 </dl>
 
                 <LinkRastreado
-                  href={DESTAK_DIRECT}
+                  href={DESTAK_WHATS}
                   target="_blank"
                   rel="noreferrer"
                   evento="product_click"
-                  props={{ slug: SLUG, canal: "instagram_direct", produto: p.nome }}
+                  props={{ slug: SLUG, canal: "whatsapp", produto: p.nome }}
                   className="mt-6 inline-flex min-h-[3.25rem] w-full items-center justify-center gap-2 rounded-md bg-grafite px-6 text-[15px] font-semibold text-perola transition hover:bg-cobre-deep sm:w-auto"
                 >
-                  <Instagram className="h-4 w-4" strokeWidth={1.6} />
-                  Quero este vestido
+                  <MessageCircle className="h-4 w-4" strokeWidth={1.6} />
+                  Quero esta peça
                 </LinkRastreado>
                 <p className="mt-3 text-sm text-grafite-muted">
-                  Abre a conversa com a loja no Instagram. Diga que veio pelo Sanchez Clube.
+                  Abre a conversa com a loja no WhatsApp. Diga que veio pelo Sanchez Clube.
                 </p>
               </div>
             </motion.article>
@@ -229,20 +194,20 @@ export default function ParceiroDestak() {
 
       {/* ── COMO USAR ── */}
       <section className="mx-auto w-full max-w-[92rem] px-4 pb-16 sm:px-8 sm:pb-24">
-        <h2 className="h-display text-[clamp(2.25rem,4.5vw,3.5rem)]">Como usar seu benefício</h2>
+        <h2 className="h-display text-[clamp(2.25rem,4.5vw,3.5rem)]">Como comprar</h2>
         <ol className="mt-8 grid gap-2 sm:grid-cols-3">
           {[
             {
-              t: "Entre no clube",
-              d: "O cadastro no Sanchez Clube é gratuito para clientes da Sanchez Imóveis.",
-            },
-            {
               t: "Escolha a peça",
-              d: "Chame a Destak Office no Instagram ou passe na loja.",
+              d: "Veja o modelo, o tamanho e o preço aqui na página.",
             },
             {
-              t: "Avise que é do clube",
-              d: "Na hora da compra, diga que você é membro do Sanchez Clube.",
+              t: "Chame no WhatsApp",
+              d: "Toque em \"Quero esta peça\" e fale direto com a Destak Boutique.",
+            },
+            {
+              t: "Diga que veio pelo clube",
+              d: "Assim a loja sabe que você é do Sanchez Clube.",
             },
           ].map((p) => (
             <li key={p.t} className="rounded-[10px] bg-creme-100 px-6 py-7 sm:px-8 sm:py-9">
@@ -263,7 +228,7 @@ export default function ParceiroDestak() {
               Ainda não é do Sanchez Clube?
             </h2>
             <p className="mx-auto mt-3 max-w-md text-[15px] leading-relaxed text-perola/75">
-              Cadastre-se de graça e aproveite a Destak Office e todos os parceiros do clube.
+              Cadastre-se de graça e aproveite as vantagens dos parceiros do clube.
             </p>
             <Link
               to="/cadastro"
