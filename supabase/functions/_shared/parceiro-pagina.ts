@@ -102,7 +102,7 @@ export function slugValido(v: string): boolean {
 }
 
 /** Endereços com página feita à mão (rota própria no App.tsx). Mesma lista da 0016. */
-export const SLUGS_RESERVADOS = ["dewa", "bioreluz", "insurance-sante"];
+export const SLUGS_RESERVADOS = ["dewa", "destak-office", "bioreluz", "insurance-sante"];
 
 // ── Limpeza ───────────────────────────────────────────────────────────────────
 

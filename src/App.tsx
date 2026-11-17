@@ -16,6 +16,7 @@ const Privacidade = lazy(() => import("./pages/Privacidade"));
 const ParceiroBioreluz = lazy(() => import("./pages/ParceiroBioreluz"));
 const ParceiroInsurance = lazy(() => import("./pages/ParceiroInsurance"));
 const ParceiroDewa = lazy(() => import("./pages/ParceiroDewa"));
+const ParceiroDestak = lazy(() => import("./pages/ParceiroDestak"));
 const CadastroParceiro = lazy(() => import("./pages/CadastroParceiro"));
 const CondicoesParceiro = lazy(() => import("./pages/CondicoesParceiro"));
 const AdminParceiros = lazy(() => import("./pages/AdminParceiros"));
@@ -43,6 +44,7 @@ export default function App() {
           <Route path="/parceiro/bioreluz" element={<ParceiroBioreluz />} />
           <Route path="/parceiro/insurance-sante" element={<ParceiroInsurance />} />
           <Route path="/parceiro/dewa" element={<ParceiroDewa />} />
+          <Route path="/parceiro/destak-office" element={<ParceiroDestak />} />
           {/* páginas do Portal do Parceiro; as rotas fixas acima têm prioridade */}
           <Route path="/parceiro/:slug" element={<ParceiroPublico />} />
           <Route path="/admin" element={<Admin />} />
