@@ -1,14 +1,17 @@
-import { lazy, Suspense } from "react";
-import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { lazy, Suspense, useEffect } from "react";
+import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Landing from "./pages/Landing";
 import BotaoWhatsApp from "./components/BotaoWhatsApp";
 import { SessaoProvider } from "./lib/sessao";
+import { supabase } from "./lib/supabase";
 
 // Só a home vai no pacote inicial; as outras páginas baixam quando abertas
 // (deixa o primeiro carregamento no celular bem mais leve).
 const Admin = lazy(() => import("./pages/Admin"));
 const Cadastro = lazy(() => import("./pages/Cadastro"));
 const Login = lazy(() => import("./pages/Login"));
+const EsqueciSenha = lazy(() => import("./pages/EsqueciSenha"));
+const NovaSenha = lazy(() => import("./pages/NovaSenha"));
 const AreaMembro = lazy(() => import("./pages/AreaMembro"));
 const Loja = lazy(() => import("./pages/Loja"));
 const PapoDeAluguel = lazy(() => import("./pages/PapoDeAluguel"));
@@ -29,14 +32,31 @@ function WhatsAppFlutuante() {
   return pathname.startsWith("/cadastro-parceiro") || pathname.startsWith("/admin") ? null : <BotaoWhatsApp />;
 }
 
+// Quem abre o link de "esqueci minha senha" entra logado por esse link. Se o
+// Supabase mandar para a home (endereço fora da lista de Redirect URLs), leva
+// para a tela de senha nova do mesmo jeito.
+function IrParaNovaSenha() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const { data } = supabase.auth.onAuthStateChange((evento) => {
+      if (evento === "PASSWORD_RECOVERY") navigate("/nova-senha", { replace: true });
+    });
+    return () => data.subscription.unsubscribe();
+  }, [navigate]);
+  return null;
+}
+
 export default function App() {
   return (
     <SessaoProvider>
+      <IrParaNovaSenha />
       <Suspense fallback={<div className="min-h-screen bg-creme" />}>
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/cadastro" element={<Cadastro />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/esqueci-senha" element={<EsqueciSenha />} />
+          <Route path="/nova-senha" element={<NovaSenha />} />
           <Route path="/area" element={<AreaMembro />} />
           <Route path="/loja" element={<Loja />} />
           <Route path="/papodealuguel" element={<PapoDeAluguel />} />
