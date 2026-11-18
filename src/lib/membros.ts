@@ -89,7 +89,50 @@ export async function criarMembro(dados: DadosCadastro) {
 }
 
 export async function entrar(email: string, senha: string) {
-  return supabase.auth.signInWithPassword({ email, password: senha });
+  return supabase.auth.signInWithPassword({ email: email.trim(), password: senha });
+}
+
+/** Manda de novo o link de confirmação do cadastro. Sem `emailRedirectTo`,
+ * igual ao `criarMembro`: o link leva para a Site URL do Supabase. */
+export async function reenviarConfirmacao(email: string) {
+  return supabase.auth.resend({ type: "signup", email: email.trim() });
+}
+
+/** Manda o link de criar senha nova. O endereço `/nova-senha` dos dois
+ * domínios precisa estar em Authentication → URL Configuration → Redirect URLs
+ * no Supabase; se não estiver, o link cai na home (o App leva para
+ * `/nova-senha` mesmo assim, pelo evento PASSWORD_RECOVERY). */
+export async function pedirNovaSenha(email: string) {
+  return supabase.auth.resetPasswordForEmail(email.trim(), {
+    redirectTo: `${window.location.origin}/nova-senha`,
+  });
+}
+
+export async function trocarSenha(senha: string) {
+  return supabase.auth.updateUser({ password: senha });
+}
+
+/** Traduz o erro do Supabase Auth para uma frase da tela. Antes todo erro do
+ * login virava "E-mail ou senha incorretos", inclusive e-mail não confirmado. */
+export function mensagemErroAuth(error: { code?: string; status?: number; message?: string }): string {
+  switch (error.code) {
+    case "invalid_credentials":
+      return "E-mail ou senha incorretos.";
+    case "email_not_confirmed":
+      return "Seu e-mail ainda não foi confirmado. Abra o link que enviamos no cadastro (veja também o spam) ou peça um novo abaixo.";
+    case "over_email_send_rate_limit":
+    case "over_request_rate_limit":
+      return "Muitas tentativas em pouco tempo. Espere alguns minutos e tente de novo.";
+    case "weak_password":
+      return "Essa senha é fraca demais. Use pelo menos 6 caracteres, misturando letras e números.";
+    case "same_password":
+      return "A senha nova precisa ser diferente da atual.";
+    case "user_banned":
+      return "Esta conta está bloqueada. Fale com a gente pelo WhatsApp.";
+  }
+  if (error.status === 429) return "Muitas tentativas em pouco tempo. Espere alguns minutos e tente de novo.";
+  if (!error.status || error.status >= 500) return "Não foi possível falar com o servidor agora. Confira a internet e tente de novo.";
+  return "E-mail ou senha incorretos.";
 }
 
 export async function sair() {
