@@ -144,6 +144,16 @@ test("condições do benefício nunca mostram o código", () => {
   ]);
 });
 
+test("condições do benefício trazem as outras linhas da descrição", () => {
+  const b = limparBeneficio({
+    tipo: "percentual",
+    percentual: "10",
+    descricao: "Em toda a coleção\n10% à vista e 5% a prazo\n",
+    comoUsar: "contato",
+  });
+  assert.deepEqual(condicoesBeneficio(b), ["10% à vista e 5% a prazo", "Fale com a empresa e diga que é membro do Sanchez Clube."]);
+});
+
 test("WhatsApp e telefone", () => {
   assert.equal(linkWhatsApp("11 98765-4321", "Oi!"), "https://wa.me/5511987654321?text=Oi!");
   assert.equal(linkWhatsApp("123"), "");

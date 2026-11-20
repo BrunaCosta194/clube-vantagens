@@ -65,7 +65,8 @@ export default function App() {
           <Route path="/parceiro/insurance-sante" element={<ParceiroInsurance />} />
           {/* Dewa: a página do painel assume quando for publicada; até lá, a feita à mão. */}
           <Route path="/parceiro/dewa" element={<ParceiroPublico slugFixo="dewa" seNaoPublicada={<ParceiroDewa />} />} />
-          <Route path="/parceiro/destak-office" element={<ParceiroDestak />} />
+          {/* Destak: idem (página do painel quando publicada; até lá, a feita à mão). */}
+          <Route path="/parceiro/destak-office" element={<ParceiroPublico slugFixo="destak-office" seNaoPublicada={<ParceiroDestak />} />} />
           {/* páginas do Portal do Parceiro; as rotas fixas acima têm prioridade */}
           <Route path="/parceiro/:slug" element={<ParceiroPublico />} />
           <Route path="/admin" element={<Admin />} />

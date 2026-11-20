@@ -102,7 +102,7 @@ export function slugValido(v: string): boolean {
 }
 
 /** Endereços com página feita à mão (rota própria no App.tsx). Mesma lista da 0021 (a Dewa saiu: a página do painel assume /parceiro/dewa). */
-export const SLUGS_RESERVADOS = ["destak-office", "bioreluz", "insurance-sante"];
+export const SLUGS_RESERVADOS = ["bioreluz", "insurance-sante"];
 
 // ── Limpeza ───────────────────────────────────────────────────────────────────
 
@@ -325,6 +325,9 @@ export function abertoAgora(horarios: Record<Dia, Horario>, agora: Date = new Da
  */
 export function condicoesBeneficio(b: EtapaBeneficio): string[] {
   const l: string[] = [];
+  // O card usa só a 1ª linha da descrição; as outras ("10% à vista e 5% a prazo")
+  // mudam o benefício e não podem sumir da página.
+  l.push(...(b.descricao ?? "").split("\n").slice(1).map((x) => x.trim()).filter(Boolean));
   if (b.comoUsar === "codigo") l.push("Use o código do Sanchez Clube na compra.");
   else if (b.comoUsar === "contato") l.push("Fale com a empresa e diga que é membro do Sanchez Clube.");
   else if (b.comoUsar === "outro") l.push(b.comoOutro || COMO_USAR.outro);
