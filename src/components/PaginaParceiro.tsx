@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowUpRight, Check, Copy, Globe, Instagram, MapPin, MessageCircle, PlayCircle } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -170,9 +170,7 @@ export default function PaginaParceiro({ perfil: p, urlFoto, previa, codigo, bar
             className="min-w-0"
           >
             {logo && (
-              <span className="mb-8 inline-flex h-20 max-w-[16rem] items-center rounded-[10px] bg-[#FBF7F2] px-4 py-3">
-                <img src={logo} alt={`Logo: ${p.nome}`} className="h-full w-auto max-w-full object-contain" />
-              </span>
+              <Logo src={logo} nome={p.nome} />
             )}
             <p className="text-[15px] font-semibold text-cobre-deep">
               Parceiro Sanchez Clube{p.categoria ? ` · ${p.categoria}` : ""}
@@ -242,13 +240,14 @@ export default function PaginaParceiro({ perfil: p, urlFoto, previa, codigo, bar
             <ul className="grid grid-cols-2 gap-x-4 gap-y-9 sm:gap-x-6 md:grid-cols-3">
               {itens.map((i) => (
                 <li key={i.id} className="flex min-w-0 flex-col">
-                  <div className="aspect-[4/5] max-w-full overflow-hidden rounded-[10px] bg-creme-100">
-                    {i.url ? (
-                      <img src={i.url} alt={i.nome} loading="lazy" className="h-full w-full object-cover" />
-                    ) : (
-                      <span className="grid h-full place-items-center px-4 text-center font-display text-xl text-grafite-muted">{i.nome}</span>
-                    )}
-                  </div>
+                  {/* foto inteira, na proporção em que veio (muitas têm texto: cortar estraga) */}
+                  {i.url ? (
+                    <img src={i.url} alt={i.nome} loading="lazy" className="block h-auto w-full rounded-[10px]" />
+                  ) : (
+                    <span className="grid aspect-square max-w-full place-items-center rounded-[10px] bg-creme-100 px-4 text-center font-display text-xl text-grafite-muted">
+                      {i.nome}
+                    </span>
+                  )}
                   <h3 className="mt-3 break-words font-display text-[19px] leading-tight text-grafite sm:text-[22px]">{i.nome}</h3>
                   {i.descricao && <p className="mt-1 text-[15px] leading-relaxed text-grafite-soft">{i.descricao}</p>}
                   {i.preco && <p className="mt-2 text-[15px] font-semibold text-cobre-deep">{i.preco}</p>}
@@ -285,17 +284,7 @@ export default function PaginaParceiro({ perfil: p, urlFoto, previa, codigo, bar
         <section className={caixa}>
           <div className="border-t border-grafite/15 py-14 sm:py-20">
             <h2 className={tituloSecao}>Fotos</h2>
-            <div className={`mt-10 gap-3 sm:gap-5 ${galeria.length === 1 ? "" : galeria.length === 2 ? "columns-2" : "columns-2 lg:columns-3"}`}>
-              {galeria.map((u, i) => (
-                <img
-                  key={u}
-                  src={u}
-                  alt={`${p.nome}, foto ${i + 1}`}
-                  loading="lazy"
-                  className="mb-3 block h-auto w-full break-inside-avoid rounded-[10px] sm:mb-5"
-                />
-              ))}
-            </div>
+            <Galeria fotos={galeria} nome={p.nome} />
           </div>
         </section>
       )}
@@ -374,6 +363,105 @@ export default function PaginaParceiro({ perfil: p, urlFoto, previa, codigo, bar
 
       {barra}
     </main>
+  );
+}
+
+/**
+ * Logo sobre placa clara; se o logo for claro e de fundo transparente (texto branco,
+ * por exemplo), a placa fica escura para ele não sumir. A análise usa uma cópia da
+ * imagem: se o servidor não deixar ler os pixels, fica a placa clara.
+ */
+function Logo({ src, nome }: { src: string; nome: string }) {
+  const [claro, setClaro] = useState(false);
+  useEffect(() => {
+    let vivo = true;
+    const im = new Image();
+    im.crossOrigin = "anonymous";
+    im.onload = () => {
+      try {
+        const w = 40;
+        const h = Math.max(1, Math.round((w * im.naturalHeight) / im.naturalWidth));
+        const cv = document.createElement("canvas");
+        cv.width = w;
+        cv.height = h;
+        const ctx = cv.getContext("2d");
+        if (!ctx) return;
+        ctx.drawImage(im, 0, 0, w, h);
+        const d = ctx.getImageData(0, 0, w, h).data;
+        let luz = 0;
+        let opacos = 0;
+        for (let i = 0; i < d.length; i += 4) {
+          if (d[i + 3] < 128) continue;
+          luz += (0.2126 * d[i] + 0.7152 * d[i + 1] + 0.0722 * d[i + 2]) / 255;
+          opacos++;
+        }
+        // Só conta como "logo claro" se tiver fundo transparente: JPEG de fundo branco fica na placa clara.
+        if (vivo && opacos > 0 && opacos < w * h * 0.85 && luz / opacos > 0.72) setClaro(true);
+      } catch {
+        /* pixels não liberados (CORS): fica a placa clara */
+      }
+    };
+    im.src = src;
+    return () => {
+      vivo = false;
+    };
+  }, [src]);
+  return (
+    <span className={`mb-8 inline-flex h-20 max-w-[16rem] items-center rounded-[10px] px-4 py-3 ${claro ? "bg-grafite" : "bg-[#FBF7F2]"}`}>
+      <img src={src} alt={`Logo: ${nome}`} className="h-full w-auto max-w-full object-contain" />
+    </span>
+  );
+}
+
+/**
+ * Fotos em colunas, cada uma inteira. As fotos vão para a coluna mais curta conforme a
+ * proporção de cada uma, para as colunas terminarem perto da mesma altura.
+ */
+function Galeria({ fotos, nome }: { fotos: string[]; nome: string }) {
+  const [proporcao, setProporcao] = useState<Record<string, number>>({});
+  const [cols, setCols] = useState(() =>
+    typeof window !== "undefined" && window.matchMedia("(min-width: 1024px)").matches ? 3 : 2,
+  );
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const mudar = () => setCols(mq.matches ? 3 : 2);
+    mq.addEventListener("change", mudar);
+    return () => mq.removeEventListener("change", mudar);
+  }, []);
+
+  useEffect(() => {
+    let vivo = true;
+    for (const u of fotos) {
+      const im = new Image();
+      im.onload = () => {
+        if (vivo && im.naturalWidth) setProporcao((p) => ({ ...p, [u]: im.naturalHeight / im.naturalWidth }));
+      };
+      im.src = u;
+    }
+    return () => {
+      vivo = false;
+    };
+  }, [fotos.join("|")]);
+
+  const colunas: { u: string; i: number }[][] = Array.from({ length: cols }, () => []);
+  const alturas = Array<number>(cols).fill(0);
+  fotos.forEach((u, i) => {
+    const k = alturas.indexOf(Math.min(...alturas));
+    colunas[k].push({ u, i });
+    alturas[k] += proporcao[u] ?? 1;
+  });
+
+  return (
+    <div className="mt-10 grid items-start gap-3 sm:gap-5" style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}>
+      {colunas.map((c, k) => (
+        <div key={k} className="flex min-w-0 flex-col gap-3 sm:gap-5">
+          {c.map(({ u, i }) => (
+            <img key={u} src={u} alt={`${nome}, foto ${i + 1}`} loading="lazy" className="block h-auto w-full rounded-[10px]" />
+          ))}
+        </div>
+      ))}
+    </div>
   );
 }
 
@@ -477,7 +565,13 @@ function Beneficio({ perfil: p, codigo, previa }: { perfil: PerfilPagina; codigo
               </span>
             </button>
           ) : codigo.membro ? (
-            <p className="border-t border-perola/20 pt-5 text-[15px] text-perola">Você é membro: é só dizer que é do Sanchez Clube.</p>
+            <p className="border-t border-perola/20 pt-5 text-[15px] text-perola">
+              {p.beneficio.dados.comoUsar !== "codigo"
+                ? "Você é membro: é só dizer que é do Sanchez Clube."
+                : previa
+                  ? "O código do Sanchez Clube aparece aqui para os membros."
+                  : "O código do Sanchez Clube está sendo criado. Enquanto isso, fale com a empresa e diga que é membro."}
+            </p>
           ) : (
             <Link
               to="/cadastro"
