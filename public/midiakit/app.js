@@ -86,10 +86,11 @@ const CONFIG = {
 
   // Chave Pix = celular. `chave` é o que o botão copia; `exibir` é o que aparece na tela.
   pix: { chave: "11940252517", exibir: "(11) 94025-2517 · celular", vencimentoDia: "[●]" }, // TODO: dia de vencimento
-  // Contratada é pessoa física (Yruena). `endereco` vazio = cláusula sem endereço.
-  contratada: { nome: "YRUENA DE SOUSA MONTEIRO", cpf: "777.074.782-15", endereco: "" },
+  // Contratada é pessoa física (Yruena). O CPF dela NÃO fica aqui: este arquivo é público (repositório e página).
+  // O contrato diz que o CPF vai na via enviada à contratante. `endereco` vazio = cláusula sem endereço.
+  contratada: { nome: "YRUENA DE SOUSA MONTEIRO", endereco: "" },
   multaRescisao: "1 (uma) mensalidade da cota contratada",
-  contratoVersao: "v2-2026-09",
+  contratoVersao: "v3-2026-11",
 
   // Onde gravar cada adesão (tabela patrocinio_adesoes, migration 0010 do Clube).
   // Mesmos valores de VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY do .env do Clube.
@@ -270,7 +271,7 @@ function contratoHTML(d) {
   return `
     <h4>Contrato de Participação Publicitária e Patrocínio — Papo de Aluguel</h4>
     <p><b>CONTRATANTE:</b> ${m(d.nome)}, inscrito(a) no ${docLabel} nº ${m(d.documento)}, com endereço em ${m(d.endereco)}${rep}, e-mail ${m(d.email)} e telefone ${m(d.telefone)}.</p>
-    <p><b>CONTRATADA:</b> ${m(k.nome)}, inscrita no CPF nº ${m(k.cpf)}${k.endereco ? `, residente em ${m(k.endereco)}` : ""}, responsável pela marca e pelo projeto Papo de Aluguel.</p>
+    <p><b>CONTRATADA:</b> ${m(k.nome)}, pessoa física, com CPF informado na via deste contrato enviada à CONTRATANTE${k.endereco ? `, residente em ${m(k.endereco)}` : ""}, responsável pela marca e pelo projeto Papo de Aluguel.</p>
     <p><b>1. OBJETO.</b> Participação da CONTRATANTE como patrocinadora do Papo de Aluguel, conforme a cota selecionada eletronicamente e as entregas descritas no respectivo plano.</p>
     <p><b>2. COTA CONTRATADA.</b> ${m(c.nome + " — " + brl2(c.valor) + " mensais")}, com as seguintes entregas: ${m(entregasCompletas(c).join("; "))}. As condições apresentadas no Mídia Kit e no resumo da contratação integram este instrumento.</p>
     <p><b>3. PRAZO.</b> Prazo determinado de ${CONFIG.prazoMeses} (seis) meses, de ${m(dataBR(ini))} a ${m(dataBR(fim))}. O pagamento mensal não se confunde com contratação mensal ou por prazo indeterminado.</p>
