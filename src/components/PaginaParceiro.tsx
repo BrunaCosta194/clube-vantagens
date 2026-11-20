@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowUpRight, Check, Copy, Globe, Instagram, MapPin, MessageCircle, PlayCircle } from "lucide-react";
+import { ArrowDown, ArrowLeft, ArrowUpRight, Check, Copy, Globe, Instagram, MapPin, MessageCircle, PlayCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import LinkRastreado from "@/components/LinkRastreado";
 import { cardBeneficio } from "../../supabase/functions/_shared/parceiro-cadastro.ts";
@@ -9,6 +9,7 @@ import {
   condicoesBeneficio,
   horariosTexto,
   linkInstagram,
+  telefoneTexto,
   linkMapa,
   linkWhatsApp,
   type PerfilPagina,
@@ -114,11 +115,12 @@ export default function PaginaParceiro({ perfil: p, urlFoto, previa, codigo, bar
   const horarios = horariosTexto(c.horarios);
   const aberto = abertoAgora(c.horarios);
   const anos = p.anoFundacao ? new Date().getFullYear() - Number(p.anoFundacao) : 0;
-  const destaques = [
-    anos >= 2 ? `Há ${anos} anos` : p.anoFundacao ? `Desde ${p.anoFundacao}` : "",
-    p.cidade,
-    c.modalidades.join(" · "),
-  ].filter(Boolean);
+  const fatos = [
+    p.anoFundacao ? { rotulo: anos >= 2 ? "Há" : "Desde", valor: anos >= 2 ? `${anos} anos` : p.anoFundacao } : null,
+    p.cidade ? { rotulo: "Cidade", valor: p.cidade } : null,
+    c.modalidades.length ? { rotulo: "Atende", valor: c.modalidades.join(", ") } : null,
+  ].filter((f): f is { rotulo: string; valor: string } => !!f);
+  const tituloVale = p.beneficio ? cardBeneficio(p.beneficio.dados).titulo : "";
   const galeria = p.galeria.map((f) => urlFoto(f)).filter((u): u is string => !!u);
   const itens = p.itens.map((i) => ({ ...i, url: urlFoto(i.foto) }));
   // Catálogo com foto vira grade; serviço sem foto vira lista com preço ao lado.
@@ -181,18 +183,58 @@ export default function PaginaParceiro({ perfil: p, urlFoto, previa, codigo, bar
             {p.frase && (
               <p className="mt-5 max-w-xl text-[17px] leading-relaxed text-grafite-soft sm:text-lg">{p.frase}</p>
             )}
-            {destaques.length > 0 && (
-              <p className="mt-7 text-sm font-medium leading-relaxed text-grafite-muted">{destaques.join(" · ")}</p>
+            {fatos.length > 0 && (
+              <dl className="mt-8 grid grid-cols-2 gap-x-6 gap-y-4 border-y border-grafite/15 py-4 sm:flex sm:flex-wrap sm:gap-x-0">
+                {fatos.map((f, i) => (
+                  <div
+                    key={f.rotulo}
+                    className={`min-w-0 sm:pr-6 ${i > 0 ? "sm:border-l sm:border-grafite/15 sm:pl-6" : ""} ${
+                      fatos.length % 2 === 1 && i === fatos.length - 1 ? "col-span-2" : ""
+                    }`}
+                  >
+                    <dt className="text-[13px] font-semibold tracking-[0.04em] text-grafite-muted">{f.rotulo}</dt>
+                    <dd className="mt-0.5 font-display text-[19px] leading-snug text-grafite sm:text-[21px]">{f.valor}</dd>
+                  </div>
+                ))}
+              </dl>
             )}
-            <div className="mt-9 flex flex-wrap gap-3">
-              {p.beneficio && (
-                <a href="#vantagem" className={botaoCheio}>
-                  Ver a vantagem do clube
-                </a>
-              )}
+
+            {/* o vale do clube, já no topo: é o motivo de a pessoa estar aqui */}
+            {tituloVale && (
+              <a
+                href="#vantagem"
+                className="group relative mt-8 flex max-w-xl items-stretch rounded-[12px] border-2 border-cobre-deep bg-[#FBF5EF] text-left transition-colors hover:bg-white"
+              >
+                <span className="min-w-0 flex-1 px-5 py-4 sm:px-6 sm:py-5">
+                  <span className="block text-[13px] font-semibold tracking-[0.04em] text-cobre-deep">Para membros do Sanchez Clube</span>
+                  <span
+                    className={`mt-1 block break-words font-display leading-[1.05] tracking-[-0.02em] text-grafite [text-wrap:balance] ${
+                      tituloVale.length > 28 ? "text-[clamp(1.35rem,2.6vw,1.75rem)]" : "text-[clamp(1.75rem,4.4vw,2.6rem)]"
+                    }`}
+                  >
+                    {tituloVale}
+                  </span>
+                </span>
+                <span className="relative flex shrink-0 items-center border-l-2 border-dashed border-cobre-deep/50 px-4 sm:px-5">
+                  <Furo lado="topo" />
+                  <Furo lado="base" />
+                  <span className="flex flex-col items-center gap-1 text-[13px] font-semibold text-cobre-deep">
+                    <ArrowDown className="h-5 w-5 transition-transform group-hover:translate-y-0.5" strokeWidth={1.6} />
+                    Como usar
+                  </span>
+                </span>
+              </a>
+            )}
+
+            <div className="mt-7 flex flex-wrap gap-3">
               {whats && (
-                <Saida href={whats} previa={previa} slug={p.slug} canal="whatsapp" className={p.beneficio ? botaoClaro : botaoCheio}>
+                <Saida href={whats} previa={previa} slug={p.slug} canal="whatsapp" className={botaoCheio}>
                   <MessageCircle className="h-4 w-4" strokeWidth={1.6} /> Falar no WhatsApp
+                </Saida>
+              )}
+              {insta && (
+                <Saida href={insta} previa={previa} slug={p.slug} canal="instagram" className={botaoClaro}>
+                  <Instagram className="h-4 w-4" strokeWidth={1.5} /> Instagram
                 </Saida>
               )}
             </div>
@@ -224,12 +266,22 @@ export default function PaginaParceiro({ perfil: p, urlFoto, previa, codigo, bar
             <p className="max-w-[65ch] whitespace-pre-line text-[17px] leading-[1.7] text-grafite-soft">{p.sobre}</p>
           )}
           {p.diferenciais && (
-            <div className="mt-10 max-w-[65ch] border-l-2 border-cobre pl-5 sm:pl-6">
-              <h3 className="font-display text-[22px] leading-tight text-grafite sm:text-[26px]">O que nos diferencia</h3>
-              <p className="mt-2 whitespace-pre-line text-[16px] leading-[1.7] text-grafite-soft">{p.diferenciais}</p>
-            </div>
+            <figure className="mt-12 max-w-[60ch]">
+              <figcaption className="text-[13px] font-semibold tracking-[0.04em] text-cobre-deep">O que nos diferencia</figcaption>
+              <blockquote className="mt-3 whitespace-pre-line font-display text-[clamp(1.4rem,2.4vw,1.9rem)] italic leading-[1.3] text-grafite [text-wrap:pretty]">
+                “{p.diferenciais}”
+              </blockquote>
+            </figure>
           )}
-          {p.tags.length > 0 && <p className="mt-8 text-sm font-medium text-grafite-muted">{p.tags.join(" · ")}</p>}
+          {p.tags.length > 0 && (
+            <ul className="mt-10 flex flex-wrap gap-2">
+              {p.tags.map((t) => (
+                <li key={t} className="rounded-[4px] border border-grafite/20 px-3 py-1.5 text-sm font-medium text-grafite-soft">
+                  {t}
+                </li>
+              ))}
+            </ul>
+          )}
         </Secao>
       )}
 
@@ -252,26 +304,28 @@ export default function PaginaParceiro({ perfil: p, urlFoto, previa, codigo, bar
                   {i.descricao && <p className="mt-1 text-[15px] leading-relaxed text-grafite-soft">{i.descricao}</p>}
                   {i.preco && <p className="mt-2 text-[15px] font-semibold text-cobre-deep">{i.preco}</p>}
                   {i.video && <Video href={i.video} previa={previa} slug={p.slug} />}
+                  <PedirItem nome={i.nome} numero={c.whatsapp} previa={previa} slug={p.slug} />
                 </li>
               ))}
             </ul>
           ) : (
-            <ul className="divide-y divide-grafite/15 border-y border-grafite/15">
-              {itens.map((i) => (
-                <li key={i.id} className="grid gap-x-8 gap-y-2 py-6 sm:grid-cols-[1fr_auto] sm:py-7">
-                  <div className="flex min-w-0 gap-4">
-                    {i.url && (
-                      <img src={i.url} alt={i.nome} loading="lazy" className="h-20 w-20 shrink-0 rounded-[8px] object-cover" />
-                    )}
-                    <div className="min-w-0">
-                      <h3 className="break-words font-display text-[21px] leading-tight text-grafite sm:text-[24px]">{i.nome}</h3>
-                      {i.descricao && <p className="mt-1.5 max-w-[60ch] text-[15px] leading-relaxed text-grafite-soft">{i.descricao}</p>}
-                      {i.video && <Video href={i.video} previa={previa} slug={p.slug} />}
-                    </div>
+            // serviços: cartões, cada um com o próprio pedido pelo WhatsApp
+            <ul className="grid gap-4 sm:grid-cols-2 sm:gap-5">
+              {itens.map((i, k) => (
+                <li
+                  key={i.id}
+                  className={`flex min-w-0 flex-col rounded-[12px] border border-grafite/10 bg-creme-100 p-6 sm:p-7 ${
+                    itens.length % 2 === 1 && k === itens.length - 1 ? "sm:col-span-2" : ""
+                  }`}
+                >
+                  {i.url && <img src={i.url} alt={i.nome} loading="lazy" className="mb-5 h-auto w-full rounded-[8px]" />}
+                  <h3 className="break-words font-display text-[22px] leading-tight text-grafite sm:text-[25px] [text-wrap:balance]">{i.nome}</h3>
+                  {i.descricao && <p className="mt-2 max-w-[60ch] text-[15px] leading-relaxed text-grafite-soft">{i.descricao}</p>}
+                  {i.video && <Video href={i.video} previa={previa} slug={p.slug} />}
+                  <div className="mt-auto flex flex-wrap items-end justify-between gap-x-4 gap-y-2 pt-6">
+                    {i.preco && <p className="font-display text-[22px] leading-none tabular-nums text-cobre-deep">{i.preco}</p>}
+                    <PedirItem nome={i.nome} numero={c.whatsapp} previa={previa} slug={p.slug} />
                   </div>
-                  {i.preco && (
-                    <p className="text-[16px] font-semibold tabular-nums text-cobre-deep sm:pt-1 sm:text-right">{i.preco}</p>
-                  )}
                 </li>
               ))}
             </ul>
@@ -291,6 +345,26 @@ export default function PaginaParceiro({ perfil: p, urlFoto, previa, codigo, bar
 
       {/* ── ATENDIMENTO ── */}
       <Secao titulo="Atendimento">
+        {whats && (
+          <div className="mb-10 flex flex-col gap-6 rounded-[12px] bg-cobre-deep p-6 text-perola sm:flex-row sm:items-center sm:justify-between sm:p-8">
+            <div className="min-w-0">
+              <p className="font-display text-[clamp(1.6rem,3vw,2.25rem)] leading-tight [text-wrap:balance]">Fale direto com a {p.nome}</p>
+              <p className="mt-2 text-[16px] tabular-nums text-perola/80">
+                WhatsApp <span className="select-all font-semibold text-perola">{telefoneTexto(c.whatsapp)}</span>
+                {codigo.membro || previa ? " · diga que é do Sanchez Clube" : ""}
+              </p>
+            </div>
+            <Saida
+              href={whats}
+              previa={previa}
+              slug={p.slug}
+              canal="whatsapp"
+              className="inline-flex min-h-[3.25rem] shrink-0 items-center justify-center gap-2 self-start rounded-md bg-perola px-6 text-[15px] font-semibold text-grafite transition hover:bg-white sm:self-auto"
+            >
+              <MessageCircle className="h-4 w-4" strokeWidth={1.6} /> Chamar no WhatsApp
+            </Saida>
+          </div>
+        )}
         <dl className="divide-y divide-grafite/15 border-y border-grafite/15 text-[16px]">
           {c.endereco && (
             <Linha rotulo="Endereço">
@@ -317,12 +391,7 @@ export default function PaginaParceiro({ perfil: p, urlFoto, previa, codigo, bar
           {c.regioes.length > 0 && <Linha rotulo="Regiões">{c.regioes.join(", ")}</Linha>}
           {c.instagram && <Linha rotulo="Instagram">{c.instagram}</Linha>}
         </dl>
-        <div className="mt-8 flex flex-wrap gap-3">
-          {whats && (
-            <Saida href={whats} previa={previa} slug={p.slug} canal="whatsapp" className={botaoCheio}>
-              <MessageCircle className="h-4 w-4" strokeWidth={1.6} /> WhatsApp
-            </Saida>
-          )}
+        <div className="mt-8 flex flex-wrap gap-3 empty:hidden">
           {mapa && (
             <Saida href={mapa} previa={previa} slug={p.slug} canal="mapa" className={botaoClaro}>
               <MapPin className="h-4 w-4" strokeWidth={1.6} /> Como chegar
@@ -465,6 +534,33 @@ function Galeria({ fotos, nome }: { fotos: string[]; nome: string }) {
   );
 }
 
+/** Furo do picote do vale (meia-lua da cor da página sobre a borda). */
+function Furo({ lado }: { lado: "topo" | "base" }) {
+  return (
+    <span
+      aria-hidden="true"
+      className={`absolute left-0 h-5 w-5 -translate-x-[calc(50%+1px)] rounded-full bg-creme ${lado === "topo" ? "-top-[12px]" : "-bottom-[12px]"}`}
+    />
+  );
+}
+
+/** "Pedir pelo WhatsApp" de um item, com o nome dele na mensagem. */
+function PedirItem({ nome, numero, previa, slug }: { nome: string; numero: string; previa?: boolean; slug: string }) {
+  const href = linkWhatsApp(numero, `Olá! Vi no Sanchez Clube e quero saber mais sobre: ${nome}.`);
+  if (!href) return null;
+  return (
+    <Saida
+      href={href}
+      previa={previa}
+      slug={slug}
+      canal="whatsapp"
+      className="mt-3 inline-flex items-center gap-1.5 self-start text-sm font-semibold text-cobre-deep underline-offset-4 hover:underline"
+    >
+      Pedir pelo WhatsApp <ArrowUpRight className="h-4 w-4" strokeWidth={1.6} />
+    </Saida>
+  );
+}
+
 function Linha({ rotulo, children }: { rotulo: string; children: ReactNode }) {
   return (
     <div className="grid gap-1 py-4 sm:grid-cols-[10rem_1fr] sm:gap-6">
@@ -517,8 +613,9 @@ function Beneficio({ perfil: p, codigo, previa }: { perfil: PerfilPagina; codigo
 
   return (
     <section id="vantagem" className="scroll-mt-4 bg-grafite text-perola">
-      <div className={`${caixa} grid gap-10 py-14 sm:py-20 lg:grid-cols-12 lg:gap-10`}>
-        <div className="min-w-0 lg:col-span-7">
+      {/* um vale do clube: picote tracejado entre o valor e o como usar, com os furos nas bordas */}
+      <div className={`${caixa} grid lg:grid-cols-12`}>
+        <div className="min-w-0 pb-10 pt-14 sm:pt-20 lg:col-span-7 lg:pb-20 lg:pr-12">
           <p className="text-[15px] font-semibold text-cobre-light">Sua vantagem no Sanchez Clube</p>
           <p
             className={`mt-4 break-words font-display leading-[1.02] tracking-[-0.02em] [text-wrap:balance] ${
@@ -530,7 +627,9 @@ function Beneficio({ perfil: p, codigo, previa }: { perfil: PerfilPagina; codigo
           {card.detalhe && <p className="mt-4 max-w-xl text-[16px] leading-relaxed text-perola/75">{card.detalhe}</p>}
         </div>
 
-        <div className="flex min-w-0 flex-col justify-end gap-7 lg:col-span-5">
+        <div className="relative flex min-w-0 flex-col justify-center gap-7 border-t-2 border-dashed border-perola/25 pb-14 pt-10 sm:pb-20 lg:col-span-5 lg:border-l-2 lg:border-t-0 lg:py-20 lg:pl-12">
+          <span aria-hidden="true" className="absolute -top-[13px] left-0 hidden h-6 w-6 -translate-x-[calc(50%+1px)] rounded-full bg-creme lg:block" />
+          <span aria-hidden="true" className="absolute -bottom-[13px] left-0 hidden h-6 w-6 -translate-x-[calc(50%+1px)] rounded-full bg-creme lg:block" />
           {condicoes.length > 0 && (
             <ul className="flex flex-col gap-2.5 text-[15px] leading-relaxed text-perola/85">
               {condicoes.map((x) => (
