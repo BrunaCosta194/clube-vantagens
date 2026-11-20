@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import PaginaParceiro from "@/components/PaginaParceiro";
@@ -6,10 +6,15 @@ import { useSessao } from "@/lib/sessao";
 import { codigoDaPagina, paginaPublicada, urlPublica, type PaginaPublicada } from "@/lib/paginasParceiros";
 
 // /parceiro/:slug — página publicada pelo Portal do Parceiro. As páginas feitas à
-// mão (Dewa, Bioreluz, Insurance) têm rota própria e vêm antes no App.tsx.
+// mão (Bioreluz, Insurance, Destak) têm rota própria e vêm antes no App.tsx.
+//
+// Transição de uma página feita à mão para a do painel (Dewa, 20/11): a rota fixa
+// usa este componente com `slugFixo` e a página antiga em `seNaoPublicada`. Enquanto
+// a página do painel não for publicada, aparece a antiga; depois, a do painel.
 
-export default function ParceiroPublico() {
-  const { slug = "" } = useParams();
+export default function ParceiroPublico({ slugFixo, seNaoPublicada }: { slugFixo?: string; seNaoPublicada?: ReactNode } = {}) {
+  const params = useParams();
+  const slug = slugFixo ?? params.slug ?? "";
   const { usuario, carregando } = useSessao();
   const membro = !carregando && !!usuario;
   const [pagina, setPagina] = useState<PaginaPublicada | null | undefined>(undefined);
@@ -37,6 +42,9 @@ export default function ParceiroPublico() {
       vivo = false;
     };
   }, [membro, pagina, slug]);
+
+  // Sem página publicada (ou banco fora do ar) e com página antiga: mostra a antiga.
+  if (seNaoPublicada && (erro || pagina === null)) return <>{seNaoPublicada}</>;
 
   if (erro || pagina === null) {
     return (

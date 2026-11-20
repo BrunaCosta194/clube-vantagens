@@ -101,8 +101,8 @@ export function slugValido(v: string): boolean {
   return v.length > 0 && v.length <= 60 && /^[a-z0-9]+(-[a-z0-9]+)*$/.test(v);
 }
 
-/** Endereços com página feita à mão (rota própria no App.tsx). Mesma lista da 0016. */
-export const SLUGS_RESERVADOS = ["dewa", "destak-office", "bioreluz", "insurance-sante"];
+/** Endereços com página feita à mão (rota própria no App.tsx). Mesma lista da 0021 (a Dewa saiu: a página do painel assume /parceiro/dewa). */
+export const SLUGS_RESERVADOS = ["destak-office", "bioreluz", "insurance-sante"];
 
 // ── Limpeza ───────────────────────────────────────────────────────────────────
 
