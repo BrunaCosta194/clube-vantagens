@@ -6,9 +6,9 @@ import { useSessao } from "@/lib/sessao";
 import { codigoDaPagina, paginaPublicada, urlPublica, type PaginaPublicada } from "@/lib/paginasParceiros";
 
 // /parceiro/:slug — página publicada pelo Portal do Parceiro. As páginas feitas à
-// mão (Bioreluz, Insurance, Destak) têm rota própria e vêm antes no App.tsx.
+// mão (Bioreluz, Insurance) têm rota própria e vêm antes no App.tsx.
 //
-// Transição de uma página feita à mão para a do painel (Dewa, 20/11): a rota fixa
+// Transição de uma página feita à mão para a do painel (Dewa e Destak, 20/11): a rota fixa
 // usa este componente com `slugFixo` e a página antiga em `seNaoPublicada`. Enquanto
 // a página do painel não for publicada, aparece a antiga; depois, a do painel.
 
