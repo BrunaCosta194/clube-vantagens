@@ -678,7 +678,7 @@ export function cardBeneficio(b: EtapaBeneficio): CardBeneficio {
 
   const partes: string[] = [];
   if (b.descricao && b.tipo !== "especial" && b.tipo !== "outro") partes.push(b.descricao.split("\n")[0]);
-  const onde = b.ondeUsar.filter((o) => o !== "outro").map((o) => ONDE_USAR[o as keyof typeof ONDE_USAR].toLowerCase());
+  const onde = b.ondeUsar.filter((o) => o !== "outro").map((o) => (o === "whatsapp" ? "WhatsApp" : ONDE_USAR[o as keyof typeof ONDE_USAR].toLowerCase()));
   if (b.ondeUsar.includes("outro") && b.ondeOutro) onde.push(b.ondeOutro);
   if (onde.length) partes.push(`vale em ${lista(onde)}`);
 
