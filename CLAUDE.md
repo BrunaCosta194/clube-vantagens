@@ -124,7 +124,7 @@ src/
 
 ## Identidade visual
 
-- Marca: **Sanchez Clube** (renomeado de "Comunidade Sanchez" a pedido da Yruena)
+- Marca no site: **Clube de Vantagens** (desde 20/11; antes o texto alternava "Clube Sanchez" e "Sanchez Clube", e antes disso "Comunidade Sanchez"). O logo (imagem) não mudou. Título da aba: "Clube de Vantagens · Sanchez Imóveis"; a caixa da vantagem na página do parceiro diz "Seu benefício no Clube de Vantagens" para não repetir "vantagem"
 - Paleta: **cobre** sobre fundo `#EFE0D3` (guia de identidade do Nível Clube; dourado/amarelo PROIBIDO). Tokens: `creme`, `grafite`, `cobre`, `gatilho` (laranja tático, máx. 1 por tela), `terracota`, `papo`, `premium`. CTA `#B66F4E`, hover `#894C36`, texto `#4A2B1C`.
 - Tipografia: Playfair Display (títulos) + DM Sans (texto), as mesmas do site da Sanchez Imóveis; sem monoespaçada
 - Logo oficial em `src/assets/marca/logo-cs.png` (aplicado em Navbar, AuthLayout, AreaMembro, Footer e favicon) — sempre `object-contain`, nunca `object-cover`/`rounded-full` (corta o logo)

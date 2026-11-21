@@ -18,7 +18,7 @@ export default function AuthLayout({ title, subtitle, children, footer }: AuthLa
       <div className="flex flex-col px-5 py-8 sm:px-10 lg:px-16 xl:px-24">
         <Link to="/" className="flex items-center gap-3 self-start">
           <img src={logo} alt="" className="h-10 w-10 object-contain" />
-          <span className="font-display text-[22px] leading-none text-grafite">Clube Sanchez</span>
+          <span className="font-display text-[22px] leading-none text-grafite">Clube de Vantagens</span>
         </Link>
 
         <div className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center py-14">
@@ -32,7 +32,7 @@ export default function AuthLayout({ title, subtitle, children, footer }: AuthLa
       <div className="relative hidden bg-creme-200 lg:block">
         <img
           src={yruena}
-          alt="Yruena, à frente do Clube Sanchez"
+          alt="Yruena, à frente do Clube de Vantagens"
           className="absolute inset-0 h-full w-full object-cover object-top"
         />
       </div>

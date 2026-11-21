@@ -51,7 +51,7 @@ export default function ComoFunciona() {
           <h2 className="h-display text-[clamp(2.5rem,5.2vw,4.5rem)] lg:sticky lg:top-32">
             Como funciona
             <br />
-            <span className="italic text-cobre-deep">o Clube Sanchez.</span>
+            <span className="italic text-cobre-deep">o Clube de Vantagens.</span>
           </h2>
         </motion.div>
 
@@ -124,7 +124,7 @@ export default function ComoFunciona() {
               <>
                 <p className="eyebrow eyebrow-escuro">Você já é do clube</p>
                 <h2 className="mt-4 font-display text-[clamp(2.5rem,5.2vw,4.5rem)] leading-[1.05] tracking-[-0.03em]">
-                  Continue aproveitando o Clube Sanchez
+                  Continue aproveitando o Clube de Vantagens
                 </h2>
                 <p className="mt-6 max-w-lg text-lg leading-relaxed text-perola/90">
                   Acompanhe seu voucher, seu link de indicação e as vantagens
@@ -143,7 +143,7 @@ export default function ComoFunciona() {
               <>
                 <p className="eyebrow eyebrow-escuro">O cadastro é a chave</p>
                 <h2 className="mt-4 font-display text-[clamp(2.5rem,5.2vw,4.5rem)] leading-[1.05] tracking-[-0.03em]">
-                  Faça parte do Clube Sanchez
+                  Faça parte do Clube de Vantagens
                 </h2>
                 <p className="mt-6 max-w-lg text-lg leading-relaxed text-perola/90">
                   Cadastro gratuito e acesso imediato às vantagens disponíveis.

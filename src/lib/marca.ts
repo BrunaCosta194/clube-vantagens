@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────
-// MARCA — nomenclatura e dados institucionais únicos do Clube Sanchez.
+// MARCA — nomenclatura e dados institucionais únicos do Clube de Vantagens.
 // Ponto único de ajuste: mude aqui, reflete em todo o site.
 // ─────────────────────────────────────────────────────────────
 
@@ -15,4 +15,4 @@ export function anosDeSanchez(): number {
 }
 
 /** Assinatura oficial da marca — sempre estes dizeres, nesta ordem. */
-export const ASSINATURA = "Clube Sanchez. Onde a comunidade faz negócios.";
+export const ASSINATURA = "Clube de Vantagens. Onde a comunidade faz negócios.";

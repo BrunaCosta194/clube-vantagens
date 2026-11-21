@@ -223,7 +223,7 @@ export default function EbookFormModal({ aberto, onClose, onBaixado }: Props) {
                       className="mt-0.5 h-5 w-5 shrink-0 accent-cobre-deep"
                     />
                     <span>
-                      Quero receber novidades e materiais do Clube Sanchez por
+                      Quero receber novidades e materiais do Clube de Vantagens por
                       e-mail e WhatsApp. (opcional — o download é liberado do
                       mesmo jeito)
                     </span>

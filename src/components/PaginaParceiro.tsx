@@ -109,7 +109,7 @@ export default function PaginaParceiro({ perfil: p, urlFoto, previa, codigo, bar
   const [capaLarga, setCapaLarga] = useState(false);
   const logo = urlFoto(p.logo);
   const c = p.contato;
-  const whats = linkWhatsApp(c.whatsapp, `Olá! Vi a página de vocês no Sanchez Clube.`);
+  const whats = linkWhatsApp(c.whatsapp, `Olá! Vi a página de vocês no Clube de Vantagens.`);
   const insta = linkInstagram(c.instagram);
   const mapa = linkMapa(c.endereco);
   const horarios = horariosTexto(c.horarios);
@@ -143,7 +143,7 @@ export default function PaginaParceiro({ perfil: p, urlFoto, previa, codigo, bar
             className="inline-flex min-h-[2.75rem] items-center gap-2 text-[15px] font-medium text-grafite-soft transition-colors hover:text-cobre-deep"
           >
             <ArrowLeft className="h-4 w-4" strokeWidth={1.5} />
-            Sanchez Clube
+            Clube de Vantagens
           </Link>
           {whats && (
             <Saida
@@ -175,7 +175,7 @@ export default function PaginaParceiro({ perfil: p, urlFoto, previa, codigo, bar
               <Logo src={logo} nome={p.nome} />
             )}
             <p className="text-[15px] font-semibold text-cobre-deep">
-              Parceiro Sanchez Clube{p.categoria ? ` · ${p.categoria}` : ""}
+              Parceiro do Clube de Vantagens{p.categoria ? ` · ${p.categoria}` : ""}
             </p>
             <h1 className="mt-3 break-words font-display text-[clamp(2.75rem,7vw,5.25rem)] leading-[0.98] tracking-[-0.025em] text-grafite [text-wrap:balance]">
               {p.nome}
@@ -206,7 +206,7 @@ export default function PaginaParceiro({ perfil: p, urlFoto, previa, codigo, bar
                 className="group relative mt-8 flex max-w-xl items-stretch rounded-[12px] border-2 border-cobre-deep bg-[#FBF5EF] text-left transition-colors hover:bg-white"
               >
                 <span className="min-w-0 flex-1 px-5 py-4 sm:px-6 sm:py-5">
-                  <span className="block text-[13px] font-semibold tracking-[0.04em] text-cobre-deep">Para membros do Sanchez Clube</span>
+                  <span className="block text-[13px] font-semibold tracking-[0.04em] text-cobre-deep">Para membros do Clube de Vantagens</span>
                   <span
                     className={`mt-1 block break-words font-display leading-[1.05] tracking-[-0.02em] text-grafite [text-wrap:balance] ${
                       tituloVale.length > 28 ? "text-[clamp(1.35rem,2.6vw,1.75rem)]" : "text-[clamp(1.75rem,4.4vw,2.6rem)]"
@@ -351,7 +351,7 @@ export default function PaginaParceiro({ perfil: p, urlFoto, previa, codigo, bar
               <p className="font-display text-[clamp(1.6rem,3vw,2.25rem)] leading-tight [text-wrap:balance]">Fale direto com a {p.nome}</p>
               <p className="mt-2 text-[16px] tabular-nums text-perola/80">
                 WhatsApp <span className="select-all font-semibold text-perola">{telefoneTexto(c.whatsapp)}</span>
-                {codigo.membro || previa ? " · diga que é do Sanchez Clube" : ""}
+                {codigo.membro || previa ? " · diga que é do Clube de Vantagens" : ""}
               </p>
             </div>
             <Saida
@@ -415,7 +415,7 @@ export default function PaginaParceiro({ perfil: p, urlFoto, previa, codigo, bar
         <section className={caixa}>
           <div className="grid gap-6 border-t border-grafite/15 py-14 sm:py-20 lg:grid-cols-12 lg:items-end lg:gap-10">
             <div className="lg:col-span-8">
-              <h2 className={tituloSecao}>Ainda não é do Sanchez Clube?</h2>
+              <h2 className={tituloSecao}>Ainda não é do Clube de Vantagens?</h2>
               <p className="mt-3 max-w-lg text-[16px] leading-relaxed text-grafite-soft">
                 O cadastro é de graça e vale para usar a vantagem aqui e em todos os parceiros do clube.
               </p>
@@ -546,7 +546,7 @@ function Furo({ lado }: { lado: "topo" | "base" }) {
 
 /** "Pedir pelo WhatsApp" de um item, com o nome dele na mensagem. */
 function PedirItem({ nome, numero, previa, slug }: { nome: string; numero: string; previa?: boolean; slug: string }) {
-  const href = linkWhatsApp(numero, `Olá! Vi no Sanchez Clube e quero saber mais sobre: ${nome}.`);
+  const href = linkWhatsApp(numero, `Olá! Vi no Clube de Vantagens e quero saber mais sobre: ${nome}.`);
   if (!href) return null;
   return (
     <Saida
@@ -616,7 +616,7 @@ function Beneficio({ perfil: p, codigo, previa }: { perfil: PerfilPagina; codigo
       {/* um vale do clube: picote tracejado entre o valor e o como usar, com os furos nas bordas */}
       <div className={`${caixa} grid lg:grid-cols-12`}>
         <div className="min-w-0 pb-10 pt-14 sm:pt-20 lg:col-span-7 lg:pb-20 lg:pr-12">
-          <p className="text-[15px] font-semibold text-cobre-light">Sua vantagem no Sanchez Clube</p>
+          <p className="text-[15px] font-semibold text-cobre-light">Seu benefício no Clube de Vantagens</p>
           <p
             className={`mt-4 break-words font-display leading-[1.02] tracking-[-0.02em] [text-wrap:balance] ${
               tituloLongo ? "text-[clamp(2rem,4.2vw,3.25rem)]" : "text-[clamp(3rem,8vw,6rem)]"
@@ -666,10 +666,10 @@ function Beneficio({ perfil: p, codigo, previa }: { perfil: PerfilPagina; codigo
           ) : codigo.membro ? (
             <p className="border-t border-perola/20 pt-5 text-[15px] text-perola">
               {p.beneficio.dados.comoUsar !== "codigo"
-                ? "Você é membro: é só dizer que é do Sanchez Clube."
+                ? "Você é membro: é só dizer que é do Clube de Vantagens."
                 : previa
-                  ? "O código do Sanchez Clube aparece aqui para os membros."
-                  : "O código do Sanchez Clube está sendo criado. Enquanto isso, fale com a empresa e diga que é membro."}
+                  ? "O código do Clube de Vantagens aparece aqui para os membros."
+                  : "O código do Clube de Vantagens está sendo criado. Enquanto isso, fale com a empresa e diga que é membro."}
             </p>
           ) : (
             <Link

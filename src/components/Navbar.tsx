@@ -8,7 +8,7 @@ import { primeiroNome, useSessao } from "@/lib/sessao";
 
 type NavLink = { label: string; href?: string; to?: string; modal?: true };
 
-// Menu recomendado no briefing (Clube Sanchez é a marca/logo à esquerda,
+// Menu recomendado no briefing (Clube de Vantagens é a marca/logo à esquerda,
 // Minha área é o botão à direita — não entram nessa lista). "Quem somos"
 // (modal institucional) mantido a pedido da Bruna. "Comunidade Sanchez"
 // saiu do menu a pedido dela (29/09) — o cadastro fica no 1º banner.
@@ -68,7 +68,7 @@ export default function Navbar() {
         >
           <img src={logo} alt="" className="h-10 w-10 object-contain" />
           <span className="font-display text-xl leading-none text-grafite sm:text-[22px]">
-            Clube Sanchez
+            Clube de Vantagens
           </span>
         </Link>
 

@@ -3,7 +3,7 @@ import LinkRastreado from "./LinkRastreado";
 // Botão flutuante do WhatsApp — canto inferior direito, mobile + desktop.
 // WhatsApp do clube (Yruena). Só dígitos, com DDI 55.
 const NUMERO = "5511971796030";
-const MENSAGEM = "Olá! Tenho uma dúvida sobre o Clube Sanchez.";
+const MENSAGEM = "Olá! Tenho uma dúvida sobre o Clube de Vantagens.";
 
 export default function BotaoWhatsApp() {
   const href = `https://wa.me/${NUMERO}?text=${encodeURIComponent(MENSAGEM)}`;

@@ -177,7 +177,7 @@ export default function AdminParceiros() {
 
   useEffect(() => {
     const antes = document.title;
-    document.title = "Parceiros · Painel · Clube Sanchez";
+    document.title = "Parceiros · Painel · Clube de Vantagens";
     const meta = document.createElement("meta");
     meta.name = "robots";
     meta.content = "noindex";
@@ -259,7 +259,7 @@ export default function AdminParceiros() {
       <header className="border-b border-grafite/10 bg-white/60">
         <div className="container-club flex flex-wrap items-center justify-between gap-3 py-5">
           <div>
-            <p className="text-sm font-semibold text-grafite-muted">Clube Sanchez · Painel</p>
+            <p className="text-sm font-semibold text-grafite-muted">Clube de Vantagens · Painel</p>
             <h1 className="h-display mt-1 text-[clamp(1.5rem,3vw,2rem)]">Parceiros</h1>
           </div>
           <nav className="flex flex-wrap items-center gap-x-5 gap-y-1">

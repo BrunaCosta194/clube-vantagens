@@ -6,7 +6,7 @@ import LinkRastreado from "./LinkRastreado";
 
 // Contatos reais do clube.
 const WHATSAPP = "5511971796030";
-const MENSAGEM_WPP = "Olá! Tenho uma dúvida sobre o Clube Sanchez.";
+const MENSAGEM_WPP = "Olá! Tenho uma dúvida sobre o Clube de Vantagens.";
 const INSTAGRAM = "https://www.instagram.com/sanchezimoveisenegocios/";
 
 // Mesmas âncoras da navbar: viram /#seção quando o usuário não está na home.
@@ -38,11 +38,11 @@ export default function Footer() {
         <div className="lg:col-span-5">
           <Link to="/" className="inline-flex items-center gap-3">
             <img src={logo} alt="" className="h-10 w-10 object-contain" />
-            <span className="font-display text-[22px] leading-none">Clube Sanchez</span>
+            <span className="font-display text-[22px] leading-none">Clube de Vantagens</span>
           </Link>
           <p className="mt-6 max-w-sm text-base leading-relaxed text-perola/85">
             Há {anosDeSanchez()} anos, a Sanchez Imóveis realiza negócios
-            imobiliários em Mogi das Cruzes e no Alto Tietê. O Clube Sanchez
+            imobiliários em Mogi das Cruzes e no Alto Tietê. O Clube de Vantagens
             amplia essa história e conecta nossa comunidade a parceiros,
             soluções, vantagens e novas oportunidades.
           </p>
@@ -121,14 +121,14 @@ export default function Footer() {
 
       {/* fecho: o nome do clube de ponta a ponta */}
       <div className="container-club overflow-hidden" aria-hidden="true">
-        <p className="whitespace-nowrap font-display text-[clamp(3.5rem,13.4vw,12.5rem)] leading-[0.9] tracking-[-0.04em] text-cobre-light">
-          Clube Sanchez
+        <p className="whitespace-nowrap font-display text-[clamp(2.5rem,9.6vw,9rem)] leading-[0.9] tracking-[-0.04em] text-cobre-light">
+          Clube de Vantagens
         </p>
       </div>
 
       <div className="container-club flex flex-col justify-between gap-2 pb-28 pt-8 text-[15px] text-perola/70 sm:flex-row sm:pb-10">
         <p>
-          © {new Date().getFullYear()} Sanchez Imóveis · Clube Sanchez ·{" "}
+          © {new Date().getFullYear()} Sanchez Imóveis · Clube de Vantagens ·{" "}
           <Link to="/privacidade" className="underline underline-offset-4 hover:text-perola">
             Privacidade
           </Link>

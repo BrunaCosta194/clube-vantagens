@@ -189,7 +189,7 @@ export default function Admin() {
   // robots noindex — painel interno, nunca deve indexar.
   useEffect(() => {
     const tituloAnterior = document.title;
-    document.title = "Painel · Clube Sanchez";
+    document.title = "Painel · Clube de Vantagens";
     const meta = document.createElement("meta");
     meta.name = "robots";
     meta.content = "noindex";
@@ -304,7 +304,7 @@ export default function Admin() {
           <p className="text-sm text-grafite-muted font-semibold">Painel</p>
           <h1 className="h-display mt-3 text-2xl">Sem acesso ao painel</h1>
           <p className="mt-3 text-sm text-grafite-muted">
-            Essa área é restrita à equipe do Clube Sanchez. Se você acha que deveria ter acesso, fale com quem administra o painel.
+            Essa área é restrita à equipe do Clube de Vantagens. Se você acha que deveria ter acesso, fale com quem administra o painel.
           </p>
           <Link to="/" className="btn-quiet mt-6 inline-flex">
             Voltar ao site
@@ -323,7 +323,7 @@ export default function Admin() {
       <header className="border-b border-cobre-line/20 bg-white/60">
         <div className="container-club flex flex-wrap items-center justify-between gap-3 py-5">
           <div>
-            <Eyebrow>Clube Sanchez</Eyebrow>
+            <Eyebrow>Clube de Vantagens</Eyebrow>
             <h1 className="h-display mt-1 text-[clamp(1.4rem,3vw,1.9rem)]">Painel de desempenho</h1>
           </div>
           <div className="flex flex-wrap items-center gap-5">

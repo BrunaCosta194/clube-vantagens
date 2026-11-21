@@ -137,7 +137,7 @@ test("condições do benefício nunca mostram o código", () => {
   const l = condicoesBeneficio(b).map((x) => x.replace(/\u00a0/g, " ")); // R$ usa espaço fixo
   assert.ok(!l.join(" ").includes("SEGREDO10"));
   assert.deepEqual(l, [
-    "Use o código do Sanchez Clube na compra.",
+    "Use o código do Clube de Vantagens na compra.",
     "Compra mínima de R$ 100.",
     "Não acumula com outras promoções.",
     "Válido até 31/03/2027.",
@@ -151,7 +151,7 @@ test("condições do benefício trazem as outras linhas da descrição", () => {
     descricao: "Em toda a coleção\n10% à vista e 5% a prazo\n",
     comoUsar: "contato",
   });
-  assert.deepEqual(condicoesBeneficio(b), ["10% à vista e 5% a prazo", "Fale com a empresa e diga que é membro do Sanchez Clube."]);
+  assert.deepEqual(condicoesBeneficio(b), ["10% à vista e 5% a prazo", "Fale com a empresa e diga que é membro do Clube de Vantagens."]);
 });
 
 test("WhatsApp e telefone", () => {

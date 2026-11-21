@@ -328,8 +328,8 @@ export function condicoesBeneficio(b: EtapaBeneficio): string[] {
   // O card usa só a 1ª linha da descrição; as outras ("10% à vista e 5% a prazo")
   // mudam o benefício e não podem sumir da página.
   l.push(...(b.descricao ?? "").split("\n").slice(1).map((x) => x.trim()).filter(Boolean));
-  if (b.comoUsar === "codigo") l.push("Use o código do Sanchez Clube na compra.");
-  else if (b.comoUsar === "contato") l.push("Fale com a empresa e diga que é membro do Sanchez Clube.");
+  if (b.comoUsar === "codigo") l.push("Use o código do Clube de Vantagens na compra.");
+  else if (b.comoUsar === "contato") l.push("Fale com a empresa e diga que é membro do Clube de Vantagens.");
   else if (b.comoUsar === "outro") l.push(b.comoOutro || COMO_USAR.outro);
   for (const r of b.regras) {
     if (r === "valor_minimo" && b.regraValorMinimo) l.push(`Compra mínima de ${reais(b.regraValorMinimo)}.`);

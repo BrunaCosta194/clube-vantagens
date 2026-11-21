@@ -97,7 +97,7 @@ export default function ParceiroDewa() {
             >
               <span className="inline-flex items-center gap-2 text-[15px] text-white font-semibold">
                 <span className="h-1.5 w-1.5 rounded-full bg-cobre-light" />
-                Parceiro Sanchez Clube
+                Parceiro do Clube de Vantagens
               </span>
               <h1 className="mt-5 font-display text-[clamp(3.5rem,13vw,8rem)] leading-[0.88] tracking-[-0.02em] text-white">
                 Dewa
@@ -164,7 +164,7 @@ export default function ParceiroDewa() {
           {[
             {
               t: "Entre no clube",
-              d: "O cadastro no Sanchez Clube é gratuito para clientes da Sanchez Imóveis.",
+              d: "O cadastro no Clube de Vantagens é gratuito para clientes da Sanchez Imóveis.",
             },
             {
               t: "Pegue seu cupom",
@@ -368,7 +368,7 @@ export default function ParceiroDewa() {
             />
             <div className="absolute inset-0 -z-10 bg-grafite/80" />
             <h2 className="font-display text-[clamp(2.25rem,4.5vw,3.5rem)] leading-tight">
-              Ainda não é do Sanchez Clube?
+              Ainda não é do Clube de Vantagens?
             </h2>
             <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-perola/75">
               Cadastre-se de graça e use seu cupom na Dewa e em todos os parceiros do clube.

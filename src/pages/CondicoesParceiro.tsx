@@ -32,7 +32,7 @@ export default function CondicoesParceiro() {
     <div className="min-h-screen bg-creme">
       <Navbar />
       <main className="mx-auto max-w-3xl px-5 pb-28 pt-[120px] sm:px-8 sm:pt-[160px]">
-        <p className="eyebrow">Clube Sanchez · Parceiros</p>
+        <p className="eyebrow">Clube de Vantagens · Parceiros</p>
         <h1 className="mt-3 h-display text-[clamp(2.5rem,6vw,4.25rem)]">Condições de participação</h1>
         <p className="mt-4 text-base text-grafite-soft">
           Atualizadas em {ATUALIZADO_EM} (versão {TERMOS_VERSAO}).
@@ -41,14 +41,14 @@ export default function CondicoesParceiro() {
         <div className="mt-14 space-y-14">
           <Secao titulo="O que é ser parceiro">
             <p>
-              A empresa parceira oferece um benefício aos membros do Clube Sanchez e ganha uma página própria no site do
+              A empresa parceira oferece um benefício aos membros do Clube de Vantagens e ganha uma página própria no site do
               Clube, com sua apresentação, seus produtos ou serviços e seus contatos.
             </p>
           </Secao>
 
           <Secao titulo="Uso dos materiais enviados">
             <p>
-              Ao enviar o cadastro, a empresa autoriza o Clube Sanchez a usar o nome comercial, o logotipo, as fotografias,
+              Ao enviar o cadastro, a empresa autoriza o Clube de Vantagens a usar o nome comercial, o logotipo, as fotografias,
               as informações e os benefícios que forneceu, para divulgação no site do Clube e nos canais relacionados a ele.
             </p>
             <p>
@@ -83,7 +83,7 @@ export default function CondicoesParceiro() {
           <Secao titulo="Sem exclusividade">
             <p>
               A participação não tem exclusividade. A empresa pode participar de outros clubes, programas ou parcerias, e o
-              Clube Sanchez pode ter outros parceiros do mesmo segmento.
+              Clube de Vantagens pode ter outros parceiros do mesmo segmento.
             </p>
           </Secao>
 
@@ -118,7 +118,7 @@ export default function CondicoesParceiro() {
 
           <Secao titulo="Contato">
             <p>
-              Coordenação do Clube Sanchez pelo WhatsApp: <span className="font-semibold">{COORDENACAO}</span>.
+              Coordenação do Clube de Vantagens pelo WhatsApp: <span className="font-semibold">{COORDENACAO}</span>.
             </p>
           </Secao>
         </div>

@@ -469,7 +469,7 @@ export function EtapaBeneficioTela({
           onChange={(v) => editavel && mudarBruto({ confirmado: v })}
           erro={erros.confirmado}
         >
-          Confirmo que a <strong>{empresa || "empresa"}</strong> autoriza o Clube Sanchez a divulgar este benefício aos membros,
+          Confirmo que a <strong>{empresa || "empresa"}</strong> autoriza o Clube de Vantagens a divulgar este benefício aos membros,
           nas condições acima.
         </Caixa>
       </div>

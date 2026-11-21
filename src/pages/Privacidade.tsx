@@ -56,7 +56,7 @@ export default function Privacidade() {
 
       <main className="mx-auto max-w-3xl px-5 pb-28 pt-[120px] sm:px-8 sm:pt-[160px]">
         <p className="eyebrow">
-          Clube Sanchez
+          Clube de Vantagens
         </p>
         <h1 className="mt-3 h-display text-[clamp(2.75rem,6vw,4.5rem)]">
           Política de Privacidade
@@ -66,7 +66,7 @@ export default function Privacidade() {
         <div className="mt-16 space-y-16">
           <Secao titulo="Quem cuida dos seus dados">
             <p>
-              O Clube Sanchez é o hub de negócios da Comunidade Sanchez, mantido pela{" "}
+              O Clube de Vantagens é o hub de negócios da Comunidade Sanchez, mantido pela{" "}
               {CONTROLADOR.razaoSocial}
               {CONTROLADOR.cnpj ? `, CNPJ ${CONTROLADOR.cnpj}` : " "}
               {!CONTROLADOR.cnpj && <Pendente o_que="CNPJ" />}
@@ -256,7 +256,7 @@ export default function Privacidade() {
 
         <div className="mt-16">
           <Link to="/" className="btn-quiet">
-            ← Voltar para o Clube Sanchez
+            ← Voltar para o Clube de Vantagens
           </Link>
         </div>
       </main>
