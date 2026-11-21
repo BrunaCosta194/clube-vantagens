@@ -72,7 +72,7 @@ export default function ParceiroDestak() {
               height={600}
               className="h-16 w-16 object-contain sm:h-20 sm:w-20"
             />
-            <p className="text-[15px] font-semibold text-cobre-deep">Novo parceiro Sanchez Clube</p>
+            <p className="text-[15px] font-semibold text-cobre-deep">Novo parceiro do Clube de Vantagens</p>
           </div>
           <h1 className="mt-5 font-display text-[clamp(3.25rem,11vw,7.5rem)] leading-[0.9] tracking-[-0.02em] text-grafite">
             Destak
@@ -184,7 +184,7 @@ export default function ParceiroDestak() {
                   Quero esta peça
                 </LinkRastreado>
                 <p className="mt-3 text-sm text-grafite-muted">
-                  Abre a conversa com a loja no WhatsApp. Diga que veio pelo Sanchez Clube.
+                  Abre a conversa com a loja no WhatsApp. Diga que veio pelo Clube de Vantagens.
                 </p>
               </div>
             </motion.article>
@@ -207,7 +207,7 @@ export default function ParceiroDestak() {
             },
             {
               t: "Diga que veio pelo clube",
-              d: "Assim a loja sabe que você é do Sanchez Clube.",
+              d: "Assim a loja sabe que você é do Clube de Vantagens.",
             },
           ].map((p) => (
             <li key={p.t} className="rounded-[10px] bg-creme-100 px-6 py-7 sm:px-8 sm:py-9">
@@ -225,7 +225,7 @@ export default function ParceiroDestak() {
         <section className="bg-grafite py-16 text-center text-perola sm:py-20">
           <div className="mx-auto w-full max-w-2xl px-4 sm:px-8">
             <h2 className="font-display text-[clamp(2.25rem,4.5vw,3.5rem)] leading-tight">
-              Ainda não é do Sanchez Clube?
+              Ainda não é do Clube de Vantagens?
             </h2>
             <p className="mx-auto mt-3 max-w-md text-[15px] leading-relaxed text-perola/75">
               Cadastre-se de graça e aproveite as vantagens dos parceiros do clube.

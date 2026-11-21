@@ -80,7 +80,7 @@ function mensagemDoCampo(p: Pendencia): string {
 }
 
 function linkCoordenacao(empresa: string, texto?: string) {
-  const msg = texto ?? `Olá! Sou da ${empresa} e estou no cadastro do Clube Sanchez.`;
+  const msg = texto ?? `Olá! Sou da ${empresa} e estou no cadastro do Clube de Vantagens.`;
   return `https://wa.me/${COORDENACAO_WPP}?text=${encodeURIComponent(msg)}`;
 }
 
@@ -199,7 +199,7 @@ export default function CadastroParceiro() {
 
   useEffect(() => {
     const antes = document.title;
-    document.title = "Cadastro de parceiro · Clube Sanchez";
+    document.title = "Cadastro de parceiro · Clube de Vantagens";
     return () => {
       document.title = antes;
     };
@@ -379,7 +379,7 @@ export default function CadastroParceiro() {
                 Tentar de novo
               </button>
             )}
-            <a className="btn-quiet" href={linkCoordenacao("minha empresa", "Olá! Preciso de ajuda com o link do cadastro do Clube Sanchez.")} target="_blank" rel="noreferrer">
+            <a className="btn-quiet" href={linkCoordenacao("minha empresa", "Olá! Preciso de ajuda com o link do cadastro do Clube de Vantagens.")} target="_blank" rel="noreferrer">
               <MessageCircle className="h-4 w-4" aria-hidden="true" /> Falar com a coordenação
             </a>
           </div>
@@ -401,7 +401,7 @@ export default function CadastroParceiro() {
           <div className="mx-auto max-w-xl">
             <Marca claro />
             <h1 className="mt-10 font-display text-[clamp(2.1rem,8vw,3.2rem)] leading-[1.08] tracking-[-0.02em]">
-              Olá, {cadastro.empresa}! Sua empresa está chegando ao Clube Sanchez!
+              Olá, {cadastro.empresa}! Sua empresa está chegando ao Clube de Vantagens!
             </h1>
           </div>
         </div>
@@ -584,7 +584,7 @@ function Marca({ claro }: { claro?: boolean }) {
   return (
     <span className="flex items-center gap-2.5">
       <img src={logo} alt="" className="h-9 w-9 object-contain" />
-      <span className={`font-display text-[19px] leading-none ${claro ? "text-perola" : "text-grafite"}`}>Clube Sanchez</span>
+      <span className={`font-display text-[19px] leading-none ${claro ? "text-perola" : "text-grafite"}`}>Clube de Vantagens</span>
     </span>
   );
 }
@@ -713,7 +713,7 @@ function Revisao({
   return (
     <>
       <TituloEtapa
-        titulo={editavel ? "Sua empresa está quase pronta para fazer parte do Clube Sanchez!" : "O que você enviou"}
+        titulo={editavel ? "Sua empresa está quase pronta para fazer parte do Clube de Vantagens!" : "O que você enviou"}
         texto={editavel ? "Confira o resumo. Você pode voltar e editar qualquer parte." : undefined}
       />
       <div className="flex flex-col gap-4">
@@ -818,7 +818,7 @@ function Revisao({
                 Condições de participação
               </a>{" "}
               e autorizo o uso do nome, do logo, das fotos, das informações e do benefício enviados no site e nos canais do
-              Clube Sanchez, conforme a{" "}
+              Clube de Vantagens, conforme a{" "}
               <a href="/privacidade" target="_blank" rel="noreferrer" className="font-semibold text-cobre-deep underline underline-offset-4">
                 Política de privacidade
               </a>
@@ -904,7 +904,7 @@ function Conclusao({
       <h1 className="h-display text-[clamp(2rem,7vw,2.75rem)]">{titulo}</h1>
       {cadastro.status === "aguardando_aprovacao" && (
         <div className="flex flex-col gap-4 text-[17px] leading-relaxed text-grafite">
-          <p>Nossa equipe montou a página da {empresa} no Sanchez Clube. Veja como ela vai ficar e aprove, ou peça um ajuste.</p>
+          <p>Nossa equipe montou a página da {empresa} no Clube de Vantagens. Veja como ela vai ficar e aprove, ou peça um ajuste.</p>
           <button type="button" className="btn-primary group justify-center" onClick={onPrevia}>
             Ver e aprovar minha página
             <ArrowRight className="btn-primary-icon h-5 w-5" aria-hidden="true" />
@@ -921,7 +921,7 @@ function Conclusao({
       )}
       {cadastro.status === "publicado" && (
         <div className="flex flex-col gap-4 text-[17px] leading-relaxed text-grafite">
-          <p>A página da {empresa} já aparece para os membros do Sanchez Clube.</p>
+          <p>A página da {empresa} já aparece para os membros do Clube de Vantagens.</p>
           {cadastro.slug && (
             <a className="btn-primary group justify-center" href={`/parceiro/${cadastro.slug}`} target="_blank" rel="noreferrer">
               Ver minha página
@@ -932,7 +932,7 @@ function Conclusao({
       )}
       <div className={`flex flex-col gap-4 text-[17px] leading-relaxed text-grafite ${["aguardando_aprovacao", "aprovado", "publicado"].includes(cadastro.status) ? "hidden" : ""}`}>
         <p>Obrigado por compartilhar um pouco mais sobre sua empresa!</p>
-        <p>Nossa equipe vai organizar os materiais e preparar sua página dentro do Clube Sanchez.</p>
+        <p>Nossa equipe vai organizar os materiais e preparar sua página dentro do Clube de Vantagens.</p>
         <p>
           Assim que a primeira versão estiver pronta, entraremos em contato para que você possa conferir e aprovar as informações
           antes da publicação.
@@ -976,7 +976,7 @@ function Conclusao({
         )}
         <a
           className="inline-flex min-h-[3.25rem] items-center justify-center gap-2 rounded-md border border-grafite/20 bg-white px-6 text-[15px] font-semibold text-grafite"
-          href={linkCoordenacao(empresa, `Olá! Acabei de enviar o cadastro da ${empresa} no Clube Sanchez.`)}
+          href={linkCoordenacao(empresa, `Olá! Acabei de enviar o cadastro da ${empresa} no Clube de Vantagens.`)}
           target="_blank"
           rel="noreferrer"
         >

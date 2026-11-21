@@ -168,7 +168,7 @@ export default function BannerCarousel() {
     <section
       id="top"
       aria-roledescription="carousel"
-      aria-label="Banners do Clube Sanchez"
+      aria-label="Banners do Clube de Vantagens"
       className="relative w-full overflow-hidden bg-creme pb-4 pt-[80px] sm:pb-6 sm:pt-[96px]"
       // onFocus/onBlur do React são focusin/focusout (sobem na árvore): o
       // autoplay para assim que o teclado entra em qualquer botão daqui.

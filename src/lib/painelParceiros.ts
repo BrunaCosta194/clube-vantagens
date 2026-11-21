@@ -202,7 +202,7 @@ export function linkWhats(numero: string | null, texto: string): string {
 export function mensagemConvite(contato: string, empresa: string, link: string, preenchido: boolean): string {
   const ola = contato ? `Olá, ${contato.split(" ")[0]}!` : "Olá!";
   return [
-    `${ola} Aqui é a coordenação do Clube Sanchez.`,
+    `${ola} Aqui é a coordenação do Clube de Vantagens.`,
     preenchido
       ? `Este é o link para conferir e completar a página da ${empresa} no Clube. Já deixamos preenchido o que tínhamos: é só conferir, corrigir e completar o que falta.`
       : `Este é o link para cadastrar a ${empresa} no Clube:`,
@@ -213,7 +213,7 @@ export function mensagemConvite(contato: string, empresa: string, link: string, 
 
 export function mensagemPendencia(contato: string, empresa: string, faltas: string[]): string {
   const ola = contato ? `Oi, ${contato.split(" ")[0]}!` : "Oi!";
-  return `${ola} Para terminar a página da ${empresa} no Clube Sanchez, falta: ${faltas.join(", ").toLowerCase()}. É só enviar pelo mesmo link do cadastro. Se não encontrar o link, me avise que mando outro.`;
+  return `${ola} Para terminar a página da ${empresa} no Clube de Vantagens, falta: ${faltas.join(", ").toLowerCase()}. É só enviar pelo mesmo link do cadastro. Se não encontrar o link, me avise que mando outro.`;
 }
 
 // ── Convite a partir de um parceiro que já está no site ───────────────────────

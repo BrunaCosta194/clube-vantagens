@@ -33,7 +33,7 @@
 // Aviso de cadastro novo por e-mail (Resend). Sem as três variáveis abaixo, a função
 // funciona normalmente e só não manda o aviso:
 //   RESEND_API_KEY   chave do Resend
-//   AVISO_REMETENTE  ex.: "Clube Sanchez <avisos@dominio-verificado>"
+//   AVISO_REMETENTE  ex.: "Clube de Vantagens <avisos@dominio-verificado>"
 //   AVISO_EMAILS     destinatários separados por vírgula (e-mail operacional da coordenação + 1)
 // O e-mail leva só o nome da empresa, a data e o link do painel: nenhum dado pessoal.
 

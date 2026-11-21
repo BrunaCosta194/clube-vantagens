@@ -22,7 +22,7 @@ const destinoUrl = encodeURIComponent(DESTINO);
 const hrefVerNoMapa = `https://www.google.com/maps/search/?api=1&query=${destinoUrl}`;
 const hrefEmbed = `https://www.google.com/maps?q=${destinoUrl}&z=16&output=embed`;
 const hrefWpp = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(
-  "Olá! Vim pelo site do Clube Sanchez.",
+  "Olá! Vim pelo site do Clube de Vantagens.",
 )}`;
 
 /** Rota no Google Maps. Sem `origin`, o app usa a posição atual do aparelho. */

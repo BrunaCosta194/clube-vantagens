@@ -46,7 +46,7 @@ export default function Hero() {
             className="mt-8 max-w-xl text-lg leading-[1.6] text-grafite sm:text-xl"
           >
             Há {anosDeSanchez()} anos, a Sanchez Imóveis realiza negócios
-            imobiliários em Mogi das Cruzes e no Alto Tietê. O Clube Sanchez
+            imobiliários em Mogi das Cruzes e no Alto Tietê. O Clube de Vantagens
             amplia essa relação, reunindo benefícios, serviços, produtos e
             oportunidades selecionados para a nossa comunidade.
           </motion.p>
@@ -95,12 +95,12 @@ export default function Hero() {
           <div className="overflow-hidden rounded-[10px] bg-creme-200">
             <img
               src={yruena}
-              alt="Yruena, à frente do Clube Sanchez"
+              alt="Yruena, à frente do Clube de Vantagens"
               className="aspect-[4/5] w-full object-cover object-top transition-transform duration-[1.2s] ease-lux hover:scale-[1.02]"
             />
           </div>
           <figcaption className="mt-4 text-[15px] text-grafite-soft">
-            <span className="font-semibold text-grafite">Yruena</span> · Clube Sanchez
+            <span className="font-semibold text-grafite">Yruena</span> · Clube de Vantagens
           </figcaption>
         </motion.figure>
       </div>

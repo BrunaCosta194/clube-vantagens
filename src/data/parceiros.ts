@@ -46,7 +46,7 @@ export const parceiros: Parceiro[] = [
     descricaoCurta:
       "Moda em algodão, lifestyle e bem-estar, feita em Mogi das Cruzes desde 2008.",
     descricao:
-      "Marca própria de roupas e acessórios de Mogi das Cruzes, com loja, sala de yoga e quintal na Vila Oliveira. Condição exclusiva para o Clube Sanchez.",
+      "Marca própria de roupas e acessórios de Mogi das Cruzes, com loja, sala de yoga e quintal na Vila Oliveira. Condição exclusiva para o Clube de Vantagens.",
     voucher: "Condição exclusiva Sanchez", // TODO: confirmar % / valor com a Dewa
     imagem: fotoDewa("BoneMauvecomLogodeMaosPretas.png?v=1793995594", 600), // TODO: trocar pelo logo oficial da Dewa
     cor: "hsl(20, 25%, 22%)",
@@ -78,7 +78,7 @@ export const parceiros: Parceiro[] = [
     descricaoCurta:
       "Limpeza, impermeabilização e descartáveis com padrão profissional.",
     descricao:
-      "A Bioreluz cuida do seu lar e do seu negócio com serviços de limpeza técnica, impermeabilização e uma linha completa de descartáveis. Condições exclusivas para o Clube Sanchez.",
+      "A Bioreluz cuida do seu lar e do seu negócio com serviços de limpeza técnica, impermeabilização e uma linha completa de descartáveis. Condições exclusivas para o Clube de Vantagens.",
     voucher: "Condição exclusiva Sanchez", // TODO: confirmar % / valor
     imagem: bioreluz,
     cor: "hsl(196, 70%, 42%)",
@@ -126,7 +126,7 @@ export const parceiros: Parceiro[] = [
     // Novo benefício a definir; até lá, sem vantagem anunciada.
     descricaoCurta: "Óculos de grau e de sol na Diniz Prime.",
     descricao:
-      "Óculos de grau e de sol na Diniz Prime, parceira do Clube Sanchez.",
+      "Óculos de grau e de sol na Diniz Prime, parceira do Clube de Vantagens.",
     imagem: oticasDiniz,
     cor: "hsl(0, 68%, 44%)",
     whatsapp: "https://wa.me/qr/5SPQMUESAQ2ZL1",
@@ -167,9 +167,9 @@ export const parceiros: Parceiro[] = [
     nome: "Luminê Studio",
     categoria: "Fotografia",
     descricaoCurta:
-      "Ensaio corporativo com 20% de desconto para o Clube Sanchez.",
+      "Ensaio corporativo com 20% de desconto para o Clube de Vantagens.",
     descricao:
-      "A Luminê Studio realiza ensaios corporativos profissionais: 12 fotos editadas, entregues via link. Condição exclusiva para o Clube Sanchez.",
+      "A Luminê Studio realiza ensaios corporativos profissionais: 12 fotos editadas, entregues via link. Condição exclusiva para o Clube de Vantagens.",
     voucher: "20% de desconto no ensaio corporativo",
     imagem: lumineStudio,
     cor: "hsl(24, 60%, 40%)",
@@ -184,7 +184,7 @@ export const parceiros: Parceiro[] = [
     descricaoCurta:
       "R$ 100 de desconto em vidros, espelhos e esquadrias.",
     descricao:
-      "A Vidraçaria AV atende com vidros, espelhos e esquadrias sob medida. R$ 100 de desconto exclusivo para o Clube Sanchez.",
+      "A Vidraçaria AV atende com vidros, espelhos e esquadrias sob medida. R$ 100 de desconto exclusivo para o Clube de Vantagens.",
     voucher: "R$ 100 de desconto",
     imagem: vidracariaAv,
     cor: "hsl(206, 70%, 45%)",

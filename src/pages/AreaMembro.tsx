@@ -103,7 +103,7 @@ export default function AreaMembro() {
           <Link to="/" className="flex items-center gap-3">
             <img src={logo} alt="" className="h-10 w-10 object-contain" />
             <span className="font-display text-xl leading-none text-grafite sm:text-[22px]">
-              Clube Sanchez
+              Clube de Vantagens
             </span>
           </Link>
           <div className="flex items-center gap-5">
